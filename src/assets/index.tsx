@@ -1,0 +1,32 @@
+const ICONS = {
+  LOGO: require('./icons/logoTransparent.png'),
+  QRCODE: require('./icons/qrcode.png'),
+  QRFRAME: require('./icons/qrframe.png'),
+  QR_BUTTON: require('./icons/scanBtn.png'),
+  PASTE_BUTTON: require('./icons/paste.png'),
+  CART: require('./icons/cart.png'),
+  POS: require('./icons/pos.png'),
+  WALLET: require('./icons/wallet.png'),
+  SETTINGS: require('./icons/settings.png'),
+  SENT: require('./icons/sent.png'),
+  RECEIVED: require('./icons/received.png'),
+  SUCCESS: require('./icons/success.png'),
+  FAILED: require('./icons/fail.png'),
+  PIN_LOCATION: require('./icons/pinLocation.png'),
+  LOCATION: require('./icons/location.png'),
+  SEARCH: require('./icons/search.png'),
+  CROSS: require('./icons/cross.png'),
+  TICK: require('./icons/tick.png'),
+  PLUS: require('./icons/plus.png'),
+  MAP_LOCATION: require('./icons/mapLocation.png'),
+  IMAGE_PICKER: require('./icons/imagePicker.png'),
+  //Temp Images
+  DUMMY_MAP: require('./icons/dummyMap.png'),
+  DUMMY_IMAGE: require('./icons/dummyProduct.png'),
+  BAG1: require('./icons/bag1.png'),
+  BAG2: require('./icons/bag2.png'),
+  BAG3: require('./icons/bag3.png'),
+  DUMMY_MINI: require('./icons/miniImage.png'),
+};
+
+export {ICONS};
