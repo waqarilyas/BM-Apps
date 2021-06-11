@@ -7,6 +7,7 @@ import PurchaseHistory from '../../../screens/Settings/PurchaseHistory';
 import AddPlace from '../../../screens/Settings/AddPlace';
 import ChangePin from '../../../screens/Generic/ChangePin';
 import PurchaseDetail from '../../../screens/Settings/PurchaseDetail';
+import SelectionScreen from '../../../screens/Settings/SelectionScreen';
 
 const Stack = createStackNavigator();
 
@@ -19,6 +20,7 @@ const SettingsStack = () => {
       <Stack.Screen name="AddPlace" component={AddPlace} />
       <Stack.Screen name="ChangePIN" component={ChangePin} />
       <Stack.Screen name="PurchaseDetail" component={PurchaseDetail} />
+      <Stack.Screen name="SelectionScreen" component={SelectionScreen} />
     </Stack.Navigator>
   );
 };

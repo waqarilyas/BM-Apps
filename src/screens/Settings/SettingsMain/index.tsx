@@ -1,13 +1,17 @@
 import React from 'react';
 import {DeviceEventEmitter, StyleSheet, Text, View} from 'react-native';
+import {RootStateOrAny, useSelector} from 'react-redux';
 import AppHeader from '../../../shared/components/AppHeader';
 import SettingItem from '../../../shared/components/SettingItem';
 import {GenericNavigation} from '../../../shared/models/types';
+import {RootState} from '../../../shared/store';
 import {THEME} from '../../../shared/theme';
 
 interface Props extends GenericNavigation {}
 
 const SettingsMain = (props: Props) => {
+  const {settings} = useSelector((state: RootState) => state.root);
+
   const navToCoinAcceptance = () =>
     props.navigation?.navigate('CoinAcceptance');
 
@@ -19,21 +23,59 @@ const SettingsMain = (props: Props) => {
 
   const onLogout = () =>
     DeviceEventEmitter.emit('authenticate', {authenticate: false});
+
+  const navToCurrencySelection = () => {
+    props.navigation?.navigate('SelectionScreen', {selectionType: 'currency'});
+  };
+
+  const navToLanguageSelection = () => {
+    props.navigation?.navigate('SelectionScreen', {selectionType: 'language'});
+  };
+
+  const toggleDarkMode = (toggleState: boolean) => {
+    console.log(toggleState);
+  };
+
   return (
     <>
       <AppHeader title="Settings" />
       <View style={styles.container}>
-        <SettingItem title="Address Book" chevron />
+        {/* <SettingItem title="Address Book" chevron /> */}
         <SettingItem
-          title="Purchase History"
+          title="Add Store Location"
+          chevron
+          onPress={navToAddPlace}
+        />
+        <SettingItem title="Change PIN" chevron onPress={navToChangePIN} />
+        <SettingItem
+          title="Sales History"
           chevron
           onPress={navToPurchaseHistory}
         />
-        <SettingItem title="Add Places" chevron onPress={navToAddPlace} />
-        <SettingItem title="Change PIN" chevron onPress={navToChangePIN} />
-        <SettingItem title="Choose Currency" value="USD" chevron />
-        <SettingItem title="POS Default Tax Rate" value="0%" chevron />
-        <SettingItem title="POS Default Tips" value="15%, 18%, 20%" chevron />
+        <SettingItem
+          title="Choose Currency"
+          value={settings.currency}
+          onPress={navToCurrencySelection}
+          chevron
+        />
+        <SettingItem
+          title="Choose Language"
+          value={settings.language}
+          chevron
+          onPress={navToLanguageSelection}
+        />
+        <SettingItem
+          title="POS Default Tax Rate"
+          value={`${settings.defaultTaxRate}%`}
+          chevron
+        />
+        <SettingItem
+          activeOpacity={1}
+          title="Use Dark Mood"
+          showSwitch
+          switchState={settings.darkMode}
+          toggleSwitch={toggleDarkMode}
+        />
         <SettingItem
           title="Coins Acceptance Settings"
           chevron

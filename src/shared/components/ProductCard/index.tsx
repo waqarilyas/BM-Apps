@@ -10,23 +10,25 @@ import {
 } from 'react-native';
 import {THEME} from '../../theme';
 import {HP, RF, WP} from '../../theme/responsive';
-import FastImage from 'react-native-fast-image';
+import FastImage, {FastImageProps, Source} from 'react-native-fast-image';
 
 interface Props extends TouchableOpacityProps {
   imageURI?: string;
-  imageSource?: ImageSourcePropType;
+  imageSource?: Source | number;
   name: string;
   price: string;
 }
 
 const ProductCard = (props: Props) => {
-  const Image = props.imageSource ? props.imageSource : {uri: props.imageURI};
+  const PRODUCT_IMAGE = props.imageSource
+    ? props.imageSource
+    : {uri: props.imageURI};
   return (
     <TouchableOpacity {...props} style={styles.container}>
       <>
         <FastImage
           style={styles.image}
-          source={Image}
+          source={PRODUCT_IMAGE}
           resizeMode={FastImage.resizeMode.cover}
         />
         <Text numberOfLines={1} style={styles.name}>
@@ -56,11 +58,11 @@ const styles = StyleSheet.create({
     marginBottom: THEME.MARGIN.LOW,
   },
   name: {
-    fontSize: THEME.FONTS.SIZE.SMALL,
+    fontSize: THEME.FONTS.SIZE.XSMALL,
     color: THEME.COLORS.textLight,
   },
   price: {
-    fontSize: THEME.FONTS.SIZE.XSMALL,
+    fontSize: THEME.FONTS.SIZE.XXSMALL,
     color: THEME.COLORS.white,
   },
 });

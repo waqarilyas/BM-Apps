@@ -29,7 +29,7 @@ const CoinListItem = (props: Props) => {
           />
         </View>
         <View style={styles.main}>
-          <Text style={styles.price}>$8,123,34</Text>
+          <Text style={styles.price}>$8,123.34</Text>
           <Text style={styles.name}>Bitcoin (BTC)</Text>
         </View>
         <View style={styles.right}>

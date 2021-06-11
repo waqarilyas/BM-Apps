@@ -5,10 +5,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import posReducer from './reducers/posReducer';
 import walletReducer from './reducers/walletReducer';
 import userReducer from './reducers/userReducer';
+import settingsReducer from './reducers/settingsReducer';
+
 declare var window: any;
 
 const persistConfig = {
-  key: 'root',
+  key: 'key',
   storage: AsyncStorage,
   whitelist: ['user'],
 };
@@ -17,6 +19,7 @@ const reducers = combineReducers({
   pos: posReducer,
   wallet: walletReducer,
   user: userReducer,
+  settings: settingsReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);
@@ -33,7 +36,10 @@ export const store = configureStore({
   reducer: {
     root: persistedReducer,
   },
+
   middleware: enhancedCompose(middleware),
 });
 
 export const persistor = persistStore(store);
+
+export type RootState = {root: ReturnType<typeof reducers>};

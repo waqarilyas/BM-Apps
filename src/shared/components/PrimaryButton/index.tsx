@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  ActivityIndicator,
   StyleProp,
   StyleSheet,
   Text,
@@ -17,11 +18,12 @@ interface Props extends TouchableOpacityProps {
   title: string;
   buttonStyle?: StyleProp<ViewStyle>;
   icon?: string;
+  loading?: boolean;
 }
 
 const PrimaryButton = (props: Props) => {
   return (
-    <TouchableOpacity {...props} activeOpacity={0.7}>
+    <TouchableOpacity {...props} disabled={props.loading} activeOpacity={0.7}>
       <LinearGradient
         colors={[
           THEME.COLORS.gradientTopColor,
@@ -29,7 +31,11 @@ const PrimaryButton = (props: Props) => {
         ]}
         style={[styles.container, props.buttonStyle]}>
         {props.icon && <Icon name={props.icon} style={styles.icon} />}
-        <Text style={styles.buttonText}>{props.title}</Text>
+        {props.loading ? (
+          <ActivityIndicator color={THEME.COLORS.white} />
+        ) : (
+          <Text style={styles.buttonText}>{props.title}</Text>
+        )}
       </LinearGradient>
     </TouchableOpacity>
   );

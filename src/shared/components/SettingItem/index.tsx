@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -13,8 +13,9 @@ import ToggleSwitch from 'toggle-switch-react-native';
 
 interface Props extends TouchableOpacityProps {
   title?: string;
-  switch?: boolean;
   showSwitch?: boolean;
+  switchState?: boolean;
+  toggleSwitch?: (value: boolean) => void;
   value?: string;
   chevron?: boolean;
 }
@@ -35,10 +36,11 @@ const SettingItem = (props: Props) => {
           )}
           {props.showSwitch && (
             <ToggleSwitch
-              isOn={props.switch}
+              isOn={props.switchState}
               onColor={THEME.COLORS.green}
               offColor={THEME.COLORS.textLight}
               size="medium"
+              onToggle={props.toggleSwitch}
             />
           )}
         </View>
