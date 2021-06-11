@@ -1,6 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 
-export const walletReducer = createSlice({
+export const walletSlice = createSlice({
   name: 'wallet',
   initialState: {
     coins: [],
@@ -9,6 +9,6 @@ export const walletReducer = createSlice({
   reducers: {},
 });
 
-export const {} = walletReducer.actions;
+export const {} = walletSlice.actions;
 
-export default walletReducer.reducer;
+export default walletSlice.reducer;

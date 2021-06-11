@@ -1,6 +1,5 @@
 import {StyleSheet} from 'react-native';
 import {THEME} from '../../../shared/theme';
-import GLOBAL_STYLE from '../../../shared/theme/global';
 import {RF} from '../../../shared/theme/responsive';
 
 const styles = StyleSheet.create({

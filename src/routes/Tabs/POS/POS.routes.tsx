@@ -17,13 +17,13 @@ const POSStack = () => {
       screenOptions={({navigation}) => ({
         headerShown: false,
       })}>
+      <Stack.Screen name="Payment" component={Payment} />
       <Stack.Screen name="POSMain" component={POSMain} />
       <Stack.Screen name="AddProduct" component={AddProduct} />
       <Stack.Screen name="NearBy" component={NearBy} />
       <Stack.Screen name="ProductDetails" component={ProductDetails} />
       <Stack.Screen name="Cart" component={Cart} />
       <Stack.Screen name="AddTip" component={AddTip} />
-      <Stack.Screen name="Payment" component={Payment} />
       <Stack.Screen name="SearchProduct" component={SearchProduct} />
     </Stack.Navigator>
   );

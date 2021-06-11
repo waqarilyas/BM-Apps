@@ -11,3 +11,8 @@ export interface ChartItem {
   svg: {fill: string};
   onPress?: (key: string) => void;
 }
+
+export enum ScreenSelectionType {
+  Currency = 'currency',
+  Langugage = 'language',
+}

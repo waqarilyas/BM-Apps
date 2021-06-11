@@ -44,8 +44,8 @@ const BottomTabs = () => {
           );
         },
       })}>
-      <Tab.Screen name="Wallet" component={WalletStack} />
       <Tab.Screen name="POS" component={POSStack} />
+      <Tab.Screen name="Wallet" component={WalletStack} />
       <Tab.Screen name="Settings" component={SettingsStack} />
     </Tab.Navigator>
   );

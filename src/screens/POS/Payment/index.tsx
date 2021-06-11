@@ -10,17 +10,26 @@ import {THEME} from '../../../shared/theme';
 import {GenericNavigation} from '../../../shared/models/types';
 import PrimaryButton from '../../../shared/components/PrimaryButton';
 import {HP, RF} from '../../../shared/theme/responsive';
+import ChooseCoinModal from '../../../shared/components/ChooseCoinModal';
 
 interface Props extends GenericNavigation {}
 
 const Payment = (props: Props) => {
   const [copied, setCopied] = useState(true);
+  const [showCurrencyModal, setShowCurrencyModal] = useState(true);
+
+  const toggleModal = () => setShowCurrencyModal(!showCurrencyModal);
+
+  const onSelectCoin = (coin: string) => {
+    setShowCurrencyModal(false);
+    console.log(coin);
+  };
   return (
     <>
-      <AppHeader title="Payment" showBack showCart />
+      <AppHeader title="Payment" showBack />
       <View style={styles.container}>
-        <Text style={styles.label}>Payment Method</Text>
-        <TouchableOpacity style={styles.optionContainer}>
+        <Text style={styles.label}>Select Coin:</Text>
+        <TouchableOpacity onPress={toggleModal} style={styles.optionContainer}>
           <FastImage
             source={COINS.BTC}
             resizeMode={FastImage.resizeMode.contain}
@@ -29,7 +38,7 @@ const Payment = (props: Props) => {
           <View style={{flex: 1}}>
             <Text style={{color: THEME.COLORS.white}}>Bitcoin (BTC)</Text>
           </View>
-          <Icon name="chevron-down" size={24} color={THEME.COLORS.white} />
+          {/* <Icon name="chevron-down" size={24} color={THEME.COLORS.white} /> */}
         </TouchableOpacity>
 
         <View style={styles.amountContainer}>
@@ -66,6 +75,11 @@ const Payment = (props: Props) => {
           buttonStyle={styles.shareButton}
         />
       </View>
+      <ChooseCoinModal
+        isVisible={showCurrencyModal}
+        onPressBackdrop={toggleModal}
+        onPressCoin={onSelectCoin}
+      />
     </>
   );
 };

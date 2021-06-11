@@ -59,43 +59,43 @@ const POSMain = (props: Props) => {
           <Text style={styles.categoryLabel}>Bags</Text>
           <View style={styles.productsContainer}>
             <ProductCard
-              name="BackPack"
-              price="19.90"
+              name={faker.commerce.product()}
+              price={Number(faker.datatype.number()).toFixed(2)}
               onPress={navToProductDetail}
-              imageSource={ICONS.BAG1}
+              imageURI={faker.image.avatar()}
             />
             <ProductCard
-              name="BackPack"
-              price="19.90"
+              name={faker.commerce.product()}
+              price={Number(faker.datatype.number()).toFixed(2)}
               onPress={navToProductDetail}
-              imageSource={ICONS.BAG2}
+              imageURI={faker.image.avatar()}
             />
             <ProductCard
-              name="BackPack"
-              price="19.90"
+              name={faker.commerce.product()}
+              price={Number(faker.datatype.number()).toFixed(2)}
               onPress={navToProductDetail}
-              imageSource={ICONS.BAG3}
+              imageURI={faker.image.avatar()}
             />
           </View>
           <Text style={styles.categoryLabel}>Bags</Text>
           <View style={styles.productsContainer}>
             <ProductCard
-              name="BackPack"
-              price="19.90"
+              name={faker.commerce.product()}
+              price={Number(faker.datatype.number()).toFixed(2)}
               onPress={navToProductDetail}
-              imageSource={ICONS.BAG1}
+              imageURI={faker.image.avatar()}
             />
             <ProductCard
-              name="BackPack"
-              price="19.90"
+              name={faker.commerce.product()}
+              price={Number(faker.datatype.number()).toFixed(2)}
               onPress={navToProductDetail}
-              imageSource={ICONS.BAG2}
+              imageURI={faker.image.avatar()}
             />
             <ProductCard
-              name="BackPack"
-              price="19.90"
+              name={faker.commerce.product()}
+              price={Number(faker.datatype.number()).toFixed(2)}
               onPress={navToProductDetail}
-              imageSource={ICONS.BAG3}
+              imageURI={faker.image.avatar()}
             />
           </View>
         </ScrollView>
