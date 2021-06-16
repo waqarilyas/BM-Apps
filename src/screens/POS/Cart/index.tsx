@@ -111,8 +111,8 @@ const Cart = (props: Props) => {
         <View style={styles.personalContainer}>
           <Text style={styles.personalTitle}>Personal Information</Text>
           <View style={styles.nameContainer}>
-            <AppInput placeholder="First Name" inputStyle={{width: '48x%'}} />
-            <AppInput placeholder="Last Name" inputStyle={{width: '48x%'}} />
+            <AppInput placeholder="First Name" inputStyle={{width: '48%'}} />
+            <AppInput placeholder="Last Name" inputStyle={{width: '48%'}} />
           </View>
           <AppInput placeholder="Email Name" />
           <AppInput placeholder="Billing Address" />
