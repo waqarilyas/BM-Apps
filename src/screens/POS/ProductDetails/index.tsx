@@ -11,7 +11,9 @@ import styles from './styles';
 interface Props extends GenericNavigation {}
 
 const ProductDetails = (props: Props) => {
-  const addToCart = () => props.navigation?.navigate('Cart');
+  const addToCart = () => {
+    props.navigation?.navigate('Cart');
+  };
   return (
     <>
       <AppHeader title="Product Details" showBack showCart />
