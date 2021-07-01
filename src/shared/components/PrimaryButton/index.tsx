@@ -4,6 +4,7 @@ import {
   StyleProp,
   StyleSheet,
   Text,
+  TextStyle,
   TouchableOpacity,
   TouchableOpacityProps,
   ViewStyle,
@@ -17,6 +18,7 @@ import Icon from 'react-native-vector-icons/Entypo';
 interface Props extends TouchableOpacityProps {
   title: string;
   buttonStyle?: StyleProp<ViewStyle>;
+  textStyle?: StyleProp<TextStyle>;
   icon?: string;
   loading?: boolean;
 }
@@ -34,7 +36,9 @@ const PrimaryButton = (props: Props) => {
         {props.loading ? (
           <ActivityIndicator color={THEME.COLORS.white} />
         ) : (
-          <Text style={styles.buttonText}>{props.title}</Text>
+          <Text style={[styles.buttonText, props.textStyle]}>
+            {props.title}
+          </Text>
         )}
       </LinearGradient>
     </TouchableOpacity>
@@ -45,7 +49,7 @@ export default PrimaryButton;
 
 const styles = StyleSheet.create({
   container: {
-    width: WP(75),
+    width: WP(80),
     height: HP(7),
     alignSelf: 'center',
     borderRadius: RF(30),
@@ -59,9 +63,8 @@ const styles = StyleSheet.create({
     marginRight: THEME.MARGIN.LOW,
   },
   buttonText: {
-    fontSize: THEME.FONTS.SIZE.SMALL,
+    fontSize: THEME.FONTS.SIZE.XXSMALL,
     fontFamily: THEME.FONTS.TYPE.SEMIBOLD,
-    textTransform: 'uppercase',
     color: THEME.COLORS.white,
   },
 });

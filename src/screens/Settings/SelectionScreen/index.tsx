@@ -15,6 +15,7 @@ import {
 import styles from './styles';
 import RadioButtonRN from 'radio-buttons-react-native';
 import {THEME} from '../../../shared/theme';
+import GLOBAL_STYLE from '../../../shared/theme/global';
 
 const data = [
   {
@@ -99,7 +100,8 @@ const SelectionScreen = (props: Props) => {
         <PrimaryButton
           loading={loading}
           title="Save"
-          buttonStyle={{width: '100%'}}
+          buttonStyle={{width: '50%'}}
+          textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
         />
       </View>
     </>

@@ -9,20 +9,21 @@ const styles = StyleSheet.create({
   },
   //Chart Styles
   pieChart: {
-    height: RF(200),
-    width: RF(200),
+    height: RF(180),
+    width: RF(180),
     alignSelf: 'center',
     marginVertical: THEME.MARGIN.NORMAL,
   },
   innerCircle: {
     position: 'absolute',
-    top: RF(40),
+    top: RF(36),
     alignSelf: 'center',
-    width: RF(150),
-    height: RF(150),
-    borderRadius: RF(75),
+    width: RF(135),
+    height: RF(135),
+    borderRadius: RF(135 / 2),
     justifyContent: 'center',
     alignItems: 'center',
+    overflow: 'hidden',
   },
   innerLargeText: {
     fontSize: THEME.FONTS.SIZE.XLARGE,

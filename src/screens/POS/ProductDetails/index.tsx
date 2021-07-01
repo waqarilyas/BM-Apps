@@ -6,6 +6,7 @@ import AppHeader from '../../../shared/components/AppHeader';
 import PrimaryButton from '../../../shared/components/PrimaryButton';
 import {GenericNavigation} from '../../../shared/models/types';
 import {THEME} from '../../../shared/theme';
+import GLOBAL_STYLE from '../../../shared/theme/global';
 import styles from './styles';
 
 interface Props extends GenericNavigation {}
@@ -87,7 +88,11 @@ const ProductDetails = (props: Props) => {
           </View>
         </View>
 
-        <PrimaryButton title="Add to Cart" onPress={addToCart} />
+        <PrimaryButton
+          title="Add to Cart"
+          onPress={addToCart}
+          textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
+        />
       </ScrollView>
     </>
   );

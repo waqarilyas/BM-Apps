@@ -9,8 +9,8 @@ import styles from './styles';
 
 interface Props {}
 
-const SignIn = (props: Props) => {
-  const onSignIn = () => {
+const ImportWallet = (props: Props) => {
+  const onImportWallet = () => {
     DeviceEventEmitter.emit('authenticate', {authenticate: true});
   };
   return (
@@ -18,14 +18,16 @@ const SignIn = (props: Props) => {
       <AppHeader showBack />
       <View style={styles.container}>
         <Logo />
+        <Text style={styles.heading}>Import from Seed</Text>
         <View style={styles.inputContainer}>
-          <AppInput placeholder="Email" />
-          <AppInput placeholder="Password" />
+          <AppInput placeholder="Enter your secret recovery phrase" />
         </View>
-        <PrimaryButton title="Sign In" onPress={onSignIn} />
+        <View style={styles.actionsContainer}>
+          <PrimaryButton title="Import" onPress={onImportWallet} />
+        </View>
       </View>
     </>
   );
 };
 
-export default SignIn;
+export default ImportWallet;

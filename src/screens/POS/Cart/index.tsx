@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TextInput, TouchableOpacity} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {ICONS} from '../../../assets';
 import AppHeader from '../../../shared/components/AppHeader';
@@ -12,6 +12,7 @@ import DashedLine from '../../../shared/components/DashedLine';
 import AppInput from '../../../shared/components/AppInput';
 import PrimaryButton from '../../../shared/components/PrimaryButton';
 import {GenericNavigation} from '../../../shared/models/types';
+import GLOBAL_STYLE from '../../../shared/theme/global';
 
 interface Props extends GenericNavigation {}
 
@@ -20,7 +21,7 @@ const Cart = (props: Props) => {
   const incrementProduct = () => console.log('Increment Product');
   const decrementProduct = () => console.log('Decrement Product');
 
-  const navToTip = () => props.navigation?.navigate('AddTip');
+  const navToPayment = () => props.navigation?.navigate('Payment');
 
   const renderProductCard = () => {
     return (
@@ -90,6 +91,14 @@ const Cart = (props: Props) => {
             <Text style={styles.totalText}>Tax</Text>
             <Text style={styles.totalText}>$ 01.99</Text>
           </View>
+          <View style={styles.totalRow}>
+            <Text style={styles.totalText}>Tip</Text>
+            <TextInput
+              placeholder="Enter Tip"
+              placeholderTextColor={THEME.COLORS.textLight}
+              style={styles.tipInput}
+            />
+          </View>
           <DashedLine />
           <View style={[styles.totalRow, {marginTop: THEME.MARGIN.LOW}]}>
             <Text
@@ -117,7 +126,11 @@ const Cart = (props: Props) => {
           <AppInput placeholder="Email Name" />
           <AppInput placeholder="Billing Address" />
         </View>
-        <PrimaryButton title="Check out" onPress={navToTip} />
+        <PrimaryButton
+          title="Check out"
+          onPress={navToPayment}
+          textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
+        />
       </KeyboardAwareScrollView>
     </>
   );

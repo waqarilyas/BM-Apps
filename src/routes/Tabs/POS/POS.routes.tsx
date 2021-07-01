@@ -5,7 +5,6 @@ import NearBy from '../../../screens/POS/NearBy';
 import ProductDetails from '../../../screens/POS/ProductDetails';
 import Cart from '../../../screens/POS/Cart';
 import AddProduct from '../../../screens/POS/AddProduct';
-import AddTip from '../../../screens/POS/AddTip';
 import Payment from '../../../screens/POS/Payment';
 import SearchProduct from '../../../screens/POS/SearchProduct';
 
@@ -22,7 +21,6 @@ const POSStack = () => {
       <Stack.Screen name="NearBy" component={NearBy} />
       <Stack.Screen name="ProductDetails" component={ProductDetails} />
       <Stack.Screen name="Cart" component={Cart} />
-      <Stack.Screen name="AddTip" component={AddTip} />
       <Stack.Screen name="Payment" component={Payment} />
       <Stack.Screen name="SearchProduct" component={SearchProduct} />
     </Stack.Navigator>

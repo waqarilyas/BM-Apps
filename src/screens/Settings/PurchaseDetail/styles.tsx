@@ -8,6 +8,15 @@ const styles = StyleSheet.create({
     backgroundColor: THEME.COLORS.primaryBackground,
     paddingHorizontal: THEME.PADDING.LOW,
   },
+  statusImageContainer: {
+    width: '100%',
+    height: RF(150),
+    paddingVertical: THEME.PADDING.NORMAL,
+  },
+  statusIcon: {
+    height: '100%',
+    width: '100%',
+  },
   productContainer: {marginVertical: THEME.MARGIN.LOW},
   productCard: {
     padding: THEME.PADDING.NORMAL,

@@ -10,7 +10,7 @@ import {THEME} from '../../../shared/theme';
 interface Props extends GenericNavigation {}
 
 const SettingsMain = (props: Props) => {
-  const {settings} = useSelector((state: RootState) => state.root);
+  const {settings} = useSelector((state: RootState) => state);
 
   const navToCoinAcceptance = () =>
     props.navigation?.navigate('CoinAcceptance');

@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: RF(50),
     flexDirection: 'row',
-    marginTop: THEME.MARGIN.LOW,
+    // marginTop: THEME.MARGIN.LOW,
   },
   tab: {
     width: '50%',
@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: THEME.RADIUS.BOX,
   },
   tabTitle: {
+    fontSize: THEME.FONTS.SIZE.XSMALL,
     color: THEME.COLORS.white,
   },
   balance: {

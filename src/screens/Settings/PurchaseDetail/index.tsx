@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Text, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {ICONS} from '../../../assets';
 import AppHeader from '../../../shared/components/AppHeader';
@@ -38,21 +38,30 @@ const PurchaseDetail = (props: Props) => {
     );
   };
   let status = 'Completed';
-  const getStatusColor = () => {
+  const getStatusIcon = () => {
     if (status === 'Pending') {
-      return THEME.COLORS.textLight;
+      return ICONS.STATUS_PENDING;
     } else if (status === 'Completed') {
-      return THEME.COLORS.green;
-    } else {
-      return THEME.COLORS.red;
+      return ICONS.STATUS_COMPLETED;
+    } else if (status === 'Confirming') {
+      return ICONS.STATUS_CONFIRMING;
+    } else if (status === 'Error') {
+      return ICONS.STATUS_ERROR;
     }
   };
   return (
     <>
       <AppHeader title="Order Detail" showBack showCart />
       <View style={styles.container}>
+        <Text style={styles.title}>Payment Status</Text>
+        <View style={styles.statusImageContainer}>
+          <FastImage
+            source={getStatusIcon()}
+            resizeMode={FastImage.resizeMode.contain}
+            style={styles.statusIcon}
+          />
+        </View>
         <View style={styles.productContainer}>{renderProductCard()}</View>
-
         <View style={styles.infoContainer}>
           <View style={styles.totalRow}>
             <Text style={styles.totalText}>Date</Text>
@@ -95,8 +104,7 @@ const PurchaseDetail = (props: Props) => {
             </Text>
           </View>
         </View>
-        <Text style={styles.title}>Payment Status</Text>
-        <View style={styles.statusContainer}>
+        {/* <View style={styles.statusContainer}>
           <View>
             <Text style={styles.totalText}>0.024 BTC</Text>
             <Text style={styles.lightText}>$66.99 USD</Text>
@@ -106,7 +114,7 @@ const PurchaseDetail = (props: Props) => {
               Completed
             </Text>
           </View>
-        </View>
+        </View> */}
       </View>
     </>
   );

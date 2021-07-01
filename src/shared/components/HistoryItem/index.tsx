@@ -72,9 +72,9 @@ const styles = StyleSheet.create({
     backgroundColor: THEME.COLORS.secondaryBackground,
     marginBottom: THEME.MARGIN.LOW,
   },
-  left: {width: '20%', height: '100%', ...GLOBAL_STYLE.CENTER},
+  left: {width: '16%', height: '100%', ...GLOBAL_STYLE.CENTER},
   main: {flex: 1, justifyContent: 'space-around'},
-  price: {fontSize: THEME.FONTS.SIZE.MEDIUM, color: THEME.COLORS.white},
+  price: {fontSize: THEME.FONTS.SIZE.SMALL, color: THEME.COLORS.white},
   smallText: {
     textAlign: 'right',
     fontSize: THEME.FONTS.SIZE.XXSMALL,
