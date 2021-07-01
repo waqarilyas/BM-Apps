@@ -9,6 +9,12 @@ const styles = StyleSheet.create({
     backgroundColor: THEME.COLORS.primaryBackground,
     paddingHorizontal: THEME.PADDING.NORMAL,
   },
+  tipInput: {
+    color: THEME.COLORS.white,
+    paddingVertical: 0,
+    width: RF(50),
+    textAlign: 'right',
+  },
   productContainer: {marginVertical: THEME.MARGIN.LOW},
   productCard: {
     padding: THEME.PADDING.NORMAL,

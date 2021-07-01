@@ -6,13 +6,14 @@ import posReducer from './reducers/posReducer';
 import walletReducer from './reducers/walletReducer';
 import userReducer from './reducers/userReducer';
 import settingsReducer from './reducers/settingsReducer';
+import ReduxThunk from 'redux-thunk';
 
 declare var window: any;
 
 const persistConfig = {
-  key: 'key',
+  key: 'root',
   storage: AsyncStorage,
-  whitelist: ['user'],
+  whitelist: ['user', 'wallet'],
 };
 
 const reducers = combineReducers({
@@ -24,7 +25,9 @@ const reducers = combineReducers({
 
 const persistedReducer = persistReducer(persistConfig, reducers);
 
-const middleware: any = getDefaultMiddleware({serializableCheck: false});
+const middleware: any = getDefaultMiddleware({serializableCheck: false}).concat(
+  ReduxThunk,
+);
 
 let enhancedCompose = compose;
 
@@ -33,13 +36,11 @@ if (__DEV__) {
 }
 
 export const store = configureStore({
-  reducer: {
-    root: persistedReducer,
-  },
-
+  reducer: persistedReducer,
   middleware: enhancedCompose(middleware),
 });
 
 export const persistor = persistStore(store);
 
-export type RootState = {root: ReturnType<typeof reducers>};
+export type RootState = ReturnType<typeof reducers>;
+export type AppDispatch = typeof store.dispatch;

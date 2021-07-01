@@ -22,8 +22,12 @@ const CoinDetails = (props: Props) => {
       ? THEME.COLORS.blue
       : THEME.COLORS.secondaryBackground;
 
-  const navToSend = () => props.navigation?.navigate('SendCoin');
-  const navToReceive = () => props.navigation?.navigate('ReceiveCoin');
+  const navToSend = () => {
+    props.navigation?.navigate('SendCoin');
+  };
+  const navToReceive = () => {
+    props.navigation?.navigate('ReceiveCoin');
+  };
 
   return (
     <>
@@ -54,7 +58,7 @@ const CoinDetails = (props: Props) => {
               <TransactionButton onPress={navToSend} title="SEND" kind="send" />
               <TransactionButton
                 onPress={navToReceive}
-                title="RECEIVED"
+                title="RECEIVE"
                 kind="receive"
               />
             </View>

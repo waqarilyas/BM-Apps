@@ -8,6 +8,7 @@ import {THEME} from '../../../shared/theme';
 import {HP} from '../../../shared/theme/responsive';
 import styles from './styles';
 import PaymentStatusModal from '../../../shared/components/PaymentStatusModal';
+import GLOBAL_STYLE from '../../../shared/theme/global';
 
 interface Props {}
 
@@ -32,6 +33,7 @@ const SendCoin = (props: Props) => {
         <AddressInput
           inputStyle={{marginVertical: THEME.MARGIN.NORMAL}}
           value={address}
+          placeholder="Address"
           onChangeText={setAddress}
           onChangeAddress={onChangeAddress}
         />
@@ -73,6 +75,7 @@ const SendCoin = (props: Props) => {
           icon="arrow-long-up"
           title="Send"
           buttonStyle={{width: '55%', height: HP(6)}}
+          textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
           onPress={() => setShowModal(true)}
         />
       </View>

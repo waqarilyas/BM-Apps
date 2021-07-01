@@ -1,7 +1,6 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
-import SignIn from '../../screens/Auth/SignIn';
-import SignUp from '../../screens/Auth/SignUp';
+import ImportWallet from '../../screens/Auth/ImportWallet';
 import StartScreen from '../../screens/Generic/StartScreen';
 
 const Stack = createStackNavigator();
@@ -13,8 +12,7 @@ const AuthStack = () => {
         headerShown: false,
       })}>
       <Stack.Screen name="StartScreen" component={StartScreen} />
-      <Stack.Screen name="SignUp" component={SignUp} />
-      <Stack.Screen name="SignIn" component={SignIn} />
+      <Stack.Screen name="ImportWallet" component={ImportWallet} />
     </Stack.Navigator>
   );
 };

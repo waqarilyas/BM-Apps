@@ -26,26 +26,25 @@ const styles = StyleSheet.create({
   },
   amountContainer: {
     alignSelf: 'center',
-    marginVertical: THEME.MARGIN.NORMAL,
+    marginVertical: THEME.MARGIN.LOW,
   },
   amountBTC: {
     color: THEME.COLORS.white,
     fontSize: THEME.FONTS.SIZE.MEDIUM,
   },
   amountUSD: {
-    marginTop: THEME.MARGIN.LOW,
+    marginTop: THEME.MARGIN.SUPERLOW,
     color: THEME.COLORS.textLight,
     fontSize: THEME.FONTS.SIZE.MEDIUM,
   },
-  //Receive Styles
   qr: {
     width: RF(150),
     height: RF(150),
     alignSelf: 'center',
-    marginVertical: THEME.MARGIN.VERYHIGH,
+    marginVertical: THEME.MARGIN.NORMAL,
   },
   instruction: {
-    color: THEME.COLORS.blue,
+    color: THEME.COLORS.accentBlue,
     textAlign: 'center',
     fontSize: THEME.FONTS.SIZE.SMALL,
     paddingVertical: THEME.PADDING.NORMAL,

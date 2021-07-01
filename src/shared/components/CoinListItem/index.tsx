@@ -25,7 +25,7 @@ const CoinListItem = (props: Props) => {
           <FastImage
             source={require('../../../assets/coins/BTC.png')}
             resizeMode={FastImage.resizeMode.contain}
-            style={{flex: 1}}
+            style={{width: '100%', height: '100%', alignSelf: 'center'}}
           />
         </View>
         <View style={styles.main}>
@@ -61,9 +61,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: THEME.PADDING.LOW,
     paddingVertical: THEME.PADDING.LOW,
     backgroundColor: THEME.COLORS.secondaryBackground,
-    marginBottom: THEME.MARGIN.LOW,
+    marginBottom: THEME.MARGIN.VERYLOW,
+    alignItems: 'center',
   },
-  left: {width: '20%', height: '100%'},
+  left: {
+    width: '20%',
+    height: '90%',
+  },
   main: {
     marginLeft: THEME.MARGIN.LOW,
     flex: 1,

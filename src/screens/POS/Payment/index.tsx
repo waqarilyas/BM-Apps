@@ -11,12 +11,13 @@ import {GenericNavigation} from '../../../shared/models/types';
 import PrimaryButton from '../../../shared/components/PrimaryButton';
 import {HP, RF} from '../../../shared/theme/responsive';
 import ChooseCoinModal from '../../../shared/components/ChooseCoinModal';
+import GLOBAL_STYLE from '../../../shared/theme/global';
 
 interface Props extends GenericNavigation {}
 
 const Payment = (props: Props) => {
   const [copied, setCopied] = useState(true);
-  const [showCurrencyModal, setShowCurrencyModal] = useState(true);
+  const [showCurrencyModal, setShowCurrencyModal] = useState(false);
 
   const toggleModal = () => setShowCurrencyModal(!showCurrencyModal);
 
@@ -42,7 +43,7 @@ const Payment = (props: Props) => {
         </TouchableOpacity>
 
         <View style={styles.amountContainer}>
-          <Text style={styles.amountBTC}>0.024 BTC</Text>
+          <Text style={styles.amountBTC}>0.0240 BTC</Text>
           <Text style={styles.amountUSD}>$50.00 USD</Text>
         </View>
 
@@ -59,7 +60,7 @@ const Payment = (props: Props) => {
             3E53XjqK4Cxt71BGeERYUri45445P2Vh…
           </Text>
         </View>
-        {!copied && (
+        {copied && (
           <View style={styles.copiedContainer}>
             <FastImage
               source={ICONS.TICK}
@@ -73,6 +74,7 @@ const Payment = (props: Props) => {
           icon="share"
           title="Share"
           buttonStyle={styles.shareButton}
+          textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
         />
       </View>
       <ChooseCoinModal

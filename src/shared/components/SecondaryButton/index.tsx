@@ -31,7 +31,7 @@ export default SecondaryButton;
 
 const styles = StyleSheet.create({
   container: {
-    width: WP(75),
+    width: WP(80),
     height: HP(7),
     alignSelf: 'center',
     borderRadius: RF(30),
@@ -41,9 +41,8 @@ const styles = StyleSheet.create({
     marginBottom: THEME.MARGIN.NORMAL,
   },
   buttonText: {
-    fontSize: THEME.FONTS.SIZE.SMALL,
+    fontSize: THEME.FONTS.SIZE.XXSMALL,
     fontFamily: THEME.FONTS.TYPE.SEMIBOLD,
-    textTransform: 'uppercase',
     textAlign: 'center',
     color: THEME.COLORS.white,
   },

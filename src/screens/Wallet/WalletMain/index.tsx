@@ -18,26 +18,20 @@ const CHART_DATA: ChartItem[] = [
   },
   {
     key: 2,
-    amount: 50,
+    amount: 30,
     svg: {fill: '#6C8DE8'},
     onPress: key => console.log('CHART PRESSD'),
   },
   {
     key: 3,
-    amount: 40,
+    amount: 20,
     svg: {fill: '#D7843B'},
     onPress: key => console.log('CHART PRESSD'),
   },
   {
     key: 4,
-    amount: 40,
+    amount: 20,
     svg: {fill: '#AE3D8C'},
-    onPress: key => console.log('CHART PRESSD'),
-  },
-  {
-    key: 5,
-    amount: 35,
-    svg: {fill: '#ecb3ff'},
     onPress: key => console.log('CHART PRESSD'),
   },
 ];
@@ -57,7 +51,7 @@ const WalletMain = (props: Props) => {
           valueAccessor={({item}: {item: ChartItem}) => item.amount}
           data={CHART_DATA}
           outerRadius={'100%'}
-          innerRadius={'75%'}
+          innerRadius={'82%'}
           padAngle={0}
         />
         <View style={styles.innerCircle}>

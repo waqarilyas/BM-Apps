@@ -1,6 +1,6 @@
 import {NavigationProp} from '@react-navigation/core';
 import React from 'react';
-import {Linking, StyleSheet, Text, View} from 'react-native';
+import {DeviceEventEmitter, Linking, Text, View} from 'react-native';
 import Logo from '../../../shared/components/Logo';
 import PrimaryButton from '../../../shared/components/PrimaryButton';
 import SecondaryButton from '../../../shared/components/SecondaryButton';
@@ -12,11 +12,12 @@ interface Props {
 }
 
 const StartScreen = (props: Props) => {
-  const handleSignIn = () => {
-    props.navigation.navigate('SignIn');
+  const navToImportWallet = () => {
+    props.navigation.navigate('ImportWallet');
   };
-  const handleSignup = () => {
-    props.navigation.navigate('SignUp');
+
+  const handleCreateNewWallet = () => {
+    DeviceEventEmitter.emit('authenticate', {authenticate: true});
   };
   const openTermsAndCondition = async () => {
     try {
@@ -31,18 +32,23 @@ const StartScreen = (props: Props) => {
   return (
     <View style={styles.container}>
       <Logo style={{marginTop: THEME.MARGIN.SUPERHIGH}} />
-      <Text style={styles.heading}>Welcome</Text>
-      <PrimaryButton title="sign in" onPress={handleSignIn} />
-      <SecondaryButton title="sign up" onPress={handleSignup} />
+      <Text style={styles.heading}>Wallet Setup</Text>
+      <Text style={styles.subHeading}>
+        Import an existing wallet or create a new one
+      </Text>
+      <View style={styles.actionsContainer}>
+        <PrimaryButton
+          title="Import using secret recovery phrase"
+          onPress={navToImportWallet}
+        />
+        <SecondaryButton
+          title="Create a new wallet"
+          onPress={handleCreateNewWallet}
+        />
+      </View>
       <View style={styles.footer}>
         <Text style={styles.text}>
-          Don't have an account?{' '}
-          <Text onPress={handleSignIn} style={{color: THEME.COLORS.accentBlue}}>
-            Create new now!
-          </Text>
-        </Text>
-        <Text style={styles.text}>
-          By signing up, you are agree with our{' '}
+          By proceeding, you are agree with our{' '}
           <Text onPress={openTermsAndCondition} style={styles.linkText}>
             Terms {'&'} Condition
           </Text>

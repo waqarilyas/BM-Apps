@@ -14,7 +14,7 @@ import GLOBAL_STYLE from '../../theme/global';
 import {RF, WP} from '../../theme/responsive';
 
 interface Props extends TouchableOpacityProps {
-  onPress?: () => {};
+  onPress?: () => void;
   kind: 'send' | 'receive';
   title: string;
 }

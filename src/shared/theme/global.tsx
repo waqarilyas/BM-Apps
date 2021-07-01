@@ -15,6 +15,10 @@ const GLOBAL_STYLE = StyleSheet.create({
   ROW: {
     flexDirection: 'row',
   },
+  LARGE_BUTTON_TEXT: {
+    fontSize: THEME.FONTS.SIZE.SMALL,
+    textTransform: 'uppercase',
+  },
 });
 
 export default GLOBAL_STYLE;

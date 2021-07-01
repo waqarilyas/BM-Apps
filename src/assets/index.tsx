@@ -27,6 +27,11 @@ const ICONS = {
   BAG2: require('./icons/bag2.png'),
   BAG3: require('./icons/bag3.png'),
   DUMMY_MINI: require('./icons/miniImage.png'),
+  //Status Icons
+  STATUS_COMPLETED: require('./statusIcons/completed.png'),
+  STATUS_CONFIRMING: require('./statusIcons/confirming.png'),
+  STATUS_ERROR: require('./statusIcons/error.png'),
+  STATUS_PENDING: require('./statusIcons/pending.png'),
 };
 
 export {ICONS};
