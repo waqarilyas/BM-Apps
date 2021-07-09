@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {THEME} from '../../../shared/theme';
-import {RF} from '../../../shared/theme/responsive';
+import {HP, RF} from '../../../shared/theme/responsive';
 
 const styles = StyleSheet.create({
   container: {
@@ -18,10 +18,19 @@ const styles = StyleSheet.create({
   inputContainer: {
     marginVertical: THEME.MARGIN.NORMAL,
   },
+  input: {
+    borderRadius: THEME.RADIUS.BOX,
+    height: HP(16),
+    paddingHorizontal: THEME.PADDING.LOW,
+    paddingVertical: THEME.PADDING.LOW,
+  },
   actionsContainer: {
     position: 'absolute',
     bottom: RF(70),
     alignSelf: 'center',
+  },
+  textInput: {
+    fontSize: THEME.FONTS.SIZE.SMALL,
   },
 });
 

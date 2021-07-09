@@ -13,8 +13,8 @@ import {HP, RF, WP} from '../../theme/responsive';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 interface Props extends TextInputProps {
-  inputStyle?: StyleProp<TextStyle>;
-  textInputStyle?: StyleProp<ViewStyle>;
+  inputStyle?: StyleProp<ViewStyle>;
+  textInputStyle?: StyleProp<TextStyle>;
   icon?: string;
 }
 
@@ -22,10 +22,10 @@ const AppInput = (props: Props) => {
   return (
     <View style={[styles.container, props.inputStyle]}>
       <TextInput
-        {...props}
         placeholderTextColor={THEME.COLORS.textLight}
         style={[styles.inputContainer, props.textInputStyle]}
         selectionColor={THEME.COLORS.white}
+        {...props}
       />
       {props.icon ? (
         <Icon
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     flex: 1,
     alignSelf: 'center',
-    height: HP(6),
+    height: '100%',
     color: THEME.COLORS.white,
     paddingHorizontal: THEME.PADDING.LOW,
   },

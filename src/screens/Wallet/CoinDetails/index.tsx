@@ -1,18 +1,42 @@
-import React, {useState} from 'react';
+import {useFocusEffect} from '@react-navigation/native';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {View, Text, ScrollView, TouchableOpacity} from 'react-native';
+import {useSelector} from 'react-redux';
 import AppHeader from '../../../shared/components/AppHeader';
 import TransactionButton from '../../../shared/components/TransactionButton';
 import TransactionItem from '../../../shared/components/TransactionItem';
-import {GenericNavigation} from '../../../shared/models/types';
+import {
+  Coin,
+  GenericNavigation,
+  Transaction,
+} from '../../../shared/models/types';
+import {checkTransactions} from '../../../shared/services/wallet.service';
+import {RootState} from '../../../shared/store';
 import {THEME} from '../../../shared/theme';
 import styles from './styles';
 
 interface Props extends GenericNavigation {}
 
 const CoinDetails = (props: Props) => {
-  const coin = props.route?.params?.coin;
-
+  const {wallet} = useSelector((state: RootState) => state.wallet);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [transactions, setTransactions] = useState<Transaction[] | []>([]);
+
+  const coin = useMemo(() => {
+    return wallet.find(
+      (c: Coin) => c.coin_symbol === props.route?.params?.coin_symbol,
+    );
+  }, [wallet, props.route]);
+
+  useFocusEffect(
+    useCallback(() => {
+      checkTransactions(coin?.coin_symbol, coin?.address)
+        .then(data => {
+          setTransactions(data);
+        })
+        .catch(err => console.log('Error getting transaction:', err));
+    }, [coin]),
+  );
 
   const showBalance = () => setActiveIndex(0);
   const showTransactions = () => setActiveIndex(1);
@@ -23,10 +47,10 @@ const CoinDetails = (props: Props) => {
       : THEME.COLORS.secondaryBackground;
 
   const navToSend = () => {
-    props.navigation?.navigate('SendCoin');
+    props.navigation?.navigate('SendCoin', {coinSymbol: coin?.coin_symbol});
   };
   const navToReceive = () => {
-    props.navigation?.navigate('ReceiveCoin');
+    props.navigation?.navigate('ReceiveCoin', {coinSymbol: coin?.coin_symbol});
   };
 
   return (
@@ -50,9 +74,14 @@ const CoinDetails = (props: Props) => {
           <>
             <View style={styles.details}>
               <Text style={styles.balance}>
-                2.216484 <Text style={styles.short}>{coin}</Text>
+                {coin?.balance}{' '}
+                <Text style={styles.short}>
+                  {coin?.coin_symbol.toUpperCase()}
+                </Text>
               </Text>
-              <Text style={styles.usdBalance}>$16471.20</Text>
+              <Text style={styles.usdBalance}>
+                ${coin?.vs_currency_balance}
+              </Text>
             </View>
             <View style={styles.actions}>
               <TransactionButton onPress={navToSend} title="SEND" kind="send" />
@@ -65,9 +94,14 @@ const CoinDetails = (props: Props) => {
           </>
         ) : (
           <ScrollView style={styles.transactions}>
-            <TransactionItem kind="sent" short="btc" />
-            <TransactionItem kind="received" short="doge" />
-            <TransactionItem kind="received" short="usdt" />
+            {transactions.map((item, number) => (
+              <TransactionItem
+                key={number}
+                item={item}
+                kind={coin?.address === item.from ? 'sent' : 'received'}
+                short="btc"
+              />
+            ))}
           </ScrollView>
         )}
       </View>

@@ -1,9 +1,13 @@
 import {NavigationProp} from '@react-navigation/core';
 import React from 'react';
 import {DeviceEventEmitter, Linking, Text, View} from 'react-native';
+import {useDispatch} from 'react-redux';
+import AppLoader from '../../../shared/components/AppLoader';
 import Logo from '../../../shared/components/Logo';
 import PrimaryButton from '../../../shared/components/PrimaryButton';
 import SecondaryButton from '../../../shared/components/SecondaryButton';
+import {renderWallet} from '../../../shared/store/actions/walletActions';
+import {setIsWalletRendered} from '../../../shared/store/reducers/walletReducer';
 import {THEME} from '../../../shared/theme';
 import styles from './styles';
 
@@ -12,12 +16,11 @@ interface Props {
 }
 
 const StartScreen = (props: Props) => {
-  const navToImportWallet = () => {
-    props.navigation.navigate('ImportWallet');
-  };
+  const dispatch = useDispatch();
+  const navToImportWallet = () => props.navigation.navigate('ImportWallet');
 
   const handleCreateNewWallet = () => {
-    DeviceEventEmitter.emit('authenticate', {authenticate: true});
+    dispatch(renderWallet());
   };
   const openTermsAndCondition = async () => {
     try {

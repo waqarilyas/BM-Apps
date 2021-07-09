@@ -1,5 +1,4 @@
-import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import React, {useState, useEffect} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {THEME} from '../../shared/theme';
 import FastImage from 'react-native-fast-image';
@@ -8,10 +7,14 @@ import {RF} from '../../shared/theme/responsive';
 import WalletStack from './Wallet/Wallet.routes';
 import SettingsStack from './Settings/Settings.routes';
 import POSStack from './POS/POS.routes';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../shared/store';
 
 const Tab = createBottomTabNavigator();
 
 const BottomTabs = () => {
+  const {merchantEnabled} = useSelector((state: RootState) => state.user);
+
   return (
     <Tab.Navigator
       sceneContainerStyle={{backgroundColor: THEME.COLORS.primaryBackground}}
@@ -44,9 +47,18 @@ const BottomTabs = () => {
           );
         },
       })}>
-      <Tab.Screen name="Wallet" component={WalletStack} />
-      <Tab.Screen name="POS" component={POSStack} />
-      <Tab.Screen name="Settings" component={SettingsStack} />
+      {merchantEnabled ? (
+        <>
+          <Tab.Screen name="Wallet" component={WalletStack} />
+          <Tab.Screen name="POS" component={POSStack} />
+          <Tab.Screen name="Settings" component={SettingsStack} />
+        </>
+      ) : (
+        <>
+          <Tab.Screen name="Wallet" component={WalletStack} />
+          <Tab.Screen name="Settings" component={SettingsStack} />
+        </>
+      )}
     </Tab.Navigator>
   );
 };

@@ -15,7 +15,11 @@ interface Props {
 
 const PaymentStatusModal = (props: Props) => {
   return (
-    <Modal backdropOpacity={0.85} isVisible={props.isVisible}>
+    <Modal
+      animationIn="fadeIn"
+      animationOut="fadeOut"
+      backdropOpacity={0.85}
+      isVisible={props.isVisible}>
       <View style={styles.container}>
         <TouchableOpacity
           style={styles.crossContainer}

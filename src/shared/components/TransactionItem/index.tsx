@@ -1,15 +1,16 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Linking, StyleSheet, Text, View} from 'react-native';
 import {RF} from '../../theme/responsive';
 import FastImage from 'react-native-fast-image';
 import {THEME} from '../../theme';
-import ToggleSwitch from 'toggle-switch-react-native';
 import {ICONS} from '../../../assets';
 import GLOBAL_STYLE from '../../theme/global';
-
+import {Transaction} from '../../models/types';
+import moment from 'moment';
 interface Props {
   kind: 'sent' | 'received';
   short: string;
+  item: Transaction;
 }
 
 const TransactionItem = (props: Props) => {
@@ -28,13 +29,15 @@ const TransactionItem = (props: Props) => {
       </View>
       <View style={styles.main}>
         <Text style={styles.price}>
-          {TRANSACTION_TEXT} {props.short.toUpperCase()}
+          {TRANSACTION_TEXT} {props.item.coinSymbol.toUpperCase()}
         </Text>
-        <Text style={styles.smallText}>Oct 19, 2019, 5:42:44 AM</Text>
+        <Text style={styles.smallText}>
+          {moment(props.item.timeStamp).format('MMM DD, YYYY, h:mm:ss a')}
+        </Text>
       </View>
       <View style={styles.right}>
         <Text style={[styles.smallText, {color: TRANSACTION_COLOR}]}>
-          0.005772 {props.short.toUpperCase()}
+          {Number(props.item.amount)} {props.item.coinSymbol.toUpperCase()}
         </Text>
         <Text style={styles.smallText}>$1450.00 USD</Text>
       </View>

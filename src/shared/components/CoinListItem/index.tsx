@@ -11,26 +11,33 @@ import {RF} from '../../theme/responsive';
 import FastImage from 'react-native-fast-image';
 import {THEME} from '../../theme';
 import ToggleSwitch from 'toggle-switch-react-native';
+import {Coin} from '../../models/types';
+import blockConfig from '../../../../block.config';
 
 interface Props extends TouchableOpacityProps {
   toggle?: boolean;
+  item: Coin;
 }
-
 const CoinListItem = (props: Props) => {
   const [toggle, setToggle] = useState(true);
+  const COIN_URL = `${blockConfig.API_URL}/admin/coin`;
   return (
     <TouchableOpacity activeOpacity={1} {...props}>
       <View style={styles.container}>
         <View style={styles.left}>
           <FastImage
-            source={require('../../../assets/coins/BTC.png')}
+            source={{uri: `${COIN_URL}/${props.item.coin_symbol}`}}
             resizeMode={FastImage.resizeMode.contain}
             style={{width: '100%', height: '100%', alignSelf: 'center'}}
           />
         </View>
         <View style={styles.main}>
-          <Text style={styles.price}>$8,123.34</Text>
-          <Text style={styles.name}>Bitcoin (BTC)</Text>
+          <Text style={styles.price}>
+            ${props.item.vs_currency_balance || '0.00'}
+          </Text>
+          <Text style={styles.name}>
+            {props.item.coin_name} ({props.item.coin_symbol.toUpperCase()})
+          </Text>
         </View>
         <View style={styles.right}>
           {props.toggle ? (
@@ -42,7 +49,10 @@ const CoinListItem = (props: Props) => {
               onToggle={setToggle}
             />
           ) : (
-            <Text style={styles.name}>-1.20%</Text>
+            <Text style={styles.name}>
+              {props.item.chart_data?.changePercentage24h?.toFixed(2) || '0.00'}
+              %
+            </Text>
           )}
         </View>
       </View>
@@ -74,9 +84,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   price: {
+    fontFamily: THEME.FONTS.TYPE.REGULAR,
     fontSize: THEME.FONTS.SIZE.MEDIUM,
     color: THEME.COLORS.white,
   },
-  name: {fontSize: THEME.FONTS.SIZE.XSMALL, color: THEME.COLORS.textLight},
+  name: {
+    fontSize: THEME.FONTS.SIZE.XXSMALL,
+    color: THEME.COLORS.textLight,
+    fontFamily: THEME.FONTS.TYPE.REGULAR,
+  },
   right: {height: '100%', justifyContent: 'center'},
 });

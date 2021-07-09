@@ -25,9 +25,10 @@ const reducers = combineReducers({
 
 const persistedReducer = persistReducer(persistConfig, reducers);
 
-const middleware: any = getDefaultMiddleware({serializableCheck: false}).concat(
-  ReduxThunk,
-);
+const middleware: any = getDefaultMiddleware({
+  serializableCheck: false,
+  immutableCheck: false,
+}).concat(ReduxThunk);
 
 let enhancedCompose = compose;
 

@@ -6,6 +6,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: THEME.COLORS.primaryBackground,
+    paddingTop: THEME.MARGIN.VERYHIGH,
   },
   //Receive Styles
   qr: {
@@ -31,12 +32,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: RF(50),
+    marginBottom: THEME.MARGIN.NORMAL,
   },
   keyText: {color: THEME.COLORS.white, fontSize: THEME.FONTS.SIZE.SMALL},
   copiedContainer: {
     flexDirection: 'row',
     alignSelf: 'center',
-    marginVertical: THEME.MARGIN.NORMAL,
+    marginBottom: THEME.MARGIN.NORMAL,
   },
   copied: {
     fontSize: THEME.FONTS.SIZE.SMALL,
