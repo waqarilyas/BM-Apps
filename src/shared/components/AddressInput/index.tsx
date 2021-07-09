@@ -10,9 +10,10 @@ import {
 } from 'react-native';
 import {THEME} from '../../theme';
 import {HP, RF, WP} from '../../theme/responsive';
-import Icon from 'react-native-vector-icons/Ionicons';
 import FastImage from 'react-native-fast-image';
 import {ICONS} from '../../../assets';
+import Clipboard from '@react-native-clipboard/clipboard';
+import {AppShowToast} from '../../services/helper.service';
 
 interface Props extends TextInputProps {
   inputStyle?: StyleProp<TextStyle>;
@@ -20,6 +21,11 @@ interface Props extends TextInputProps {
 }
 
 const AddressInput = (props: Props) => {
+  const onPressPaste = async () => {
+    AppShowToast('Pasted');
+    let text = await Clipboard.getString();
+    props.onChangeAddress(text);
+  };
   return (
     <View style={[styles.container, props.inputStyle]}>
       <TextInput
@@ -28,7 +34,7 @@ const AddressInput = (props: Props) => {
         style={styles.inputContainer}
         selectionColor={THEME.COLORS.white}
       />
-      <TouchableOpacity onPress={() => console.log('Paste stuff')}>
+      <TouchableOpacity onPress={onPressPaste}>
         <FastImage
           source={ICONS.PASTE_BUTTON}
           resizeMode={FastImage.resizeMode.contain}

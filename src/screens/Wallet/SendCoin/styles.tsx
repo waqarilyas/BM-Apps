@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
   usdText: {
     color: THEME.COLORS.textLight,
     fontSize: THEME.FONTS.SIZE.XXXSMALL,
+    textAlign: 'right',
   },
 });
 

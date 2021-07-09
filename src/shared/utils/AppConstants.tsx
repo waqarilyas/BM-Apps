@@ -1,0 +1,16 @@
+export const currenciesEnum = {
+  USD: '$',
+  EUR: '€',
+  MYR: 'RM',
+  CNY: '¥',
+  KRW: '₩',
+  THB: '฿',
+  GBP: '£',
+  AUD: 'A$',
+  INR: '₹',
+  VND: '₫',
+  TRY: '₺',
+  AED: 'د.إ',
+  IDR: 'Rp',
+  PKR: 'PKR',
+};

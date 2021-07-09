@@ -1,17 +1,47 @@
-import React from 'react';
-import {View, Text, DeviceEventEmitter} from 'react-native';
+import React, {useState} from 'react';
+import {View, Text} from 'react-native';
+import {useDispatch} from 'react-redux';
 import AppHeader from '../../../shared/components/AppHeader';
 import AppInput from '../../../shared/components/AppInput';
 import Logo from '../../../shared/components/Logo';
 import PrimaryButton from '../../../shared/components/PrimaryButton';
-import {THEME} from '../../../shared/theme';
+import {GenericNavigation} from '../../../shared/models/types';
+import {AppShowToast} from '../../../shared/services/helper.service';
+import {restoreWalletWithPhrase} from '../../../shared/services/wallet.service';
+import {
+  setIsWalletRendered,
+  setWalletRestore,
+} from '../../../shared/store/reducers/walletReducer';
 import styles from './styles';
 
-interface Props {}
+interface Props extends GenericNavigation {}
 
 const ImportWallet = (props: Props) => {
-  const onImportWallet = () => {
-    DeviceEventEmitter.emit('authenticate', {authenticate: true});
+  const dispatch = useDispatch();
+  const [phrase, setPhrase] = useState(
+    __DEV__
+      ? 'ranch relax sudden just tray soccer often analyst garment maximum hollow text'
+      : '',
+  );
+  const [loading, setLoading] = useState(false);
+  const onImportWallet = async () => {
+    setLoading(true);
+    if (!phrase) {
+      return AppShowToast('Please enter your 12 words secret phrase');
+    }
+    if (phrase.split(' ').length < 12) {
+      return AppShowToast('Phrase has less than 12 words');
+    }
+    const isMnemonicSet = await restoreWalletWithPhrase(phrase);
+    if (isMnemonicSet) {
+      //Dispatch action is_restore in mnemonic
+      dispatch(setWalletRestore(true));
+      dispatch(setIsWalletRendered(true));
+      AppShowToast('Wallet Import Started');
+    } else {
+      AppShowToast('Invalid Pharase, Please enter correct phrase.');
+    }
+    setLoading(false);
   };
   return (
     <>
@@ -20,10 +50,22 @@ const ImportWallet = (props: Props) => {
         <Logo />
         <Text style={styles.heading}>Import from Seed</Text>
         <View style={styles.inputContainer}>
-          <AppInput placeholder="Enter your secret recovery phrase" />
+          <AppInput
+            value={phrase}
+            onChangeText={setPhrase}
+            placeholder="Enter your secret recovery phrase"
+            inputStyle={styles.input}
+            textInputStyle={styles.textInput}
+            multiline
+            numberOfLines={3}
+          />
         </View>
         <View style={styles.actionsContainer}>
-          <PrimaryButton title="Import" onPress={onImportWallet} />
+          <PrimaryButton
+            loading={loading}
+            title="Import"
+            onPress={onImportWallet}
+          />
         </View>
       </View>
     </>

@@ -7,7 +7,6 @@ const styles = StyleSheet.create({
   container: {
     ...GLOBAL_STYLE.MAIN,
   },
-  //Chart Styles
   pieChart: {
     height: RF(180),
     width: RF(180),

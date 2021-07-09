@@ -1,31 +1,26 @@
 import React, {useEffect, useState} from 'react';
-import {DeviceEventEmitter, SafeAreaView} from 'react-native';
+import {SafeAreaView} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import {THEME} from '../shared/theme';
 import {NavigationContainer} from '@react-navigation/native';
 import {navigationRef} from '../shared/services/nav.service';
 import AuthStack from './Auth/Auth.routes';
 import BottomTabs from './Tabs/Tabs.routes';
-import blockConfig from '../../block.config';
-import axios from 'axios';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../shared/store';
-import {setIsWalletRendered} from '../shared/store/reducers/walletReducer';
+import axios from 'axios';
+import blockConfig from '../../block.config';
 import {renderWallet} from '../shared/store/actions/walletActions';
 
 const Routes = () => {
-  const [authenticated, setAuthenticated] = useState(false);
+  const {isRendered, wallet} = useSelector((state: RootState) => state.wallet);
   const dispatch = useDispatch();
-  const {
-    walletRendered,
-    wallet,
-    change24H,
-    best24H,
-    walletDataLoaded,
-    isRendered,
-  } = useSelector((state: RootState) => state.wallet);
 
-  const [totalCoins, setTotalCoins] = useState(1000);
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
+
+  const [totalCoins, setTotalCoins] = useState(0);
 
   useEffect(() => {
     axios
@@ -37,32 +32,18 @@ const Routes = () => {
   }, []);
 
   useEffect(() => {
-    if (!walletRendered) {
-    }
-  }, []);
-
-  const renderWalletByRedux = () => {
-    if (isRendered || wallet.length !== totalCoins) {
+    if (isRendered) {
+      console.log('DIPATCHED');
       dispatch(renderWallet());
-      dispatch(setIsWalletRendered(true));
     }
-  };
+  }, [isRendered]);
 
-  useEffect(() => {
-    SplashScreen.hide();
-  }, []);
-
-  const handleAuthenticate = (e: any) => {
-    setAuthenticated(e.authenticate);
-  };
-
-  DeviceEventEmitter.addListener('authenticate', handleAuthenticate);
   return (
     <>
       <SafeAreaView
         style={{flex: 1, backgroundColor: THEME.COLORS.primaryBackground}}>
         <NavigationContainer ref={navigationRef}>
-          {authenticated ? <BottomTabs /> : <AuthStack />}
+          {isRendered ? <BottomTabs /> : <AuthStack />}
         </NavigationContainer>
       </SafeAreaView>
       <SafeAreaView style={{backgroundColor: THEME.COLORS.tabColor}} />

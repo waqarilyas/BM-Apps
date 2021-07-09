@@ -17,28 +17,45 @@ export enum ScreenSelectionType {
   Langugage = 'language',
 }
 
+export interface Transaction {
+  __v: number;
+  _id: string;
+  amount: string;
+  blockHeight: number;
+  coinSymbol: string;
+  confirmations: number;
+  createdAt: Date;
+  explorer: string;
+  explorerUrl: string;
+  from: string;
+  status: string;
+  timeStamp: string;
+  to: string;
+  txId: string;
+  updatedAt: Date;
+}
+
 //Store State Types
 export interface Coin {
+  coin_name: string;
+  coin_symbol: string;
+  order_index: string;
+  is_active: boolean;
+  is_erc20: boolean;
+  balance: string;
+  coin_color: string;
+  //Remaining
   public_key: string;
   private_key: string;
   address: string;
   wif: string;
   seed: string;
   hd_path: string;
-  coin_symbol: string;
-  order_index: string;
-  coin_name: string;
-  is_erc20: boolean;
   confirmed_balance: string;
   unconfirmed_balance: string;
   chart_data: any;
-  balance: string;
   vs_currency_balance: string;
   tx_history: any;
-  coin_color: string;
-  asset_symbol: string;
-  asset_name: string;
-  is_active: boolean;
 }
 
 export interface Mnemonic {
@@ -52,12 +69,13 @@ export interface PasswordProtection {
 }
 export interface WalletState {
   wallet: Coin[];
-  portfolio_age: string;
+  portfolio_age: string | number;
   isRendered: boolean;
   walletRendered: boolean;
   mnemonic: Mnemonic;
   password_protection: PasswordProtection;
   isProtected: boolean;
+  walletReady: boolean;
   wallet_data_available: boolean;
   walletDataLoaded: boolean;
   best24H: string;
@@ -66,4 +84,29 @@ export interface WalletState {
   change24H: 0;
   defaultCurrency: string;
   portfolioChartData: any;
+  walletLoading: boolean;
+}
+
+export interface UserState {
+  merchantEnabled: boolean;
+}
+//Extra Funciton types
+export interface GenerateWalletParams {
+  coinSymbol: string;
+  recovery: boolean;
+  mnemonics: string;
+}
+
+export interface SendPayload {
+  to: string;
+  amount: string;
+  from: string | undefined;
+  symbol: string | undefined;
+  private_key: string | undefined;
+  public_key: string | undefined;
+  is_erc20: boolean | undefined;
+  processingFee: any;
+  feeReceivingAccount: any;
+  contractAbi: any;
+  contractAddress: any;
 }

@@ -13,6 +13,7 @@ const initialState: WalletState = {
     is_restore: false,
   },
   isRendered: false,
+  walletReady: false,
   walletRendered: false,
   isProtected: false,
   wallet_data_available: false,
@@ -21,13 +22,14 @@ const initialState: WalletState = {
   best24HBalance: '',
   worst24H: '',
   change24H: 0,
-  defaultCurrency: '',
+  defaultCurrency: 'USD',
   portfolioChartData: [],
+  walletLoading: true,
 };
 
 export const walletSlice = createSlice({
   name: 'wallet',
-  initialState: initialState,
+  initialState,
   reducers: {
     setDefaultCurrency(state, action) {
       state.defaultCurrency = action.payload;
@@ -35,9 +37,46 @@ export const walletSlice = createSlice({
     setIsWalletRendered(state, action) {
       state.isRendered = action.payload;
     },
+    setMnemonic(state, action) {
+      state.mnemonic = action.payload;
+    },
+    setWallet(state, action) {
+      state.wallet = action.payload;
+    },
+    setPortfolioAge(state, action) {
+      state.portfolio_age = action.payload;
+    },
+    setCoin(state, action) {
+      state.wallet[action.payload.index] = action.payload.coinData;
+    },
+    setCoinRate(state, action) {
+      state.wallet[action.payload.index].chart_data = action.payload.chartData;
+    },
+    setCoinBalance(state, action) {
+      state.wallet[action.payload.index].balance = action.payload.balance;
+      state.wallet[action.payload.index].vs_currency_balance =
+        action.payload.vs_currency_balance;
+    },
+    setWalletLoading(state, action) {
+      state.walletLoading = action.payload;
+    },
+    setWalletRestore(state, action) {
+      state.mnemonic.is_restore = action.payload;
+    },
   },
 });
 
-export const {setDefaultCurrency, setIsWalletRendered} = walletSlice.actions;
+export const {
+  setDefaultCurrency,
+  setIsWalletRendered,
+  setMnemonic,
+  setWallet,
+  setPortfolioAge,
+  setCoin,
+  setCoinRate,
+  setCoinBalance,
+  setWalletLoading,
+  setWalletRestore,
+} = walletSlice.actions;
 
 export default walletSlice.reducer;
