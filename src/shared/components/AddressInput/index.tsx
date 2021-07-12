@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   TextInput,
   StyleSheet,
@@ -14,6 +14,7 @@ import FastImage from 'react-native-fast-image';
 import {ICONS} from '../../../assets';
 import Clipboard from '@react-native-clipboard/clipboard';
 import {AppShowToast} from '../../services/helper.service';
+import AppQRCodeScanner from '../AppQRCodeScanner';
 
 interface Props extends TextInputProps {
   inputStyle?: StyleProp<TextStyle>;
@@ -26,8 +27,16 @@ const AddressInput = (props: Props) => {
     let text = await Clipboard.getString();
     props.onChangeAddress(text);
   };
+
+  const [showScanner, setShowScanner] = useState(false);
+
+  const scannerCallBack = (address: string) => {
+    setShowScanner(false);
+    props.onChangeAddress(address);
+  };
   return (
     <View style={[styles.container, props.inputStyle]}>
+      <AppQRCodeScanner isVisible={showScanner} callBack={scannerCallBack} />
       <TextInput
         {...props}
         placeholderTextColor={THEME.COLORS.textLight}
@@ -41,7 +50,7 @@ const AddressInput = (props: Props) => {
           style={styles.paste}
         />
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => console.log('Scan stuff')}>
+      <TouchableOpacity onPress={() => setShowScanner(true)}>
         <FastImage
           source={ICONS.QR_BUTTON}
           resizeMode={FastImage.resizeMode.contain}

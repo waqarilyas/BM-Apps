@@ -5,6 +5,7 @@ import {PersistGate} from 'redux-persist/integration/react';
 import {persistor, store} from './src/shared/store/';
 import Routes from './src/routes/';
 import {Platform, StatusBar, LogBox} from 'react-native';
+import './shim';
 
 LogBox.ignoreAllLogs(true);
 const App = () => {

@@ -100,6 +100,7 @@ const CoinDetails = (props: Props) => {
                 item={item}
                 kind={coin?.address === item.from ? 'sent' : 'received'}
                 short="btc"
+                erc_20={coin?.is_erc20}
               />
             ))}
           </ScrollView>
