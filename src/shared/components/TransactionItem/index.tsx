@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Linking, StyleSheet, Text, View} from 'react-native';
 import {RF} from '../../theme/responsive';
 import FastImage from 'react-native-fast-image';
@@ -7,17 +7,26 @@ import {ICONS} from '../../../assets';
 import GLOBAL_STYLE from '../../theme/global';
 import {Transaction} from '../../models/types';
 import moment from 'moment';
+const Web3 = require('web3');
+
 interface Props {
   kind: 'sent' | 'received';
   short: string;
   item: Transaction;
+  erc_20: boolean;
 }
-
 const TransactionItem = (props: Props) => {
   const TRANSACTION_COLOR =
     props.kind === 'sent' ? THEME.COLORS.blue : THEME.COLORS.green;
   const TRANSACTION_ICON = props.kind === 'sent' ? ICONS.SENT : ICONS.RECEIVED;
   const TRANSACTION_TEXT = props.kind === 'sent' ? 'Sent' : 'Received';
+  let transactionTime = new Date(props.item.timeStamp);
+
+  const amount =
+    props.erc_20 === true || props.item.explorer === 'etherscan'
+      ? Web3.utils.fromWei(props.item.amount, 'ether')
+      : props.item.amount;
+
   return (
     <View style={styles.container}>
       <View style={styles.left}>
@@ -32,14 +41,14 @@ const TransactionItem = (props: Props) => {
           {TRANSACTION_TEXT} {props.item.coinSymbol.toUpperCase()}
         </Text>
         <Text style={styles.smallText}>
-          {moment(props.item.timeStamp).format('MMM DD, YYYY, h:mm:ss a')}
+          {moment(transactionTime).format('MMM DD, YYYY, h:mm:ss a')}
         </Text>
       </View>
       <View style={styles.right}>
         <Text style={[styles.smallText, {color: TRANSACTION_COLOR}]}>
-          {Number(props.item.amount)} {props.item.coinSymbol.toUpperCase()}
+          {amount} {props.item.coinSymbol.toUpperCase()}
         </Text>
-        <Text style={styles.smallText}>$1450.00 USD</Text>
+        {/* <Text style={styles.smallText}>$1450.00 USD</Text> */}
       </View>
     </View>
   );

@@ -14,6 +14,7 @@ import {useSelector} from 'react-redux';
 import {Coin, GenericNavigation} from '../../../shared/models/types';
 import {currenciesEnum} from '../../../shared/utils/AppConstants';
 import {AppShowToast} from '../../../shared/services/helper.service';
+import {handleTx} from '../../../shared/services/wallet.service';
 
 interface Props extends GenericNavigation {}
 
@@ -57,7 +58,7 @@ const SendCoin = (props: Props) => {
     setCoinAmount(newCoinAmount.toFixed(newCoinAmount > 999 ? 2 : 7));
   };
 
-  const onSend = () => {
+  const onSend = async () => {
     if (!coinAmount) {
       return AppShowToast('Please enter coin amount');
     }
@@ -71,13 +72,14 @@ const SendCoin = (props: Props) => {
       symbol: coin?.coin_symbol,
       private_key: coin?.private_key,
       public_key: coin?.public_key,
-      is_erc20: coin?.is_erc20,
+      is_erc20: !coin?.is_erc20, //TODO - Major  REVERT TO POSITIVE
       processingFee: coin?.chart_data?.coin?.processingFee,
       feeReceivingAccount: coin?.chart_data?.coin?.feeReceivingAccount,
       contractAbi: coin?.chart_data?.coin?.contractAbi,
       contractAddress: coin?.chart_data?.coin?.contractAddress,
     };
     //Start from here
+    await handleTx(payload);
   };
 
   const onPressMax = () => {

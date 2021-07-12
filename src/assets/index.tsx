@@ -32,6 +32,8 @@ const ICONS = {
   STATUS_CONFIRMING: require('./statusIcons/confirming.png'),
   STATUS_ERROR: require('./statusIcons/error.png'),
   STATUS_PENDING: require('./statusIcons/pending.png'),
+  //Iamges
+  QR_OVERLAY: require('./images/qrOverlay.png'),
 };
 
 export {ICONS};
