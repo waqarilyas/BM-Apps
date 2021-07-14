@@ -31,6 +31,7 @@ export const walletSlice = createSlice({
   name: 'wallet',
   initialState,
   reducers: {
+    resetWallet: state => initialState,
     setDefaultCurrency(state, action) {
       state.defaultCurrency = action.payload;
     },
@@ -63,6 +64,14 @@ export const walletSlice = createSlice({
     setWalletRestore(state, action) {
       state.mnemonic.is_restore = action.payload;
     },
+    setCoinIsActive(state, action) {
+      state.wallet = state.wallet.map(c => {
+        if (c.coin_symbol === action.payload) {
+          c.is_active = !c.is_active;
+        }
+        return c;
+      });
+    },
   },
 });
 
@@ -77,6 +86,8 @@ export const {
   setCoinBalance,
   setWalletLoading,
   setWalletRestore,
+  setCoinIsActive,
+  resetWallet,
 } = walletSlice.actions;
 
 export default walletSlice.reducer;

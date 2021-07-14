@@ -1,4 +1,5 @@
 import {NavigationProp, RouteProp} from '@react-navigation/core';
+import {PieChartData} from 'react-native-svg-charts';
 
 export interface GenericNavigation {
   navigation?: NavigationProp<any>;
@@ -6,8 +7,8 @@ export interface GenericNavigation {
 }
 
 export interface ChartItem {
-  key: number;
-  amount: number;
+  key?: string | number;
+  vs_currency_balance: number;
   svg: {fill: string};
   onPress?: (key: string) => void;
 }

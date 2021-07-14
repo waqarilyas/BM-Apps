@@ -1,6 +1,6 @@
 import {RouteProp} from '@react-navigation/core';
 import React, {useState, useEffect} from 'react';
-import {View, Text, Button, FlatList, TouchableOpacity} from 'react-native';
+import {View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import AppHeader from '../../../shared/components/AppHeader';
 import PrimaryButton from '../../../shared/components/PrimaryButton';
@@ -17,15 +17,6 @@ import RadioButtonRN from 'radio-buttons-react-native';
 import {THEME} from '../../../shared/theme';
 import GLOBAL_STYLE from '../../../shared/theme/global';
 
-const data = [
-  {
-    label: 'data 1',
-  },
-  {
-    label: 'data 2',
-  },
-];
-
 interface Props extends GenericNavigation {
   route: RouteProp<{params: {selectionType: string}}, 'params'>;
 }
@@ -37,19 +28,15 @@ const SelectionScreen = (props: Props) => {
   const dispatch = useDispatch();
 
   const getCurrencies = () => {
-    setSelections([{label: 'USD'}, {label: 'EUR'}]);
+    setSelections([{label: 'USD'}]);
   };
   const getLanguages = () => {
-    setSelections([{label: 'EN'}, {label: 'FR'}]);
+    setSelections([{label: 'EN'}]);
   };
 
-  const changeLanguage = (language: string) => {
-    dispatch(setLanguage(language));
-  };
+  const changeLanguage = (language: string) => dispatch(setLanguage(language));
 
-  const changeCurrency = (currency: string) => {
-    dispatch(setCurrency(currency));
-  };
+  const changeCurrency = (currency: string) => dispatch(setCurrency(currency));
 
   useEffect(() => {
     if (selectionType === ScreenSelectionType.Currency) {
@@ -64,15 +51,6 @@ const SelectionScreen = (props: Props) => {
       ? changeLanguage
       : changeCurrency;
 
-  const renderItem = ({item, index}: {item: string; index: number}) => (
-    <TouchableOpacity
-      onPress={() => onItemPress(item)}
-      key={index}
-      style={styles.itemContainer}>
-      <Text style={styles.itemText}>{item}</Text>
-      <View />
-    </TouchableOpacity>
-  );
   const HEADER_TITLE =
     selectionType === ScreenSelectionType.Currency ? 'Currency' : 'Language';
   return (
@@ -81,7 +59,6 @@ const SelectionScreen = (props: Props) => {
       <View style={styles.container}>
         <RadioButtonRN
           activeColor={THEME.COLORS.accentBlue}
-          //   deactiveColor={THEME.COLORS.secondaryBackground}
           duration={200}
           animationTypes={['pulse']}
           boxStyle={{marginVertical: THEME.MARGIN.LOW, borderWidth: 0}}
@@ -92,11 +69,6 @@ const SelectionScreen = (props: Props) => {
           data={selections}
           selectedBtn={(e: any) => onItemPress(e.label)}
         />
-        {/* <FlatList
-          data={selections}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={renderItem}
-        /> */}
         <PrimaryButton
           loading={loading}
           title="Save"

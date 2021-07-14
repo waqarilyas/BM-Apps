@@ -1,7 +1,7 @@
-import React, {useState, useEffect, useMemo} from 'react';
+import React, {useCallback, useState, useEffect, useMemo} from 'react';
 import {ScrollView, Text, View} from 'react-native';
-import {PieChart} from 'react-native-svg-charts';
-import {ChartItem, GenericNavigation} from '../../../shared/models/types';
+import {PieChart, PieChartData} from 'react-native-svg-charts';
+import {ChartItem, Coin, GenericNavigation} from '../../../shared/models/types';
 import styles from './styles';
 import AppHeader from '../../../shared/components/AppHeader';
 import AppSearchInput from '../../../shared/components/AppSearchInput';
@@ -9,60 +9,88 @@ import CoinListItem from '../../../shared/components/CoinListItem';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../../shared/store';
 import AppLoader from '../../../shared/components/AppLoader';
+import {initSocket, socket} from '../../../shared/utils/sockets';
+import {renderWallet} from '../../../shared/store/actions/walletActions';
+import {EMPTY_CHART_DATA} from '../../../shared/utils/AppConstants';
 
 interface Props extends GenericNavigation {}
-
-const CHART_DATA: ChartItem[] = [
-  {
-    key: 1,
-    amount: 150,
-    svg: {fill: '#27A2E3'},
-    onPress: key => console.log('CHART PRESSD'),
-  },
-  {
-    key: 2,
-    amount: 30,
-    svg: {fill: '#6C8DE8'},
-    onPress: key => console.log('CHART PRESSD'),
-  },
-  {
-    key: 3,
-    amount: 20,
-    svg: {fill: '#D7843B'},
-    onPress: key => console.log('CHART PRESSD'),
-  },
-  {
-    key: 4,
-    amount: 20,
-    svg: {fill: '#AE3D8C'},
-    onPress: key => console.log('CHART PRESSD'),
-  },
-];
 
 const WalletMain = (props: Props) => {
   const [searchText, setSearchText] = useState('');
   const {wallet, walletLoading} = useSelector(
     (state: RootState) => state.wallet,
   );
+  const dispatch = useDispatch();
   const {currency} = useSelector((state: RootState) => state.settings);
 
   const navigateToCoinDetail = (name: string) =>
     props.navigation?.navigate('CoinDetails', {coin_symbol: name});
 
-  let totalValue = useMemo(() => {
-    let newTotal = wallet.length
-      ? wallet
-          .map(i => i.vs_currency_balance)
-          .reduce((total: any, current) => {
-            total = Number(current || '0.00') + Number(total);
-            return total;
-          })
-      : 0;
-    if (isNaN(Number(newTotal))) {
-      return '0.00';
+  let [totalValue, erc20Address, nonErc20Address, bitcoinAddress, chartData] =
+    useMemo(() => {
+      let newTotal = wallet.length
+        ? wallet
+            .map(i => i.vs_currency_balance)
+            .reduce((total: any, current) => {
+              total = Number(current || '0.00') + Number(total);
+              return total;
+            })
+        : 0;
+      if (isNaN(Number(newTotal))) {
+        newTotal = '0.00';
+      }
+      let btcAddress = wallet.find((c: Coin) => c.coin_symbol === 'btc');
+      let nonErc20 = wallet.find(
+        (c: Coin) => !c.is_erc20 && c.coin_symbol !== 'btc',
+      );
+      let erc20 = wallet.find((c: Coin) => c.is_erc20);
+
+      let newChartData = wallet.map(c => {
+        let chartObject = {
+          key: c.order_index,
+          vs_currency_balance: c.vs_currency_balance,
+          svg: {fill: c.coin_color},
+          onPress: () => console.log('Presed'),
+        };
+        return chartObject;
+      });
+      return [
+        Number(newTotal).toFixed(2),
+        erc20?.address,
+        nonErc20?.address,
+        btcAddress?.address,
+        newChartData,
+      ];
+    }, [wallet]);
+
+  const filteredWallet = useMemo(() => {
+    if (!searchText) {
+      return wallet;
     }
-    return Number(newTotal).toFixed(2);
-  }, [wallet]);
+    return wallet.filter(item =>
+      item.coin_name.toUpperCase().includes(searchText?.toUpperCase()),
+    );
+  }, [searchText, wallet]);
+
+  const realtimeListener = useCallback(async () => {
+    await initSocket(`${erc20Address}`);
+    socket.on('connect', () => {
+      socket.on(`${erc20Address}`, async (data: any) => {
+        if (data?.balance === '0') {
+          console.log('Dont do any thing');
+        } else {
+          console.log('\x1b[31m', 'Incoming update');
+          dispatch(renderWallet());
+        }
+      });
+    });
+  }, [erc20Address, dispatch]);
+
+  useEffect(() => {
+    if (wallet.length) {
+      realtimeListener();
+    }
+  }, [wallet.length, realtimeListener]);
 
   return (
     <>
@@ -70,9 +98,10 @@ const WalletMain = (props: Props) => {
       <AppLoader isVisible={walletLoading} />
       <View style={styles.container}>
         <PieChart
+          animate={true}
           style={styles.pieChart}
-          valueAccessor={({item}: {item: ChartItem}) => item.amount}
-          data={CHART_DATA}
+          valueAccessor={({item}: any) => item.vs_currency_balance}
+          data={Number(totalValue) > 0 ? chartData : EMPTY_CHART_DATA}
           outerRadius={'100%'}
           innerRadius={'82%'}
           padAngle={0}
@@ -92,13 +121,17 @@ const WalletMain = (props: Props) => {
         />
 
         <ScrollView style={styles.listContainer}>
-          {wallet.map((item, index) => (
-            <CoinListItem
-              key={index}
-              item={item}
-              onPress={() => navigateToCoinDetail(item.coin_symbol)}
-            />
-          ))}
+          {filteredWallet.map((item, index) => {
+            if (item.is_active) {
+              return (
+                <CoinListItem
+                  key={index}
+                  item={item}
+                  onPress={() => navigateToCoinDetail(item.coin_symbol)}
+                />
+              );
+            }
+          })}
         </ScrollView>
       </View>
     </>

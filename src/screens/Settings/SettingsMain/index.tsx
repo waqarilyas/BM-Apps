@@ -1,16 +1,20 @@
 import React from 'react';
-import {DeviceEventEmitter, StyleSheet, Text, View} from 'react-native';
-import {RootStateOrAny, useSelector} from 'react-redux';
+import {Alert, DeviceEventEmitter, StyleSheet, View} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 import AppHeader from '../../../shared/components/AppHeader';
 import SettingItem from '../../../shared/components/SettingItem';
 import {GenericNavigation} from '../../../shared/models/types';
 import {RootState} from '../../../shared/store';
+import {resetPos} from '../../../shared/store/reducers/posReducer';
+import {resetUser} from '../../../shared/store/reducers/userReducer';
+import {resetWallet} from '../../../shared/store/reducers/walletReducer';
 import {THEME} from '../../../shared/theme';
 
 interface Props extends GenericNavigation {}
 
 const SettingsMain = (props: Props) => {
   const {settings} = useSelector((state: RootState) => state);
+  const dispatch = useDispatch();
 
   const navToCoinAcceptance = () =>
     props.navigation?.navigate('CoinAcceptance');
@@ -21,8 +25,33 @@ const SettingsMain = (props: Props) => {
   const navToAddPlace = () => props.navigation?.navigate('AddPlace');
   const navToChangePIN = () => props.navigation?.navigate('ChangePIN');
 
-  const onLogout = () =>
-    DeviceEventEmitter.emit('authenticate', {authenticate: false});
+  const onLogout = () => {
+    Alert.alert(
+      'Confirmation!',
+      'Are you sure you want to logout?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {
+          text: 'YES',
+          onPress: () => {
+            logOutUser();
+          },
+        },
+      ],
+      {cancelable: false},
+    );
+  };
+
+  const logOutUser = () => {
+    dispatch(resetPos());
+    dispatch(resetUser());
+    dispatch(resetWallet());
+    console.log('Logging out');
+  };
 
   const navToCurrencySelection = () => {
     props.navigation?.navigate('SelectionScreen', {selectionType: 'currency'});

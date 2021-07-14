@@ -9,12 +9,13 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    resetUser: state => initialState,
     setMerchantEnabledState(state, action) {
       state.merchantEnabled = action.payload;
     },
   },
 });
 
-export const {setMerchantEnabledState} = userSlice.actions;
+export const {setMerchantEnabledState, resetUser} = userSlice.actions;
 
 export default userSlice.reducer;

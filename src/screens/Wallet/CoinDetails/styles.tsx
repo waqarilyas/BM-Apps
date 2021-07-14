@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: THEME.COLORS.primaryBackground,
+    paddingTop: THEME.PADDING.HIGH,
   },
   tabs: {
     width: '100%',
