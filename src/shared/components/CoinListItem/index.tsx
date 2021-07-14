@@ -13,14 +13,17 @@ import {THEME} from '../../theme';
 import ToggleSwitch from 'toggle-switch-react-native';
 import {Coin} from '../../models/types';
 import blockConfig from '../../../../block.config';
+import {useDispatch} from 'react-redux';
+import {setCoinIsActive} from '../../store/reducers/walletReducer';
 
 interface Props extends TouchableOpacityProps {
   toggle?: boolean;
   item: Coin;
 }
 const CoinListItem = (props: Props) => {
-  const [toggle, setToggle] = useState(true);
+  const dispatch = useDispatch();
   const COIN_URL = `${blockConfig.API_URL}/admin/coin`;
+  const onPressToggle = () => dispatch(setCoinIsActive(props.item.coin_symbol));
   return (
     <TouchableOpacity activeOpacity={1} {...props}>
       <View style={styles.container}>
@@ -42,11 +45,11 @@ const CoinListItem = (props: Props) => {
         <View style={styles.right}>
           {props.toggle ? (
             <ToggleSwitch
-              isOn={toggle}
+              isOn={props.item.is_active}
               onColor={THEME.COLORS.green}
               offColor={THEME.COLORS.textLight}
               size="medium"
-              onToggle={setToggle}
+              onToggle={onPressToggle}
             />
           ) : (
             <Text style={styles.name}>

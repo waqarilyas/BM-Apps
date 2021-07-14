@@ -1,17 +1,11 @@
 import axios from 'axios';
 import blockConfig from '../../../block.config';
-import {
-  Coin,
-  GenerateWalletParams,
-  Mnemonic,
-  SendPayload,
-} from '../models/types';
+import {Coin, GenerateWalletParams, SendPayload} from '../models/types';
 import {store} from '../store';
 import {
   setCoin,
   setCoinBalance,
   setCoinRate,
-  setDefaultCurrency,
   setIsWalletRendered,
   setMnemonic,
   setPortfolioAge,
@@ -243,6 +237,7 @@ export const checkBalance = async (
     })
     .catch(err => {
       console.log(`Check balance error for ${coinSymbol}:`, err);
+      throw err;
     });
 };
 
@@ -264,18 +259,22 @@ export const restoreWalletWithPhrase = async (recovery: any) => {
 };
 
 export const validateMnemonic = async (recovery: string) => {
-  const isValidated = await axios({
-    method: 'post',
-    url: `${blockConfig.API_URL}/wallet/validate/mnemonic`,
-    data: {
-      mnemonic: recovery,
-    },
-  });
-  return isValidated.data;
+  try {
+    const isValidated = await axios({
+      method: 'post',
+      url: `${blockConfig.API_URL}/wallet/validate/mnemonic`,
+      data: {
+        mnemonic: recovery,
+      },
+    });
+    return isValidated.data;
+  } catch (error) {
+    console.log('Error validating mnemonic:', error);
+    throw error;
+  }
 };
 
 export const handleTx = async (txPayload: any) => {
-  console.log('txPayload: ================>>>>>>>>>>>>>>', txPayload);
   try {
     if (!txPayload.is_erc20 && txPayload.symbol !== 'eth') {
       await handleBtcLikeTx(txPayload);
@@ -288,6 +287,80 @@ export const handleTx = async (txPayload: any) => {
     throw e;
   }
 };
+
+const handleEthLikeTx = async (txPayload: any) => {
+  try {
+    const companyTxPayload = {
+      to: txPayload.feeReceivingAccount,
+      amount: txPayload.processingFee,
+      from: txPayload.from,
+      symbol: txPayload.symbol,
+      private_key: txPayload.private_key,
+      public_key: txPayload.public_key,
+      is_erc20: txPayload.is_erc20,
+    };
+    const userTxPayload = {
+      to: txPayload.to,
+      amount: txPayload.amount,
+      from: txPayload.from,
+      symbol: txPayload.symbol,
+      private_key: txPayload.private_key,
+      public_key: txPayload.public_key,
+      is_erc20: txPayload.is_erc20,
+    };
+    await EthLikeTxToCompany(companyTxPayload);
+    await EthLikeTxToUser(userTxPayload);
+  } catch (e) {
+    throw e;
+  }
+};
+
+const EthLikeTxToUser = async (txPayload: any) => {
+  try {
+    console.log(`Running handleEthLikeTx for {${txPayload.symbol}}`);
+    const createdTx = await createEthLikeTx(txPayload);
+    const txHash = await signEthLikeTx(txPayload.private_key, createdTx);
+    await submitEthLikeTx(txHash, txPayload);
+  } catch (e) {
+    throw e;
+  }
+};
+
+const EthLikeTxToCompany = async (txPayload: any) => {
+  try {
+    console.log(`Running handleEthLikeTx for {${txPayload.symbol}}`);
+    const createdTx = await createEthLikeTx(txPayload);
+    const txHash = await signEthLikeTx(txPayload.private_key, createdTx);
+    await submitEthLikeTx(txHash, txPayload);
+  } catch (e) {
+    throw e;
+  }
+};
+
+async function createEthLikeTx(txPayload: any) {
+  const web3 = new Web3(
+    new Web3.providers.HttpProvider(blockConfig.INFURA_URL),
+  );
+  const nonce = await web3.eth.getTransactionCount(txPayload.from);
+  const balance = await web3.eth.getBalance(txPayload.from);
+  console.log('Balance against address: ', balance);
+  /* get gas prices */
+  const gasPrices = await getCurrentGasPrices();
+  /* create tx payload */
+  const trx = {
+    to: txPayload.to,
+    value: web3.utils.toHex(
+      web3.utils.toWei(txPayload.amount?.toString(), 'ether'),
+    ),
+    gas: 21000,
+    gasPrice: gasPrices.low * 1000000000,
+    nonce: nonce,
+    chainId: blockConfig.CHAIN_ID, // EIP 155 chainId - mainnet: 1, rinkeby: 4
+  };
+  console.log('\x1b[32m', 'ETH Transaction created:', trx);
+  return trx;
+}
+
 const handleErc20LikeTx = async (txPayload: any) => {
   try {
     const companyTxPayload = {
@@ -342,52 +415,58 @@ const Erc20LikeTxToCompany = async (txPayload: any) => {
 };
 
 async function createErc20LikeTx(txPayload: any) {
-  const web3 = new Web3(
-    new Web3.providers.HttpProvider(blockConfig.INFURA_URL),
-  );
+  try {
+    let web3 = new Web3(
+      new Web3.providers.HttpProvider(blockConfig.INFURA_URL),
+    );
 
-  const gasPrices = await getCurrentGasPrices();
+    const gasPrices = await getCurrentGasPrices();
 
-  const nonce = await web3.eth.getTransactionCount(
-    web3.utils.toChecksumAddress(txPayload.from),
-  );
-
-  const contract = new web3.eth.Contract(
-    txPayload.contractAbi,
-    txPayload.contractAddress,
-    {from: txPayload.from},
-  );
-
-  const trx = {
-    from: web3.utils.toChecksumAddress(txPayload.from),
-    to: txPayload.contractAddress,
-    data: contract.methods
-      .transfer(txPayload.to, web3.utils.toWei(txPayload.amount, 'ether'))
-      .encodeABI(),
-    // value: web3.utils.toHex(web3.utils.toWei(txPayload.amount, 'ether')),
-    gas: 80000,
-    gasPrice: gasPrices.low * 1000000000,
-    nonce: nonce,
-    chainId: blockConfig.CHAIN_ID, // EIP 155 chainId - mainnet: 1, rinkeby: 4
-  };
-  console.log('\x1b[32m', 'Eth Transaction Created:', trx);
-  return trx;
+    const nonce = await web3.eth.getTransactionCount(
+      web3.utils.toChecksumAddress(txPayload.from),
+    );
+    let abi = txPayload.contractAbi.map((method: any) => ({...method}));
+    const contract = new web3.eth.Contract(abi, txPayload.contractAddress, {
+      from: txPayload.from,
+    });
+    const trx = {
+      from: web3.utils.toChecksumAddress(txPayload.from),
+      to: txPayload.contractAddress,
+      data: contract.methods
+        .transfer(txPayload.to, web3.utils.toWei(txPayload.amount, 'ether'))
+        .encodeABI(),
+      // value: web3.utils.toHex(web3.utils.toWei(txPayload.amount, 'ether')),
+      gas: 80000,
+      gasPrice: gasPrices.low * 1000000000,
+      nonce: nonce,
+      chainId: blockConfig.CHAIN_ID, // EIP 155 chainId - mainnet: 1, rinkeby: 4
+    };
+    console.log('\x1b[32m', 'Eth Transaction Created:', trx);
+    return trx;
+  } catch (error) {
+    console.log('Error creating erc20 like Tx:', error);
+    throw error;
+  }
 }
 
 const signEthLikeTx = async (privateKey: string, trx: any) => {
-  const web3 = new Web3(
-    new Web3.providers.HttpProvider(blockConfig.INFURA_URL),
-  );
-  /* sign tx */
-  const transaction = new EthereumTx(trx, {chain: blockConfig.CHAIN_ID});
-  transaction.sign(Buffer.from(privateKey, 'hex'));
-  /* send tx */
-  const serializedTransaction = transaction.serialize();
-  const signedTx = await web3.eth.sendSignedTransaction(
-    '0x' + serializedTransaction.toString('hex'),
-  );
-  console.log('\x1b[32m', 'Transaction signed:', signedTx.transactionHash);
-  return signedTx.transactionHash;
+  try {
+    const web3 = new Web3(
+      new Web3.providers.HttpProvider(blockConfig.INFURA_URL),
+    );
+    /* sign tx */
+    const transaction = new EthereumTx(trx, {chain: blockConfig.CHAIN_ID});
+    transaction.sign(Buffer.Buffer.from(privateKey, 'hex'));
+    /* send tx */
+    const serializedTransaction = transaction.serialize();
+    const signedTx = await web3.eth.sendSignedTransaction(
+      '0x' + serializedTransaction.toString('hex'),
+    );
+    console.log('\x1b[32m', 'Transaction signed:', signedTx.transactionHash);
+    return signedTx.transactionHash;
+  } catch (error) {
+    console.log('Error signing eth transaction:', error);
+  }
 };
 
 const submitEthLikeTx = async (txHash: string, txPayload: any) => {
@@ -400,7 +479,7 @@ const submitEthLikeTx = async (txHash: string, txPayload: any) => {
         coinSymbol: txPayload.symbol,
       },
     });
-    console.log('Tx Hash Submitted Successfully!');
+    console.log('\x1b[32m', 'Tx Hash Submitted Successfully!');
   } catch (e) {
     console.log('Error Submiting the Transaction:', e);
     throw e;
@@ -496,11 +575,11 @@ export const signBtcLikeTx = (
   tx: any,
   privateKey: string,
 ): {pubKeys: string[]; signatures: string[]} => {
-  const keys = ECPair.fromPrivateKey(Buffer.from(privateKey, 'hex'));
+  const keys = ECPair.fromPrivateKey(Buffer.Buffer.from(privateKey, 'hex'));
   const pubKeys: string[] = [];
   const signatures = tx.tosign.map((toSign: string) => {
     pubKeys.push(keys.publicKey.toString('hex'));
-    const signature = keys.sign(Buffer.from(toSign, 'hex'));
+    const signature = keys.sign(Buffer.Buffer.from(toSign, 'hex'));
     const encodedSignature = script.signature.encode(
       signature,
       Transaction.SIGHASH_ALL,

@@ -31,15 +31,15 @@ const PaymentStatusModal = (props: Props) => {
           />
         </TouchableOpacity>
         <Text style={styles.mainText}>
-          {props.error ? 'Congratulations' : 'Error'}
+          {props.error ? 'Error' : 'Congratulations'}
         </Text>
         <FastImage
-          source={!props.error ? ICONS.FAILED : ICONS.SUCCESS}
+          source={props.error ? ICONS.FAILED : ICONS.SUCCESS}
           resizeMode={FastImage.resizeMode.contain}
           style={styles.icon}
         />
         <Text style={styles.subText}>
-          {props.error ? 'Payment Successfull' : 'Payment Failed'}
+          {props.error ? 'Payment Failed' : 'Payment Successfull'}
         </Text>
       </View>
     </Modal>

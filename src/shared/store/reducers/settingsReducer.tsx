@@ -1,15 +1,17 @@
 import {createSlice} from '@reduxjs/toolkit';
 
+const initialState = {
+  language: 'EN',
+  currency: 'USD',
+  defaultTaxRate: '0',
+  darkMode: false,
+  faceId: false,
+};
 export const settingsSlice = createSlice({
   name: 'settings',
-  initialState: {
-    language: 'EN',
-    currency: 'USD',
-    defaultTaxRate: '0',
-    darkMode: false,
-    faceId: false,
-  },
+  initialState,
   reducers: {
+    resetSettings: () => initialState,
     setLanguage: (state, action) => {
       state.language = action.payload;
     },
@@ -19,6 +21,6 @@ export const settingsSlice = createSlice({
   },
 });
 
-export const {setCurrency, setLanguage} = settingsSlice.actions;
+export const {setCurrency, setLanguage, resetSettings} = settingsSlice.actions;
 
 export default settingsSlice.reducer;

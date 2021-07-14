@@ -53,6 +53,14 @@ const CoinDetails = (props: Props) => {
     props.navigation?.navigate('ReceiveCoin', {coinSymbol: coin?.coin_symbol});
   };
 
+  function reverseArray(input: any) {
+    const ret = [];
+    for (let i = input.length - 1; i >= 0; i--) {
+      ret.push(input[i]);
+    }
+    return ret;
+  }
+
   return (
     <>
       <AppHeader showBack title="Wallet" />
@@ -80,7 +88,7 @@ const CoinDetails = (props: Props) => {
                 </Text>
               </Text>
               <Text style={styles.usdBalance}>
-                ${coin?.vs_currency_balance}
+                ${coin?.vs_currency_balance || '0.00'}
               </Text>
             </View>
             <View style={styles.actions}>
@@ -94,13 +102,13 @@ const CoinDetails = (props: Props) => {
           </>
         ) : (
           <ScrollView style={styles.transactions}>
-            {transactions.map((item, number) => (
+            {reverseArray(transactions).map((item, number) => (
               <TransactionItem
                 key={number}
                 item={item}
                 kind={coin?.address === item.from ? 'sent' : 'received'}
                 short="btc"
-                erc_20={coin?.is_erc20}
+                coinSymbol={coin?.coin_symbol!}
               />
             ))}
           </ScrollView>

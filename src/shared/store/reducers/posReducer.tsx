@@ -1,15 +1,18 @@
 import {createSlice} from '@reduxjs/toolkit';
 
+const initialState = {
+  products: [],
+  cart: [],
+};
+
 export const posSlice = createSlice({
   name: 'pos',
-  initialState: {
-    products: [],
-    cart: [],
+  initialState,
+  reducers: {
+    resetPos: state => initialState,
   },
-
-  reducers: {},
 });
 
-export const {} = posSlice.actions;
+export const {resetPos} = posSlice.actions;
 
 export default posSlice.reducer;

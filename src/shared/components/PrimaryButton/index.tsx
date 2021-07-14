@@ -32,13 +32,15 @@ const PrimaryButton = (props: Props) => {
           THEME.COLORS.gradientBottomColor,
         ]}
         style={[styles.container, props.buttonStyle]}>
-        {props.icon && <Icon name={props.icon} style={styles.icon} />}
         {props.loading ? (
           <ActivityIndicator color={THEME.COLORS.white} />
         ) : (
-          <Text style={[styles.buttonText, props.textStyle]}>
-            {props.title}
-          </Text>
+          <>
+            {props.icon && <Icon name={props.icon} style={styles.icon} />}
+            <Text style={[styles.buttonText, props.textStyle]}>
+              {props.title}
+            </Text>
+          </>
         )}
       </LinearGradient>
     </TouchableOpacity>

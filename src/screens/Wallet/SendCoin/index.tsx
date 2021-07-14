@@ -15,6 +15,7 @@ import {Coin, GenericNavigation} from '../../../shared/models/types';
 import {currenciesEnum} from '../../../shared/utils/AppConstants';
 import {AppShowToast} from '../../../shared/services/helper.service';
 import {handleTx} from '../../../shared/services/wallet.service';
+import WAValidator from 'multicoin-address-validator';
 
 interface Props extends GenericNavigation {}
 
@@ -22,11 +23,14 @@ const SendCoin = (props: Props) => {
   const {wallet, defaultCurrency} = useSelector(
     (state: RootState) => state.wallet,
   );
-  const [address, setAddress] = useState('');
+  const [address, setAddress] = useState(
+    __DEV__ ? '0x848A11486d4DA33e7270412FdEcb3D597A5A5357' : '',
+  );
   const [usdtAmount, setUsdtAmount] = useState('');
   const [coinAmount, setCoinAmount] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [paymentError, setPaymentError] = useState(false);
 
   const coin = useMemo(() => {
     return wallet.find(
@@ -35,11 +39,19 @@ const SendCoin = (props: Props) => {
   }, [wallet, props.route]);
 
   const onChangeAddress = (text: string) => setAddress(text);
-  const toggleModal = () => setShowModal(!showModal);
+  const toggleModal = () => {
+    setShowModal(!showModal);
+    if (!paymentError) {
+      setAddress('');
+      setCoinAmount('');
+      setUsdtAmount('');
+      props.navigation?.goBack();
+    }
+  };
 
   const convertToFiatString = (amount: string) => {
     let fiatAmount: any = Number(amount) * Number(coin?.chart_data.rate);
-    fiatAmount = fiatAmount.toFixed(fiatAmount > 999 ? 2 : 7);
+    fiatAmount = fiatAmount.toFixed(fiatAmount > 10 ? 2 : 6);
     if (defaultCurrency === 'USD') {
       return `${currenciesEnum[defaultCurrency]} ${fiatAmount} ${defaultCurrency}`;
     }
@@ -49,49 +61,66 @@ const SendCoin = (props: Props) => {
   const onChangeCoinAmount = (text: string) => {
     setCoinAmount(text);
     let newFiatAmount = Number(text) * Number(coin?.chart_data.rate);
-    setUsdtAmount(newFiatAmount.toFixed(newFiatAmount > 999 ? 2 : 7));
+    setUsdtAmount(newFiatAmount.toFixed(newFiatAmount > 10 ? 2 : 6));
   };
 
   const onChangeUsdtAmount = (text: string) => {
     setUsdtAmount(text);
     let newCoinAmount = Number(text) / Number(coin?.chart_data.rate);
-    setCoinAmount(newCoinAmount.toFixed(newCoinAmount > 999 ? 2 : 7));
+    setCoinAmount(newCoinAmount.toFixed(newCoinAmount > 10 ? 2 : 6));
   };
 
   const onSend = async () => {
-    if (!coinAmount) {
-      return AppShowToast('Please enter coin amount');
+    try {
+      if (coin?.coin_symbol !== 'weenus') {
+        let valid = WAValidator.validate(address, coin?.coin_symbol);
+        if (!valid) {
+          return AppShowToast(
+            `Please enter a ${coin?.coin_name} valid address`,
+          );
+        }
+      }
+      if (!coinAmount) {
+        return AppShowToast('Please enter coin amount');
+      }
+      if (!usdtAmount) {
+        return AppShowToast(`Please enter ${defaultCurrency} amount`);
+      }
+      setLoading(true);
+      const payload = {
+        to: address,
+        amount: coinAmount,
+        from: coin?.address,
+        symbol: coin?.coin_symbol,
+        private_key: coin?.private_key,
+        public_key: coin?.public_key,
+        is_erc20: coin?.is_erc20,
+        processingFee: coin?.chart_data?.coin?.processingFee,
+        feeReceivingAccount: coin?.chart_data?.coin?.feeReceivingAccount,
+        contractAbi: coin?.chart_data?.coin?.contractAbi,
+        contractAddress: coin?.chart_data?.coin?.contractAddress,
+      };
+      await handleTx(payload);
+      setLoading(false);
+      setShowModal(true);
+      setPaymentError(false);
+    } catch (error) {
+      setLoading(false);
+      setPaymentError(true);
+      setShowModal(true);
+      console.log('Error Sending Coin.', error);
     }
-    if (!usdtAmount) {
-      return AppShowToast(`Please enter ${defaultCurrency} amount`);
-    }
-    const payload = {
-      to: address,
-      amount: coinAmount,
-      from: coin?.address,
-      symbol: coin?.coin_symbol,
-      private_key: coin?.private_key,
-      public_key: coin?.public_key,
-      is_erc20: !coin?.is_erc20, //TODO - Major  REVERT TO POSITIVE
-      processingFee: coin?.chart_data?.coin?.processingFee,
-      feeReceivingAccount: coin?.chart_data?.coin?.feeReceivingAccount,
-      contractAbi: coin?.chart_data?.coin?.contractAbi,
-      contractAddress: coin?.chart_data?.coin?.contractAddress,
-    };
-    //Start from here
-    await handleTx(payload);
   };
 
   const onPressMax = () => {
     setCoinAmount(coin?.balance!);
     setUsdtAmount(coin?.vs_currency_balance!);
   };
-
   return (
     <>
       <PaymentStatusModal
         toggleModal={toggleModal}
-        error={!false}
+        error={paymentError}
         isVisible={showModal}
       />
       <AppHeader title="Wallet" showBack />
@@ -146,6 +175,7 @@ const SendCoin = (props: Props) => {
         </View>
 
         <PrimaryButton
+          loading={loading}
           icon="arrow-long-up"
           title="Send"
           buttonStyle={{width: '55%', height: HP(6)}}

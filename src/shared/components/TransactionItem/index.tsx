@@ -1,5 +1,5 @@
 import React from 'react';
-import {Linking, StyleSheet, Text, View} from 'react-native';
+import {Linking, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {RF} from '../../theme/responsive';
 import FastImage from 'react-native-fast-image';
 import {THEME} from '../../theme';
@@ -13,7 +13,7 @@ interface Props {
   kind: 'sent' | 'received';
   short: string;
   item: Transaction;
-  erc_20: boolean;
+  coinSymbol: string;
 }
 const TransactionItem = (props: Props) => {
   const TRANSACTION_COLOR =
@@ -23,12 +23,26 @@ const TransactionItem = (props: Props) => {
   let transactionTime = new Date(props.item.timeStamp);
 
   const amount =
-    props.erc_20 === true || props.item.explorer === 'etherscan'
+    props.coinSymbol === 'eth'
       ? Web3.utils.fromWei(props.item.amount, 'ether')
       : props.item.amount;
 
+  const openExplorer = async () => {
+    try {
+      const supported = await Linking.canOpenURL(props.item.explorerUrl);
+      if (supported) {
+        await Linking.openURL(props.item.explorerUrl);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      activeOpacity={0.85}
+      onPress={openExplorer}
+      style={styles.container}>
       <View style={styles.left}>
         <FastImage
           source={TRANSACTION_ICON}
@@ -50,7 +64,7 @@ const TransactionItem = (props: Props) => {
         </Text>
         {/* <Text style={styles.smallText}>$1450.00 USD</Text> */}
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
