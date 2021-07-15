@@ -8,31 +8,32 @@ import {
   View,
 } from 'react-native';
 import {RF} from '../../theme/responsive';
-import FastImage from 'react-native-fast-image';
 import {THEME} from '../../theme';
 import ToggleSwitch from 'toggle-switch-react-native';
 import {Coin} from '../../models/types';
 import blockConfig from '../../../../block.config';
 import {useDispatch} from 'react-redux';
 import {setCoinIsActive} from '../../store/reducers/walletReducer';
+import {SvgUri} from 'react-native-svg';
 
 interface Props extends TouchableOpacityProps {
   toggle?: boolean;
   item: Coin;
+  onPress?: () => void;
 }
 const CoinListItem = (props: Props) => {
   const dispatch = useDispatch();
-  const COIN_URL = `${blockConfig.API_URL}/admin/coin`;
+
+  const COIN_URL = `${blockConfig.API_URL}/admin/coin/${props.item.coin_symbol}`;
   const onPressToggle = () => dispatch(setCoinIsActive(props.item.coin_symbol));
   return (
-    <TouchableOpacity activeOpacity={1} {...props}>
+    <TouchableOpacity
+      activeOpacity={1}
+      {...props}
+      onPress={props.toggle ? onPressToggle : props.onPress}>
       <View style={styles.container}>
         <View style={styles.left}>
-          <FastImage
-            source={{uri: `${COIN_URL}/${props.item.coin_symbol}`}}
-            resizeMode={FastImage.resizeMode.contain}
-            style={{width: '100%', height: '100%', alignSelf: 'center'}}
-          />
+          <SvgUri width="100%" height="100%" uri={COIN_URL} />
         </View>
         <View style={styles.main}>
           <Text style={styles.price}>

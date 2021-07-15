@@ -74,6 +74,7 @@ const WalletMain = (props: Props) => {
 
   const realtimeListener = useCallback(async () => {
     await initSocket(`${erc20Address}`);
+    await initSocket(`${bitcoinAddress}`);
     socket.on('connect', () => {
       socket.on(`${erc20Address}`, async (data: any) => {
         if (data?.balance === '0') {
@@ -83,8 +84,16 @@ const WalletMain = (props: Props) => {
           dispatch(renderWallet());
         }
       });
+      socket.on(`${bitcoinAddress}`, async (data: any) => {
+        if (data?.balance === '0') {
+          console.log('Dont do any thing');
+        } else {
+          console.log('\x1b[31m', 'Incoming update');
+          dispatch(renderWallet());
+        }
+      });
     });
-  }, [erc20Address, dispatch]);
+  }, [erc20Address, bitcoinAddress, dispatch]);
 
   useEffect(() => {
     if (wallet.length) {
@@ -119,7 +128,6 @@ const WalletMain = (props: Props) => {
           onChangeText={setSearchText}
           placeholder="Search..."
         />
-
         <ScrollView style={styles.listContainer}>
           {filteredWallet.map((item, index) => {
             if (item.is_active) {
