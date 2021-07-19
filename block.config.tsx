@@ -10,7 +10,7 @@ const blockConfig = {
   /**
     Configuration for Rinkeby
     */
-  API_URL: 'http://192.168.1.191:4000',
+  API_URL: 'https://api.blockmerchants.com',
   INFURA_URL: 'https://rinkeby.infura.io/v3/b83bc7f34f61479e89b7f43c3175f2c7',
   ETH_GAS_API: 'https://ethgasstation.info/json/ethgasAPI.json',
   CHAIN: 'rinkeby',
