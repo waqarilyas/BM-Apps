@@ -11,6 +11,7 @@ import {RootState} from '../shared/store';
 import axios from 'axios';
 import blockConfig from '../../block.config';
 import {renderWallet} from '../shared/store/actions/walletActions';
+import {AppShowToast} from '../shared/services/helper.service';
 
 const Routes = () => {
   const {isRendered, wallet} = useSelector((state: RootState) => state.wallet);

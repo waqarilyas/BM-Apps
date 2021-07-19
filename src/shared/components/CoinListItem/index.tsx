@@ -15,6 +15,8 @@ import blockConfig from '../../../../block.config';
 import {useDispatch} from 'react-redux';
 import {setCoinIsActive} from '../../store/reducers/walletReducer';
 import {SvgUri} from 'react-native-svg';
+import FastImage from 'react-native-fast-image';
+import {GetImageForCoin} from '../../../assets/coins';
 
 interface Props extends TouchableOpacityProps {
   toggle?: boolean;
@@ -33,7 +35,12 @@ const CoinListItem = (props: Props) => {
       onPress={props.toggle ? onPressToggle : props.onPress}>
       <View style={styles.container}>
         <View style={styles.left}>
-          <SvgUri width="100%" height="100%" uri={COIN_URL} />
+          <FastImage
+            source={GetImageForCoin(props.item.coin_symbol)}
+            style={{width: '100%', height: '100%'}}
+            resizeMode={FastImage.resizeMode.contain}
+          />
+          {/* <SvgUri width="100%" height="100%" uri={COIN_URL} /> */}
         </View>
         <View style={styles.main}>
           <Text style={styles.price}>

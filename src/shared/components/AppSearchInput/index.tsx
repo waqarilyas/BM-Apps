@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import {THEME} from '../../theme';
-import {HP, RF, WP} from '../../theme/responsive';
+import {HP, RF} from '../../theme/responsive';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 interface Props extends TextInputProps {
