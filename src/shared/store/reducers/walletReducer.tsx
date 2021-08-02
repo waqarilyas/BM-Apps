@@ -26,7 +26,6 @@ const initialState: WalletState = {
   portfolioChartData: [],
   walletLoading: true,
 };
-
 export const walletSlice = createSlice({
   name: 'wallet',
   initialState,

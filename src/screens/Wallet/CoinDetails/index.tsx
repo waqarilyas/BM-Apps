@@ -107,7 +107,6 @@ const CoinDetails = (props: Props) => {
                 key={number}
                 item={item}
                 kind={coin?.address === item.from ? 'sent' : 'received'}
-                short="btc"
                 coinSymbol={coin?.coin_symbol!}
               />
             ))}

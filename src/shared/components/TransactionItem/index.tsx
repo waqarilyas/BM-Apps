@@ -11,7 +11,6 @@ const Web3 = require('web3');
 
 interface Props {
   kind: 'sent' | 'received';
-  short: string;
   item: Transaction;
   coinSymbol: string;
 }

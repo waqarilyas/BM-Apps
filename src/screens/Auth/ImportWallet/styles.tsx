@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     fontSize: THEME.FONTS.SIZE.SMALL,
+    fontFamily: THEME.FONTS.TYPE.REGULAR,
   },
 });
 
