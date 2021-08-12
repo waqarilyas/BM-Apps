@@ -34,6 +34,7 @@ export interface Transaction {
   to: string;
   txId: string;
   updatedAt: Date;
+  epoch?: number;
 }
 
 //Store State Types
@@ -45,6 +46,7 @@ export interface Coin {
   is_erc20: boolean;
   balance: string;
   coin_color: string;
+  processingFee: string;
   //Remaining
   public_key: string;
   private_key: string;
@@ -90,6 +92,7 @@ export interface WalletState {
 
 export interface UserState {
   merchantEnabled: boolean;
+  token: string;
 }
 //Extra Funciton types
 export interface GenerateWalletParams {

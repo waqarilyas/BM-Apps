@@ -1,10 +1,18 @@
 import React from 'react';
-import {StyleSheet, View, useWindowDimensions} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  useWindowDimensions,
+  Platform,
+  SafeAreaView,
+} from 'react-native';
 import {BarCodeReadEvent} from 'react-native-camera';
 import Modal from 'react-native-modal';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import {ICONS} from '../../../assets';
 import FastImage from 'react-native-fast-image';
+import AppHeader from '../AppHeader';
+import {RF} from '../../theme/responsive';
 
 interface Props {
   isVisible: boolean;
@@ -20,26 +28,42 @@ const AppQRCodeScanner = (props: Props) => {
     }
   }
   return (
-    <Modal backdropOpacity={0.85} isVisible={props.isVisible}>
-      <View style={styles.container}>
+    <Modal
+      style={{margin: 0}}
+      backdropOpacity={0.85}
+      isVisible={props.isVisible}>
+      <SafeAreaView style={styles.container}>
+        <AppHeader
+          showBack
+          title="QR Scanner"
+          backAction={() => props.callBack('')}
+          headerStyle={{
+            height: RF(Platform.OS === 'ios' ? 60 : 80),
+            zIndex: 20,
+          }}
+        />
         <QRCodeScanner
           onRead={onSuccess}
           cameraStyle={{
-            height: window.height,
             width: window.width,
+            height: window.height,
             alignSelf: 'center',
           }}
         />
         <FastImage
           source={ICONS.QR_OVERLAY}
-          resizeMode={FastImage.resizeMode.contain}
+          resizeMode={FastImage.resizeMode.cover}
           style={{
             width: window.width,
             height: window.height,
-            alignSelf: 'center',
+            position: 'absolute',
+            top: RF(Platform.OS == 'ios' ? 40 : 80),
+            zIndex: 10,
+            // zIndex: -100,
+            // alignSelf: 'center',
           }}
         />
-      </View>
+      </SafeAreaView>
     </Modal>
   );
 };
