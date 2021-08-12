@@ -1,19 +1,33 @@
-import React from 'react';
-import {Alert, DeviceEventEmitter, StyleSheet, View} from 'react-native';
+import React, {useMemo} from 'react';
+import {Alert, StyleSheet, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import AppHeader from '../../../shared/components/AppHeader';
 import SettingItem from '../../../shared/components/SettingItem';
-import {GenericNavigation} from '../../../shared/models/types';
+import {Coin, GenericNavigation} from '../../../shared/models/types';
 import {RootState} from '../../../shared/store';
 import {resetPos} from '../../../shared/store/reducers/posReducer';
 import {resetUser} from '../../../shared/store/reducers/userReducer';
 import {resetWallet} from '../../../shared/store/reducers/walletReducer';
 import {THEME} from '../../../shared/theme';
+import {socket} from '../../../shared/utils/sockets';
 
 interface Props extends GenericNavigation {}
 
 const SettingsMain = (props: Props) => {
   const {settings} = useSelector((state: RootState) => state);
+
+  const {wallet} = useSelector((state: RootState) => state.wallet);
+
+  let [erc20Address, nonErc20Address, bitcoinAddress] = useMemo(() => {
+    let btcAddress = wallet.find((c: Coin) => c.coin_symbol === 'btc');
+    let nonErc20 = wallet.find(
+      (c: Coin) => !c.is_erc20 && c.coin_symbol !== 'btc',
+    );
+    let erc20 = wallet.find((c: Coin) => c.is_erc20);
+
+    return [erc20?.address, nonErc20?.address, btcAddress?.address];
+  }, [wallet]);
+
   const dispatch = useDispatch();
 
   const navToCoinAcceptance = () =>
@@ -47,10 +61,12 @@ const SettingsMain = (props: Props) => {
   };
 
   const logOutUser = () => {
+    socket.removeListener(erc20Address!);
+    socket.removeListener(nonErc20Address!);
+    socket.removeListener(bitcoinAddress!);
     dispatch(resetPos());
     dispatch(resetUser());
     dispatch(resetWallet());
-    console.log('Logging out');
   };
 
   const navToCurrencySelection = () => {
@@ -63,6 +79,10 @@ const SettingsMain = (props: Props) => {
 
   const toggleDarkMode = (toggleState: boolean) => {
     console.log(toggleState);
+  };
+
+  const navToBackupPhrase = () => {
+    props.navigation?.navigate('BackupPhrase');
   };
 
   return (
@@ -109,6 +129,11 @@ const SettingsMain = (props: Props) => {
           title="Coins Acceptance Settings"
           chevron
           onPress={navToCoinAcceptance}
+        />
+        <SettingItem
+          title="Backup Phrase"
+          chevron
+          onPress={navToBackupPhrase}
         />
         <SettingItem title="Log out" chevron onPress={onLogout} />
       </View>

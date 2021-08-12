@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text} from 'react-native';
+import {ScrollView, View, Text} from 'react-native';
 import {useDispatch} from 'react-redux';
 import AppHeader from '../../../shared/components/AppHeader';
 import AppInput from '../../../shared/components/AppInput';
@@ -13,6 +13,7 @@ import {
   setWalletRestore,
 } from '../../../shared/store/reducers/walletReducer';
 import styles from './styles';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 interface Props extends GenericNavigation {}
 
@@ -26,13 +27,13 @@ const ImportWallet = (props: Props) => {
   const [loading, setLoading] = useState(false);
   const onImportWallet = async () => {
     try {
-      setLoading(true);
       if (!phrase) {
         return AppShowToast('Please enter your 12 words secret phrase');
       }
       if (phrase.split(' ').length < 12) {
         return AppShowToast('Phrase has less than 12 words');
       }
+      setLoading(true);
       const isMnemonicSet = await restoreWalletWithPhrase(phrase);
       if (isMnemonicSet) {
         //Dispatch action is_restore in mnemonic
@@ -51,11 +52,15 @@ const ImportWallet = (props: Props) => {
   return (
     <>
       <AppHeader showBack />
-      <View style={styles.container}>
+      <KeyboardAwareScrollView
+        keyboardShouldPersistTaps="handled"
+        keyboardDismissMode="on-drag"
+        style={styles.container}>
         <Logo />
         <Text style={styles.heading}>Import from Seed</Text>
         <View style={styles.inputContainer}>
           <AppInput
+            textAlignVertical="top"
             value={phrase}
             onChangeText={setPhrase}
             placeholder="Enter your secret recovery phrase"
@@ -65,14 +70,12 @@ const ImportWallet = (props: Props) => {
             numberOfLines={3}
           />
         </View>
-        <View style={styles.actionsContainer}>
-          <PrimaryButton
-            loading={loading}
-            title="Import"
-            onPress={onImportWallet}
-          />
-        </View>
-      </View>
+        <PrimaryButton
+          loading={loading}
+          title="Import"
+          onPress={onImportWallet}
+        />
+      </KeyboardAwareScrollView>
     </>
   );
 };

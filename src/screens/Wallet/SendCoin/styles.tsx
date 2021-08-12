@@ -27,19 +27,25 @@ const styles = StyleSheet.create({
     fontSize: THEME.FONTS.SIZE.SMALL,
     color: THEME.COLORS.white,
   },
+  sideInfo: {width: '100%', alignItems: 'flex-end'},
+  availBalalnce: {
+    color: THEME.COLORS.textLight,
+    fontFamily: THEME.FONTS.TYPE.REGULAR,
+  },
   details: {
     width: '100%',
     backgroundColor: THEME.COLORS.secondaryBackground,
     height: RF(75),
     borderRadius: THEME.RADIUS.BOX,
     ...GLOBAL_STYLE.CENTER,
-    marginTop: THEME.MARGIN.SUPERHIGH,
+    marginTop: THEME.MARGIN.VERYHIGH,
     marginBottom: THEME.MARGIN.HIGH,
   },
   detailsText: {
     color: THEME.COLORS.white,
   },
   availableText: {
+    textAlign: 'left',
     paddingTop: THEME.PADDING.VERYLOW,
     color: THEME.COLORS.green,
   },

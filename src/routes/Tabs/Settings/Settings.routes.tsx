@@ -1,5 +1,4 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import SettingsMain from '../../../screens/Settings/SettingsMain';
 import CoinAcceptance from '../../../screens/Settings/CoinAcceptance';
@@ -8,6 +7,7 @@ import AddPlace from '../../../screens/Settings/AddPlace';
 import ChangePin from '../../../screens/Generic/ChangePin';
 import PurchaseDetail from '../../../screens/Settings/PurchaseDetail';
 import SelectionScreen from '../../../screens/Settings/SelectionScreen';
+import BackupPhrase from '../../../screens/Settings/BackupPhrase';
 
 const Stack = createStackNavigator();
 
@@ -21,6 +21,7 @@ const SettingsStack = () => {
       <Stack.Screen name="ChangePIN" component={ChangePin} />
       <Stack.Screen name="PurchaseDetail" component={PurchaseDetail} />
       <Stack.Screen name="SelectionScreen" component={SelectionScreen} />
+      <Stack.Screen name="BackupPhrase" component={BackupPhrase} />
     </Stack.Navigator>
   );
 };

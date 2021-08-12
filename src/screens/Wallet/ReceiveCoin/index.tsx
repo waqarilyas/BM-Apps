@@ -12,7 +12,12 @@ import GLOBAL_STYLE from '../../../shared/theme/global';
 import {HP, RF} from '../../../shared/theme/responsive';
 import styles from './styles';
 import Clipboard from '@react-native-clipboard/clipboard';
-import {AppShowToast} from '../../../shared/services/helper.service';
+import {
+  AppShareContent,
+  AppShowToast,
+} from '../../../shared/services/helper.service';
+import {GetImageForCoin} from '../../../assets/coins';
+import blockConfig from '../../../../block.config';
 
 interface Props extends GenericNavigation {}
 
@@ -31,10 +36,18 @@ const ReceiveCoin = (props: Props) => {
     Clipboard.setString(coin?.address!);
   };
 
+  const COIN_URL = `${blockConfig.API_URL}/admin/coin/${coin?.coin_symbol}`;
+
   return (
     <>
       <AppHeader title="Wallet" showBack />
       <View style={styles.container}>
+        <FastImage
+          source={GetImageForCoin(coin?.coin_symbol!)}
+          resizeMode={FastImage.resizeMode.contain}
+          style={styles.coinIcon}
+        />
+        {/* <SvgUri width="100%" height="100%" uri={COIN_URL} /> */}
         <QRcodeGenerator value={coin?.address || ''} />
         <Text style={styles.instruction}>
           Use the address below to receive funds.
@@ -59,6 +72,7 @@ const ReceiveCoin = (props: Props) => {
           title="Share"
           buttonStyle={{width: '55%', height: HP(6)}}
           textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
+          onPress={() => AppShareContent(coin?.address, 'Addess')}
         />
       </View>
     </>

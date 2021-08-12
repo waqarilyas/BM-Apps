@@ -15,6 +15,7 @@ import {ECPair, script, Transaction} from 'bitcoinjs-lib';
 var Buffer = require('buffer');
 import Web3 from 'web3';
 import {Transaction as EthereumTx} from 'ethereumjs-tx';
+import {getFixedAmount} from './helper.service';
 
 export const generateMnemonic = async () => {
   try {
@@ -57,6 +58,8 @@ export const setActiveAssets = async () => {
             is_erc20: coin.isErc20 ? 1 : 0,
             balance: 0,
             coin_color: coin.coinColor,
+            processingFee: coin.processingFee,
+            blockchain: coin.blockchain,
           };
         },
       );
@@ -133,7 +136,12 @@ export const checkCoin = async (
         tx_history: [],
       };
       dispatch(setCoin({index: coinIndex, coinData: myCoinData}));
-      dispatch(setMnemonic({mnemonic_phrase: mnemonic, is_restore: false}));
+      dispatch(
+        setMnemonic({
+          mnemonic_phrase: mnemonic.mnemonic_phrase,
+          is_restore: false,
+        }),
+      );
     }
 
     if (isCoin.length > 0 && isCoin[0].private_key) {
@@ -231,7 +239,7 @@ export const checkBalance = async (
         setCoinBalance({
           index,
           balance: res.data.balance?.toFixed(4),
-          vs_currency_balance: res.data.vs_currency_balance?.toFixed(2),
+          vs_currency_balance: getFixedAmount(res.data.vs_currency_balance),
         }),
       );
     })
@@ -465,7 +473,7 @@ const signEthLikeTx = async (privateKey: string, trx: any) => {
     console.log('\x1b[32m', 'Transaction signed:', signedTx.transactionHash);
     return signedTx.transactionHash;
   } catch (error) {
-    console.log('Error signing eth transaction:', error);
+    throw 'Insuffient funds';
   }
 };
 

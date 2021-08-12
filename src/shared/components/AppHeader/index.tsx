@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View, Platform} from 'react-native';
+import {StyleSheet, Text, View, Platform, ViewStyle} from 'react-native';
 import {THEME} from '../../theme';
 import {RF, WP} from '../../theme/responsive';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -9,6 +9,7 @@ import FastImage from 'react-native-fast-image';
 import {ICONS} from '../../../assets';
 import GLOBAL_STYLE from '../../theme/global';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {StyleProp} from 'react-native';
 
 interface Props {
   title?: string;
@@ -16,6 +17,7 @@ interface Props {
   showCart?: boolean;
   showSearch?: boolean;
   backAction?: () => void;
+  headerStyle?: StyleProp<ViewStyle>;
 }
 
 const AppHeader = (props: Props) => {
@@ -32,11 +34,12 @@ const AppHeader = (props: Props) => {
     console.log('Show Search');
   };
   return (
-    <View style={[styles.container, {paddingTop: insets.top}]}>
+    <View
+      style={[styles.container, {paddingTop: insets.top}, props.headerStyle]}>
       <View style={styles.left}>
         {props.showBack ? (
           <Icon
-            onPress={navigation.goBack}
+            onPress={props.backAction ? props.backAction : navigation.goBack}
             name="keyboard-backspace"
             size={30}
             style={styles.icon}

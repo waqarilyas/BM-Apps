@@ -31,8 +31,13 @@ const CoinDetails = (props: Props) => {
   useFocusEffect(
     useCallback(() => {
       checkTransactions(coin?.coin_symbol, coin?.address)
-        .then(data => {
-          setTransactions(data);
+        .then((data: Transaction[]) => {
+          setTransactions(
+            data.map(t => {
+              t.epoch = new Date(t.timeStamp).getTime();
+              return t;
+            }),
+          );
         })
         .catch(err => console.log('Error getting transaction:', err));
     }, [coin]),
@@ -53,13 +58,10 @@ const CoinDetails = (props: Props) => {
     props.navigation?.navigate('ReceiveCoin', {coinSymbol: coin?.coin_symbol});
   };
 
-  function reverseArray(input: any) {
-    const ret = [];
-    for (let i = input.length - 1; i >= 0; i--) {
-      ret.push(input[i]);
-    }
-    return ret;
-  }
+  const sortedTransactions = useMemo(
+    () => transactions.sort((a, b) => b.epoch! - a.epoch!),
+    [transactions],
+  );
 
   return (
     <>
@@ -102,7 +104,7 @@ const CoinDetails = (props: Props) => {
           </>
         ) : (
           <ScrollView style={styles.transactions}>
-            {reverseArray(transactions).map((item, number) => (
+            {sortedTransactions.map((item, number) => (
               <TransactionItem
                 key={number}
                 item={item}

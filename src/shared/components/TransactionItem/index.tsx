@@ -21,12 +21,8 @@ const TransactionItem = (props: Props) => {
   const TRANSACTION_TEXT = props.kind === 'sent' ? 'Sent' : 'Received';
   let transactionTime = new Date(props.item.timeStamp);
 
-  const amount =
-    props.coinSymbol === 'eth'
-      ? Web3.utils.fromWei(props.item.amount, 'ether')
-      : props.item.amount;
-
   const openExplorer = async () => {
+    console.log(props.item.explorerUrl);
     try {
       const supported = await Linking.canOpenURL(props.item.explorerUrl);
       if (supported) {
@@ -59,7 +55,7 @@ const TransactionItem = (props: Props) => {
       </View>
       <View style={styles.right}>
         <Text style={[styles.smallText, {color: TRANSACTION_COLOR}]}>
-          {amount} {props.item.coinSymbol.toUpperCase()}
+          {props.item.amount} {props.item.coinSymbol.toUpperCase()}
         </Text>
         {/* <Text style={styles.smallText}>$1450.00 USD</Text> */}
       </View>

@@ -1,7 +1,6 @@
-import {ChartItem} from '../models/types';
 import {THEME} from '../theme';
 
-export const currenciesEnum = {
+export const currenciesEnum: any = {
   USD: '$',
   EUR: '€',
   MYR: 'RM',
@@ -17,6 +16,21 @@ export const currenciesEnum = {
   IDR: 'Rp',
   PKR: 'PKR',
 };
+
+export const SECRET_PHRASE = [
+  '*****',
+  '*****',
+  '*****',
+  '*****',
+  '*****',
+  '*****',
+  '*****',
+  '*****',
+  '*****',
+  '*****',
+  '*****',
+  '*****',
+];
 
 export const EMPTY_CHART_DATA: any = [
   {

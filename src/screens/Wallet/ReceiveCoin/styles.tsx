@@ -8,6 +8,12 @@ const styles = StyleSheet.create({
     backgroundColor: THEME.COLORS.primaryBackground,
     paddingTop: THEME.MARGIN.VERYHIGH,
   },
+  coinIcon: {
+    height: RF(75),
+    width: RF(75),
+    marginVertical: THEME.MARGIN.HIGH,
+    alignSelf: 'center',
+  },
   //Receive Styles
   qr: {
     width: RF(150),

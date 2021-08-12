@@ -34,6 +34,8 @@ const ICONS = {
   STATUS_PENDING: require('./statusIcons/pending.png'),
   //Iamges
   QR_OVERLAY: require('./images/qrOverlay.png'),
+  //Settings
+  PHRASE_EYE: require('./icons/phraseEye.png'),
 };
 
 export {ICONS};

@@ -3,6 +3,7 @@ import {UserState} from '../../models/types';
 
 const initialState: UserState = {
   merchantEnabled: false,
+  token: '',
 };
 
 export const userSlice = createSlice({

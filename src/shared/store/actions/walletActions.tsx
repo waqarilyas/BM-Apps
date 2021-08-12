@@ -10,6 +10,7 @@ import {
 } from '../../services/wallet.service';
 import {Coin} from '../../models/types';
 import {setWalletLoading} from '../reducers/walletReducer';
+import {AppShowToast} from '../../services/helper.service';
 
 export const renderWallet =
   () => async (dispatch: AppDispatch, getState: () => RootState) => {
@@ -41,6 +42,7 @@ export const renderWallet =
       });
     } catch (error) {
       console.log('Error rendering wallet:', error);
+      AppShowToast('Wallet sync failed');
       dispatch(setWalletLoading(false));
     }
   };

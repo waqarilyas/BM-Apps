@@ -13,7 +13,11 @@ import {RootState} from '../../../shared/store';
 import {useSelector} from 'react-redux';
 import {Coin, GenericNavigation} from '../../../shared/models/types';
 import {currenciesEnum} from '../../../shared/utils/AppConstants';
-import {AppShowToast} from '../../../shared/services/helper.service';
+import {
+  AppShowToast,
+  getFixedAmount,
+  getPairPrice,
+} from '../../../shared/services/helper.service';
 import {handleTx} from '../../../shared/services/wallet.service';
 import WAValidator from 'multicoin-address-validator';
 
@@ -32,10 +36,12 @@ const SendCoin = (props: Props) => {
   const [loading, setLoading] = useState(false);
   const [paymentError, setPaymentError] = useState(false);
 
-  const coin = useMemo(() => {
-    return wallet.find(
+  const [coin, ETH_RATE] = useMemo(() => {
+    let selectedCoin = wallet.find(
       (c: Coin) => c.coin_symbol === props.route?.params?.coinSymbol,
     );
+    let eth = wallet.find((c: Coin) => c.coin_name === 'Ethereum');
+    return [selectedCoin, eth?.chart_data.rate];
   }, [wallet, props.route]);
 
   const onChangeAddress = (text: string) => setAddress(text);
@@ -49,13 +55,10 @@ const SendCoin = (props: Props) => {
     }
   };
 
-  const convertToFiatString = (amount: string) => {
+  const convertToFiatString = (amount: string | number) => {
     let fiatAmount: any = Number(amount) * Number(coin?.chart_data.rate);
     fiatAmount = fiatAmount.toFixed(fiatAmount > 10 ? 2 : 6);
-    if (defaultCurrency === 'USD') {
-      return `${currenciesEnum[defaultCurrency]} ${fiatAmount} ${defaultCurrency}`;
-    }
-    return 0;
+    return `${currenciesEnum[defaultCurrency]} ${fiatAmount} ${defaultCurrency}`;
   };
 
   const onChangeCoinAmount = (text: string) => {
@@ -67,8 +70,47 @@ const SendCoin = (props: Props) => {
   const onChangeUsdtAmount = (text: string) => {
     setUsdtAmount(text);
     let newCoinAmount = Number(text) / Number(coin?.chart_data.rate);
-    setCoinAmount(newCoinAmount.toFixed(newCoinAmount > 10 ? 2 : 6));
+    setCoinAmount(getFixedAmount(newCoinAmount));
   };
+
+  const onPressMax = () => {
+    setCoinAmount(coin?.balance!);
+    setUsdtAmount(coin?.vs_currency_balance!);
+  };
+
+  const networkFee = useMemo(() => {
+    let ETH = wallet.find((c: Coin) => c.coin_name === 'Ethereum');
+    if (coin?.coin_symbol === 'eth') {
+      return coin?.chart_data?.networkFeeMin;
+    } else if (coin?.coin_symbol !== 'eth' && coin?.blockchain === 'ethereum') {
+      return (
+        (Number(ETH?.chart_data.networkFeeMin) * Number(ETH?.chart_data.rate)) /
+        Number(coin.chart_data.rate)
+      );
+      //convert network fee to desire count amount
+    } else {
+      return coin?.chart_data.networkFeeMin;
+    }
+  }, [wallet, coin]);
+
+  const [totalFiat, totalAmount] = useMemo(() => {
+    let t_fiat: any = Number(usdtAmount);
+
+    let t_coin: any =
+      Number(coinAmount) +
+      Number(networkFee) * 2.05 +
+      coin?.chart_data.coin?.processingFee;
+
+    if (!coinAmount || Number(coinAmount) <= 0) {
+      t_coin = '0.000000';
+    }
+    if (!usdtAmount || Number(usdtAmount) <= 0) {
+      t_fiat = '0.000000';
+    }
+    t_fiat = convertToFiatString(t_coin);
+    return [t_fiat, Number(t_coin).toFixed(6)];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [usdtAmount, coinAmount, coin]);
 
   const onSend = async () => {
     try {
@@ -79,9 +121,33 @@ const SendCoin = (props: Props) => {
             `Please enter a ${coin?.coin_name} valid address`,
           );
         }
+      } else if (coin?.coin_symbol === 'weenus') {
+        let valid = WAValidator.validate(address, 'eth');
+        if (!valid) {
+          return AppShowToast(
+            `Please enter a ${coin?.coin_name} valid address`,
+          );
+        }
+      }
+      if (usdtAmount) {
+        if (isNaN(Number(usdtAmount))) {
+          return AppShowToast('Amount must be a number');
+        }
+      }
+      if (Number(coinAmount) <= 0) {
+        return AppShowToast('Please enter a valid amount');
+      }
+      if (address === coin?.address) {
+        return AppShowToast('You cannot send to your own addresss');
       }
       if (!coinAmount) {
         return AppShowToast('Please enter coin amount');
+      }
+      if (Number(totalAmount) > Number(coin?.balance)) {
+        return AppShowToast('Insufficient funds');
+      }
+      if (Number(usdtAmount) > Number(coin?.vs_currency_balance)) {
+        return AppShowToast('Insufficient funds');
       }
       if (!usdtAmount) {
         return AppShowToast(`Please enter ${defaultCurrency} amount`);
@@ -106,16 +172,12 @@ const SendCoin = (props: Props) => {
       setPaymentError(false);
     } catch (error) {
       setLoading(false);
-      setPaymentError(true);
+      setPaymentError(error);
       setShowModal(true);
       console.log('Error Sending Coin.', error);
     }
   };
 
-  const onPressMax = () => {
-    setCoinAmount(coin?.balance!);
-    setUsdtAmount(coin?.vs_currency_balance!);
-  };
   return (
     <>
       <PaymentStatusModal
@@ -155,21 +217,29 @@ const SendCoin = (props: Props) => {
           placeholder={`Enter amount in ${defaultCurrency}`}
         />
 
+        <View style={styles.sideInfo}>
+          <Text style={styles.availBalalnce}>
+            Avl. Balance: {coin?.balance || '0.00'}{' '}
+            {coin?.coin_symbol.toUpperCase()}
+          </Text>
+        </View>
+
         <View style={styles.details}>
           <Text style={styles.detailsText}>
-            Transaction Fee : {coin?.chart_data.networkFeeMin}{' '}
+            Transaction Fee :{' '}
+            {getFixedAmount(Number(coin?.chart_data.networkFeeMin) * 2)}{' '}
             {coin?.coin_symbol.toUpperCase()}
             <Text style={styles.usdText}>
               {'     '}
-              {convertToFiatString(coin?.chart_data.networkFeeMin)}
+              {convertToFiatString(Number(coin?.chart_data.networkFeeMin) * 2)}
             </Text>
           </Text>
           <Text style={styles.availableText}>
-            {'            '}
-            Available : {coin?.balance} {coin?.coin_symbol.toUpperCase()}
+            {'    '}Total Amount : {Number(totalAmount).toFixed(6)}{' '}
+            {coin?.coin_symbol.toUpperCase()}
             <Text style={styles.usdText}>
               {'     '}
-              {convertToFiatString(coin?.balance!)}
+              {totalFiat}
             </Text>
           </Text>
         </View>
