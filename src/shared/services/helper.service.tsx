@@ -1,6 +1,7 @@
 import Toast from 'react-native-simple-toast';
 import {Dimensions} from 'react-native';
 import Share from 'react-native-share';
+import ImagePicker from 'react-native-image-crop-picker';
 import {store} from '../store';
 
 export const getWidth = () => {
@@ -37,4 +38,37 @@ export const getERC20NetworkFee = (
 ) => {
   let result = (1 / coinRate) * ethRate * fee;
   return result.toFixed(8);
+};
+
+export const handleImageSelection = (type: 'camera' | 'gallery') => {
+  console.log(type);
+  return new Promise((resolve: any, reject: any) => {
+    type == 'camera'
+      ? ImagePicker.openCamera({
+          width: 300,
+          height: 400,
+          cropping: true,
+          includeBase64: true,
+        })
+          .then(image => {
+            resolve(image);
+          })
+          .catch(err => {
+            reject(err);
+          })
+      : type == 'gallery'
+      ? ImagePicker.openPicker({
+          width: 300,
+          height: 400,
+          cropping: true,
+          includeBase64: true,
+        })
+          .then(image => {
+            resolve(image);
+          })
+          .catch(err => {
+            reject(err);
+          })
+      : null;
+  });
 };

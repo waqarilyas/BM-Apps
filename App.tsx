@@ -4,7 +4,7 @@ import {Provider, useDispatch} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {persistor, store} from './src/shared/store/';
 import Routes from './src/routes/';
-import {Platform, StatusBar, LogBox} from 'react-native';
+import {Platform, StatusBar, LogBox, Text} from 'react-native';
 import './shim';
 import {setWalletLoading} from './src/shared/store/reducers/walletReducer';
 

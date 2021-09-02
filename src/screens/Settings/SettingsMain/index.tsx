@@ -17,6 +17,7 @@ const SettingsMain = (props: Props) => {
   const {settings} = useSelector((state: RootState) => state);
 
   const {wallet} = useSelector((state: RootState) => state.wallet);
+  const {merchantEnabled} = useSelector((state: RootState) => state.user);
 
   let [erc20Address, nonErc20Address, bitcoinAddress] = useMemo(() => {
     let btcAddress = wallet.find((c: Coin) => c.coin_symbol === 'btc');
@@ -85,16 +86,29 @@ const SettingsMain = (props: Props) => {
     props.navigation?.navigate('BackupPhrase');
   };
 
+  const handleNavigate = (screen: string) => {
+    props.navigation?.navigate(screen);
+  };
+
   return (
     <>
       <AppHeader title="Settings" />
       <View style={styles.container}>
         {/* <SettingItem title="Address Book" chevron /> */}
-        <SettingItem
-          title="Add Store Location"
-          chevron
-          onPress={navToAddPlace}
-        />
+        {merchantEnabled && (
+          <SettingItem
+            title="Add Store Location"
+            chevron
+            onPress={navToAddPlace}
+          />
+        )}
+        {!merchantEnabled && (
+          <SettingItem
+            title="Enable Merchant Account"
+            chevron
+            onPress={() => handleNavigate('EnableMerchant')}
+          />
+        )}
         <SettingItem title="Change PIN" chevron onPress={navToChangePIN} />
         <SettingItem
           title="Sales History"

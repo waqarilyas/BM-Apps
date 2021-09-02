@@ -1,6 +1,6 @@
 const COINS = {
-  BTC: require('./btc.png'),
-  ETH: require('./eth.png'),
+  BTC: require('./BTC.png'),
+  ETH: require('./ETH.png'),
   WEENUS: require('./weenus.png'),
 };
 

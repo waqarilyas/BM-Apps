@@ -34,6 +34,7 @@
     "ethereumjs-tx": "^2.1.2",
     "events": "^1.1.1",
     "faker": "^5.5.3",
+    "formik": "^2.2.9",
     "https-browserify": "^0.0.1",
     "moment": "^2.29.1",
     "multicoin-address-validator": "^0.5.2",
@@ -51,6 +52,9 @@
     "react-native-elements": "^3.4.1",
     "react-native-fast-image": "^8.3.4",
     "react-native-gesture-handler": "^1.10.3",
+    "react-native-google-places-autocomplete": "^2.4.1",
+    "react-native-image-crop-picker": "^0.36.2",
+    "react-native-image-picker": "^4.0.6",
     "react-native-keyboard-aware-scroll-view": "^0.9.4",
     "react-native-level-fs": "^3.0.1",
     "react-native-linear-gradient": "^2.5.6",
@@ -71,6 +75,7 @@
     "react-native-svg": "^12.1.1",
     "react-native-svg-charts": "^5.4.0",
     "react-native-tcp": "^3.3.2",
+    "react-native-toast-message": "^1.4.9",
     "react-native-udp": "^2.7.0",
     "react-native-vector-icons": "^8.1.0",
     "react-redux": "^7.2.4",
@@ -78,6 +83,7 @@
     "redux": "^4.1.0",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
+    "rn-fetch-blob": "^0.12.0",
     "socket.io-client": "^2.1.1",
     "stream-browserify": "^1.0.0",
     "string_decoder": "^0.10.31",
@@ -87,7 +93,8 @@
     "url": "^0.10.3",
     "util": "^0.10.4",
     "vm-browserify": "^0.0.4",
-    "web3": "^1.4.0"
+    "web3": "^1.4.0",
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

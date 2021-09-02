@@ -8,6 +8,7 @@ import ChangePin from '../../../screens/Generic/ChangePin';
 import PurchaseDetail from '../../../screens/Settings/PurchaseDetail';
 import SelectionScreen from '../../../screens/Settings/SelectionScreen';
 import BackupPhrase from '../../../screens/Settings/BackupPhrase';
+import EnableMerchant from '../../../screens/Settings/EnableMerchant';
 
 const Stack = createStackNavigator();
 
@@ -22,6 +23,7 @@ const SettingsStack = () => {
       <Stack.Screen name="PurchaseDetail" component={PurchaseDetail} />
       <Stack.Screen name="SelectionScreen" component={SelectionScreen} />
       <Stack.Screen name="BackupPhrase" component={BackupPhrase} />
+      <Stack.Screen name="EnableMerchant" component={EnableMerchant} />
     </Stack.Navigator>
   );
 };

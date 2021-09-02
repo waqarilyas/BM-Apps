@@ -3,7 +3,9 @@ import {UserState} from '../../models/types';
 
 const initialState: UserState = {
   merchantEnabled: false,
+  merchantData: null,
   token: '',
+  merchantShop: null,
 };
 
 export const userSlice = createSlice({
@@ -14,9 +16,20 @@ export const userSlice = createSlice({
     setMerchantEnabledState(state, action) {
       state.merchantEnabled = action.payload;
     },
+    setMerchantData: (state, action) => {
+      state.merchantData = action.payload;
+    },
+    setMerchantShop: (state, action) => {
+      state.merchantShop = action.payload;
+    },
   },
 });
 
-export const {setMerchantEnabledState, resetUser} = userSlice.actions;
+export const {
+  setMerchantEnabledState,
+  resetUser,
+  setMerchantData,
+  setMerchantShop,
+} = userSlice.actions;
 
 export default userSlice.reducer;
