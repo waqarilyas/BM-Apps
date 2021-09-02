@@ -88,11 +88,14 @@ export interface WalletState {
   defaultCurrency: string;
   portfolioChartData: any;
   walletLoading: boolean;
+  walletAddress: string;
 }
 
 export interface UserState {
   merchantEnabled: boolean;
   token: string;
+  merchantData: any;
+  merchantShop: any;
 }
 //Extra Funciton types
 export interface GenerateWalletParams {

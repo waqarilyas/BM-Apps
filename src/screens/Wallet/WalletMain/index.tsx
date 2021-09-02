@@ -12,6 +12,7 @@ import AppLoader from '../../../shared/components/AppLoader';
 import {initSocket, socket} from '../../../shared/utils/sockets';
 import {renderWallet} from '../../../shared/store/actions/walletActions';
 import {EMPTY_CHART_DATA} from '../../../shared/utils/AppConstants';
+import {getInitialMerchantData} from '../../../shared/services/merchant.service';
 
 interface Props extends GenericNavigation {}
 
@@ -100,6 +101,12 @@ const WalletMain = (props: Props) => {
       realtimeListener();
     }
   }, [wallet.length, realtimeListener]);
+
+  useEffect(() => {
+    if (wallet.length) {
+      getInitialMerchantData();
+    }
+  }, [wallet]);
 
   return (
     <>

@@ -8,6 +8,7 @@ import AuthStack from './Auth/Auth.routes';
 import BottomTabs from './Tabs/Tabs.routes';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../shared/store';
+import Toast from 'react-native-toast-message';
 import {renderWallet} from '../shared/store/actions/walletActions';
 
 const Routes = () => {
@@ -30,6 +31,7 @@ const Routes = () => {
         style={{flex: 1, backgroundColor: THEME.COLORS.primaryBackground}}>
         <NavigationContainer ref={navigationRef}>
           {isRendered ? <BottomTabs /> : <AuthStack />}
+          <Toast ref={ref => Toast.setRef(ref)} position="bottom" />
         </NavigationContainer>
       </SafeAreaView>
       <SafeAreaView style={{backgroundColor: THEME.COLORS.tabColor}} />

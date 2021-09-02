@@ -31,6 +31,19 @@ const styles = StyleSheet.create({
     ...GLOBAL_STYLE.CENTER,
   },
   cameraIcon: {color: THEME.COLORS.white},
+  image: {
+    flex: 1,
+    borderRadius: THEME.RADIUS.BOX,
+  },
+  errors: {
+    fontSize: THEME.FONTS.SIZE.XXXSMALL,
+    color: 'red',
+    marginLeft: 10,
+  },
+  gError: {
+    textAlign: 'center',
+    marginTop: THEME.MARGIN.LOW,
+  },
 });
 
 export default styles;
