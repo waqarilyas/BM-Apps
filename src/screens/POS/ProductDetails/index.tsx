@@ -12,6 +12,10 @@ import styles from './styles';
 interface Props extends GenericNavigation {}
 
 const ProductDetails = (props: Props) => {
+  const {data} = props.route?.params;
+
+  console.log(data);
+
   const addToCart = () => {
     props.navigation?.navigate('Cart');
   };
@@ -21,11 +25,11 @@ const ProductDetails = (props: Props) => {
       <ScrollView bounces={false} style={styles.container}>
         <View style={styles.productCard}>
           <FastImage
-            source={ICONS.DUMMY_IMAGE}
+            source={{uri: data.image}}
             resizeMode={FastImage.resizeMode.contain}
             style={styles.productImage}
           />
-          <Text style={styles.productText}>Faux Sued Ankle Boots</Text>
+          <Text style={styles.productText}>{data.title}</Text>
           <Text
             style={[
               styles.productText,
@@ -34,7 +38,7 @@ const ProductDetails = (props: Props) => {
                 paddingTop: THEME.PADDING.LOW,
               },
             ]}>
-            $49.99
+            ${data.price}
           </Text>
         </View>
         <View style={styles.details}>

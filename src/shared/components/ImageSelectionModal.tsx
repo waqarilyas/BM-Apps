@@ -33,6 +33,9 @@ const ImageSelectionModal = ({
               onPress={() => {
                 handleImageSelection('camera').then((res: any) => {
                   toggleSelection();
+
+                  console.log('---response----', res);
+
                   handleImage(res);
                 });
               }}>

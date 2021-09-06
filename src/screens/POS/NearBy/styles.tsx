@@ -31,6 +31,12 @@ const styles = StyleSheet.create({
     width: RF(60),
     height: RF(60),
   },
+  calloutContainer: {
+    backgroundColor: 'white',
+    padding: RF(4),
+    borderRadius: RF(4),
+    alignItems: 'center',
+  },
 });
 
 export default styles;

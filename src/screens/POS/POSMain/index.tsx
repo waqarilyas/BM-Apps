@@ -1,35 +1,94 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
-  StyleSheet,
-  ScrollView,
+  FlatList,
   Text,
   TouchableOpacity,
   View,
+  RefreshControl,
+  Alert,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
+import Toast from 'react-native-toast-message';
+import {useSelector} from 'react-redux';
 import {ICONS} from '../../../assets';
 import AppHeader from '../../../shared/components/AppHeader';
+import AppLoader from '../../../shared/components/AppLoader';
+import EmptyScreenComponent from '../../../shared/components/EmptyScreenComponent';
 import ProductCard from '../../../shared/components/ProductCard';
 import {GenericNavigation} from '../../../shared/models/types';
-import {THEME} from '../../../shared/theme';
+import {getMerchantProducts} from '../../../shared/services/merchant.service';
+import {RootState} from '../../../shared/store';
+import {setMerchantShop} from '../../../shared/store/reducers/userReducer';
 import styles from './style';
-import faker from 'faker';
 
 interface Props extends GenericNavigation {}
 
 const POSMain = (props: Props) => {
+  const [loading, setLoading] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [reload, setReload] = useState(false);
+  const {merchantShop} = useSelector((state: RootState) => state.user);
+
+  const wait = (timeout: any) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  };
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setReload(!reload);
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
+
   const navToAddProduct = () => {
+    if (!merchantShop) {
+      Alert.alert('Failed', 'Please add a shop to continue', [
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
+      ]);
+
+      return;
+    }
+
     props.navigation?.navigate('AddProduct');
   };
   const navToNearBy = () => {
     props.navigation?.navigate('NearBy');
   };
-  const navToProductDetail = () => {
-    props.navigation?.navigate('ProductDetails');
+  const navToProductDetail = (item: any) => {
+    props.navigation?.navigate('ProductDetails', {data: item});
   };
+
+  useEffect(() => {
+    const unsubscribe = props.navigation?.addListener('focus', () => {
+      setReload(!reload);
+    });
+
+    return unsubscribe;
+  }, [props.navigation]);
+
+  useEffect(() => {
+    setLoading(true);
+
+    getMerchantProducts()
+      .then(res => {
+        console.log(res.data);
+        setProducts(res.data);
+      })
+      .catch(err => {
+        console.log('---error---', err);
+        Toast.show({
+          text1: 'Request Failed',
+          text2: 'Unable to get products',
+          type: 'error',
+        });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [reload]);
+
   return (
     <>
-      <AppHeader title="Point of Sale" showSearch showBack showCart />
+      <AppHeader title="Point of Sale" />
       <View style={styles.container}>
         <View style={styles.topActions}>
           <TouchableOpacity
@@ -43,62 +102,35 @@ const POSMain = (props: Props) => {
             />
             <Text style={styles.actionText}>Add Product</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={styles.topAction}
-            onPress={navToNearBy}>
-            <FastImage
-              source={ICONS.LOCATION}
-              resizeMode={FastImage.resizeMode.contain}
-              style={styles.actionIcon}
-            />
-            <Text style={styles.actionText}>Nearby</Text>
-          </TouchableOpacity>
         </View>
-        <ScrollView>
-          <Text style={styles.categoryLabel}>Bags</Text>
-          <View style={styles.productsContainer}>
-            <ProductCard
-              name={faker.commerce.product()}
-              price={Number(faker.datatype.number()).toFixed(2)}
-              onPress={navToProductDetail}
-              imageURI={faker.image.avatar()}
-            />
-            <ProductCard
-              name={faker.commerce.product()}
-              price={Number(faker.datatype.number()).toFixed(2)}
-              onPress={navToProductDetail}
-              imageURI={faker.image.avatar()}
-            />
-            <ProductCard
-              name={faker.commerce.product()}
-              price={Number(faker.datatype.number()).toFixed(2)}
-              onPress={navToProductDetail}
-              imageURI={faker.image.avatar()}
-            />
-          </View>
-          <Text style={styles.categoryLabel}>Bags</Text>
-          <View style={styles.productsContainer}>
-            <ProductCard
-              name={faker.commerce.product()}
-              price={Number(faker.datatype.number()).toFixed(2)}
-              onPress={navToProductDetail}
-              imageURI={faker.image.avatar()}
-            />
-            <ProductCard
-              name={faker.commerce.product()}
-              price={Number(faker.datatype.number()).toFixed(2)}
-              onPress={navToProductDetail}
-              imageURI={faker.image.avatar()}
-            />
-            <ProductCard
-              name={faker.commerce.product()}
-              price={Number(faker.datatype.number()).toFixed(2)}
-              onPress={navToProductDetail}
-              imageURI={faker.image.avatar()}
-            />
-          </View>
-        </ScrollView>
+
+        <Text style={styles.categoryLabel}>Products</Text>
+
+        <FlatList
+          data={products}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+          numColumns={3}
+          ListEmptyComponent={() => (
+            <EmptyScreenComponent title="No products found!" />
+          )}
+          contentContainerStyle={{flex: 1}}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={(_, index) => index.toString()}
+          renderItem={({item, index}) => {
+            return (
+              <ProductCard
+                name={item?.title}
+                price={item?.price}
+                onPress={() => navToProductDetail(item)}
+                imageURI={item?.image}
+              />
+            );
+          }}
+        />
+
+        <AppLoader isVisible={loading} />
       </View>
     </>
   );

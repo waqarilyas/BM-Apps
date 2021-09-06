@@ -1,12 +1,16 @@
 import React, {useMemo} from 'react';
 import {Alert, StyleSheet, View} from 'react-native';
+import Toast from 'react-native-toast-message';
 import {useDispatch, useSelector} from 'react-redux';
 import AppHeader from '../../../shared/components/AppHeader';
 import SettingItem from '../../../shared/components/SettingItem';
 import {Coin, GenericNavigation} from '../../../shared/models/types';
 import {RootState} from '../../../shared/store';
 import {resetPos} from '../../../shared/store/reducers/posReducer';
-import {resetUser} from '../../../shared/store/reducers/userReducer';
+import {
+  resetUser,
+  setMerchantEnabledState,
+} from '../../../shared/store/reducers/userReducer';
 import {resetWallet} from '../../../shared/store/reducers/walletReducer';
 import {THEME} from '../../../shared/theme';
 import {socket} from '../../../shared/utils/sockets';
@@ -17,7 +21,9 @@ const SettingsMain = (props: Props) => {
   const {settings} = useSelector((state: RootState) => state);
 
   const {wallet} = useSelector((state: RootState) => state.wallet);
-  const {merchantEnabled} = useSelector((state: RootState) => state.user);
+  const {merchantEnabled, merchantShop, merchantData} = useSelector(
+    (state: RootState) => state.user,
+  );
 
   let [erc20Address, nonErc20Address, bitcoinAddress] = useMemo(() => {
     let btcAddress = wallet.find((c: Coin) => c.coin_symbol === 'btc');
@@ -90,19 +96,52 @@ const SettingsMain = (props: Props) => {
     props.navigation?.navigate(screen);
   };
 
+  const handleModeSwitch = () => {
+    Alert.alert(
+      `Confirm`,
+      `Are you sure you want to switch to ${
+        merchantEnabled ? 'Buyer' : 'Merchant'
+      }?`,
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => {
+            dispatch(setMerchantEnabledState(merchantEnabled ? false : true));
+            Toast.show({
+              text1: 'Success',
+              text2: `Successfully switched to ${
+                merchantEnabled ? 'Buyer' : 'Merchant'
+              } mode`,
+              type: 'success',
+            });
+          },
+        },
+      ],
+    );
+  };
+
   return (
     <>
       <AppHeader title="Settings" />
       <View style={styles.container}>
         {/* <SettingItem title="Address Book" chevron /> */}
-        {merchantEnabled && (
+        {/* {!merchantShop && ( */}
+
+        {merchantData && !merchantShop && (
           <SettingItem
             title="Add Store Location"
             chevron
             onPress={navToAddPlace}
           />
         )}
-        {!merchantEnabled && (
+
+        {/* )} */}
+        {!merchantData && (
           <SettingItem
             title="Enable Merchant Account"
             chevron
@@ -149,6 +188,12 @@ const SettingsMain = (props: Props) => {
           chevron
           onPress={navToBackupPhrase}
         />
+        <SettingItem
+          title={merchantEnabled ? 'Switch to buyer' : 'Switch to merchant'}
+          // chevron
+          onPress={handleModeSwitch}
+        />
+
         <SettingItem title="Log out" chevron onPress={onLogout} />
       </View>
     </>

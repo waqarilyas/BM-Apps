@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Image,
   ImageSourcePropType,
@@ -7,6 +7,7 @@ import {
   View,
   TouchableOpacity,
   TouchableOpacityProps,
+  ActivityIndicator,
 } from 'react-native';
 import {THEME} from '../../theme';
 import {HP, RF, WP} from '../../theme/responsive';
@@ -20,23 +21,31 @@ interface Props extends TouchableOpacityProps {
 }
 
 const ProductCard = (props: Props) => {
-  const PRODUCT_IMAGE = props.imageSource
-    ? props.imageSource
-    : {uri: props.imageURI};
+  const [loading, setLoading] = useState(false);
+
   return (
-    <TouchableOpacity {...props} style={styles.container}>
-      <>
-        <FastImage
-          style={styles.image}
-          source={PRODUCT_IMAGE}
-          resizeMode={FastImage.resizeMode.cover}
-        />
-        <Text numberOfLines={1} style={styles.name}>
-          {props.name}
-        </Text>
-        <Text style={styles.price}>${props.price}</Text>
-      </>
-    </TouchableOpacity>
+    <>
+      <TouchableOpacity {...props} style={styles.container}>
+        <>
+          <FastImage
+            style={styles.image}
+            source={{uri: props.imageURI}}
+            resizeMode={FastImage.resizeMode.cover}
+            onLoadStart={() => setLoading(true)}
+            onLoadEnd={() => setLoading(false)}
+          />
+          <Text numberOfLines={1} style={styles.name}>
+            {props.name}
+          </Text>
+          <Text style={styles.price}>${props.price}</Text>
+        </>
+        {loading && (
+          <View style={styles.activityIndicator}>
+            <ActivityIndicator size="small" color={THEME.COLORS.accentBlue} />
+          </View>
+        )}
+      </TouchableOpacity>
+    </>
   );
 };
 
@@ -47,8 +56,10 @@ const styles = StyleSheet.create({
     backgroundColor: THEME.COLORS.secondaryBackground,
     borderRadius: RF(12),
     padding: THEME.PADDING.LOW,
-    flex: 1,
+    // flex: 1,
     marginHorizontal: THEME.MARGIN.VERYLOW,
+    height: RF(90),
+    width: RF(100),
   },
   image: {
     width: RF(75),
@@ -60,9 +71,21 @@ const styles = StyleSheet.create({
   name: {
     fontSize: THEME.FONTS.SIZE.XSMALL,
     color: THEME.COLORS.textLight,
+    textAlign: 'center',
   },
   price: {
     fontSize: THEME.FONTS.SIZE.XXSMALL,
     color: THEME.COLORS.white,
+    textAlign: 'center',
+  },
+  activityIndicator: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    // backgroundColor: 'red',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

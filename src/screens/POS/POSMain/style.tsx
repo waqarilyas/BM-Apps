@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: THEME.FONTS.SIZE.LARGE,
     fontFamily: THEME.FONTS.TYPE.SEMIBOLD,
+    marginBottom: 5,
   },
 });
 

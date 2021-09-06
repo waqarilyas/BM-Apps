@@ -39,6 +39,8 @@ const AddProduct = (props: Props) => {
 
   const openPicker = () => setImageModalOpen(true);
 
+  console.log('---image data--', image?.path);
+
   const handleData = (values: any, action: any) => {
     if (!image) {
       setGenericError('Please select your product image to continue');
@@ -50,7 +52,7 @@ const AddProduct = (props: Props) => {
         name: 'photo',
         filename: 'vid.mp4',
         data: RNFetchBlob.wrap(
-          decodeURIComponent(image?.sourceURL?.replace('file://', '')),
+          decodeURIComponent(image?.path?.replace('file://', '')),
         ),
       },
       {
@@ -105,8 +107,8 @@ const AddProduct = (props: Props) => {
       <AppHeader showBack title="Add Product" showCart />
       <KeyboardAwareScrollView style={styles.container}>
         <View style={styles.imageContainer}>
-          {image?.sourceURL && (
-            <FastImage source={{uri: image?.sourceURL}} style={styles.image} />
+          {image?.path && (
+            <FastImage source={{uri: image?.path}} style={styles.image} />
           )}
           <LinearGradient
             colors={[

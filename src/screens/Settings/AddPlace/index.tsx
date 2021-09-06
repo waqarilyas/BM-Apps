@@ -33,6 +33,7 @@ const initialValues: any = {
 
 const AddPlace = (props: Props) => {
   const [loading, setLoading] = useState(false);
+  const [photos, setPhotos] = useState([]);
   const [location, setLocation] = useState({
     latitude: 37.78825,
     longitude: -122.4324,
@@ -43,11 +44,6 @@ const AddPlace = (props: Props) => {
   const mapRef = useRef(null);
 
   const {merchantData} = useSelector((state: RootState) => state.user);
-
-  const shopLocation = {
-    latitude: 37.78825,
-    longitude: -122.4324,
-  };
 
   const animateToCurrentLocation = (lat: any, lng: any) => {
     mapRef?.current.animateToRegion(
@@ -63,9 +59,11 @@ const AddPlace = (props: Props) => {
 
   const handleData = (values: any, action: any) => {
     setLoading(true);
-    values.location = shopLocation;
+    values.location = {
+      latitude: location.latitude,
+      longitude: location.longitude,
+    };
     values.merchantId = merchantData._id;
-    values.address = 'Lahore Punjab Pakistan';
 
     createNewShop(values)
       .then(res => {
@@ -126,6 +124,7 @@ const AddPlace = (props: Props) => {
               ) : null}
               <View style={styles.placesContainer}>
                 <GooglePlacesAutocomplete
+                  keepResultsAfterBlur
                   placeholder="Location"
                   fetchDetails={true}
                   nearbyPlacesAPI="GoogleReverseGeocoding"
@@ -135,7 +134,12 @@ const AddPlace = (props: Props) => {
                     placeholderTextColor: THEME.COLORS.textLight,
                   }}
                   onPress={(data, details = null) => {
-                    console.log(data, details);
+                    console.log(
+                      '-----data----',
+                      data,
+                      '----------details----',
+                      details,
+                    );
                     setFieldValue('address', data.description);
                     setFieldValue('location', details?.geometry.location);
                     setLocation({
