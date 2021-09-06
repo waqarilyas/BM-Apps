@@ -7,18 +7,26 @@ import Cart from '../../../screens/POS/Cart';
 import AddProduct from '../../../screens/POS/AddProduct';
 import Payment from '../../../screens/POS/Payment';
 import SearchProduct from '../../../screens/POS/SearchProduct';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../../shared/store';
 
 const Stack = createStackNavigator();
 
 const POSStack = () => {
+  const {merchantEnabled} = useSelector((state: RootState) => state.user);
+
   return (
     <Stack.Navigator
       screenOptions={({navigation}) => ({
         headerShown: false,
       })}>
-      <Stack.Screen name="POSMain" component={POSMain} />
+      {merchantEnabled ? (
+        <Stack.Screen name="POSMain" component={POSMain} />
+      ) : (
+        <Stack.Screen name="NearBy" component={NearBy} />
+      )}
+
       <Stack.Screen name="AddProduct" component={AddProduct} />
-      <Stack.Screen name="NearBy" component={NearBy} />
       <Stack.Screen name="ProductDetails" component={ProductDetails} />
       <Stack.Screen name="Cart" component={Cart} />
       <Stack.Screen name="Payment" component={Payment} />

@@ -5,7 +5,6 @@ import {
   setMerchantData,
   setMerchantEnabledState,
   setMerchantShop,
-  setMerchantShops,
 } from '../store/reducers/userReducer';
 import RNFetchBlob from 'rn-fetch-blob';
 import {setWalletAddress} from '../store/reducers/walletReducer';
@@ -24,7 +23,7 @@ export const getMerchantShops = async () => {
   await axios
     .get(`${blockConfig.API_URL}/shop/getByMerchant/${merchantData._id}`)
     .then(res => {
-      store.dispatch(setMerchantShops(res.data));
+      store.dispatch(setMerchantShop(res.data));
     });
 };
 
@@ -62,7 +61,17 @@ export const getInitialMerchantData = async () => {
       `${blockConfig.API_URL}/shop/getByMerchant/${res.data._id}`,
     );
 
-    console.log('--shop data--', shopData);
     store.dispatch(setMerchantShop(shopData.data));
   }
+};
+
+export const getMerchantProducts = async () => {
+  const {merchantData} = store.getState().user;
+  return axios.get(
+    `${blockConfig.API_URL}/product/getByMerchant/${merchantData._id}`,
+  );
+};
+
+export const getAllShops = async () => {
+  return axios.get(`${blockConfig.API_URL}/shop/getAllShops`);
 };

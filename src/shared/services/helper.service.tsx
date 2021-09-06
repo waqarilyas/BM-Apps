@@ -2,6 +2,7 @@ import Toast from 'react-native-simple-toast';
 import {Dimensions} from 'react-native';
 import Share from 'react-native-share';
 import ImagePicker from 'react-native-image-crop-picker';
+// import Geolocation from 'react-native-geolocation-service';
 import {store} from '../store';
 
 export const getWidth = () => {
@@ -43,32 +44,51 @@ export const getERC20NetworkFee = (
 export const handleImageSelection = (type: 'camera' | 'gallery') => {
   console.log(type);
   return new Promise((resolve: any, reject: any) => {
-    type == 'camera'
-      ? ImagePicker.openCamera({
-          width: 300,
-          height: 400,
-          cropping: true,
-          includeBase64: true,
-        })
-          .then(image => {
-            resolve(image);
+    try {
+      type == 'camera'
+        ? ImagePicker.openCamera({
+            cropping: false,
+            includeBase64: true,
           })
-          .catch(err => {
-            reject(err);
+            .then(image => {
+              resolve(image);
+            })
+            .catch(err => {
+              reject(err);
+            })
+        : type == 'gallery'
+        ? ImagePicker.openPicker({
+            cropping: false,
+            includeBase64: true,
           })
-      : type == 'gallery'
-      ? ImagePicker.openPicker({
-          width: 300,
-          height: 400,
-          cropping: true,
-          includeBase64: true,
-        })
-          .then(image => {
-            resolve(image);
-          })
-          .catch(err => {
-            reject(err);
-          })
-      : null;
+            .then(image => {
+              resolve(image);
+            })
+            .catch(err => {
+              reject(err);
+            })
+        : null;
+    } catch (err) {
+      console.log('--camera error--', err);
+    }
   });
 };
+
+// export const animateToCurrentLocation = mapRef => {
+//   Geolocation.getCurrentPosition(
+//     info => {
+//       const {latitude, longitude} = info.coords;
+//       mapRef?.current.animateToRegion(
+//         {
+//           latitude,
+//           longitude,
+//           latitudeDelta: LATITUDE_DELTA,
+//           longitudeDelta: LONGITUDE_DELTA,
+//         },
+//         1000,
+//       );
+//     },
+//     err => console.error(err),
+//     GEO_LOC_OPTIONS,
+//   );
+// };
