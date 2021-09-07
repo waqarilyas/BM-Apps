@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text, TouchableOpacity, Pressable} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {ICONS} from '../../../assets';
 import AppHeader from '../../../shared/components/AppHeader';
@@ -9,22 +9,51 @@ import Icon from 'react-native-vector-icons/EvilIcons';
 import {THEME} from '../../../shared/theme';
 import {GenericNavigation} from '../../../shared/models/types';
 import PrimaryButton from '../../../shared/components/PrimaryButton';
-import {HP, RF} from '../../../shared/theme/responsive';
+import {HP, RF, WP} from '../../../shared/theme/responsive';
 import ChooseCoinModal from '../../../shared/components/ChooseCoinModal';
 import GLOBAL_STYLE from '../../../shared/theme/global';
+import {RootState} from '../../../shared/store';
+import {useSelector} from 'react-redux';
+import Clipboard from '@react-native-clipboard/clipboard';
+import QRCode from 'react-native-qrcode-svg';
+import {
+  AppShareContent,
+  AppShowToast,
+} from '../../../shared/services/helper.service';
 
 interface Props extends GenericNavigation {}
 
 const Payment = (props: Props) => {
-  const [copied, setCopied] = useState(true);
+  const {wallet} = useSelector((state: RootState) => state.wallet);
+  const {cart, totalCartAmount, totalTax} = useSelector(
+    (state: RootState) => state.pos,
+  );
+  const [copied, setCopied] = useState(false);
   const [showCurrencyModal, setShowCurrencyModal] = useState(false);
+  const [selectedCoin, setSelectedCoin] = useState();
+  const [usdPrice, setUSDPrice] = useState(0);
+  const totalPrice = totalCartAmount + totalTax;
 
   const toggleModal = () => setShowCurrencyModal(!showCurrencyModal);
 
-  const onSelectCoin = (coin: string) => {
+  const onSelectCoin = (coin: any) => {
+    let price = totalPrice / coin?.chart_data?.rate;
+    setUSDPrice(price);
     setShowCurrencyModal(false);
-    console.log(coin);
+    setSelectedCoin(coin);
   };
+
+  const onPressAddress = () => {
+    setCopied(true);
+    AppShowToast('Copied');
+    Clipboard.setString(selectedCoin?.address!);
+  };
+
+  useEffect(() => {
+    setSelectedCoin(wallet[0]);
+    const priceInUSD = totalPrice / wallet[0]?.chart_data?.rate;
+    setUSDPrice(priceInUSD);
+  }, []);
   return (
     <>
       <AppHeader title="Payment" showBack />
@@ -37,29 +66,38 @@ const Payment = (props: Props) => {
             style={styles.coinIcon}
           />
           <View style={{flex: 1}}>
-            <Text style={{color: THEME.COLORS.white}}>Bitcoin (BTC)</Text>
+            <Text style={{color: THEME.COLORS.white}}>
+              {selectedCoin?.coin_name}({selectedCoin?.coin_symbol})
+            </Text>
           </View>
           {/* <Icon name="chevron-down" size={24} color={THEME.COLORS.white} /> */}
         </TouchableOpacity>
 
         <View style={styles.amountContainer}>
-          <Text style={styles.amountBTC}>0.0240 BTC</Text>
-          <Text style={styles.amountUSD}>$50.00 USD</Text>
+          <Text style={styles.amountBTC}>
+            {usdPrice} {selectedCoin?.coin_symbol}
+          </Text>
+          <Text style={styles.amountUSD}>
+            ${totalCartAmount + totalTax} USD
+          </Text>
         </View>
 
-        <FastImage
+        {/* <FastImage
           source={ICONS.QRCODE}
           resizeMode={FastImage.resizeMode.contain}
           style={styles.qr}
-        />
+        /> */}
+        <View style={styles.qrContainer}>
+          <QRCode size={WP(40)} value={selectedCoin?.address} />
+        </View>
         <Text style={styles.instruction}>
           Use the address below to receive funds.
         </Text>
-        <View style={styles.keyContainer}>
+        <Pressable style={styles.keyContainer} onPress={onPressAddress}>
           <Text numberOfLines={1} style={styles.keyText}>
-            3E53XjqK4Cxt71BGeERYUri45445P2Vh…
+            {selectedCoin?.address}
           </Text>
-        </View>
+        </Pressable>
         {copied && (
           <View style={styles.copiedContainer}>
             <FastImage
@@ -73,6 +111,12 @@ const Payment = (props: Props) => {
         <PrimaryButton
           icon="share"
           title="Share"
+          onPress={() =>
+            AppShareContent(
+              selectedCoin?.address,
+              'Sharing wallet address for receiving funds',
+            )
+          }
           buttonStyle={styles.shareButton}
           textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
         />
@@ -81,6 +125,8 @@ const Payment = (props: Props) => {
         isVisible={showCurrencyModal}
         onPressBackdrop={toggleModal}
         onPressCoin={onSelectCoin}
+        data={wallet}
+        selectedCoin={selectedCoin}
       />
     </>
   );

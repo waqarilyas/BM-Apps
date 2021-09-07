@@ -33,11 +33,11 @@ const POSMain = (props: Props) => {
   const wait = (timeout: any) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
-  const onRefresh = React.useCallback(() => {
+  const onRefresh = () => {
     setRefreshing(true);
     setReload(!reload);
     wait(2000).then(() => setRefreshing(false));
-  }, []);
+  };
 
   const navToAddProduct = () => {
     if (!merchantShop) {

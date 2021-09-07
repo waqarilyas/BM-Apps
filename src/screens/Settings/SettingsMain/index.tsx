@@ -132,7 +132,7 @@ const SettingsMain = (props: Props) => {
         {/* <SettingItem title="Address Book" chevron /> */}
         {/* {!merchantShop && ( */}
 
-        {merchantData && !merchantShop && (
+        {merchantData && !merchantShop && merchantEnabled && (
           <SettingItem
             title="Add Store Location"
             chevron
@@ -188,11 +188,13 @@ const SettingsMain = (props: Props) => {
           chevron
           onPress={navToBackupPhrase}
         />
-        <SettingItem
-          title={merchantEnabled ? 'Switch to buyer' : 'Switch to merchant'}
-          // chevron
-          onPress={handleModeSwitch}
-        />
+        {merchantData && (
+          <SettingItem
+            title={merchantEnabled ? 'Switch to buyer' : 'Switch to merchant'}
+            // chevron
+            onPress={handleModeSwitch}
+          />
+        )}
 
         <SettingItem title="Log out" chevron onPress={onLogout} />
       </View>

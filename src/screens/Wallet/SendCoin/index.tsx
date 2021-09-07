@@ -109,7 +109,6 @@ const SendCoin = (props: Props) => {
     }
     t_fiat = convertToFiatString(t_coin);
     return [t_fiat, Number(t_coin).toFixed(6)];
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [usdtAmount, coinAmount, coin]);
 
   const onSend = async () => {

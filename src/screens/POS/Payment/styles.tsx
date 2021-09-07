@@ -31,11 +31,13 @@ const styles = StyleSheet.create({
   amountBTC: {
     color: THEME.COLORS.white,
     fontSize: THEME.FONTS.SIZE.MEDIUM,
+    textAlign: 'center',
   },
   amountUSD: {
     marginTop: THEME.MARGIN.SUPERLOW,
     color: THEME.COLORS.textLight,
     fontSize: THEME.FONTS.SIZE.MEDIUM,
+    textAlign: 'center',
   },
   qr: {
     width: RF(150),
@@ -75,6 +77,10 @@ const styles = StyleSheet.create({
     width: '55%',
     height: HP(6),
     marginTop: THEME.MARGIN.LOW,
+  },
+  qrContainer: {
+    width: '100%',
+    alignItems: 'center',
   },
 });
 

@@ -5,6 +5,7 @@ import {
   Text,
   ScrollView,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Modal from 'react-native-modal';
@@ -17,21 +18,34 @@ interface Props {
   isVisible: boolean;
   onPressBackdrop: () => void;
   onPressCoin: (coin: string) => void;
+  data: any;
 }
 
 const ChooseCoinModal = (props: Props) => {
-  const renderCoin = () => {
+  const {data, onPressCoin} = props;
+
+  const RenderCoin = ({data}: {data: any}) => {
+    let image = COINS.BTC;
+
+    if (data.coin_symbol == 'eth') {
+      image = COINS.ETH;
+    } else if (data.coin_symbol == 'weenus') {
+      image = COINS.WEENUS;
+    }
+
     return (
       <TouchableOpacity
         activeOpacity={0.9}
-        onPress={() => props.onPressCoin('BTC')}
+        onPress={() => onPressCoin(data)}
         style={styles.coinContainer}>
         <FastImage
-          source={COINS.BTC}
+          source={image}
           resizeMode={FastImage.resizeMode.contain}
           style={styles.coinImage}
         />
-        <Text style={styles.coinText}>Bitcoin (BTC)</Text>
+        <Text style={styles.coinText}>
+          {data.coin_name}({data.coin_symbol})
+        </Text>
       </TouchableOpacity>
     );
   };
@@ -44,14 +58,18 @@ const ChooseCoinModal = (props: Props) => {
       animationInTiming={400}
       animationOutTiming={400}>
       <View style={styles.container}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          {renderCoin()}
-          {renderCoin()}
-          {renderCoin()}
-          {renderCoin()}
-          {renderCoin()}
-          {renderCoin()}
-        </ScrollView>
+        <FlatList
+          showsVerticalScrollIndicator={false}
+          data={data}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({item, index}) => {
+            return <RenderCoin data={item} />;
+          }}
+        />
+
+        {/* <ScrollView showsVerticalScrollIndicator={false}>
+          
+        </ScrollView> */}
       </View>
     </Modal>
   );
