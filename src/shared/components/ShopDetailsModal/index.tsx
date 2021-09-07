@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     backgroundColor: THEME.COLORS.primaryBackground,
     width: '80%',
     alignSelf: 'center',
-    height: '35%',
+    // height: '35%',
     borderRadius: RF(10),
     alignItems: 'center',
     padding: RF(20),
@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
   cardTitle: {
     color: THEME.COLORS.white,
     fontSize: RF(16),
+    flex: 1,
   },
   cardContainer: {
     flexDirection: 'row',

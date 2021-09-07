@@ -36,8 +36,6 @@ const EnableMerchant = (props: Props) => {
 
   const {walletAddress} = useSelector((state: RootStateOrAny) => state.wallet);
 
-  console.log('--wallet address--', walletAddress);
-
   const handleData = (values: any, action: any) => {
     setLoading(true);
     values.walletAddress = walletAddress;

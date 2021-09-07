@@ -10,6 +10,8 @@ import {ICONS} from '../../../assets';
 import GLOBAL_STYLE from '../../theme/global';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {StyleProp} from 'react-native';
+import {RootState} from '../../store';
+import {useSelector} from 'react-redux';
 
 interface Props {
   title?: string;
@@ -23,8 +25,9 @@ interface Props {
 const AppHeader = (props: Props) => {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
+  const {cart} = useSelector((state: RootState) => state.pos);
 
-  let notificationCount = 7;
+  let notificationCount = cart.length;
 
   const showCart = () => {
     navigation.navigate('Cart');

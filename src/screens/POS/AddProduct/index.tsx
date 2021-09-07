@@ -27,6 +27,7 @@ const initialValues: any = {
   title: '',
   price: '',
   category: '',
+  tax: '',
 };
 
 const AddProduct = (props: Props) => {
@@ -38,8 +39,6 @@ const AddProduct = (props: Props) => {
   const {merchantShop} = useSelector((state: RootState) => state.user);
 
   const openPicker = () => setImageModalOpen(true);
-
-  console.log('---image data--', image?.path);
 
   const handleData = (values: any, action: any) => {
     if (!image) {
@@ -74,6 +73,10 @@ const AddProduct = (props: Props) => {
       {
         name: 'category',
         data: values.category,
+      },
+      {
+        name: 'tax',
+        data: values.tax,
       },
     ];
     createNewProduct(params)
@@ -140,7 +143,6 @@ const AddProduct = (props: Props) => {
               {touched.title && errors.title ? (
                 <Text style={styles.errors}>{errors.title}</Text>
               ) : null}
-
               <AppInput
                 placeholder="Title"
                 onChangeText={handleChange('title')}
@@ -150,7 +152,17 @@ const AddProduct = (props: Props) => {
               ) : null}
               <AppInput
                 placeholder="Price"
+                keyboardType="number-pad"
                 onChangeText={handleChange('price')}
+              />
+              {touched.tax && errors.tax ? (
+                <Text style={styles.errors}>{errors.tax}</Text>
+              ) : null}
+
+              <AppInput
+                keyboardType="number-pad"
+                placeholder="Tax"
+                onChangeText={handleChange('tax')}
               />
               {touched.category && errors.category ? (
                 <Text style={styles.errors}>{errors.category}</Text>
@@ -159,13 +171,11 @@ const AddProduct = (props: Props) => {
                 placeholder="Category"
                 onChangeText={handleChange('category')}
               />
-
               {genericError ? (
                 <Text style={[styles.errors, styles.gError]}>
                   {genericError}
                 </Text>
               ) : null}
-
               <PrimaryButton
                 title="Save"
                 buttonStyle={styles.saveButton}
