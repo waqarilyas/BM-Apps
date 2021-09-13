@@ -149,11 +149,11 @@ const SettingsMain = (props: Props) => {
           />
         )}
         <SettingItem title="Change PIN" chevron onPress={navToChangePIN} />
-        <SettingItem
+        {/* <SettingItem
           title="Sales History"
           chevron
           onPress={navToPurchaseHistory}
-        />
+        /> */}
         <SettingItem
           title="Choose Currency"
           value={settings.currency}
@@ -166,18 +166,18 @@ const SettingsMain = (props: Props) => {
           chevron
           onPress={navToLanguageSelection}
         />
-        <SettingItem
+        {/* <SettingItem
           title="POS Default Tax Rate"
           value={`${settings.defaultTaxRate}%`}
           chevron
-        />
-        <SettingItem
+        /> */}
+        {/* <SettingItem
           activeOpacity={1}
           title="Use Dark Mood"
           showSwitch
           switchState={settings.darkMode}
           toggleSwitch={toggleDarkMode}
-        />
+        /> */}
         <SettingItem
           title="Coins Acceptance Settings"
           chevron
@@ -190,7 +190,7 @@ const SettingsMain = (props: Props) => {
         />
         {merchantData && (
           <SettingItem
-            title={merchantEnabled ? 'Switch to buyer' : 'Switch to merchant'}
+            title={merchantEnabled ? 'Switch to Buyer' : 'Switch to Merchant'}
             // chevron
             onPress={handleModeSwitch}
           />

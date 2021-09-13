@@ -36,7 +36,8 @@ const Cart = (props: Props) => {
     (state: RootState) => state.pos,
   );
 
-  const navToPayment = () => props.navigation?.navigate('Payment');
+  const navToPayment = () =>
+    props.navigation?.navigate('Payment', {type: 'cart'});
 
   const RenderProductCard = ({data}: any) => {
     return (
@@ -146,7 +147,7 @@ const Cart = (props: Props) => {
                 </Text>
               </View>
             </View>
-            <View style={styles.personalContainer}>
+            {/* <View style={styles.personalContainer}>
               <Text style={styles.personalTitle}>Personal Information</Text>
               <View style={styles.nameContainer}>
                 <AppInput
@@ -157,12 +158,14 @@ const Cart = (props: Props) => {
               </View>
               <AppInput placeholder="Email Name" />
               <AppInput placeholder="Billing Address" />
+            </View> */}
+            <View style={styles.bottomButtonContainer}>
+              <PrimaryButton
+                title="Check out"
+                onPress={navToPayment}
+                textStyle={[GLOBAL_STYLE.LARGE_BUTTON_TEXT]}
+              />
             </View>
-            <PrimaryButton
-              title="Check out"
-              onPress={navToPayment}
-              textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
-            />
           </>
         </KeyboardAwareScrollView>
       ) : (

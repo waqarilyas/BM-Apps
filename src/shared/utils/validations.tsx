@@ -14,7 +14,7 @@ export const createShopVS = Yup.object().shape({
   name: Yup.string().required('Please enter your shop name'),
   category: Yup.string().required('Please enter your shop category'),
   phone: Yup.string().required('Please enter your shop phone number'),
-  website: Yup.string().required('Please enter your shop website'),
+  website: Yup.string().optional(),
   address: Yup.string().required('Please select a valid address'),
 });
 

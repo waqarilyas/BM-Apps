@@ -82,6 +82,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: THEME.MARGIN.NORMAL,
   },
+  bottomButtonContainer: {
+    marginTop: THEME.MARGIN.NORMAL,
+  },
 });
 
 export default styles;

@@ -16,6 +16,8 @@ import {RootState} from '../../../shared/store';
 import {useSelector} from 'react-redux';
 import Clipboard from '@react-native-clipboard/clipboard';
 import QRCode from 'react-native-qrcode-svg';
+import AppInput from '../../../shared/components/AppInput';
+
 import {
   AppShareContent,
   AppShowToast,
@@ -24,6 +26,8 @@ import {
 interface Props extends GenericNavigation {}
 
 const Payment = (props: Props) => {
+  const {type}: any = props.route?.params;
+
   const {wallet} = useSelector((state: RootState) => state.wallet);
   const {cart, totalCartAmount, totalTax} = useSelector(
     (state: RootState) => state.pos,
@@ -31,8 +35,11 @@ const Payment = (props: Props) => {
   const [copied, setCopied] = useState(false);
   const [showCurrencyModal, setShowCurrencyModal] = useState(false);
   const [selectedCoin, setSelectedCoin] = useState();
+  const [customPrice, setCustomPrice] = useState(0);
   const [usdPrice, setUSDPrice] = useState(0);
-  const totalPrice = totalCartAmount + totalTax;
+  const [totalPrice, setTotalPrice] = useState(
+    type == 'invoice' ? 0 : totalCartAmount + totalTax,
+  );
 
   const toggleModal = () => setShowCurrencyModal(!showCurrencyModal);
 
@@ -46,14 +53,18 @@ const Payment = (props: Props) => {
   const onPressAddress = () => {
     setCopied(true);
     AppShowToast('Copied');
-    Clipboard.setString(selectedCoin?.address!);
+    Clipboard.setString(selectedCoin?.address);
   };
 
   useEffect(() => {
     setSelectedCoin(wallet[0]);
+  }, []);
+
+  useEffect(() => {
     const priceInUSD = totalPrice / wallet[0]?.chart_data?.rate;
     setUSDPrice(priceInUSD);
-  }, []);
+  }, [totalPrice]);
+
   return (
     <>
       <AppHeader title="Payment" showBack />
@@ -73,12 +84,26 @@ const Payment = (props: Props) => {
           {/* <Icon name="chevron-down" size={24} color={THEME.COLORS.white} /> */}
         </TouchableOpacity>
 
+        {type == 'invoice' && (
+          <AppInput
+            placeholder="Enter Amount USD"
+            keyboardType="number-pad"
+            onChangeText={text => {
+              if (text.length == 0) {
+                setTotalPrice(0);
+                return;
+              }
+              setTotalPrice(parseInt(text));
+            }}
+          />
+        )}
+
         <View style={styles.amountContainer}>
           <Text style={styles.amountBTC}>
             {usdPrice} {selectedCoin?.coin_symbol}
           </Text>
           <Text style={styles.amountUSD}>
-            ${totalCartAmount + totalTax} USD
+            ${type == 'invoice' ? totalPrice : totalCartAmount + totalTax} USD
           </Text>
         </View>
 

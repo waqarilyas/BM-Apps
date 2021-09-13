@@ -206,12 +206,14 @@ const SendCoin = (props: Props) => {
         <AppInput
           inputStyle={{marginTop: THEME.MARGIN.NORMAL}}
           value={coinAmount}
+          keyboardType="numeric"
           onChangeText={onChangeCoinAmount}
           placeholder={`Enter amount in ${coin?.coin_symbol.toUpperCase()}`}
         />
         <AppInput
           inputStyle={{marginTop: THEME.MARGIN.NORMAL}}
           value={usdtAmount}
+          keyboardType="numeric"
           onChangeText={onChangeUsdtAmount}
           placeholder={`Enter amount in ${defaultCurrency}`}
         />

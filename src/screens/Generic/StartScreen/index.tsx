@@ -1,11 +1,12 @@
 import {NavigationProp} from '@react-navigation/core';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {DeviceEventEmitter, Linking, Text, View} from 'react-native';
 import {useDispatch} from 'react-redux';
 import AppLoader from '../../../shared/components/AppLoader';
 import Logo from '../../../shared/components/Logo';
 import PrimaryButton from '../../../shared/components/PrimaryButton';
 import SecondaryButton from '../../../shared/components/SecondaryButton';
+import {CheckConnectivity} from '../../../shared/services/helper.service';
 import {renderWallet} from '../../../shared/store/actions/walletActions';
 import {setIsWalletRendered} from '../../../shared/store/reducers/walletReducer';
 import {THEME} from '../../../shared/theme';
@@ -32,6 +33,7 @@ const StartScreen = (props: Props) => {
       console.log(error);
     }
   };
+
   return (
     <View style={styles.container}>
       <Logo style={{marginTop: THEME.MARGIN.SUPERHIGH}} />

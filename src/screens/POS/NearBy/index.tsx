@@ -48,22 +48,20 @@ const NearBy = (props: Props) => {
       Geolocation.getCurrentPosition(info => {
         const {latitude, longitude} = info.coords;
 
-        mapRef?.current.animateToRegion(
+        mapRef?.current?.animateToRegion(
           {
             latitude: latitude,
             longitude: longitude,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           },
-          1500,
+          2000,
         );
       });
     } catch (err) {
       console.log('---error---', err);
     }
   };
-
-  console.log(selectedShop);
 
   return (
     <View style={styles.container}>

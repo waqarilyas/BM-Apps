@@ -15,7 +15,6 @@ export const posSlice = createSlice({
     addProductToCart: (state, action) => {
       const objToPush = {...action.payload};
       objToPush.count = 1;
-      console.log('----price----', parseInt(action.payload.price));
       state.totalCartAmount =
         state.totalCartAmount + parseInt(action.payload.price);
       state.totalTax = state.totalTax + parseInt(action.payload.tax);
