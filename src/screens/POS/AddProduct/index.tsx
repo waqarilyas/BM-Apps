@@ -84,7 +84,6 @@ const AddProduct = (props: Props) => {
         data: values.tax,
       },
     ];
-
     createNewProduct(params)
       .uploadProgress((written, total) => {
         console.log('uploaded', written / total);
