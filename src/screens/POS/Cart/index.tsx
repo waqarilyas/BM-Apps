@@ -114,7 +114,7 @@ const Cart = (props: Props) => {
             {/* <View style={styles.productContainer}>{renderProductCard()}</View> */}
             <View style={styles.totalContainer}>
               <View style={styles.totalRow}>
-                <Text style={styles.totalText}>Items</Text>
+                <Text style={styles.totalText}>Price</Text>
                 <Text style={styles.totalText}>$ {totalCartAmount}</Text>
               </View>
               <View style={styles.totalRow}>

@@ -8925,6 +8925,11 @@
   dependencies:
     "prop-types" "^15.7.2"
 
+"react-native-touch-id@^4.4.1":
+  "integrity" "sha512-1jTl8fC+0fxvqegy/XXTyo6vMvPhjzkoDdaqoYZx0OH8AT250NuXnNPyKktvigIcys3+2acciqOeaCall7lrvg=="
+  "resolved" "https://registry.npmjs.org/react-native-touch-id/-/react-native-touch-id-4.4.1.tgz"
+  "version" "4.4.1"
+
 "react-native-udp@^2.7.0":
   "integrity" "sha512-tT+Wn0yLbdaTohXkGGor0HYgScGaASWCaCLSO1kCIUdNke7AtcOX5a5nfNLYrEjdUn7/2HRofuplyky7iJHSQA=="
   "resolved" "https://registry.npmjs.org/react-native-udp/-/react-native-udp-2.7.0.tgz"

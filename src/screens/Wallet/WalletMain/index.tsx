@@ -1,5 +1,5 @@
 import React, {useCallback, useState, useEffect, useMemo} from 'react';
-import {ScrollView, Text, View} from 'react-native';
+import {ScrollView, Text, View, BackHandler} from 'react-native';
 import {PieChart, PieChartData} from 'react-native-svg-charts';
 import {ChartItem, Coin, GenericNavigation} from '../../../shared/models/types';
 import styles from './styles';
@@ -13,11 +13,16 @@ import {initSocket, socket} from '../../../shared/utils/sockets';
 import {renderWallet} from '../../../shared/store/actions/walletActions';
 import {EMPTY_CHART_DATA} from '../../../shared/utils/AppConstants';
 import {getInitialMerchantData} from '../../../shared/services/merchant.service';
+import TouchID from 'react-native-touch-id';
+import Toast from 'react-native-toast-message';
+import AuthModal from '../../../shared/components/AuthModal';
 
 interface Props extends GenericNavigation {}
 
 const WalletMain = (props: Props) => {
+  const {thumbEnabled} = useSelector((state: RootState) => state.settings);
   const [searchText, setSearchText] = useState('');
+  const [authOpen, setAuthOpen] = useState(thumbEnabled);
   const {wallet, walletLoading} = useSelector(
     (state: RootState) => state.wallet,
   );
@@ -147,6 +152,9 @@ const WalletMain = (props: Props) => {
           })}
         </ScrollView>
       </View>
+      {thumbEnabled && authOpen && (
+        <AuthModal visible={true} onClose={() => setAuthOpen(false)} />
+      )}
     </>
   );
 };

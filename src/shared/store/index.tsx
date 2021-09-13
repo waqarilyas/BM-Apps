@@ -13,7 +13,7 @@ declare var window: any;
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['user', 'wallet', 'pos'],
+  whitelist: ['user', 'wallet', 'pos', 'settings'],
 };
 
 const reducers = combineReducers({

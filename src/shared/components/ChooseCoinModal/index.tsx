@@ -44,7 +44,7 @@ const ChooseCoinModal = (props: Props) => {
           style={styles.coinImage}
         />
         <Text style={styles.coinText}>
-          {data.coin_name}({data.coin_symbol})
+          {data.coin_name}({data.coin_symbol?.toUpperCase()})
         </Text>
       </TouchableOpacity>
     );

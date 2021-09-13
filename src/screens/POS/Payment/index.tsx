@@ -78,7 +78,8 @@ const Payment = (props: Props) => {
           />
           <View style={{flex: 1}}>
             <Text style={{color: THEME.COLORS.white}}>
-              {selectedCoin?.coin_name}({selectedCoin?.coin_symbol})
+              {selectedCoin?.coin_name}(
+              {selectedCoin?.coin_symbol?.toUpperCase()})
             </Text>
           </View>
           {/* <Icon name="chevron-down" size={24} color={THEME.COLORS.white} /> */}
@@ -100,7 +101,7 @@ const Payment = (props: Props) => {
 
         <View style={styles.amountContainer}>
           <Text style={styles.amountBTC}>
-            {usdPrice} {selectedCoin?.coin_symbol}
+            {usdPrice} {selectedCoin?.coin_symbol?.toUpperCase()}
           </Text>
           <Text style={styles.amountUSD}>
             ${type == 'invoice' ? totalPrice : totalCartAmount + totalTax} USD

@@ -7,6 +7,7 @@ import SettingItem from '../../../shared/components/SettingItem';
 import {Coin, GenericNavigation} from '../../../shared/models/types';
 import {RootState} from '../../../shared/store';
 import {resetPos} from '../../../shared/store/reducers/posReducer';
+import {setThumbEnabled} from '../../../shared/store/reducers/settingsReducer';
 import {
   resetUser,
   setMerchantEnabledState,
@@ -21,6 +22,7 @@ const SettingsMain = (props: Props) => {
   const {settings} = useSelector((state: RootState) => state);
 
   const {wallet} = useSelector((state: RootState) => state.wallet);
+  const {thumbEnabled} = useSelector((state: RootState) => state.settings);
   const {merchantEnabled, merchantShop, merchantData} = useSelector(
     (state: RootState) => state.user,
   );
@@ -188,6 +190,28 @@ const SettingsMain = (props: Props) => {
           chevron
           onPress={navToBackupPhrase}
         />
+
+        <SettingItem
+          title={
+            thumbEnabled
+              ? 'Disable Thumb Impression'
+              : 'Enable Thumb Impression'
+          }
+          chevron
+          onPress={() => {
+            thumbEnabled
+              ? dispatch(setThumbEnabled(false))
+              : dispatch(setThumbEnabled(true));
+            Toast.show({
+              text1: 'Success',
+              text2: `Thumb Impression ${
+                thumbEnabled ? 'disabled' : 'enabled'
+              } successfully`,
+              type: 'success',
+            });
+          }}
+        />
+
         {merchantData && (
           <SettingItem
             title={merchantEnabled ? 'Switch to Buyer' : 'Switch to Merchant'}

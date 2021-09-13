@@ -47,8 +47,8 @@ export const getInitialMerchantData = async () => {
   let walletAddress = '';
 
   wallet.forEach(item => {
-    if (item.coin_symbol == 'btc') {
-      walletAddress = item.public_key;
+    if (item.coin_symbol == 'eth') {
+      walletAddress = item.address;
       store.dispatch(setWalletAddress(walletAddress));
     }
   });
