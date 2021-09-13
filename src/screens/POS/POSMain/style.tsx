@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
   },
   topAction: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
   actionIcon: {
     width: THEME.FONTS.SIZE.SMALL,
@@ -36,6 +37,19 @@ const styles = StyleSheet.create({
     fontSize: THEME.FONTS.SIZE.LARGE,
     fontFamily: THEME.FONTS.TYPE.SEMIBOLD,
     marginBottom: 5,
+  },
+  mainContainer: {
+    flex: 1,
+    backgroundColor: THEME.COLORS.primaryBackground,
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: RF(5),
+    justifyContent: 'center',
+  },
+  closeIcon: {
+    paddingLeft: RF(3),
   },
 });
 

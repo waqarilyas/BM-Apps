@@ -16,6 +16,7 @@ import styles from './styles';
 import RadioButtonRN from 'radio-buttons-react-native';
 import {THEME} from '../../../shared/theme';
 import GLOBAL_STYLE from '../../../shared/theme/global';
+import Toast from 'react-native-toast-message';
 
 interface Props extends GenericNavigation {
   route: RouteProp<{params: {selectionType: string}}, 'params'>;
@@ -34,9 +35,25 @@ const SelectionScreen = (props: Props) => {
     setSelections([{label: 'EN'}]);
   };
 
-  const changeLanguage = (language: string) => dispatch(setLanguage(language));
+  const changeLanguage = (language: string) => {
+    dispatch(setLanguage(language));
+    Toast.show({
+      text1: 'Success',
+      text2: 'Language updated successfully!',
+      type: 'success',
+    });
+    props?.navigation?.goBack();
+  };
 
-  const changeCurrency = (currency: string) => dispatch(setCurrency(currency));
+  const changeCurrency = (currency: string) => {
+    dispatch(setCurrency(currency));
+    Toast.show({
+      text1: 'Success',
+      text2: 'Currency updated successfully!',
+      type: 'success',
+    });
+    props?.navigation?.goBack();
+  };
 
   useEffect(() => {
     if (selectionType === ScreenSelectionType.Currency) {
@@ -48,8 +65,8 @@ const SelectionScreen = (props: Props) => {
 
   const onItemPress =
     selectionType === ScreenSelectionType.Currency
-      ? changeLanguage
-      : changeCurrency;
+      ? changeCurrency
+      : changeLanguage;
 
   const HEADER_TITLE =
     selectionType === ScreenSelectionType.Currency ? 'Currency' : 'Language';
@@ -69,12 +86,12 @@ const SelectionScreen = (props: Props) => {
           data={selections}
           selectedBtn={(e: any) => onItemPress(e.label)}
         />
-        <PrimaryButton
+        {/* <PrimaryButton
           loading={loading}
           title="Save"
           buttonStyle={{width: '50%'}}
           textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
-        />
+        /> */}
       </View>
     </>
   );

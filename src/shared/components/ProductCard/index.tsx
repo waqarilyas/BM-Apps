@@ -58,8 +58,9 @@ const styles = StyleSheet.create({
     padding: THEME.PADDING.LOW,
     // flex: 1,
     marginHorizontal: THEME.MARGIN.VERYLOW,
-    height: RF(90),
-    width: RF(100),
+    height: RF(130),
+    width: '30%',
+    marginTop: THEME.MARGIN.NORMAL,
   },
   image: {
     width: RF(75),

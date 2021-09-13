@@ -105,6 +105,7 @@ const EnableMerchant = (props: Props) => {
               <AppInput
                 placeholder="Email"
                 onChangeText={handleChange('email')}
+                keyboardType="email-address"
               />
 
               {touched.phoneNumber && errors.phoneNumber ? (
@@ -113,6 +114,7 @@ const EnableMerchant = (props: Props) => {
               <AppInput
                 placeholder="Phone Number"
                 onChangeText={handleChange('phoneNumber')}
+                keyboardType="number-pad"
               />
 
               {touched.address && errors.address ? (

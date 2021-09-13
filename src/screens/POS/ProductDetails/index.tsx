@@ -39,7 +39,7 @@ const ProductDetails = (props: Props) => {
         <View style={styles.productCard}>
           <FastImage
             source={{uri: data.image}}
-            resizeMode={FastImage.resizeMode.contain}
+            resizeMode={FastImage.resizeMode.cover}
             style={styles.productImage}
           />
           <Text style={styles.productText}>{data.title}</Text>
@@ -47,14 +47,16 @@ const ProductDetails = (props: Props) => {
             style={[
               styles.productText,
               {
-                fontFamily: THEME.FONTS.TYPE.SEMIBOLD,
+                fontFamily: THEME.FONTS.TYPE.BOLD,
                 paddingTop: THEME.PADDING.LOW,
+                fontSize: THEME.FONTS.SIZE.SMALL,
+                marginTop: 0,
               },
             ]}>
             ${data.price}
           </Text>
         </View>
-        <View style={styles.details}>
+        {/* <View style={styles.details}>
           <View style={styles.detailsRow}>
             <View style={{width: '50%'}}>
               <Text style={styles.detailLabel}>Brand</Text>
@@ -69,9 +71,9 @@ const ProductDetails = (props: Props) => {
               </Text>
             </View>
           </View>
-        </View>
+        </View> */}
 
-        <View style={styles.details}>
+        {/* <View style={styles.details}>
           <View style={styles.detailsRow}>
             <View style={{width: '50%'}}>
               <Text style={styles.detailLabel}>CONDITION</Text>
@@ -86,9 +88,9 @@ const ProductDetails = (props: Props) => {
               </Text>
             </View>
           </View>
-        </View>
+        </View> */}
 
-        <View style={styles.details}>
+        {/* <View style={styles.details}>
           <View style={styles.detailsRow}>
             <View style={{width: '50%'}}>
               <Text style={styles.detailLabel}>CATEGORY</Text>
@@ -103,7 +105,7 @@ const ProductDetails = (props: Props) => {
               </Text>
             </View>
           </View>
-        </View>
+        </View> */}
 
         <PrimaryButton
           title={exists ? 'Product added to cart' : 'Add to Cart'}

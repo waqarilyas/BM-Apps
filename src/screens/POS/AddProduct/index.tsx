@@ -27,7 +27,7 @@ const initialValues: any = {
   title: '',
   price: '',
   category: '',
-  tax: '',
+  tax: '0',
 };
 
 const AddProduct = (props: Props) => {
@@ -41,6 +41,11 @@ const AddProduct = (props: Props) => {
   const openPicker = () => setImageModalOpen(true);
 
   const handleData = (values: any, action: any) => {
+    if (values.price == 0) {
+      action.setFieldError('price', 'Price cannot be 0');
+      return;
+    }
+
     if (!image) {
       setGenericError('Please select your product image to continue');
       return;
@@ -79,11 +84,15 @@ const AddProduct = (props: Props) => {
         data: values.tax,
       },
     ];
+
     createNewProduct(params)
       .uploadProgress((written, total) => {
         console.log('uploaded', written / total);
       })
-      .then(response => response.json())
+      .then(response => {
+        console.log('---response---', response.info());
+        response.json();
+      })
       .then(RetrivedData => {
         console.log('---retrieved data------', RetrivedData);
         Toast.show({
@@ -92,7 +101,7 @@ const AddProduct = (props: Props) => {
           type: 'success',
         });
         setLoading(false);
-        props.navigation.goBack();
+        // props.navigation.goBack();
       })
       .catch(err => {
         console.log('---error----', err);

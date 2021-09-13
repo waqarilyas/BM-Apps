@@ -89,7 +89,7 @@ const AddPlace = (props: Props) => {
 
   return (
     <>
-      <AppHeader showBack title="Add Place" />
+      <AppHeader showBack title="Add Store" />
       <KeyboardAwareScrollView style={styles.container}>
         <Formik
           initialValues={initialValues}
@@ -188,7 +188,7 @@ const AddPlace = (props: Props) => {
                 <Text style={styles.errors}>{errors.website}</Text>
               ) : null}
               <AppInput
-                placeholder="Website"
+                placeholder="Website (optional)"
                 onChangeText={handleChange('website')}
               />
               {/* <Text style={styles.label}>Add Photos</Text>

@@ -20,6 +20,7 @@ interface Props {
   showSearch?: boolean;
   backAction?: () => void;
   headerStyle?: StyleProp<ViewStyle>;
+  searchAction?: () => void;
 }
 
 const AppHeader = (props: Props) => {
@@ -33,9 +34,6 @@ const AppHeader = (props: Props) => {
     navigation.navigate('Cart');
   };
 
-  const showSearch = () => {
-    console.log('Show Search');
-  };
   return (
     <View
       style={[styles.container, {paddingTop: insets.top}, props.headerStyle]}>
@@ -54,7 +52,7 @@ const AppHeader = (props: Props) => {
       </View>
       <View style={styles.right}>
         {props.showSearch ? (
-          <TouchableOpacity onPress={showSearch}>
+          <TouchableOpacity onPress={props.searchAction}>
             <FastImage
               source={ICONS.SEARCH}
               resizeMode={FastImage.resizeMode.contain}

@@ -1,7 +1,8 @@
 import Toast from 'react-native-simple-toast';
-import {Dimensions} from 'react-native';
+import {Dimensions, Platform, Alert} from 'react-native';
 import Share from 'react-native-share';
 import ImagePicker from 'react-native-image-crop-picker';
+import NetInfo from '@react-native-community/netinfo';
 // import Geolocation from 'react-native-geolocation-service';
 import {store} from '../store';
 
@@ -74,21 +75,34 @@ export const handleImageSelection = (type: 'camera' | 'gallery') => {
   });
 };
 
-// export const animateToCurrentLocation = mapRef => {
-//   Geolocation.getCurrentPosition(
-//     info => {
-//       const {latitude, longitude} = info.coords;
-//       mapRef?.current.animateToRegion(
-//         {
-//           latitude,
-//           longitude,
-//           latitudeDelta: LATITUDE_DELTA,
-//           longitudeDelta: LONGITUDE_DELTA,
-//         },
-//         1000,
-//       );
-//     },
-//     err => console.error(err),
-//     GEO_LOC_OPTIONS,
-//   );
-// };
+export const CheckConnectivity = () => {
+  // For Android devices
+  if (Platform.OS === 'android') {
+    NetInfo.isConnected.fetch().then(isConnected => {
+      if (isConnected) {
+        Alert.alert('You are online!');
+      } else {
+        Alert.alert('You are offline!');
+      }
+    });
+  } else {
+    // For iOS devices
+    NetInfo.isConnected.addEventListener(
+      'connectionChange',
+      handleFirstConnectivityChange,
+    );
+  }
+};
+
+const handleFirstConnectivityChange = (isConnected: any1234) => {
+  NetInfo.isConnected.removeEventListener(
+    'connectionChange',
+    handleFirstConnectivityChange,
+  );
+
+  if (isConnected === false) {
+    Alert.alert('You are offline!');
+  } else {
+    Alert.alert('You are online!');
+  }
+};

@@ -79,7 +79,6 @@ const WalletMain = (props: Props) => {
     socket.on('connect', () => {
       socket.on(`${erc20Address}`, async (data: any) => {
         if (data?.balance === '0') {
-          console.log('Dont do any thing');
         } else {
           console.log('\x1b[31m', 'Incoming update');
           dispatch(renderWallet());
@@ -87,7 +86,6 @@ const WalletMain = (props: Props) => {
       });
       socket.on(`${bitcoinAddress}`, async (data: any) => {
         if (data?.balance === '0') {
-          console.log('Dont do any thing');
         } else {
           console.log('\x1b[31m', 'Incoming update');
           dispatch(renderWallet());

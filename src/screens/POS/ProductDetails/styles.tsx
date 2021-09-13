@@ -18,14 +18,18 @@ const styles = StyleSheet.create({
     borderRadius: THEME.RADIUS.BOX,
     marginVertical: THEME.MARGIN.NORMAL,
     ...GLOBAL_STYLE.CENTER,
+    flex: 1,
   },
   productImage: {
-    width: RF(200),
-    height: RF(200),
+    width: '80%',
+    height: RF(240),
+    borderRadius: RF(10),
   },
   productText: {
     fontSize: THEME.FONTS.SIZE.MEDIUM,
+    fontFamily: THEME.FONTS.TYPE.BOLD,
     color: THEME.COLORS.white,
+    marginTop: RF(10),
   },
   details: {
     marginBottom: THEME.MARGIN.NORMAL,
