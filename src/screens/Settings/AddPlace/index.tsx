@@ -88,7 +88,7 @@ const AddPlace = (props: Props) => {
   };
 
   return (
-    <>
+    <View style={styles.mainContainer}>
       <AppHeader showBack title="Add Store" />
       <KeyboardAwareScrollView style={styles.container}>
         <Formik
@@ -209,7 +209,7 @@ const AddPlace = (props: Props) => {
         </Formik>
         <AppLoader isVisible={loading} />
       </KeyboardAwareScrollView>
-    </>
+    </View>
   );
 };
 

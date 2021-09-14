@@ -24,7 +24,7 @@ const CoinAcceptance = (props: Props) => {
     );
   }, [searchText, wallet]);
   return (
-    <>
+    <View style={styles.mainContainer}>
       <AppHeader showBack title="Coins Acceptance Settings" />
       <View style={styles.container}>
         <AppSearchInput value={searchText} onChangeText={setSearchText} />
@@ -40,7 +40,7 @@ const CoinAcceptance = (props: Props) => {
           ))}
         </ScrollView>
       </View>
-    </>
+    </View>
   );
 };
 

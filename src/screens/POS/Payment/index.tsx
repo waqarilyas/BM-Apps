@@ -13,7 +13,7 @@ import {HP, RF, WP} from '../../../shared/theme/responsive';
 import ChooseCoinModal from '../../../shared/components/ChooseCoinModal';
 import GLOBAL_STYLE from '../../../shared/theme/global';
 import {RootState} from '../../../shared/store';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import Clipboard from '@react-native-clipboard/clipboard';
 import QRCode from 'react-native-qrcode-svg';
 import AppInput from '../../../shared/components/AppInput';
@@ -22,23 +22,30 @@ import {
   AppShareContent,
   AppShowToast,
 } from '../../../shared/services/helper.service';
+import {resetCart} from '../../../shared/store/reducers/posReducer';
+import Toast from 'react-native-toast-message';
 
 interface Props extends GenericNavigation {}
 
 const Payment = (props: Props) => {
   const {type}: any = props.route?.params;
+  const dispatch = useDispatch();
 
   const {wallet} = useSelector((state: RootState) => state.wallet);
-  const {cart, totalCartAmount, totalTax} = useSelector(
+  const {cart, totalCartAmount, totalTax, customPrice} = useSelector(
     (state: RootState) => state.pos,
   );
   const [copied, setCopied] = useState(false);
   const [showCurrencyModal, setShowCurrencyModal] = useState(false);
   const [selectedCoin, setSelectedCoin] = useState();
-  const [customPrice, setCustomPrice] = useState(0);
+  // const [customPrice, setCustomPrice] = useState(0);
   const [usdPrice, setUSDPrice] = useState(0);
   const [totalPrice, setTotalPrice] = useState(
-    type == 'invoice' ? 0 : totalCartAmount + totalTax,
+    type == 'invoice'
+      ? 0
+      : customPrice
+      ? customPrice
+      : totalCartAmount + totalTax,
   );
 
   const toggleModal = () => setShowCurrencyModal(!showCurrencyModal);
@@ -66,7 +73,7 @@ const Payment = (props: Props) => {
   }, [totalPrice]);
 
   return (
-    <>
+    <View style={styles.mainContainer}>
       <AppHeader title="Payment" showBack />
       <View style={styles.container}>
         <Text style={styles.label}>Select Coin:</Text>
@@ -104,7 +111,11 @@ const Payment = (props: Props) => {
             {usdPrice} {selectedCoin?.coin_symbol?.toUpperCase()}
           </Text>
           <Text style={styles.amountUSD}>
-            ${type == 'invoice' ? totalPrice : totalCartAmount + totalTax} USD
+            $
+            {type == 'invoice' || customPrice
+              ? totalPrice
+              : totalCartAmount + totalTax}{' '}
+            USD
           </Text>
         </View>
 
@@ -146,6 +157,22 @@ const Payment = (props: Props) => {
           buttonStyle={styles.shareButton}
           textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
         />
+
+        <PrimaryButton
+          // icon="share"
+          title="Confirm Payment"
+          onPress={() => {
+            dispatch(resetCart());
+            Toast.show({
+              text1: 'Success',
+              text2: 'Payment confirmed',
+              type: 'success',
+            });
+            props?.navigation?.navigate('POSMain');
+          }}
+          buttonStyle={styles.confirmButton}
+          textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
+        />
       </View>
       <ChooseCoinModal
         isVisible={showCurrencyModal}
@@ -154,7 +181,7 @@ const Payment = (props: Props) => {
         data={wallet}
         selectedCoin={selectedCoin}
       />
-    </>
+    </View>
   );
 };
 

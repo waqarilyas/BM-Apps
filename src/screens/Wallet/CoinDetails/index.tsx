@@ -64,7 +64,7 @@ const CoinDetails = (props: Props) => {
   );
 
   return (
-    <>
+    <View style={styles.mainContainer}>
       <AppHeader showBack title="Wallet" />
       <View style={styles.container}>
         <View style={styles.tabs}>
@@ -103,19 +103,21 @@ const CoinDetails = (props: Props) => {
             </View>
           </>
         ) : (
-          <ScrollView style={styles.transactions}>
-            {sortedTransactions.map((item, number) => (
-              <TransactionItem
-                key={number}
-                item={item}
-                kind={coin?.address === item.from ? 'sent' : 'received'}
-                coinSymbol={coin?.coin_symbol!}
-              />
-            ))}
-          </ScrollView>
+          <View>
+            <ScrollView style={styles.transactions}>
+              {sortedTransactions.map((item, number) => (
+                <TransactionItem
+                  key={number}
+                  item={item}
+                  kind={coin?.address === item.from ? 'sent' : 'received'}
+                  coinSymbol={coin?.coin_symbol!}
+                />
+              ))}
+            </ScrollView>
+          </View>
         )}
       </View>
-    </>
+    </View>
   );
 };
 

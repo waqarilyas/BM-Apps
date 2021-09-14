@@ -33,7 +33,7 @@ const ProductDetails = (props: Props) => {
     // props.navigation?.navigate('Cart', {data});
   };
   return (
-    <>
+    <View style={styles.mainContainer}>
       <AppHeader title="Product Details" showBack showCart />
       <ScrollView bounces={false} style={styles.container}>
         <View style={styles.productCard}>
@@ -113,7 +113,7 @@ const ProductDetails = (props: Props) => {
           textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
         />
       </ScrollView>
-    </>
+    </View>
   );
 };
 

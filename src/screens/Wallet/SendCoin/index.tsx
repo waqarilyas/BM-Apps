@@ -178,7 +178,7 @@ const SendCoin = (props: Props) => {
   };
 
   return (
-    <>
+    <View style={styles.mainContainer}>
       <PaymentStatusModal
         toggleModal={toggleModal}
         error={paymentError}
@@ -256,7 +256,7 @@ const SendCoin = (props: Props) => {
           onPress={onSend}
         />
       </View>
-    </>
+    </View>
   );
 };
 

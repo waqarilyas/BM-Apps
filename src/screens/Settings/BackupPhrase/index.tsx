@@ -27,7 +27,7 @@ const BackupPhrase = (props: Props) => {
     }
   }, [showPhrase, mnemonic_phrase]);
   return (
-    <>
+    <View style={styles.mainContainer}>
       <AppHeader title="Recovery Phrase" showBack />
       <View style={styles.container}>
         <Text style={styles.title}>
@@ -61,7 +61,7 @@ const BackupPhrase = (props: Props) => {
           </View>
         </TouchableOpacity>
       </View>
-    </>
+    </View>
   );
 };
 

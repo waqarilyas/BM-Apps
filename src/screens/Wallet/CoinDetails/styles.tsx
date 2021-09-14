@@ -4,6 +4,10 @@ import GLOBAL_STYLE from '../../../shared/theme/global';
 import {RF} from '../../../shared/theme/responsive';
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    backgroundColor: THEME.COLORS.primaryBackground,
+  },
   container: {
     flex: 1,
     backgroundColor: THEME.COLORS.primaryBackground,

@@ -50,7 +50,7 @@ const ImportWallet = (props: Props) => {
     }
   };
   return (
-    <>
+    <View style={styles.mainContainer}>
       <AppHeader showBack />
       <KeyboardAwareScrollView
         keyboardShouldPersistTaps="handled"
@@ -68,6 +68,7 @@ const ImportWallet = (props: Props) => {
             textInputStyle={styles.textInput}
             multiline
             numberOfLines={3}
+            autoCapitalize="none"
           />
         </View>
         <PrimaryButton
@@ -76,7 +77,7 @@ const ImportWallet = (props: Props) => {
           onPress={onImportWallet}
         />
       </KeyboardAwareScrollView>
-    </>
+    </View>
   );
 };
 

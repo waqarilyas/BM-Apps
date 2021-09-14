@@ -61,7 +61,7 @@ const AppHeader = (props: Props) => {
           </TouchableOpacity>
         ) : null}
         {props.showCart ? (
-          <TouchableOpacity onPress={showCart}>
+          <TouchableOpacity onPress={showCart} style={{paddingBottom: RF(4)}}>
             <FastImage
               source={ICONS.CART}
               resizeMode={FastImage.resizeMode.contain}

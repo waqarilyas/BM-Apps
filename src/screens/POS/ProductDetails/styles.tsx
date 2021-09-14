@@ -6,6 +6,10 @@ import {RF} from '../../../shared/theme/responsive';
 const {width} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    backgroundColor: THEME.COLORS.primaryBackground,
+  },
   container: {
     flex: 1,
     backgroundColor: THEME.COLORS.primaryBackground,

@@ -128,7 +128,7 @@ const SettingsMain = (props: Props) => {
   };
 
   return (
-    <>
+    <View style={styles.container}>
       <AppHeader title="Settings" />
       <View style={styles.container}>
         {/* <SettingItem title="Address Book" chevron /> */}
@@ -150,7 +150,7 @@ const SettingsMain = (props: Props) => {
             onPress={() => handleNavigate('EnableMerchant')}
           />
         )}
-        <SettingItem title="Change PIN" chevron onPress={navToChangePIN} />
+        {/* <SettingItem title="Change PIN" chevron onPress={navToChangePIN} /> */}
         {/* <SettingItem
           title="Sales History"
           chevron
@@ -222,7 +222,7 @@ const SettingsMain = (props: Props) => {
 
         <SettingItem title="Log out" chevron onPress={onLogout} />
       </View>
-    </>
+    </View>
   );
 };
 

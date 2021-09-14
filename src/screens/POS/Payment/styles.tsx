@@ -3,6 +3,10 @@ import {THEME} from '../../../shared/theme';
 import {HP, RF} from '../../../shared/theme/responsive';
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    backgroundColor: THEME.COLORS.primaryBackground,
+  },
   container: {
     flex: 1,
     backgroundColor: THEME.COLORS.primaryBackground,
@@ -78,6 +82,12 @@ const styles = StyleSheet.create({
     height: HP(6),
     marginTop: THEME.MARGIN.LOW,
   },
+  confirmButton: {
+    width: '80%',
+    height: HP(6),
+    marginTop: THEME.MARGIN.LOW,
+  },
+
   qrContainer: {
     width: '100%',
     alignItems: 'center',

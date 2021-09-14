@@ -130,7 +130,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
+    dexOptions {
+        javaMaxHeapSize "4G"
+    }
     defaultConfig {
         missingDimensionStrategy 'react-native-camera', 'general'
         applicationId "com.blockmerchants"
@@ -155,6 +157,12 @@ android {
             storePassword 'android'
             keyAlias 'androiddebugkey'
             keyPassword 'android'
+        }
+        release {
+            storeFile file('release.keystore')
+            storePassword '123456'
+            keyAlias 'bmapp'
+            keyPassword '123456'
         }
     }
     buildTypes {

@@ -39,7 +39,7 @@ const ReceiveCoin = (props: Props) => {
   const COIN_URL = `${blockConfig.API_URL}/admin/coin/${coin?.coin_symbol}`;
 
   return (
-    <>
+    <View style={styles.mainContainer}>
       <AppHeader title="Wallet" showBack />
       <View style={styles.container}>
         <FastImage
@@ -75,7 +75,7 @@ const ReceiveCoin = (props: Props) => {
           onPress={() => AppShareContent(coin?.address, 'Addess')}
         />
       </View>
-    </>
+    </View>
   );
 };
 

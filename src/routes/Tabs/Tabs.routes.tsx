@@ -23,9 +23,10 @@ const BottomTabs = () => {
         inactiveTintColor: 'gray',
         tabStyle: {
           backgroundColor: THEME.COLORS.tabColor,
-          paddingVertical: 5,
+          paddingVertical: 6,
         },
-        style: {elevation: 0, borderTopWidth: 0},
+        style: {elevation: 0, borderTopWidth: 0, height: RF(55)},
+        keyboardHidesTabBar: true,
       }}
       screenOptions={({route}) => ({
         tabBarIcon: ({focused, color, size}) => {

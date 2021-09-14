@@ -112,7 +112,7 @@ const WalletMain = (props: Props) => {
   }, [wallet]);
 
   return (
-    <>
+    <View style={styles.mainContainer}>
       <AppHeader title="Wallet" />
       <AppLoader isVisible={walletLoading} />
       <View style={styles.container}>
@@ -155,7 +155,7 @@ const WalletMain = (props: Props) => {
       {thumbEnabled && authOpen && (
         <AuthModal visible={true} onClose={() => setAuthOpen(false)} />
       )}
-    </>
+    </View>
   );
 };
 

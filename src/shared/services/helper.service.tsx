@@ -48,7 +48,9 @@ export const handleImageSelection = (type: 'camera' | 'gallery') => {
     try {
       type == 'camera'
         ? ImagePicker.openCamera({
-            cropping: false,
+            width: 500,
+            height: 500,
+            cropping: true,
             includeBase64: true,
           })
             .then(image => {
@@ -59,7 +61,9 @@ export const handleImageSelection = (type: 'camera' | 'gallery') => {
             })
         : type == 'gallery'
         ? ImagePicker.openPicker({
-            cropping: false,
+            width: 500,
+            height: 500,
+            cropping: true,
             includeBase64: true,
           })
             .then(image => {

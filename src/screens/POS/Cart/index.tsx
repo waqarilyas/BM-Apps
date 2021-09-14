@@ -19,6 +19,7 @@ import {
   decreaseItemCount,
   increaseItemCount,
   removeItemFromCart,
+  setCustomPrice,
 } from '../../../shared/store/reducers/posReducer';
 import EmptyScreenComponent from '../../../shared/components/EmptyScreenComponent';
 
@@ -32,7 +33,7 @@ const Cart = (props: Props) => {
     dispatch(increaseItemCount(item));
   };
   const decrementProduct = (item: any) => dispatch(decreaseItemCount(item));
-  const {cart, totalCartAmount, totalTax} = useSelector(
+  const {cart, totalCartAmount, totalTax, customPrice} = useSelector(
     (state: RootState) => state.pos,
   );
 
@@ -94,7 +95,7 @@ const Cart = (props: Props) => {
     );
   };
   return (
-    <>
+    <View style={styles.mainContainer}>
       <AppHeader title="Cart" showBack />
       {cart.length > 0 ? (
         <KeyboardAwareScrollView style={styles.container}>
@@ -110,12 +111,20 @@ const Cart = (props: Props) => {
                 );
               }}
             />
+            <AppInput
+              placeholder="Enter Custom Price"
+              onChangeText={p => {
+                dispatch(setCustomPrice(parseFloat(p)));
+              }}
+            />
 
             {/* <View style={styles.productContainer}>{renderProductCard()}</View> */}
             <View style={styles.totalContainer}>
               <View style={styles.totalRow}>
                 <Text style={styles.totalText}>Price</Text>
-                <Text style={styles.totalText}>$ {totalCartAmount}</Text>
+                <Text style={styles.totalText}>
+                  $ {customPrice ? customPrice : totalCartAmount}
+                </Text>
               </View>
               <View style={styles.totalRow}>
                 <Text style={styles.totalText}>Tax</Text>
@@ -143,7 +152,7 @@ const Cart = (props: Props) => {
                     styles.totalText,
                     {fontFamily: THEME.FONTS.TYPE.SEMIBOLD},
                   ]}>
-                  $ {totalCartAmount + totalTax}
+                  $ {(customPrice ? customPrice : totalCartAmount) + totalTax}
                 </Text>
               </View>
             </View>
@@ -171,7 +180,7 @@ const Cart = (props: Props) => {
       ) : (
         <EmptyScreenComponent title="Nothing in cart" />
       )}
-    </>
+    </View>
   );
 };
 

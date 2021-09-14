@@ -50,7 +50,7 @@ const PurchaseDetail = (props: Props) => {
     }
   };
   return (
-    <>
+    <View style={styles.mainContainer}>
       <AppHeader title="Order Detail" showBack showCart />
       <View style={styles.container}>
         <Text style={styles.title}>Payment Status</Text>
@@ -116,7 +116,7 @@ const PurchaseDetail = (props: Props) => {
           </View>
         </View> */}
       </View>
-    </>
+    </View>
   );
 };
 

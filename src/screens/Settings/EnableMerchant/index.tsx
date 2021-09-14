@@ -1,6 +1,6 @@
 import {Formik} from 'formik';
 import React, {useState} from 'react';
-import {Text} from 'react-native';
+import {Text, View} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Toast from 'react-native-toast-message';
 import {RootStateOrAny, useDispatch, useSelector} from 'react-redux';
@@ -66,7 +66,7 @@ const EnableMerchant = (props: Props) => {
   };
 
   return (
-    <>
+    <View style={styles.mainContainer}>
       <AppHeader showBack title="Enable Merchant" />
       <KeyboardAwareScrollView style={styles.container}>
         <Formik
@@ -136,7 +136,7 @@ const EnableMerchant = (props: Props) => {
         </Formik>
         <AppLoader isVisible={loading} />
       </KeyboardAwareScrollView>
-    </>
+    </View>
   );
 };
 

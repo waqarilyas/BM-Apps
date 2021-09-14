@@ -109,7 +109,7 @@ const ChangePin = (props: Props) => {
   };
 
   return (
-    <>
+    <View style={styles.mainContainer}>
       <AppHeader showBack />
       <View style={styles.container}>
         <Logo />
@@ -130,7 +130,7 @@ const ChangePin = (props: Props) => {
           You will be asked for the PIN code when you open the app
         </Text>
       </View>
-    </>
+    </View>
   );
 };
 

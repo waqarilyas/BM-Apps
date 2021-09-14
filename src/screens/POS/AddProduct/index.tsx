@@ -89,32 +89,37 @@ const AddProduct = (props: Props) => {
         console.log('uploaded', written / total);
       })
       .then(response => {
-        console.log('---response---', response.info());
+        if (response.info().status === 413) {
+          Toast.show({
+            text1: 'Request Failed',
+            text2: 'Image is too large. Please select another one',
+            type: 'error',
+          });
+        }
+
         response.json();
       })
       .then(RetrivedData => {
-        console.log('---retrieved data------', RetrivedData);
         Toast.show({
           text1: 'Success',
           text2: 'Your product has been saved successfully',
           type: 'success',
         });
         setLoading(false);
-        // props.navigation.goBack();
+        props.navigation.navigate('POSMain');
       })
       .catch(err => {
-        console.log('---error----', err);
         setLoading(false);
-        Toast.show({
-          text1: 'Request Failed',
-          text2: err?.response?.data?.message,
-          type: 'error',
-        });
+        // Toast.show({
+        //   text1: 'Request Failed',
+        //   text2: err?.response?.data?.message,
+        //   type: 'error',
+        // });
       });
   };
 
   return (
-    <>
+    <View style={styles.mainContainer}>
       <AppHeader showBack title="Add Product" showCart />
       <KeyboardAwareScrollView style={styles.container}>
         <View style={styles.imageContainer}>
@@ -200,7 +205,7 @@ const AddProduct = (props: Props) => {
         />
         <AppLoader isVisible={loading} />
       </KeyboardAwareScrollView>
-    </>
+    </View>
   );
 };
 

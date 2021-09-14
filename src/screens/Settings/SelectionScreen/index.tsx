@@ -71,7 +71,7 @@ const SelectionScreen = (props: Props) => {
   const HEADER_TITLE =
     selectionType === ScreenSelectionType.Currency ? 'Currency' : 'Language';
   return (
-    <>
+    <View style={styles.mainContainer}>
       <AppHeader title={`Choose ${HEADER_TITLE}`} showBack />
       <View style={styles.container}>
         <RadioButtonRN
@@ -93,7 +93,7 @@ const SelectionScreen = (props: Props) => {
           textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
         /> */}
       </View>
-    </>
+    </View>
   );
 };
 

@@ -18,7 +18,6 @@ const AuthModal = ({
   const [error, setError] = useState(false);
 
   const authenticate = () => {
-    console.log('--auth called--');
     TouchID.authenticate('to unlock your wallet', {
       title: 'Authentication Required', // Android
       imageColor: '#e00606', // Android
