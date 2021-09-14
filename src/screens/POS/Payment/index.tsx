@@ -1,5 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, TouchableOpacity, Pressable} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Pressable,
+  ScrollView,
+} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {ICONS} from '../../../assets';
 import AppHeader from '../../../shared/components/AppHeader';
@@ -75,7 +81,7 @@ const Payment = (props: Props) => {
   return (
     <View style={styles.mainContainer}>
       <AppHeader title="Payment" showBack />
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <Text style={styles.label}>Select Coin:</Text>
         <TouchableOpacity onPress={toggleModal} style={styles.optionContainer}>
           <FastImage
@@ -96,6 +102,7 @@ const Payment = (props: Props) => {
           <AppInput
             placeholder="Enter Amount USD"
             keyboardType="number-pad"
+            returnKeyType="done"
             onChangeText={text => {
               if (text.length == 0) {
                 setTotalPrice(0);
@@ -173,7 +180,7 @@ const Payment = (props: Props) => {
           buttonStyle={styles.confirmButton}
           textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
         />
-      </View>
+      </ScrollView>
       <ChooseCoinModal
         isVisible={showCurrencyModal}
         onPressBackdrop={toggleModal}

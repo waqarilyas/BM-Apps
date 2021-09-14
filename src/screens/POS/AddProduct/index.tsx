@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {View, Text} from 'react-native';
+import React, {useEffect, useState, useRef} from 'react';
+import {View, Text, Keyboard} from 'react-native';
 import AppHeader from '../../../shared/components/AppHeader';
 import AppInput from '../../../shared/components/AppInput';
 import PrimaryButton from '../../../shared/components/PrimaryButton';
@@ -37,6 +37,7 @@ const AddProduct = (props: Props) => {
   const [genericError, setGenericError]: any = useState(null);
   const {merchantData} = useSelector((state: RootState) => state.user);
   const {merchantShop} = useSelector((state: RootState) => state.user);
+  const scrollRef = useRef();
 
   const openPicker = () => setImageModalOpen(true);
 
@@ -118,10 +119,20 @@ const AddProduct = (props: Props) => {
       });
   };
 
+  useEffect(() => {
+    const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
+      scrollRef?.current?.scrollToEnd({animated: true});
+    });
+
+    return () => {
+      hideSubscription.remove();
+    };
+  }, [Keyboard]);
+
   return (
     <View style={styles.mainContainer}>
       <AppHeader showBack title="Add Product" showCart />
-      <KeyboardAwareScrollView style={styles.container}>
+      <KeyboardAwareScrollView style={styles.container} ref={scrollRef}>
         <View style={styles.imageContainer}>
           {image?.path && (
             <FastImage source={{uri: image?.path}} style={styles.image} />

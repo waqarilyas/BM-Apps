@@ -1,5 +1,5 @@
 import {NavigationProp} from '@react-navigation/core';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {DeviceEventEmitter, Linking, Text, View} from 'react-native';
 import {useDispatch} from 'react-redux';
 import AppLoader from '../../../shared/components/AppLoader';
@@ -17,10 +17,12 @@ interface Props {
 }
 
 const StartScreen = (props: Props) => {
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const navToImportWallet = () => props.navigation.navigate('ImportWallet');
 
   const handleCreateNewWallet = () => {
+    setLoading(true);
     dispatch(renderWallet());
   };
   const openTermsAndCondition = async () => {
@@ -59,6 +61,7 @@ const StartScreen = (props: Props) => {
           </Text>
         </Text>
       </View>
+      <AppLoader isVisible={loading} />
     </View>
   );
 };

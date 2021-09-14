@@ -12,7 +12,8 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginVertical: THEME.MARGIN.HIGH,
+    marginBottom: THEME.MARGIN.HIGH,
+    marginTop: THEME.MARGIN.LOW,
   },
   topAction: {
     flexDirection: 'row',
