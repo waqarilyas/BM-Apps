@@ -16,6 +16,7 @@ interface Props extends TextInputProps {
   inputStyle?: StyleProp<ViewStyle>;
   textInputStyle?: StyleProp<TextStyle>;
   icon?: string;
+  onIconPress?: () => void;
 }
 
 const AppInput = (props: Props) => {
@@ -33,6 +34,7 @@ const AppInput = (props: Props) => {
           name={props.icon}
           size={24}
           color={THEME.COLORS.textLight}
+          onPress={props.onIconPress}
         />
       ) : null}
     </View>

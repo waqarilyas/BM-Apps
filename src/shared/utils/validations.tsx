@@ -24,3 +24,8 @@ export const addProductVS = Yup.object().shape({
   category: Yup.string().required('Please enter your product category'),
   tax: Yup.string().optional(),
 });
+
+export const addAddressVS = Yup.object().shape({
+  name: Yup.string().required('Please enter your contact name'),
+  address: Yup.string().required('Please enter your contact address'),
+});

@@ -192,6 +192,12 @@ const SettingsMain = (props: Props) => {
         />
 
         <SettingItem
+          title="Add Contacts"
+          chevron
+          onPress={() => props?.navigation?.navigate('AddressBook')}
+        />
+
+        <SettingItem
           title={
             thumbEnabled
               ? 'Disable Thumb Impression'

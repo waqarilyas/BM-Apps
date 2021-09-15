@@ -9,6 +9,8 @@ import PurchaseDetail from '../../../screens/Settings/PurchaseDetail';
 import SelectionScreen from '../../../screens/Settings/SelectionScreen';
 import BackupPhrase from '../../../screens/Settings/BackupPhrase';
 import EnableMerchant from '../../../screens/Settings/EnableMerchant';
+import AddressBook from '../../../screens/Settings/AddressBook';
+import AddContact from '../../../screens/Settings/AddContact';
 
 const Stack = createStackNavigator();
 
@@ -24,6 +26,8 @@ const SettingsStack = () => {
       <Stack.Screen name="SelectionScreen" component={SelectionScreen} />
       <Stack.Screen name="BackupPhrase" component={BackupPhrase} />
       <Stack.Screen name="EnableMerchant" component={EnableMerchant} />
+      <Stack.Screen name="AddressBook" component={AddressBook} />
+      <Stack.Screen name="AddContact" component={AddContact} />
     </Stack.Navigator>
   );
 };

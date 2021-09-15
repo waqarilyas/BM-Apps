@@ -6,6 +6,7 @@ const initialState = {
   totalCartAmount: 0,
   totalTax: 0,
   customPrice: null,
+  contacts: [],
 };
 
 export const posSlice = createSlice({
@@ -63,6 +64,9 @@ export const posSlice = createSlice({
       state.totalTax = 0;
       state.customPrice = null;
     },
+    addContact: (state, action) => {
+      state.contacts.push(action.payload);
+    },
   },
 });
 
@@ -74,6 +78,7 @@ export const {
   decreaseItemCount,
   setCustomPrice,
   resetCart,
+  addContact,
 } = posSlice.actions;
 
 export default posSlice.reducer;
