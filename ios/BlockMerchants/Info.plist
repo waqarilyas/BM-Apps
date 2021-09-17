@@ -36,13 +36,13 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>To Scan QR codes and take pictures BlockMerchants needs camera permission.</string>
+	<string>this app needs to access camera to add photos</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Enabling Face ID allows you quick and secure access to your account.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>this app needs to have access to photos</string>
-	<key>NSCameraUsageDescription</key>
-	<string>this app needs to access camera to add photos</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
@@ -69,10 +69,6 @@
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
-
-	<key>NSFaceIDUsageDescription</key>
-	<string>Enabling Face ID allows you quick and secure access to your account.</string>
-
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

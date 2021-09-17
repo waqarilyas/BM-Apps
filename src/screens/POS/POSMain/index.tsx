@@ -40,26 +40,6 @@ const POSMain = (props: Props) => {
   const wait = (timeout: any) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
-  const onRefresh = () => {
-    setRefreshing(true);
-    setLoading(true);
-    getMerchantProducts()
-      .then(res => {
-        setProducts(res.data);
-      })
-      .catch(err => {
-        console.log('---error---', err);
-        Toast.show({
-          text1: 'Request Failed',
-          text2: 'Unable to get products',
-          type: 'error',
-        });
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-    wait(2000).then(() => setRefreshing(false));
-  };
 
   const navToAddProduct = () => {
     if (!merchantShop) {
@@ -69,46 +49,33 @@ const POSMain = (props: Props) => {
 
       return;
     }
-
+    setSearchVisible(false);
+    setSearchText('');
+    setSearchResults([]);
     props.navigation?.navigate('AddProduct');
   };
-  const navToNearBy = () => {
-    props.navigation?.navigate('NearBy');
-  };
+
   const navToProductDetail = (item: any) => {
     props.navigation?.navigate('ProductDetails', {data: item});
   };
 
-  const updateResult = (query: string) => {
-    setSearchText(query);
-    let results: any = [];
-    products.map((algo: string) => {
-      query.split(' ').map(word => {
-        if (algo.title.toLowerCase().indexOf(word.toLowerCase()) != -1) {
-          results.push(algo);
-        }
-      });
+  const updateResult = (e: string) => {
+    setSearchText(e);
+
+    let text = e.toLowerCase();
+    let trucks = [...products];
+    let filteredItems = trucks.filter(item => {
+      return item.title.toLowerCase().match(text);
     });
-    setSearchResults(results);
+    setSearchResults(filteredItems);
   };
 
-  useEffect(() => {
-    const unsubscribe = props.navigation.addListener('focus', () => {
-      setReload(!reload);
-    });
-
-    return unsubscribe;
-  }, [props.navigation]);
-
-  useEffect(() => {
-    setLoading(true);
-
+  const getProducts = () => {
     getMerchantProducts()
       .then(res => {
         setProducts(res.data);
       })
       .catch(err => {
-        console.log('---error---', err);
         Toast.show({
           text1: 'Request Failed',
           text2: 'Unable to get products',
@@ -118,8 +85,26 @@ const POSMain = (props: Props) => {
       .finally(() => {
         setLoading(false);
       });
-  }, [reload]);
+  };
 
+  const onRefresh = () => {
+    setRefreshing(true);
+    getProducts();
+    wait(2000).then(() => setRefreshing(false));
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    getProducts();
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = props.navigation.addListener('focus', () => {
+      getProducts();
+    });
+
+    return unsubscribe;
+  }, [props.navigation]);
   return (
     <View style={styles.mainContainer}>
       {searchVisible ? (
@@ -186,10 +171,18 @@ const POSMain = (props: Props) => {
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
           numColumns={3}
+          columnWrapperStyle={{
+            // backgroundColor: 'red',
+            flexWrap: 'wrap-reverse',
+          }}
+          contentContainerStyle={{
+            flex: products.length == 0 && 1,
+          }}
+          keyboardShouldPersistTaps="always"
           ListEmptyComponent={() => (
             <EmptyScreenComponent title="No products found!" />
           )}
-          contentContainerStyle={{flex: 1}}
+          inverted={products.length != 0}
           showsVerticalScrollIndicator={false}
           keyExtractor={(_, index) => index.toString()}
           renderItem={({item, index}) => {

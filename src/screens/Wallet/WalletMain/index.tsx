@@ -106,7 +106,7 @@ const WalletMain = (props: Props) => {
   }, [wallet.length, realtimeListener]);
 
   useEffect(() => {
-    if (wallet.length) {
+    if (wallet.length > 0) {
       getInitialMerchantData();
     }
   }, [wallet]);

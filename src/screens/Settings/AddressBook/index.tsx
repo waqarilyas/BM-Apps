@@ -1,6 +1,6 @@
 //import liraries
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, FlatList} from 'react-native';
+import {View, Text, StyleSheet, FlatList, Pressable} from 'react-native';
 import AppHeader from '../../../shared/components/AppHeader';
 import PrimaryButton from '../../../shared/components/PrimaryButton';
 import FastImage from 'react-native-fast-image';
@@ -10,6 +10,8 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../../../shared/store';
 import {Coin, GenericNavigation} from '../../../shared/models/types';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {AppShowToast} from '../../../shared/services/helper.service';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 interface PROPS extends GenericNavigation {}
 
@@ -18,6 +20,13 @@ const AddressBook = (props: PROPS) => {
   const {contacts} = useSelector((state: RootState) => state.pos);
   const [addresses, setAddresses] = useState([]);
   const [selectedFilter, setSelectedFilter]: any = useState(null);
+  const [copied, setCopied] = useState(false);
+
+  const onPressAddress = (address: any) => {
+    setCopied(true);
+    AppShowToast('Copied');
+    Clipboard.setString(address);
+  };
 
   const handleFilterSelect = (coin: Coin) => {
     setSelectedFilter(coin);
@@ -69,7 +78,13 @@ const AddressBook = (props: PROPS) => {
             const shown =
               item?.coin?.coin_symbol === selectedFilter?.coin_symbol;
             if (shown)
-              return <AddressCard name={item.name} address={item.address} />;
+              return (
+                <AddressCard
+                  name={item.name}
+                  address={item.address}
+                  onPress={() => onPressAddress(item?.address)}
+                />
+              );
           }}
         />
       </View>
@@ -107,12 +122,20 @@ const FilterCard = ({
   );
 };
 
-const AddressCard = ({name, address}: {name: string; address: string}) => {
+const AddressCard = ({
+  name,
+  address,
+  onPress,
+}: {
+  name: string;
+  address: string;
+  onPress: () => void;
+}) => {
   return (
-    <View style={[styles.addressContainer]}>
+    <TouchableOpacity style={[styles.addressContainer]} onPress={onPress}>
       <Text style={styles.addressName}>{name}</Text>
       <Text style={styles.address}>{address}</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 

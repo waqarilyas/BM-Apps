@@ -10,7 +10,7 @@ import FastImage from 'react-native-fast-image';
 import {ICONS} from '../../../assets';
 import AppHeader from '../../../shared/components/AppHeader';
 import styles from './styles';
-import {COINS} from '../../../assets/coins';
+import {COINS, GetImageForCoin} from '../../../assets/coins';
 import Icon from 'react-native-vector-icons/EvilIcons';
 import {THEME} from '../../../shared/theme';
 import {GenericNavigation} from '../../../shared/models/types';
@@ -85,7 +85,7 @@ const Payment = (props: Props) => {
         <Text style={styles.label}>Select Coin:</Text>
         <TouchableOpacity onPress={toggleModal} style={styles.optionContainer}>
           <FastImage
-            source={COINS.BTC}
+            source={GetImageForCoin(selectedCoin?.coin_symbol)}
             resizeMode={FastImage.resizeMode.contain}
             style={styles.coinIcon}
           />

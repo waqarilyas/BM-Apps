@@ -113,6 +113,7 @@ const Cart = (props: Props) => {
             />
             <AppInput
               placeholder="Enter Custom Price"
+              keyboardType="number-pad"
               onChangeText={p => {
                 dispatch(setCustomPrice(parseFloat(p)));
               }}
@@ -152,7 +153,7 @@ const Cart = (props: Props) => {
                     styles.totalText,
                     {fontFamily: THEME.FONTS.TYPE.SEMIBOLD},
                   ]}>
-                  $ {(customPrice ? customPrice : totalCartAmount) + totalTax}
+                  $ {customPrice ? customPrice : totalCartAmount + totalTax}
                 </Text>
               </View>
             </View>

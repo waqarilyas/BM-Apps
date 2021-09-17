@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {View, Text, TouchableOpacity, Pressable} from 'react-native';
+import {View, Text, TouchableOpacity, PermissionsAndroid} from 'react-native';
 import AppHeader from '../../../shared/components/AppHeader';
 import {GenericNavigation} from '../../../shared/models/types';
 import styles from './styles';
@@ -11,8 +11,9 @@ import {ICONS} from '../../../assets';
 import {getAllShops} from '../../../shared/services/merchant.service';
 import Toast from 'react-native-toast-message';
 import AppLoader from '../../../shared/components/AppLoader';
-import Geolocation from '@react-native-community/geolocation';
+import Geolocation from 'react-native-geolocation-service';
 import ShopDetailsModal from '../../../shared/components/ShopDetailsModal';
+import {requestMultiple, PERMISSIONS} from 'react-native-permissions';
 
 interface Props extends GenericNavigation {}
 
@@ -43,21 +44,36 @@ const NearBy = (props: Props) => {
       });
   }, []);
 
-  const animateToCurrentLocation = () => {
+  const animateToCurrentLocation = async () => {
     try {
-      Geolocation.getCurrentPosition(info => {
-        const {latitude, longitude} = info.coords;
+      Geolocation.getCurrentPosition(
+        info => {
+          const {latitude, longitude} = info.coords;
 
-        mapRef?.current?.animateToRegion(
-          {
-            latitude: latitude,
-            longitude: longitude,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          },
-          2000,
-        );
-      });
+          mapRef?.current?.animateToRegion(
+            {
+              latitude: latitude,
+              longitude: longitude,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            },
+            2000,
+          );
+        },
+        error => {
+          console.log(error.code, error.message);
+          Toast.show({
+            text1: 'Request Failed',
+            text2: error.message,
+            type: 'error',
+          });
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 15000,
+          maximumAge: 10000,
+        },
+      );
     } catch (err) {
       console.log('---error---', err);
     }

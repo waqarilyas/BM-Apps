@@ -13,7 +13,10 @@ const styles = StyleSheet.create({
     paddingTop: RF(20),
   },
   button: {
-    height: RF(50),
+    marginBottom: THEME.MARGIN.HIGH,
+    marginTop: THEME.MARGIN.HIGH,
+    height: RF(40),
+    width: '80%',
   },
   optionContainer: {
     width: '100%',

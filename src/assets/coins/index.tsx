@@ -6,7 +6,7 @@ const COINS = {
 };
 
 const GetImageForCoin = (COIN: string) => {
-  COIN = COIN.toUpperCase();
+  COIN = COIN?.toUpperCase();
   if (COIN === 'BTC') {
     return COINS.BTC;
   } else if (COIN === 'ETH') {

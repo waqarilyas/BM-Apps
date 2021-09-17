@@ -25,12 +25,12 @@ export const posSlice = createSlice({
     removeItemFromCart: (state, action) => {
       const cartData = [...state.cart];
 
-      cartData.splice(
-        cartData.findIndex(item => item._id === action.payload._id),
-        1,
-      );
-      state.totalCartAmount -= parseFloat(action.payload.price);
-      state.totalTax -= parseFloat(action.payload.tax);
+      const ind = cartData.findIndex(item => item._id === action.payload._id);
+      const count = cartData[ind]?.count;
+      cartData.splice(ind, 1);
+
+      state.totalCartAmount -= parseFloat(action.payload.price) * count;
+      state.totalTax -= parseFloat(action.payload.tax) * count;
       state.cart = cartData;
     },
 

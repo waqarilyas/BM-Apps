@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     backgroundColor: THEME.COLORS.secondaryBackground,
     alignItems: 'center',
     width: RF(80),
-    paddingVertical: RF(6),
+    paddingVertical: RF(11),
     marginRight: RF(5),
     borderRadius: RF(8),
   },

@@ -86,6 +86,7 @@ const AddContact = (props: PROPS) => {
               <AppInput
                 placeholder="Name"
                 onChangeText={handleChange('name')}
+                value={values.name}
               />
 
               {touched.address && errors.address ? (
@@ -96,6 +97,7 @@ const AddContact = (props: PROPS) => {
                 onChangeText={handleChange('address')}
                 icon="qr-code"
                 onIconPress={() => setQrVisible(true)}
+                value={values.address}
               />
 
               <TouchableOpacity
@@ -124,7 +126,7 @@ const AddContact = (props: PROPS) => {
               callBack={res => {
                 console.log(res);
                 setQrVisible(false);
-                setFieldValue('address', res);
+                setFieldValue('address', res.replace('ethereum:', ''));
               }}
             />
           </>
