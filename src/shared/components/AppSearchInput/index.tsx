@@ -10,6 +10,7 @@ import {
 import {THEME} from '../../theme';
 import {HP, RF} from '../../theme/responsive';
 import Icon from 'react-native-vector-icons/Ionicons';
+import L from '../../utils/LanguageHandler';
 
 interface Props extends TextInputProps {
   inputStyle?: StyleProp<TextStyle>;
@@ -26,7 +27,7 @@ const AppSearchInput = (props: Props) => {
       />
       <TextInput
         {...props}
-        placeholder="Search..."
+        placeholder={`${L('Search')}...`}
         placeholderTextColor={THEME.COLORS.textLight}
         style={[styles.inputContainer, props.inputStyle]}
         selectionColor={THEME.COLORS.white}

@@ -15,6 +15,7 @@ import {RootState} from '../../store';
 import {THEME} from '../../theme';
 import GLOBAL_STYLE from '../../theme/global';
 import {HP, WP, RF} from '../../theme/responsive';
+import L from '../../utils/LanguageHandler';
 
 interface Props {
   isVisible: boolean;
@@ -96,7 +97,7 @@ const ChooseCoinModal = (props: Props) => {
           data={data}
           keyExtractor={(item, index) => index.toString()}
           ListHeaderComponent={() => (
-            <Text style={styles.contactsHeader}>Wallet</Text>
+            <Text style={styles.contactsHeader}>{L('Wallet')}</Text>
           )}
           renderItem={({item, index}) => {
             return <RenderCoin data={item} />;

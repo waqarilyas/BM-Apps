@@ -9,12 +9,14 @@ import SettingsStack from './Settings/Settings.routes';
 import POSStack from './POS/POS.routes';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../shared/store';
+import L from '../../shared/utils/LanguageHandler';
 
 const Tab = createBottomTabNavigator();
 
 const BottomTabs = () => {
-  const {merchantEnabled} = useSelector((state: RootState) => state.user);
+  const {language} = useSelector((state: RootState) => state.settings);
 
+  useEffect(() => {}, [language]);
   return (
     <Tab.Navigator
       sceneContainerStyle={{backgroundColor: THEME.COLORS.primaryBackground}}
@@ -31,11 +33,11 @@ const BottomTabs = () => {
       screenOptions={({route}) => ({
         tabBarIcon: ({focused, color, size}) => {
           let imageName;
-          if (route.name === 'Wallet') {
+          if (route.name === L('Wallet')) {
             imageName = ICONS.WALLET;
-          } else if (route.name === 'POS') {
+          } else if (route.name === L('POS')) {
             imageName = ICONS.POS;
-          } else if (route.name === 'Settings') {
+          } else if (route.name === L('Settings')) {
             imageName = ICONS.SETTINGS;
           }
           return (
@@ -48,9 +50,9 @@ const BottomTabs = () => {
           );
         },
       })}>
-      <Tab.Screen name="Wallet" component={WalletStack} />
-      <Tab.Screen name="POS" component={POSStack} />
-      <Tab.Screen name="Settings" component={SettingsStack} />
+      <Tab.Screen name={L('Wallet')} component={WalletStack} />
+      <Tab.Screen name={L('POS')} component={POSStack} />
+      <Tab.Screen name={L('Settings')} component={SettingsStack} />
     </Tab.Navigator>
   );
 };

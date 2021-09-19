@@ -20,6 +20,7 @@ import {
 } from '../../../shared/services/helper.service';
 import {handleTx} from '../../../shared/services/wallet.service';
 import WAValidator from 'multicoin-address-validator';
+import L from '../../../shared/utils/LanguageHandler';
 
 interface Props extends GenericNavigation {}
 
@@ -130,23 +131,23 @@ const SendCoin = (props: Props) => {
       }
       if (usdtAmount) {
         if (isNaN(Number(usdtAmount))) {
-          return AppShowToast('Amount must be a number');
+          return AppShowToast(L('Amount must be a number'));
         }
       }
       if (Number(coinAmount) <= 0) {
-        return AppShowToast('Please enter a valid amount');
+        return AppShowToast(L('Please enter a valid amount'));
       }
       if (address === coin?.address) {
-        return AppShowToast('You cannot send to your own addresss');
+        return AppShowToast(L('You cannot send to your own addresss'));
       }
       if (!coinAmount) {
-        return AppShowToast('Please enter coin amount');
+        return AppShowToast(L('Please enter coin amount'));
       }
       if (Number(totalAmount) > Number(coin?.balance)) {
-        return AppShowToast('Insufficient funds');
+        return AppShowToast(L('Insufficient funds'));
       }
       if (Number(usdtAmount) > Number(coin?.vs_currency_balance)) {
-        return AppShowToast('Insufficient funds');
+        return AppShowToast(L('Insufficient funds'));
       }
       if (!usdtAmount) {
         return AppShowToast(`Please enter ${defaultCurrency} amount`);
@@ -184,23 +185,23 @@ const SendCoin = (props: Props) => {
         error={paymentError}
         isVisible={showModal}
       />
-      <AppHeader title="Wallet" showBack />
+      <AppHeader title={L('Wallet')} showBack />
       <View style={styles.container}>
-        <Text style={styles.label}>Send to</Text>
+        <Text style={styles.label}>{L('Send to')}</Text>
         <AddressInput
           inputStyle={{marginVertical: THEME.MARGIN.NORMAL}}
           value={address}
-          placeholder="Address"
+          placeholder={L('Address')}
           onChangeText={setAddress}
           onChangeAddress={onChangeAddress}
         />
         <View style={styles.labelContainer}>
-          <Text style={styles.label}>Amount</Text>
+          <Text style={styles.label}>{L('Amount')}</Text>
           <TouchableOpacity
             activeOpacity={0.5}
             style={styles.max}
             onPress={onPressMax}>
-            <Text style={styles.maxText}>Max</Text>
+            <Text style={styles.maxText}>{L('Max')}</Text>
           </TouchableOpacity>
         </View>
         <AppInput
@@ -209,7 +210,9 @@ const SendCoin = (props: Props) => {
           keyboardType="numeric"
           onChangeText={onChangeCoinAmount}
           returnKeyType="done"
-          placeholder={`Enter amount in ${coin?.coin_symbol.toUpperCase()}`}
+          placeholder={`${L(
+            'Enter amount in',
+          )} ${coin?.coin_symbol.toUpperCase()}`}
         />
         <AppInput
           inputStyle={{marginTop: THEME.MARGIN.NORMAL}}
@@ -217,7 +220,7 @@ const SendCoin = (props: Props) => {
           keyboardType="numeric"
           returnKeyType="done"
           onChangeText={onChangeUsdtAmount}
-          placeholder={`Enter amount in ${defaultCurrency}`}
+          placeholder={`${L('Enter amount in')} ${defaultCurrency}`}
         />
 
         <View style={styles.sideInfo}>
@@ -229,7 +232,7 @@ const SendCoin = (props: Props) => {
 
         <View style={styles.details}>
           <Text style={styles.detailsText}>
-            Transaction Fee :{' '}
+            {L('Transaction Fee')} :{' '}
             {getFixedAmount(Number(coin?.chart_data.networkFeeMin) * 2)}{' '}
             {coin?.coin_symbol.toUpperCase()}
             <Text style={styles.usdText}>
@@ -238,7 +241,8 @@ const SendCoin = (props: Props) => {
             </Text>
           </Text>
           <Text style={styles.availableText}>
-            {'    '}Total Amount : {Number(totalAmount).toFixed(6)}{' '}
+            {'    '}
+            {L('Total Amount')} : {Number(totalAmount).toFixed(6)}{' '}
             {coin?.coin_symbol.toUpperCase()}
             <Text style={styles.usdText}>
               {'     '}
@@ -250,7 +254,7 @@ const SendCoin = (props: Props) => {
         <PrimaryButton
           loading={loading}
           icon="arrow-long-up"
-          title="Send"
+          title={L('SEND')}
           buttonStyle={{width: '55%', height: HP(6)}}
           textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
           onPress={onSend}

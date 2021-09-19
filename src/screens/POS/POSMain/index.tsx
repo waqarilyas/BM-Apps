@@ -23,6 +23,7 @@ import {getMerchantProducts} from '../../../shared/services/merchant.service';
 import {RootState} from '../../../shared/store';
 import {THEME} from '../../../shared/theme';
 import {RF} from '../../../shared/theme/responsive';
+import L from '../../../shared/utils/LanguageHandler';
 import styles from './style';
 
 interface Props extends GenericNavigation {}
@@ -43,7 +44,7 @@ const POSMain = (props: Props) => {
 
   const navToAddProduct = () => {
     if (!merchantShop) {
-      Alert.alert('Failed', 'Please add a shop to continue', [
+      Alert.alert(L('Failed'), L('Please add a shop to continue'), [
         {text: 'OK', onPress: () => console.log('OK Pressed')},
       ]);
 
@@ -110,7 +111,7 @@ const POSMain = (props: Props) => {
       {searchVisible ? (
         <View style={styles.searchContainer}>
           <SearchBar
-            placeholder="Search here"
+            placeholder={L('Search')}
             onChangeText={updateResult}
             value={searchText}
           />
@@ -128,7 +129,7 @@ const POSMain = (props: Props) => {
         </View>
       ) : (
         <AppHeader
-          title="Point of Sale"
+          title={L('Point of Sale')}
           showSearch
           searchAction={() => setSearchVisible(true)}
         />
@@ -144,7 +145,7 @@ const POSMain = (props: Props) => {
               resizeMode={FastImage.resizeMode.contain}
               style={styles.actionIcon}
             />
-            <Text style={styles.actionText}>Add Product</Text>
+            <Text style={styles.actionText}>{L('Add Product')}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -159,11 +160,11 @@ const POSMain = (props: Props) => {
               size={RF(18)}
             />
 
-            <Text style={styles.actionText}>Direct Invoice</Text>
+            <Text style={styles.actionText}>{L('Direct Invoice')}</Text>
           </TouchableOpacity>
         </View>
 
-        <Text style={styles.categoryLabel}>Products</Text>
+        <Text style={styles.categoryLabel}>{L('Products')}</Text>
 
         <FlatList
           data={searchText.length > 0 ? searchResults : products}
@@ -180,7 +181,7 @@ const POSMain = (props: Props) => {
           }}
           keyboardShouldPersistTaps="always"
           ListEmptyComponent={() => (
-            <EmptyScreenComponent title="No products found!" />
+            <EmptyScreenComponent title={L('No products found!')} />
           )}
           inverted={products.length != 0}
           showsVerticalScrollIndicator={false}

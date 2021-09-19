@@ -16,6 +16,7 @@ import {getInitialMerchantData} from '../../../shared/services/merchant.service'
 import TouchID from 'react-native-touch-id';
 import Toast from 'react-native-toast-message';
 import AuthModal from '../../../shared/components/AuthModal';
+import L from '../../../shared/utils/LanguageHandler';
 
 interface Props extends GenericNavigation {}
 
@@ -113,7 +114,7 @@ const WalletMain = (props: Props) => {
 
   return (
     <View style={styles.mainContainer}>
-      <AppHeader title="Wallet" />
+      <AppHeader title={L('Wallet')} />
       <AppLoader isVisible={walletLoading} />
       <View style={styles.container}>
         <PieChart
@@ -136,7 +137,7 @@ const WalletMain = (props: Props) => {
         <AppSearchInput
           value={searchText}
           onChangeText={setSearchText}
-          placeholder="Search..."
+          placeholder={`${L('Search')}...`}
         />
         <ScrollView style={styles.listContainer}>
           {filteredWallet.map((item, index) => {

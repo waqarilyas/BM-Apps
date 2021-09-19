@@ -3,6 +3,7 @@ import {Modal, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {THEME} from '../../theme';
 import {RF} from '../../theme/responsive';
+import L from '../../utils/LanguageHandler';
 
 const ShopDetailsModal = ({
   visible,
@@ -21,7 +22,7 @@ const ShopDetailsModal = ({
             <Icon name="camera" size={RF(25)} color={THEME.COLORS.white} />
             <Text style={styles.iconName}>Camera</Text>
           </TouchableOpacity> */}
-          <Text style={styles.storeTitle}>SHOP INFO</Text>
+          <Text style={styles.storeTitle}>{L('SHOP INFO')}</Text>
           <CardItem title={data.name} icon="person" />
           <CardItem title={data.phone} icon="phone-portrait-outline" />
           <CardItem title={data.website} icon="md-logo-web-component" />

@@ -17,6 +17,7 @@ import RadioButtonRN from 'radio-buttons-react-native';
 import {THEME} from '../../../shared/theme';
 import GLOBAL_STYLE from '../../../shared/theme/global';
 import Toast from 'react-native-toast-message';
+import L from '../../../shared/utils/LanguageHandler';
 
 interface Props extends GenericNavigation {
   route: RouteProp<{params: {selectionType: string}}, 'params'>;
@@ -70,9 +71,10 @@ const SelectionScreen = (props: Props) => {
 
   const HEADER_TITLE =
     selectionType === ScreenSelectionType.Currency ? 'Currency' : 'Language';
+
   return (
     <View style={styles.mainContainer}>
-      <AppHeader title={`Choose ${HEADER_TITLE}`} showBack />
+      <AppHeader title={L('Choose Currency')} showBack />
       <View style={styles.container}>
         <RadioButtonRN
           activeColor={THEME.COLORS.accentBlue}
@@ -86,12 +88,13 @@ const SelectionScreen = (props: Props) => {
           data={selections}
           selectedBtn={(e: any) => onItemPress(e.label)}
         />
-        {/* <PrimaryButton
+
+        <PrimaryButton
           loading={loading}
-          title="Save"
+          title={L('Save')}
           buttonStyle={{width: '50%'}}
           textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
-        /> */}
+        />
       </View>
     </View>
   );

@@ -1,35 +1,34 @@
-import React, {useState, useEffect} from 'react';
+import Clipboard from '@react-native-clipboard/clipboard';
+import React, {useEffect, useState} from 'react';
 import {
-  View,
-  Text,
-  TouchableOpacity,
   Pressable,
   ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import {ICONS} from '../../../assets';
-import AppHeader from '../../../shared/components/AppHeader';
-import styles from './styles';
-import {COINS, GetImageForCoin} from '../../../assets/coins';
-import Icon from 'react-native-vector-icons/EvilIcons';
-import {THEME} from '../../../shared/theme';
-import {GenericNavigation} from '../../../shared/models/types';
-import PrimaryButton from '../../../shared/components/PrimaryButton';
-import {HP, RF, WP} from '../../../shared/theme/responsive';
-import ChooseCoinModal from '../../../shared/components/ChooseCoinModal';
-import GLOBAL_STYLE from '../../../shared/theme/global';
-import {RootState} from '../../../shared/store';
-import {useDispatch, useSelector} from 'react-redux';
-import Clipboard from '@react-native-clipboard/clipboard';
 import QRCode from 'react-native-qrcode-svg';
+import Toast from 'react-native-toast-message';
+import {useDispatch, useSelector} from 'react-redux';
+import {ICONS} from '../../../assets';
+import {GetImageForCoin} from '../../../assets/coins';
+import AppHeader from '../../../shared/components/AppHeader';
 import AppInput from '../../../shared/components/AppInput';
-
+import ChooseCoinModal from '../../../shared/components/ChooseCoinModal';
+import PrimaryButton from '../../../shared/components/PrimaryButton';
+import {GenericNavigation} from '../../../shared/models/types';
 import {
   AppShareContent,
   AppShowToast,
 } from '../../../shared/services/helper.service';
+import {RootState} from '../../../shared/store';
 import {resetCart} from '../../../shared/store/reducers/posReducer';
-import Toast from 'react-native-toast-message';
+import {THEME} from '../../../shared/theme';
+import GLOBAL_STYLE from '../../../shared/theme/global';
+import {RF, WP} from '../../../shared/theme/responsive';
+import L from '../../../shared/utils/LanguageHandler';
+import styles from './styles';
 
 interface Props extends GenericNavigation {}
 
@@ -65,7 +64,7 @@ const Payment = (props: Props) => {
 
   const onPressAddress = () => {
     setCopied(true);
-    AppShowToast('Copied');
+    AppShowToast(L('Copied'));
     Clipboard.setString(selectedCoin?.address);
   };
 
@@ -82,7 +81,7 @@ const Payment = (props: Props) => {
     <View style={styles.mainContainer}>
       <AppHeader title="Payment" showBack />
       <ScrollView style={styles.container}>
-        <Text style={styles.label}>Select Coin:</Text>
+        <Text style={styles.label}>{L('Select Coin')}:</Text>
         <TouchableOpacity onPress={toggleModal} style={styles.optionContainer}>
           <FastImage
             source={GetImageForCoin(selectedCoin?.coin_symbol)}
@@ -100,7 +99,7 @@ const Payment = (props: Props) => {
 
         {type == 'invoice' && (
           <AppInput
-            placeholder="Enter Amount USD"
+            placeholder={L('Enter Amount USD')}
             keyboardType="number-pad"
             returnKeyType="done"
             onChangeText={text => {
@@ -135,7 +134,7 @@ const Payment = (props: Props) => {
           <QRCode size={WP(40)} value={selectedCoin?.address} />
         </View>
         <Text style={styles.instruction}>
-          Use the address below to receive funds.
+          {L('Use the address below to receive funds.')}
         </Text>
         <Pressable style={styles.keyContainer} onPress={onPressAddress}>
           <Text numberOfLines={1} style={styles.keyText}>
@@ -149,12 +148,12 @@ const Payment = (props: Props) => {
               resizeMode={FastImage.resizeMode.contain}
               style={{width: RF(20), height: RF(20)}}
             />
-            <Text style={styles.copied}> Copied</Text>
+            <Text style={styles.copied}>{L('Copied')}</Text>
           </View>
         )}
         <PrimaryButton
           icon="share"
-          title="Share"
+          title={L('Share')}
           onPress={() =>
             AppShareContent(
               selectedCoin?.address,
@@ -167,7 +166,7 @@ const Payment = (props: Props) => {
 
         <PrimaryButton
           // icon="share"
-          title="Confirm Payment"
+          title={L('Confirm Payment')}
           onPress={() => {
             dispatch(resetCart());
             Toast.show({

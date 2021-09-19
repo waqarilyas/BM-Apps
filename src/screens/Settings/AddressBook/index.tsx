@@ -12,6 +12,7 @@ import {Coin, GenericNavigation} from '../../../shared/models/types';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {AppShowToast} from '../../../shared/services/helper.service';
 import Clipboard from '@react-native-clipboard/clipboard';
+import L from '../../../shared/utils/LanguageHandler';
 
 interface PROPS extends GenericNavigation {}
 
@@ -38,7 +39,7 @@ const AddressBook = (props: PROPS) => {
 
   return (
     <View style={styles.container}>
-      <AppHeader title="Address Book" showBack />
+      <AppHeader title={L('Address Book')} showBack />
 
       <View style={styles.middleContainer}>
         <View style={styles.filtersRow}>
@@ -66,11 +67,11 @@ const AddressBook = (props: PROPS) => {
         <FlatList
           data={contacts}
           ListHeaderComponent={() => {
-            return <Text style={styles.listHeader}>Your Addresses</Text>;
+            return <Text style={styles.listHeader}>{L('Your Addresses')}</Text>;
           }}
           ListEmptyComponent={() => (
             <Text style={[styles.address, {textAlign: 'center'}]}>
-              No address found!
+              {L('No address found!')}
             </Text>
           )}
           keyExtractor={(_, index) => index.toString()}
@@ -89,7 +90,7 @@ const AddressBook = (props: PROPS) => {
         />
       </View>
       <PrimaryButton
-        title="Add Contact"
+        title={L('Add Contact')}
         buttonStyle={styles.addButton}
         onPress={() => props?.navigation?.navigate('AddContact')}
       />

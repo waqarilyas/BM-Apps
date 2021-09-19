@@ -22,7 +22,6 @@ const StartScreen = (props: Props) => {
   const navToImportWallet = () => props.navigation.navigate('ImportWallet');
 
   const handleCreateNewWallet = () => {
-    setLoading(true);
     dispatch(renderWallet());
   };
   const openTermsAndCondition = async () => {

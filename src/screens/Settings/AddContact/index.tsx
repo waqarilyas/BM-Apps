@@ -19,6 +19,7 @@ import {GenericNavigation} from '../../../shared/models/types';
 import {addContact} from '../../../shared/store/reducers/posReducer';
 import QRCode from 'react-native-qrcode-svg';
 import AppQRCodeScanner from '../../../shared/components/AppQRCodeScanner';
+import L from '../../../shared/utils/LanguageHandler';
 
 const initialValues: any = {
   name: '',
@@ -64,7 +65,7 @@ const AddContact = (props: PROPS) => {
 
   return (
     <View style={styles.container}>
-      <AppHeader showBack title="Add Contact" />
+      <AppHeader showBack title={L('Add Contact')} />
       <Formik
         initialValues={initialValues}
         onSubmit={(values, action) => handleData(values, action)}
@@ -84,7 +85,7 @@ const AddContact = (props: PROPS) => {
               ) : null}
 
               <AppInput
-                placeholder="Name"
+                placeholder={L('Name')}
                 onChangeText={handleChange('name')}
                 value={values.name}
               />
@@ -93,7 +94,7 @@ const AddContact = (props: PROPS) => {
                 <Text style={styles.errors}>{errors.address}</Text>
               ) : null}
               <AppInput
-                placeholder="Address"
+                placeholder={L('Address')}
                 onChangeText={handleChange('address')}
                 icon="qr-code"
                 onIconPress={() => setQrVisible(true)}
@@ -117,7 +118,7 @@ const AddContact = (props: PROPS) => {
               </TouchableOpacity>
             </View>
             <PrimaryButton
-              title="Add"
+              title={L('Add')}
               buttonStyle={styles.button}
               onPress={handleSubmit}
             />

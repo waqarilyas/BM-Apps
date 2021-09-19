@@ -20,6 +20,7 @@ import {useSelector} from 'react-redux';
 import RNFetchBlob from 'rn-fetch-blob';
 import {createNewProduct} from '../../../shared/services/merchant.service';
 import Toast from 'react-native-toast-message';
+import L from '../../../shared/utils/LanguageHandler';
 
 interface Props {}
 
@@ -168,14 +169,14 @@ const AddProduct = (props: Props) => {
                 <Text style={styles.errors}>{errors.title}</Text>
               ) : null}
               <AppInput
-                placeholder="Title"
+                placeholder={L('Title')}
                 onChangeText={handleChange('title')}
               />
               {touched.price && errors.price ? (
                 <Text style={styles.errors}>{errors.price}</Text>
               ) : null}
               <AppInput
-                placeholder="Price"
+                placeholder={L('Price')}
                 keyboardType="number-pad"
                 onChangeText={handleChange('price')}
               />

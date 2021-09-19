@@ -1,7 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
-  language: 'EN',
+  language: 'English',
   currency: 'USD',
   defaultTaxRate: '0',
   darkMode: false,

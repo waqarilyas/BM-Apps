@@ -19,6 +19,7 @@ import {createShopVS} from '../../../shared/utils/validations';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import styles from './styles';
 import {THEME} from '../../../shared/theme';
+import L from '../../../shared/utils/LanguageHandler';
 
 interface Props extends GenericNavigation {}
 
@@ -89,7 +90,7 @@ const AddPlace = (props: Props) => {
 
   return (
     <View style={styles.mainContainer}>
-      <AppHeader showBack title="Add Store" />
+      <AppHeader showBack title={L('Add Store')} />
       <KeyboardAwareScrollView style={styles.container}>
         <Formik
           initialValues={initialValues}
@@ -108,14 +109,14 @@ const AddPlace = (props: Props) => {
                 <Text style={styles.errors}>{errors.name}</Text>
               ) : null}
               <AppInput
-                placeholder="Name"
+                placeholder={L('Name')}
                 onChangeText={handleChange('name')}
               />
               {touched.category && errors.category ? (
                 <Text style={styles.errors}>{errors.category}</Text>
               ) : null}
               <AppInput
-                placeholder="Category"
+                placeholder={L('Category')}
                 // icon="keyboard-arrow-down"
                 onChangeText={handleChange('category')}
               />
@@ -125,7 +126,7 @@ const AddPlace = (props: Props) => {
               <View style={styles.placesContainer}>
                 <GooglePlacesAutocomplete
                   keepResultsAfterBlur
-                  placeholder="Location"
+                  placeholder={L('Location')}
                   fetchDetails={true}
                   nearbyPlacesAPI="GoogleReverseGeocoding"
                   currentLocation={true}
@@ -180,7 +181,7 @@ const AddPlace = (props: Props) => {
                 <Text style={styles.errors}>{errors.phone}</Text>
               ) : null}
               <AppInput
-                placeholder="Contact"
+                placeholder={L('Contact')}
                 onChangeText={handleChange('phone')}
               />
 
@@ -188,7 +189,7 @@ const AddPlace = (props: Props) => {
                 <Text style={styles.errors}>{errors.website}</Text>
               ) : null}
               <AppInput
-                placeholder="Website (optional)"
+                placeholder={L('Website (optional)')}
                 onChangeText={handleChange('website')}
               />
               {/* <Text style={styles.label}>Add Photos</Text>
@@ -200,7 +201,7 @@ const AddPlace = (props: Props) => {
           <ImageMiniPreview source={ICONS.IMAGE_PICKER} />
         </ScrollView> */}
               <PrimaryButton
-                title="Add Place"
+                title={L('Add Shop')}
                 buttonStyle={styles.addButton}
                 onPress={handleSubmit}
               />

@@ -14,6 +14,7 @@ import AppLoader from '../../../shared/components/AppLoader';
 import Geolocation from 'react-native-geolocation-service';
 import ShopDetailsModal from '../../../shared/components/ShopDetailsModal';
 import {requestMultiple, PERMISSIONS} from 'react-native-permissions';
+import L from '../../../shared/utils/LanguageHandler';
 
 interface Props extends GenericNavigation {}
 
@@ -81,7 +82,7 @@ const NearBy = (props: Props) => {
 
   return (
     <View style={styles.container}>
-      <AppHeader title="Stores" />
+      <AppHeader title={L('Stores')} />
       <View style={{flex: 1}}>
         <MapView
           showsUserLocation={true}

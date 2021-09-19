@@ -13,6 +13,7 @@ import {ICONS} from '../../../assets';
 import FastImage from 'react-native-fast-image';
 import AppHeader from '../AppHeader';
 import {RF} from '../../theme/responsive';
+import L from '../../utils/LanguageHandler';
 
 interface Props {
   isVisible: boolean;
@@ -35,7 +36,7 @@ const AppQRCodeScanner = (props: Props) => {
       <SafeAreaView style={styles.container}>
         <AppHeader
           showBack
-          title="QR Scanner"
+          title={L('QR Scanner')}
           backAction={() => props.callBack('')}
           headerStyle={{
             height: RF(Platform.OS === 'ios' ? 60 : 80),

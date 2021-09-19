@@ -14,6 +14,7 @@ import {
 } from '../../../shared/store/reducers/userReducer';
 import {resetWallet} from '../../../shared/store/reducers/walletReducer';
 import {THEME} from '../../../shared/theme';
+import L from '../../../shared/utils/LanguageHandler';
 import {socket} from '../../../shared/utils/sockets';
 
 interface Props extends GenericNavigation {}
@@ -50,8 +51,8 @@ const SettingsMain = (props: Props) => {
 
   const onLogout = () => {
     Alert.alert(
-      'Confirmation!',
-      'Are you sure you want to logout?',
+      L('Confirmation!'),
+      L('Are you sure you want to logout?'),
       [
         {
           text: 'Cancel',
@@ -83,7 +84,7 @@ const SettingsMain = (props: Props) => {
   };
 
   const navToLanguageSelection = () => {
-    props.navigation?.navigate('SelectionScreen', {selectionType: 'language'});
+    props.navigation?.navigate('LanguageSelection');
   };
 
   const toggleDarkMode = (toggleState: boolean) => {
@@ -100,8 +101,8 @@ const SettingsMain = (props: Props) => {
 
   const handleModeSwitch = () => {
     Alert.alert(
-      `Confirm`,
-      `Are you sure you want to switch to ${
+      L(`Confirm`),
+      `${L('Are you sure you want to switch to')} ${
         merchantEnabled ? 'Buyer' : 'Merchant'
       }?`,
       [
@@ -136,7 +137,7 @@ const SettingsMain = (props: Props) => {
 
         {merchantData && !merchantShop && merchantEnabled && (
           <SettingItem
-            title="Add Store Location"
+            title={L('Add Store Location')}
             chevron
             onPress={navToAddPlace}
           />
@@ -145,7 +146,7 @@ const SettingsMain = (props: Props) => {
         {/* )} */}
         {!merchantData && (
           <SettingItem
-            title="Enable Merchant Account"
+            title={L('Enable Merchant Account')}
             chevron
             onPress={() => handleNavigate('EnableMerchant')}
           />
@@ -157,13 +158,13 @@ const SettingsMain = (props: Props) => {
           onPress={navToPurchaseHistory}
         /> */}
         <SettingItem
-          title="Choose Currency"
+          title={L('Choose Currency')}
           value={settings.currency}
           onPress={navToCurrencySelection}
           chevron
         />
         <SettingItem
-          title="Choose Language"
+          title={L('Choose Language')}
           value={settings.language}
           chevron
           onPress={navToLanguageSelection}
@@ -181,18 +182,18 @@ const SettingsMain = (props: Props) => {
           toggleSwitch={toggleDarkMode}
         /> */}
         <SettingItem
-          title="Coins Acceptance Settings"
+          title={L('Coin Acceptance Settings')}
           chevron
           onPress={navToCoinAcceptance}
         />
         <SettingItem
-          title="Backup Phrase"
+          title={L('Backup Phrase')}
           chevron
           onPress={navToBackupPhrase}
         />
 
         <SettingItem
-          title="Add Contacts"
+          title={L('Add Contacts')}
           chevron
           onPress={() => props?.navigation?.navigate('AddressBook')}
         />
@@ -200,8 +201,8 @@ const SettingsMain = (props: Props) => {
         <SettingItem
           title={
             thumbEnabled
-              ? 'Disable Thumb Impression'
-              : 'Enable Thumb Impression'
+              ? L('Disable Thumb Impression')
+              : L('Enable Thumb Impression')
           }
           chevron
           onPress={() => {
@@ -209,7 +210,7 @@ const SettingsMain = (props: Props) => {
               ? dispatch(setThumbEnabled(false))
               : dispatch(setThumbEnabled(true));
             Toast.show({
-              text1: 'Success',
+              text1: L('Success'),
               text2: `Thumb Impression ${
                 thumbEnabled ? 'disabled' : 'enabled'
               } successfully`,
@@ -220,13 +221,15 @@ const SettingsMain = (props: Props) => {
 
         {merchantData && (
           <SettingItem
-            title={merchantEnabled ? 'Switch to Buyer' : 'Switch to Merchant'}
+            title={
+              merchantEnabled ? L('Switch to Buyer') : L('Switch to Merchant')
+            }
             // chevron
             onPress={handleModeSwitch}
           />
         )}
 
-        <SettingItem title="Log out" chevron onPress={onLogout} />
+        <SettingItem title={L('Log Out')} chevron onPress={onLogout} />
       </View>
     </View>
   );
