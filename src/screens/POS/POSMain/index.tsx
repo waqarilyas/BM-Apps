@@ -78,8 +78,8 @@ const POSMain = (props: Props) => {
       })
       .catch(err => {
         Toast.show({
-          text1: 'Request Failed',
-          text2: 'Unable to get products',
+          text1: L('Request Failed'),
+          text2: L('Unable to get products'),
           type: 'error',
         });
       })
@@ -176,14 +176,15 @@ const POSMain = (props: Props) => {
             // backgroundColor: 'red',
             flexWrap: 'wrap-reverse',
           }}
-          contentContainerStyle={{
-            flex: products.length == 0 && 1,
-          }}
+          contentContainerStyle={
+            products.length == 0 && {
+              flex: 1,
+            }
+          }
           keyboardShouldPersistTaps="always"
           ListEmptyComponent={() => (
             <EmptyScreenComponent title={L('No products found!')} />
           )}
-          inverted={products.length != 0}
           showsVerticalScrollIndicator={false}
           keyExtractor={(_, index) => index.toString()}
           renderItem={({item, index}) => {

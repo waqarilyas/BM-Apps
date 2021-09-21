@@ -7,7 +7,10 @@ import SettingItem from '../../../shared/components/SettingItem';
 import {Coin, GenericNavigation} from '../../../shared/models/types';
 import {RootState} from '../../../shared/store';
 import {resetPos} from '../../../shared/store/reducers/posReducer';
-import {setThumbEnabled} from '../../../shared/store/reducers/settingsReducer';
+import {
+  setTaxEnabled,
+  setThumbEnabled,
+} from '../../../shared/store/reducers/settingsReducer';
 import {
   resetUser,
   setMerchantEnabledState,
@@ -23,7 +26,9 @@ const SettingsMain = (props: Props) => {
   const {settings} = useSelector((state: RootState) => state);
 
   const {wallet} = useSelector((state: RootState) => state.wallet);
-  const {thumbEnabled} = useSelector((state: RootState) => state.settings);
+  const {thumbEnabled, taxEnabled} = useSelector(
+    (state: RootState) => state.settings,
+  );
   const {merchantEnabled, merchantShop, merchantData} = useSelector(
     (state: RootState) => state.user,
   );
@@ -107,7 +112,7 @@ const SettingsMain = (props: Props) => {
       }?`,
       [
         {
-          text: 'Cancel',
+          text: L('Cancel'),
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
@@ -116,10 +121,41 @@ const SettingsMain = (props: Props) => {
           onPress: () => {
             dispatch(setMerchantEnabledState(merchantEnabled ? false : true));
             Toast.show({
-              text1: 'Success',
-              text2: `Successfully switched to ${
+              text1: L('Successfull'),
+              text2: `${L('Successfully switched to')} ${
                 merchantEnabled ? 'Buyer' : 'Merchant'
-              } mode`,
+              } ${L('mode')}`,
+              type: 'success',
+            });
+          },
+        },
+      ],
+    );
+  };
+
+  const handleTaxEnabled = () => {
+    Alert.alert(
+      L(`Confirm`),
+      `${L('Are you sure you want to ')} ${
+        taxEnabled
+          ? 'disable Algorithmic Protection Fee '
+          : 'enable Algorithmic Protection Fee'
+      }?`,
+      [
+        {
+          text: L('Cancel'),
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {
+          text: L('OK'),
+          onPress: () => {
+            dispatch(setTaxEnabled(taxEnabled ? false : true));
+            Toast.show({
+              text1: L('Successfull'),
+              text2: `${L('Successfully')}  ${
+                taxEnabled ? L('Disabled') : L('Enabled')
+              } Algorithmic Protection Fee`,
               type: 'success',
             });
           },
@@ -130,7 +166,7 @@ const SettingsMain = (props: Props) => {
 
   return (
     <View style={styles.container}>
-      <AppHeader title="Settings" />
+      <AppHeader title={L('Settings')} />
       <View style={styles.container}>
         {/* <SettingItem title="Address Book" chevron /> */}
         {/* {!merchantShop && ( */}
@@ -198,22 +234,33 @@ const SettingsMain = (props: Props) => {
           onPress={() => props?.navigation?.navigate('AddressBook')}
         />
 
+        {merchantEnabled && (
+          <SettingItem
+            title={
+              taxEnabled
+                ? L('Disable Algorithmic Protection Fee')
+                : L('Enable Algorithmic Protection Fee')
+            }
+            // chevron
+            onPress={handleTaxEnabled}
+          />
+        )}
+
         <SettingItem
           title={
             thumbEnabled
               ? L('Disable Thumb Impression')
               : L('Enable Thumb Impression')
           }
-          chevron
           onPress={() => {
             thumbEnabled
               ? dispatch(setThumbEnabled(false))
               : dispatch(setThumbEnabled(true));
             Toast.show({
               text1: L('Success'),
-              text2: `Thumb Impression ${
+              text2: `${L('Thumb Impression')} ${
                 thumbEnabled ? 'disabled' : 'enabled'
-              } successfully`,
+              } ${L('successfully')}`,
               type: 'success',
             });
           }}

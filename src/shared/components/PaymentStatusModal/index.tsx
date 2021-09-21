@@ -42,7 +42,7 @@ const PaymentStatusModal = (props: Props) => {
           {props.error ? 'Payment Failed' : 'Payment Successfull'}
         </Text>
       </View>
-    </Modal>
+    </Moaadal>
   );
 };
 

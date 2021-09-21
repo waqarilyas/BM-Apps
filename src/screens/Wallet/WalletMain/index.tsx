@@ -113,50 +113,53 @@ const WalletMain = (props: Props) => {
   }, [wallet]);
 
   return (
-    <View style={styles.mainContainer}>
-      <AppHeader title={L('Wallet')} />
-      <AppLoader isVisible={walletLoading} />
-      <View style={styles.container}>
-        <PieChart
-          animate={true}
-          style={styles.pieChart}
-          valueAccessor={({item}: any) => item.vs_currency_balance}
-          data={Number(totalValue) > 0 ? chartData : EMPTY_CHART_DATA}
-          outerRadius={'100%'}
-          innerRadius={'82%'}
-          padAngle={0}
-        />
-        <View style={styles.innerCircle}>
-          <Text style={styles.innerLargeText}>
-            {totalValue.split('.')[0]}
-            <Text style={styles.innerSmallText}>
-              .{totalValue.split('.')[1]} {currency}
+    <>
+      <View style={styles.mainContainer}>
+        <AppHeader title={L('Wallet')} />
+
+        <View style={styles.container}>
+          <PieChart
+            animate={true}
+            style={styles.pieChart}
+            valueAccessor={({item}: any) => item.vs_currency_balance}
+            data={Number(totalValue) > 0 ? chartData : EMPTY_CHART_DATA}
+            outerRadius={'100%'}
+            innerRadius={'82%'}
+            padAngle={0}
+          />
+          <View style={styles.innerCircle}>
+            <Text style={styles.innerLargeText}>
+              {totalValue.split('.')[0]}
+              <Text style={styles.innerSmallText}>
+                .{totalValue.split('.')[1]} {currency}
+              </Text>
             </Text>
-          </Text>
+          </View>
+          <AppSearchInput
+            value={searchText}
+            onChangeText={setSearchText}
+            placeholder={`${L('Search')}...`}
+          />
+          <ScrollView style={styles.listContainer}>
+            {filteredWallet.map((item, index) => {
+              if (item.is_active) {
+                return (
+                  <CoinListItem
+                    key={index}
+                    item={item}
+                    onPress={() => navigateToCoinDetail(item.coin_symbol)}
+                  />
+                );
+              }
+            })}
+          </ScrollView>
         </View>
-        <AppSearchInput
-          value={searchText}
-          onChangeText={setSearchText}
-          placeholder={`${L('Search')}...`}
-        />
-        <ScrollView style={styles.listContainer}>
-          {filteredWallet.map((item, index) => {
-            if (item.is_active) {
-              return (
-                <CoinListItem
-                  key={index}
-                  item={item}
-                  onPress={() => navigateToCoinDetail(item.coin_symbol)}
-                />
-              );
-            }
-          })}
-        </ScrollView>
+        {thumbEnabled && authOpen && (
+          <AuthModal visible={true} onClose={() => setAuthOpen(false)} />
+        )}
       </View>
-      {thumbEnabled && authOpen && (
-        <AuthModal visible={true} onClose={() => setAuthOpen(false)} />
-      )}
-    </View>
+      <AppLoader isVisible={walletLoading} />
+    </>
   );
 };
 

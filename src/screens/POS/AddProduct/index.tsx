@@ -44,12 +44,12 @@ const AddProduct = (props: Props) => {
 
   const handleData = (values: any, action: any) => {
     if (values.price == 0) {
-      action.setFieldError('price', 'Price cannot be 0');
+      action.setFieldError('price', L('Price cannot be 0'));
       return;
     }
 
     if (!image) {
-      setGenericError('Please select your product image to continue');
+      setGenericError(L('Please select your product image to continue'));
       return;
     }
     setLoading(true);
@@ -93,8 +93,8 @@ const AddProduct = (props: Props) => {
       .then(response => {
         if (response.info().status === 413) {
           Toast.show({
-            text1: 'Request Failed',
-            text2: 'Image is too large. Please select another one',
+            text1: L('Request Failed'),
+            text2: L('Image is too large. Please select another one'),
             type: 'error',
           });
         }
@@ -103,8 +103,8 @@ const AddProduct = (props: Props) => {
       })
       .then(RetrivedData => {
         Toast.show({
-          text1: 'Success',
-          text2: 'Your product has been saved successfully',
+          text1: L('Successfull'),
+          text2: L('Your product has been saved successfully'),
           type: 'success',
         });
         setLoading(false);
@@ -132,7 +132,7 @@ const AddProduct = (props: Props) => {
 
   return (
     <View style={styles.mainContainer}>
-      <AppHeader showBack title="Add Product" showCart />
+      <AppHeader showBack title={L('Add Product')} showCart />
       <KeyboardAwareScrollView style={styles.container} ref={scrollRef}>
         <View style={styles.imageContainer}>
           {image?.path && (
@@ -186,14 +186,14 @@ const AddProduct = (props: Props) => {
 
               <AppInput
                 keyboardType="number-pad"
-                placeholder="Tax"
+                placeholder={L('Tax')}
                 onChangeText={handleChange('tax')}
               />
               {touched.category && errors.category ? (
                 <Text style={styles.errors}>{errors.category}</Text>
               ) : null}
               <AppInput
-                placeholder="Category"
+                placeholder={L('Category')}
                 onChangeText={handleChange('category')}
               />
               {genericError ? (
@@ -202,7 +202,7 @@ const AddProduct = (props: Props) => {
                 </Text>
               ) : null}
               <PrimaryButton
-                title="Save"
+                title={L('Save')}
                 buttonStyle={styles.saveButton}
                 textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
                 onPress={handleSubmit}

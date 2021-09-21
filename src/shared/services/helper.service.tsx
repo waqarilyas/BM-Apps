@@ -98,7 +98,7 @@ export const CheckConnectivity = () => {
   }
 };
 
-const handleFirstConnectivityChange = (isConnected: any1234) => {
+const handleFirstConnectivityChange = (isConnected: any) => {
   NetInfo.isConnected.removeEventListener(
     'connectionChange',
     handleFirstConnectivityChange,
@@ -109,4 +109,8 @@ const handleFirstConnectivityChange = (isConnected: any1234) => {
   } else {
     Alert.alert('You are online!');
   }
+};
+
+export const calculateTotal = (totalPrice: Number, tax: Number) => {
+  return totalPrice - totalPrice * (tax / 100);
 };

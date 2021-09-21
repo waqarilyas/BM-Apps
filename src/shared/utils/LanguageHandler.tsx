@@ -597,6 +597,222 @@ export const language = [
       Spanish: 'Por favor ingrese su dirección de contacto',
     },
   },
+  {
+    label: {
+      English: 'Cart',
+      Spanish: 'Carro',
+    },
+  },
+  {
+    label: {
+      English: 'Enter Custom Price',
+      Spanish: 'Ingrese precio personalizado',
+    },
+  },
+  {
+    label: {
+      English: 'Tax',
+      Spanish: 'Impuesto',
+    },
+  },
+  {
+    label: {
+      English: 'Total',
+      Spanish: 'Total',
+    },
+  },
+  {
+    label: {
+      English: 'Check out',
+      Spanish: 'Verificar',
+    },
+  },
+  {
+    label: {
+      English: 'Nothing in cart',
+      Spanish: 'Nada en el carro',
+    },
+  },
+  {
+    label: {
+      English: 'Payment',
+      Spanish: 'Pago',
+    },
+  },
+  {
+    label: {
+      English: 'Request Failed',
+      Spanish: 'Solicitud fallida',
+    },
+  },
+  {
+    label: {
+      English: 'Successfull',
+      Spanish: 'Exitoso',
+    },
+  },
+  {
+    label: {
+      English: 'Camera',
+      Spanish: 'Cámara',
+    },
+  },
+  {
+    label: {
+      English: 'Gallery',
+      Spanish: 'Galería',
+    },
+  },
+  {
+    label: {
+      English: 'Please select your product image to continue',
+      Spanish: 'Seleccione la imagen de su producto para continuar',
+    },
+  },
+  {
+    label: {
+      English: 'Price cannot be 0',
+      Spanish: 'El precio no puede ser 0',
+    },
+  },
+  {
+    label: {
+      English: 'Image is too large. Please select another one',
+      Spanish: 'La imagen es demasiado grande. Por favor seleccione otro',
+    },
+  },
+  {
+    label: {
+      English: 'Your product has been saved successfully',
+      Spanish: 'Tu producto se ha guardado correctamente',
+    },
+  },
+  {
+    label: {
+      English: 'Unable to get shops data',
+      Spanish: 'No se pueden obtener los datos de las tiendas',
+    },
+  },
+  {
+    label: {
+      English: 'Payment confirmed',
+      Spanish: 'Pago confirmado',
+    },
+  },
+  {
+    label: {
+      English: 'Unable to get products',
+      Spanish: 'Incapaz de obtener productos',
+    },
+  },
+  {
+    label: {
+      English: 'Contact added successfully!',
+      Spanish: '¡Contacto agregado exitosamente!',
+    },
+  },
+  {
+    label: {
+      English: 'Your shop has been created successfully',
+      Spanish: 'Tu tienda se ha creado con éxito',
+    },
+  },
+  {
+    label: {
+      English: 'Language already selected',
+      Spanish: 'Idioma ya seleccionado',
+    },
+  },
+  {
+    label: {
+      English: 'Language updated successfully!',
+      Spanish: '¡Idioma actualizado correctamente!',
+    },
+  },
+  {
+    label: {
+      English: 'Currency updated successfully!',
+      Spanish: '¡Moneda actualizada correctamente!',
+    },
+  },
+  {
+    label: {
+      English: 'Cancel',
+      Spanish: 'Cancelar',
+    },
+  },
+  {
+    label: {
+      English: 'Successfully switched to',
+      Spanish: 'Cambiado exitosamente a',
+    },
+  },
+  {
+    label: {
+      English: 'mode',
+      Spanish: 'modo',
+    },
+  },
+  {
+    label: {
+      English: 'OK',
+      Spanish: 'OK',
+    },
+  },
+  {
+    label: {
+      English: 'Successfully',
+      Spanish: 'Exitosamente',
+    },
+  },
+  {
+    label: {
+      English: 'Disabled',
+      Spanish: 'Discapacitado',
+    },
+  },
+  {
+    label: {
+      English: 'Enabled',
+      Spanish: 'Activado',
+    },
+  },
+  {
+    label: {
+      English: 'Thumb Impression',
+      Spanish: 'Impresión del pulgar',
+    },
+  },
+  {
+    label: {
+      English: 'Too many attempts! Please try again later',
+      Spanish: '¡Demasiados intentos! Por favor, inténtelo de nuevo más tarde',
+    },
+  },
+  {
+    label: {
+      English: 'Product Details',
+      Spanish: 'Detalles de producto',
+    },
+  },
+  {
+    label: {
+      English: 'Add to Cart',
+      Spanish: 'Añadir al carrito',
+    },
+  },
+  {
+    label: {
+      English: 'Product added to cart',
+      Spanish: 'Producto añadido al carrito',
+    },
+  },
+  {
+    label: {
+      English: 'Product added to cart successfully',
+      Spanish: 'Producto agregado al carrito con éxito',
+    },
+  },
 ];
 
 const L = (value: any) => {

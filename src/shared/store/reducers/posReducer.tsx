@@ -7,6 +7,7 @@ const initialState = {
   totalTax: 0,
   customPrice: null,
   contacts: [],
+  APFee: 0,
 };
 
 export const posSlice = createSlice({
@@ -33,7 +34,6 @@ export const posSlice = createSlice({
       state.totalTax -= parseFloat(action.payload.tax) * count;
       state.cart = cartData;
     },
-
     increaseItemCount: (state, action) => {
       let cartData = [...state.cart];
       const ind = cartData.findIndex(item => item._id === action.payload._id);
@@ -43,7 +43,6 @@ export const posSlice = createSlice({
       cartData[ind].count += 1;
       state.cart = cartData;
     },
-
     decreaseItemCount: (state, action) => {
       let cartData = [...state.cart];
       const ind = cartData.findIndex(item => item._id === action.payload._id);
@@ -63,9 +62,13 @@ export const posSlice = createSlice({
       state.totalCartAmount = 0;
       state.totalTax = 0;
       state.customPrice = null;
+      state.APFee = 0;
     },
     addContact: (state, action) => {
       state.contacts.push(action.payload);
+    },
+    setAPFee: (state, action) => {
+      state.APFee = action.payload;
     },
   },
 });
@@ -79,6 +82,7 @@ export const {
   setCustomPrice,
   resetCart,
   addContact,
+  setAPFee,
 } = posSlice.actions;
 
 export default posSlice.reducer;

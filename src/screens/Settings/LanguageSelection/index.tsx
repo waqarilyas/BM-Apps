@@ -29,8 +29,8 @@ const LanguageSelection = (props: Props) => {
   const changeLanguage = () => {
     if (selectedLanguage == language) {
       Toast.show({
-        text1: 'Failed',
-        text2: 'Language already selected',
+        text1: L('Failed'),
+        text2: L('Language already selected'),
         type: 'error',
       });
       return;
@@ -38,8 +38,8 @@ const LanguageSelection = (props: Props) => {
 
     dispatch(setLanguage(selectedLanguage));
     Toast.show({
-      text1: 'Success',
-      text2: 'Language updated successfully!',
+      text1: L('Successfull'),
+      text2: L('Language updated successfully!'),
       type: 'success',
     });
     props?.navigation?.goBack();

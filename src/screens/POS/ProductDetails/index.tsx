@@ -12,6 +12,7 @@ import {addProductToCart} from '../../../shared/store/reducers/posReducer';
 
 import {THEME} from '../../../shared/theme';
 import GLOBAL_STYLE from '../../../shared/theme/global';
+import L from '../../../shared/utils/LanguageHandler';
 import styles from './styles';
 
 interface Props extends GenericNavigation {}
@@ -26,15 +27,15 @@ const ProductDetails = (props: Props) => {
   const addToCart = () => {
     dispatch(addProductToCart(data));
     Toast.show({
-      text1: 'Success',
-      text2: 'Product added to cart successfully',
+      text1: L('Successfull'),
+      text2: L('Product added to cart successfully'),
       type: 'success',
     });
     // props.navigation?.navigate('Cart', {data});
   };
   return (
     <View style={styles.mainContainer}>
-      <AppHeader title="Product Details" showBack showCart />
+      <AppHeader title={L('Product Details')} showBack showCart />
       <ScrollView bounces={false} style={styles.container}>
         <View style={styles.productCard}>
           <FastImage
@@ -108,7 +109,7 @@ const ProductDetails = (props: Props) => {
         </View> */}
 
         <PrimaryButton
-          title={exists ? 'Product added to cart' : 'Add to Cart'}
+          title={exists ? L('Product added to cart') : L('Add to Cart')}
           onPress={exists ? null : addToCart}
           textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
         />

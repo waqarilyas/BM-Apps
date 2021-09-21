@@ -52,8 +52,8 @@ const AddContact = (props: PROPS) => {
     );
 
     Toast.show({
-      text1: 'Success',
-      text2: 'Contact added successfully!',
+      text1: L('Successfull'),
+      text2: L('Contact added successfully!'),
       type: 'success',
     });
     props.navigation?.goBack();

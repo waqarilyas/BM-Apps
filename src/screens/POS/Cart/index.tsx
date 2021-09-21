@@ -19,9 +19,12 @@ import {
   decreaseItemCount,
   increaseItemCount,
   removeItemFromCart,
+  setAPFee,
   setCustomPrice,
 } from '../../../shared/store/reducers/posReducer';
 import EmptyScreenComponent from '../../../shared/components/EmptyScreenComponent';
+import {calculateTotal} from '../../../shared/services/helper.service';
+import L from '../../../shared/utils/LanguageHandler';
 
 interface Props extends GenericNavigation {}
 
@@ -33,9 +36,11 @@ const Cart = (props: Props) => {
     dispatch(increaseItemCount(item));
   };
   const decrementProduct = (item: any) => dispatch(decreaseItemCount(item));
-  const {cart, totalCartAmount, totalTax, customPrice} = useSelector(
+  const {cart, totalCartAmount, totalTax, customPrice, APFee} = useSelector(
     (state: RootState) => state.pos,
   );
+
+  const {taxEnabled} = useSelector((state: RootState) => state.settings);
 
   const navToPayment = () =>
     props.navigation?.navigate('Payment', {type: 'cart'});
@@ -96,7 +101,7 @@ const Cart = (props: Props) => {
   };
   return (
     <View style={styles.mainContainer}>
-      <AppHeader title="Cart" showBack />
+      <AppHeader title={L('Cart')} showBack />
       {cart.length > 0 ? (
         <KeyboardAwareScrollView style={styles.container}>
           <>
@@ -112,24 +117,35 @@ const Cart = (props: Props) => {
               }}
             />
             <AppInput
-              placeholder="Enter Custom Price"
+              placeholder={L('Enter Custom Price')}
               keyboardType="number-pad"
               onChangeText={p => {
                 dispatch(setCustomPrice(parseFloat(p)));
               }}
             />
+            {taxEnabled && (
+              <AppInput
+                placeholder="Algorithmic Protection Fee"
+                keyboardType="number-pad"
+                onChangeText={p => {
+                  dispatch(setAPFee(parseFloat(p)));
+                }}
+              />
+            )}
 
             {/* <View style={styles.productContainer}>{renderProductCard()}</View> */}
             <View style={styles.totalContainer}>
               <View style={styles.totalRow}>
-                <Text style={styles.totalText}>Price</Text>
+                <Text style={styles.totalText}>{L('Price')}</Text>
                 <Text style={styles.totalText}>
                   $ {customPrice ? customPrice : totalCartAmount}
                 </Text>
               </View>
               <View style={styles.totalRow}>
-                <Text style={styles.totalText}>Tax</Text>
-                <Text style={styles.totalText}>$ {totalTax}</Text>
+                <Text style={styles.totalText}>{L('Tax')}</Text>
+                <Text style={styles.totalText}>
+                  {customPrice ? (APFee ? APFee : 0) : totalTax} %
+                </Text>
               </View>
               {/* <View style={styles.totalRow}>
                 <Text style={styles.totalText}>Tip</Text>
@@ -146,14 +162,17 @@ const Cart = (props: Props) => {
                     styles.totalText,
                     {fontFamily: THEME.FONTS.TYPE.SEMIBOLD},
                   ]}>
-                  Total
+                  {L('Total')}
                 </Text>
                 <Text
                   style={[
                     styles.totalText,
                     {fontFamily: THEME.FONTS.TYPE.SEMIBOLD},
                   ]}>
-                  $ {customPrice ? customPrice : totalCartAmount + totalTax}
+                  ${' '}
+                  {customPrice
+                    ? calculateTotal(customPrice, APFee ? APFee : 0)
+                    : calculateTotal(totalCartAmount, totalTax)}
                 </Text>
               </View>
             </View>
@@ -171,7 +190,7 @@ const Cart = (props: Props) => {
             </View> */}
             <View style={styles.bottomButtonContainer}>
               <PrimaryButton
-                title="Check out"
+                title={L('Check out')}
                 onPress={navToPayment}
                 textStyle={[GLOBAL_STYLE.LARGE_BUTTON_TEXT]}
               />
@@ -179,7 +198,7 @@ const Cart = (props: Props) => {
           </>
         </KeyboardAwareScrollView>
       ) : (
-        <EmptyScreenComponent title="Nothing in cart" />
+        <EmptyScreenComponent title={L('Nothing in cart')} />
       )}
     </View>
   );

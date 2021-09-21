@@ -34,8 +34,8 @@ const NearBy = (props: Props) => {
       })
       .catch(err => {
         Toast.show({
-          text1: 'Request Failed',
-          text2: 'Unable to get shops data',
+          text1: L('Request Failed'),
+          text2: L('Unable to get shops data'),
           type: 'error',
         });
         console.log(err);
@@ -64,7 +64,7 @@ const NearBy = (props: Props) => {
         error => {
           console.log(error.code, error.message);
           Toast.show({
-            text1: 'Request Failed',
+            text1: L('Request Failed'),
             text2: error.message,
             type: 'error',
           });

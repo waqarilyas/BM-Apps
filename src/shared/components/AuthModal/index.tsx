@@ -7,6 +7,7 @@ import Toast from 'react-native-toast-message';
 import {THEME} from '../../theme';
 import {RF} from '../../theme/responsive';
 import PrimaryButton from '../PrimaryButton';
+import L from '../../utils/LanguageHandler';
 
 const AuthModal = ({
   visible,
@@ -33,7 +34,7 @@ const AuthModal = ({
         // Success code
         console.log('--success--', success);
         Toast.show({
-          text1: 'Successfull',
+          text1: L('Successfull'),
           text2: 'Authentication successfull',
           type: 'success',
         });
@@ -44,8 +45,8 @@ const AuthModal = ({
         console.log('--error--', error.code);
         if (error.code == 'FINGERPRINT_ERROR_LOCKOUT') {
           Toast.show({
-            text1: 'Failed',
-            text2: 'Too many attempts! Please try again later',
+            text1: L('Request Failed'),
+            text2: L('Too many attempts! Please try again later'),
             type: 'error',
           });
         }

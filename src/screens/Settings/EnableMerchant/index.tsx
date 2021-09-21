@@ -48,7 +48,7 @@ const EnableMerchant = (props: Props) => {
         dispatch(setMerchantData(res?.data));
         dispatch(setMerchantEnabledState(true));
         Toast.show({
-          text1: 'Successfull',
+          text1: L('Successfull'),
           text2: L('Your merchant account enabled successfully'),
           type: 'success',
         });
@@ -56,7 +56,7 @@ const EnableMerchant = (props: Props) => {
       })
       .catch(err => {
         Toast.show({
-          text1: 'Request Failed',
+          text1: L('Request Failed'),
           text2: err?.response?.data?.message,
           type: 'error',
         });

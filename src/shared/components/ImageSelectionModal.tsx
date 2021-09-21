@@ -11,6 +11,7 @@ import Icon from 'react-native-vector-icons/Entypo';
 import {handleImageSelection} from '../services/helper.service';
 import {THEME} from '../theme';
 import {RF} from '../theme/responsive';
+import L from '../utils/LanguageHandler';
 
 interface PROPS {
   visible: boolean;
@@ -33,14 +34,11 @@ const ImageSelectionModal = ({
               onPress={() => {
                 handleImageSelection('camera').then((res: any) => {
                   toggleSelection();
-
-                  console.log('---response----', res);
-
                   handleImage(res);
                 });
               }}>
               <Icon name="camera" size={RF(25)} color={THEME.COLORS.white} />
-              <Text style={styles.iconName}>Camera</Text>
+              <Text style={styles.iconName}>{L('Camera')}</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.iconsContainer}
@@ -51,7 +49,7 @@ const ImageSelectionModal = ({
                 });
               }}>
               <Icon name="images" size={RF(25)} color={THEME.COLORS.white} />
-              <Text style={styles.iconName}>Gallery</Text>
+              <Text style={styles.iconName}>{L('Gallery')}</Text>
             </TouchableOpacity>
           </View>
           <TouchableOpacity

@@ -21,6 +21,7 @@ import {GenericNavigation} from '../../../shared/models/types';
 import {
   AppShareContent,
   AppShowToast,
+  calculateTotal,
 } from '../../../shared/services/helper.service';
 import {RootState} from '../../../shared/store';
 import {resetCart} from '../../../shared/store/reducers/posReducer';
@@ -37,7 +38,7 @@ const Payment = (props: Props) => {
   const dispatch = useDispatch();
 
   const {wallet} = useSelector((state: RootState) => state.wallet);
-  const {cart, totalCartAmount, totalTax, customPrice} = useSelector(
+  const {cart, totalCartAmount, totalTax, customPrice, APFee} = useSelector(
     (state: RootState) => state.pos,
   );
   const [copied, setCopied] = useState(false);
@@ -49,8 +50,8 @@ const Payment = (props: Props) => {
     type == 'invoice'
       ? 0
       : customPrice
-      ? customPrice
-      : totalCartAmount + totalTax,
+      ? calculateTotal(customPrice, APFee ? APFee : 0)
+      : calculateTotal(totalCartAmount, totalTax),
   );
 
   const toggleModal = () => setShowCurrencyModal(!showCurrencyModal);
@@ -79,7 +80,7 @@ const Payment = (props: Props) => {
 
   return (
     <View style={styles.mainContainer}>
-      <AppHeader title="Payment" showBack />
+      <AppHeader title={L('Payment')} showBack />
       <ScrollView style={styles.container}>
         <Text style={styles.label}>{L('Select Coin')}:</Text>
         <TouchableOpacity onPress={toggleModal} style={styles.optionContainer}>
@@ -120,7 +121,7 @@ const Payment = (props: Props) => {
             $
             {type == 'invoice' || customPrice
               ? totalPrice
-              : totalCartAmount + totalTax}{' '}
+              : calculateTotal(totalCartAmount, totalTax)}{' '}
             USD
           </Text>
         </View>
@@ -170,8 +171,8 @@ const Payment = (props: Props) => {
           onPress={() => {
             dispatch(resetCart());
             Toast.show({
-              text1: 'Success',
-              text2: 'Payment confirmed',
+              text1: L('Success'),
+              text2: L('Payment confirmed'),
               type: 'success',
             });
             props?.navigation?.navigate('POSMain');

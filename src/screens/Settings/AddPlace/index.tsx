@@ -69,8 +69,8 @@ const AddPlace = (props: Props) => {
     createNewShop(values)
       .then(res => {
         Toast.show({
-          text1: 'Successfull',
-          text2: 'Your shop has been created successfully',
+          text1: L('Successfull'),
+          text2: L('Your shop has been created successfully'),
           type: 'success',
         });
         getMerchantShops();
@@ -78,7 +78,7 @@ const AddPlace = (props: Props) => {
       })
       .catch(err => {
         Toast.show({
-          text1: 'Request Failed',
+          text1: L('Request Failed'),
           text2: err?.response?.data?.message,
           type: 'error',
         });

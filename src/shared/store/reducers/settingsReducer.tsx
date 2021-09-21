@@ -7,6 +7,7 @@ const initialState = {
   darkMode: false,
   faceId: false,
   thumbEnabled: false,
+  taxEnabled: false,
 };
 export const settingsSlice = createSlice({
   name: 'settings',
@@ -22,10 +23,18 @@ export const settingsSlice = createSlice({
     setThumbEnabled: (state, action) => {
       state.thumbEnabled = action.payload;
     },
+    setTaxEnabled: (state, action) => {
+      state.taxEnabled = action.payload;
+    },
   },
 });
 
-export const {setCurrency, setLanguage, resetSettings, setThumbEnabled} =
-  settingsSlice.actions;
+export const {
+  setCurrency,
+  setLanguage,
+  resetSettings,
+  setThumbEnabled,
+  setTaxEnabled,
+} = settingsSlice.actions;
 
 export default settingsSlice.reducer;
