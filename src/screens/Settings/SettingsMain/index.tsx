@@ -80,6 +80,8 @@ const SettingsMain = (props: Props) => {
     socket.removeListener(nonErc20Address!);
     socket.removeListener(bitcoinAddress!);
     dispatch(resetPos());
+    dispatch(setThumbEnabled(false));
+    dispatch(setTaxEnabled(false));
     dispatch(resetUser());
     dispatch(resetWallet());
   };

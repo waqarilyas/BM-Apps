@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {useDispatch, useSelector} from 'react-redux';
-import {COINS} from '../../../assets/coins';
+import {COINS, GetImageForCoin} from '../../../assets/coins';
 import AppHeader from '../../../shared/components/AppHeader';
 import AppInput from '../../../shared/components/AppInput';
 import ChooseCoinModal from '../../../shared/components/ChooseCoinModal';
@@ -105,7 +105,7 @@ const AddContact = (props: PROPS) => {
                 onPress={toggleModal}
                 style={styles.optionContainer}>
                 <FastImage
-                  source={COINS.BTC}
+                  source={GetImageForCoin(selectedCoin?.coin_symbol)}
                   resizeMode={FastImage.resizeMode.contain}
                   style={styles.coinIcon}
                 />

@@ -1,6 +1,6 @@
 import {useFocusEffect} from '@react-navigation/native';
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {View, Text, ScrollView, TouchableOpacity} from 'react-native';
+import {View, Text, ScrollView, TouchableOpacity, FlatList} from 'react-native';
 import {useSelector} from 'react-redux';
 import AppHeader from '../../../shared/components/AppHeader';
 import TransactionButton from '../../../shared/components/TransactionButton';
@@ -108,18 +108,21 @@ const CoinDetails = (props: Props) => {
             </View>
           </>
         ) : (
-          <View>
-            <ScrollView style={styles.transactions}>
-              {sortedTransactions.map((item, number) => (
+          <FlatList
+            data={sortedTransactions}
+            keyExtractor={(_, index) => index.toString()}
+            contentContainerStyle={{marginTop: THEME.MARGIN.LOW}}
+            renderItem={({item, index}) => {
+              return (
                 <TransactionItem
-                  key={number}
+                  key={index}
                   item={item}
                   kind={coin?.address === item.from ? 'sent' : 'received'}
                   coinSymbol={coin?.coin_symbol!}
                 />
-              ))}
-            </ScrollView>
-          </View>
+              );
+            }}
+          />
         )}
       </View>
     </View>

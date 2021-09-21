@@ -68,5 +68,6 @@ const styles = StyleSheet.create({
     fontSize: THEME.FONTS.SIZE.XXSMALL,
     fontFamily: THEME.FONTS.TYPE.SEMIBOLD,
     color: THEME.COLORS.white,
+    textAlign: 'center',
   },
 });

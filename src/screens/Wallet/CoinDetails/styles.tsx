@@ -55,8 +55,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   transactions: {
-    paddingTop: THEME.PADDING.HIGH,
     paddingHorizontal: THEME.PADDING.LOW,
+    // marginTop: THEME.MARGIN.HIGH,
   },
 });
 

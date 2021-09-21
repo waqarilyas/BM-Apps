@@ -7,6 +7,7 @@ import Cart from '../../../screens/POS/Cart';
 import AddProduct from '../../../screens/POS/AddProduct';
 import Payment from '../../../screens/POS/Payment';
 import SearchProduct from '../../../screens/POS/SearchProduct';
+import ShopDetails from '../../../screens/POS/ShopDetails';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../shared/store';
 
@@ -29,7 +30,10 @@ const POSStack = () => {
           <Stack.Screen name="Payment" component={Payment} />
         </>
       ) : (
-        <Stack.Screen name="NearBy" component={NearBy} />
+        <>
+          <Stack.Screen name="NearBy" component={NearBy} />
+          <Stack.Screen name="ShopDetails" component={ShopDetails} />
+        </>
       )}
 
       <Stack.Screen name="SearchProduct" component={SearchProduct} />

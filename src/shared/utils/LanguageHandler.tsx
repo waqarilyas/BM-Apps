@@ -813,6 +813,30 @@ export const language = [
       Spanish: 'Producto agregado al carrito con éxito',
     },
   },
+  {
+    label: {
+      English: 'Sent',
+      Spanish: 'Enviado',
+    },
+  },
+  {
+    label: {
+      English: 'Received',
+      Spanish: 'Recibido',
+    },
+  },
+  {
+    label: {
+      English: 'Show Products',
+      Spanish: 'Mostrar productos',
+    },
+  },
+  {
+    label: {
+      English: 'Shop Details',
+      Spanish: 'Detalles de la tienda',
+    },
+  },
 ];
 
 const L = (value: any) => {

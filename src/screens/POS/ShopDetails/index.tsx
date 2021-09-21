@@ -1,25 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {
-  Alert,
-  FlatList,
-  RefreshControl,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import FastImage from 'react-native-fast-image';
+import {FlatList, RefreshControl, View} from 'react-native';
 import Toast from 'react-native-toast-message';
-import IC from 'react-native-vector-icons/FontAwesome5';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useSelector} from 'react-redux';
-import {ICONS} from '../../../assets';
 import AppHeader from '../../../shared/components/AppHeader';
 import AppLoader from '../../../shared/components/AppLoader';
 import EmptyScreenComponent from '../../../shared/components/EmptyScreenComponent';
 import ProductCard from '../../../shared/components/ProductCard';
 import SearchBar from '../../../shared/components/SearchBar';
 import {GenericNavigation} from '../../../shared/models/types';
-import {getMerchantProducts} from '../../../shared/services/merchant.service';
+import {getShopProducts} from '../../../shared/services/merchant.service';
 import {RootState} from '../../../shared/store';
 import {THEME} from '../../../shared/theme';
 import {RF} from '../../../shared/theme/responsive';
@@ -28,36 +18,18 @@ import styles from './style';
 
 interface Props extends GenericNavigation {}
 
-const POSMain = (props: Props) => {
+const ShopDetails = (props: Props) => {
+  const {shop}: any = props.route?.params;
+
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [products, setProducts]: any = useState([]);
-  const [reload, setReload] = useState(false);
   const [searchVisible, setSearchVisible] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [searchResults, setSearchResults]: any = useState([]);
-  const {merchantShop} = useSelector((state: RootState) => state.user);
 
   const wait = (timeout: any) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
-  };
-
-  const navToAddProduct = () => {
-    if (!merchantShop) {
-      Alert.alert(L('Failed'), L('Please add a shop to continue'), [
-        {text: 'OK', onPress: () => console.log('OK Pressed')},
-      ]);
-
-      return;
-    }
-    setSearchVisible(false);
-    setSearchText('');
-    setSearchResults([]);
-    props.navigation?.navigate('AddProduct');
-  };
-
-  const navToProductDetail = (item: any) => {
-    props.navigation?.navigate('ProductDetails', {data: item});
   };
 
   const updateResult = (e: string) => {
@@ -72,12 +44,10 @@ const POSMain = (props: Props) => {
   };
 
   const getProducts = () => {
-    getMerchantProducts()
+    getShopProducts(shop)
       .then(res => {
         setProducts(
           res.data?.sort(function (a: any, b: any) {
-            // Turn your strings into dates, and then subtract them
-            // to get a value that is either negative, positive, or zero.
             return new Date(b.createdAt) - new Date(a.createdAt);
           }),
         );
@@ -94,24 +64,10 @@ const POSMain = (props: Props) => {
       });
   };
 
-  const onRefresh = () => {
-    setRefreshing(true);
-    getProducts();
-    wait(2000).then(() => setRefreshing(false));
-  };
-
   useEffect(() => {
-    setLoading(true);
     getProducts();
   }, []);
 
-  useEffect(() => {
-    const unsubscribe = props.navigation.addListener('focus', () => {
-      getProducts();
-    });
-
-    return unsubscribe;
-  }, [props.navigation]);
   return (
     <View style={styles.mainContainer}>
       {searchVisible ? (
@@ -135,13 +91,13 @@ const POSMain = (props: Props) => {
         </View>
       ) : (
         <AppHeader
-          title={L('Point of Sale')}
+          title={L('Shop Details')}
           showSearch
           searchAction={() => setSearchVisible(true)}
         />
       )}
       <View style={styles.container}>
-        <View style={styles.topActions}>
+        {/* <View style={styles.topActions}>
           <TouchableOpacity
             activeOpacity={0.8}
             style={styles.topAction}
@@ -168,15 +124,12 @@ const POSMain = (props: Props) => {
 
             <Text style={styles.actionText}>{L('Direct Invoice')}</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
 
-        <Text style={styles.categoryLabel}>{L('Products')}</Text>
+        {/* <Text style={styles.categoryLabel}>{L('Products')}</Text> */}
 
         <FlatList
           data={searchText.length > 0 ? searchResults : products}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
           numColumns={3}
           columnWrapperStyle={{
             // backgroundColor: 'red',
@@ -198,7 +151,7 @@ const POSMain = (props: Props) => {
               <ProductCard
                 name={item?.title}
                 price={item?.price}
-                onPress={() => navToProductDetail(item)}
+                onPress={() => null}
                 imageURI={item?.image}
               />
             );
@@ -211,4 +164,4 @@ const POSMain = (props: Props) => {
   );
 };
 
-export default POSMain;
+export default ShopDetails;

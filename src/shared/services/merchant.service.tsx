@@ -75,3 +75,7 @@ export const getMerchantProducts = async () => {
 export const getAllShops = async () => {
   return axios.get(`${blockConfig.API_URL}/shop/getAllShops`);
 };
+
+export const getShopProducts = async (shopId: string) => {
+  return axios.get(`${blockConfig.API_URL}/product/getByShop/${shopId}`);
+};

@@ -45,8 +45,6 @@ const LanguageSelection = (props: Props) => {
     props?.navigation?.goBack();
   };
 
-  console.log(selectedLanguage);
-
   useEffect(() => {
     setSelectedLanguage(language);
     console.log(Languages.indexOf(lan => lan.label == language));
