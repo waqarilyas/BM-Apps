@@ -179,6 +179,7 @@ const AddProduct = (props: Props) => {
                 placeholder={L('Price')}
                 keyboardType="number-pad"
                 onChangeText={handleChange('price')}
+                returnKeyType="done"
               />
               {touched.tax && errors.tax ? (
                 <Text style={styles.errors}>{errors.tax}</Text>
@@ -188,6 +189,7 @@ const AddProduct = (props: Props) => {
                 keyboardType="number-pad"
                 placeholder={L('Tax')}
                 onChangeText={handleChange('tax')}
+                returnKeyType="done"
               />
               {touched.category && errors.category ? (
                 <Text style={styles.errors}>{errors.category}</Text>

@@ -111,6 +111,10 @@ const handleFirstConnectivityChange = (isConnected: any) => {
   }
 };
 
-export const calculateTotal = (totalPrice: Number, tax: Number) => {
+export const calculateTotal = (totalPrice: any | Number, tax: Number | any) => {
   return totalPrice - totalPrice * (tax / 100);
+};
+
+export const calculateTax = (price: any, tax: any) => {
+  return parseFloat(price).toFixed(0) * (parseFloat(tax).toFixed(0) / 100);
 };

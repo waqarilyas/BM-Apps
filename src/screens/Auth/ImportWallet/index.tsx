@@ -70,7 +70,6 @@ const ImportWallet = (props: Props) => {
             multiline
             numberOfLines={3}
             autoCapitalize="none"
-            returnKeyType="done"
           />
         </View>
         <PrimaryButton

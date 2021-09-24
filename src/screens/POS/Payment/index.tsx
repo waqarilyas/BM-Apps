@@ -21,10 +21,11 @@ import {GenericNavigation} from '../../../shared/models/types';
 import {
   AppShareContent,
   AppShowToast,
+  calculateTax,
   calculateTotal,
 } from '../../../shared/services/helper.service';
 import {RootState} from '../../../shared/store';
-import {resetCart} from '../../../shared/store/reducers/posReducer';
+import {resetCart, setAPFee} from '../../../shared/store/reducers/posReducer';
 import {THEME} from '../../../shared/theme';
 import GLOBAL_STYLE from '../../../shared/theme/global';
 import {RF, WP} from '../../../shared/theme/responsive';
@@ -38,21 +39,18 @@ const Payment = (props: Props) => {
   const dispatch = useDispatch();
 
   const {wallet} = useSelector((state: RootState) => state.wallet);
-  const {cart, totalCartAmount, totalTax, customPrice, APFee} = useSelector(
-    (state: RootState) => state.pos,
-  );
+  const {cart, totalCartAmount, totalTax, customPrice, APFee, totalTaxAmount} =
+    useSelector((state: RootState) => state.pos);
+
+  const {taxEnabled} = useSelector((state: RootState) => state.settings);
   const [copied, setCopied] = useState(false);
   const [showCurrencyModal, setShowCurrencyModal] = useState(false);
   const [selectedCoin, setSelectedCoin] = useState();
+  const [customTax, setCustomTax] = useState(0);
+
   // const [customPrice, setCustomPrice] = useState(0);
   const [usdPrice, setUSDPrice] = useState(0);
-  const [totalPrice, setTotalPrice] = useState(
-    type == 'invoice'
-      ? 0
-      : customPrice
-      ? calculateTotal(customPrice, APFee ? APFee : 0)
-      : calculateTotal(totalCartAmount, totalTax),
-  );
+  const [totalPrice, setTotalPrice] = useState(0);
 
   const toggleModal = () => setShowCurrencyModal(!showCurrencyModal);
 
@@ -71,12 +69,19 @@ const Payment = (props: Props) => {
 
   useEffect(() => {
     setSelectedCoin(wallet[0]);
+    setTotalPrice(
+      type == 'invoice'
+        ? 0
+        : customPrice
+        ? calculateTotal(customPrice, APFee ? APFee : 0)
+        : totalCartAmount + totalTaxAmount,
+    );
   }, []);
 
   useEffect(() => {
-    const priceInUSD = totalPrice / wallet[0]?.chart_data?.rate;
+    const priceInUSD = (totalPrice + customTax) / wallet[0]?.chart_data?.rate;
     setUSDPrice(priceInUSD);
-  }, [totalPrice]);
+  }, [totalPrice, customTax]);
 
   return (
     <View style={styles.mainContainer}>
@@ -99,18 +104,35 @@ const Payment = (props: Props) => {
         </TouchableOpacity>
 
         {type == 'invoice' && (
-          <AppInput
-            placeholder={L('Enter Amount USD')}
-            keyboardType="number-pad"
-            returnKeyType="done"
-            onChangeText={text => {
-              if (text.length == 0) {
-                setTotalPrice(0);
-                return;
-              }
-              setTotalPrice(parseInt(text));
-            }}
-          />
+          <>
+            <AppInput
+              placeholder={L('Enter Amount USD')}
+              keyboardType="number-pad"
+              returnKeyType="done"
+              onChangeText={text => {
+                if (text.length == 0) {
+                  setTotalPrice(0);
+                  return;
+                }
+                setTotalPrice(parseInt(text));
+              }}
+            />
+
+            {taxEnabled && (
+              <AppInput
+                placeholder="Algorithmic Protection Fee"
+                keyboardType="number-pad"
+                onChangeText={p => {
+                  if (p.length == 0) {
+                    setCustomTax(0);
+                    return;
+                  }
+                  setCustomTax(parseFloat(p));
+                  // setTotalPrice(calculateTax(totalPrice, p) + totalPrice);
+                }}
+              />
+            )}
+          </>
         )}
 
         <View style={styles.amountContainer}>
@@ -120,8 +142,8 @@ const Payment = (props: Props) => {
           <Text style={styles.amountUSD}>
             $
             {type == 'invoice' || customPrice
-              ? totalPrice
-              : calculateTotal(totalCartAmount, totalTax)}{' '}
+              ? totalPrice + customTax
+              : totalCartAmount + totalTaxAmount}{' '}
             USD
           </Text>
         </View>

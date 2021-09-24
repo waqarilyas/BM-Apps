@@ -1,25 +1,22 @@
-import React, {useState, useEffect} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {Formik} from 'formik';
+import React, {useEffect, useState} from 'react';
+import {Text, TouchableOpacity, View, Keyboard} from 'react-native';
 import FastImage from 'react-native-fast-image';
+import Toast from 'react-native-toast-message';
 import {useDispatch, useSelector} from 'react-redux';
-import {COINS, GetImageForCoin} from '../../../assets/coins';
+import {GetImageForCoin} from '../../../assets/coins';
 import AppHeader from '../../../shared/components/AppHeader';
 import AppInput from '../../../shared/components/AppInput';
+import AppQRCodeScanner from '../../../shared/components/AppQRCodeScanner';
 import ChooseCoinModal from '../../../shared/components/ChooseCoinModal';
 import PrimaryButton from '../../../shared/components/PrimaryButton';
-import {RootState} from '../../../shared/store';
-import {THEME} from '../../../shared/theme';
-import styles from './styles';
-import {addAddressVS} from '../../../shared/utils/validations';
-import {Formik} from 'formik';
-
-import Toast from 'react-native-toast-message';
-import {ProxyTypeSet} from 'immer/dist/internal';
 import {GenericNavigation} from '../../../shared/models/types';
+import {RootState} from '../../../shared/store';
 import {addContact} from '../../../shared/store/reducers/posReducer';
-import QRCode from 'react-native-qrcode-svg';
-import AppQRCodeScanner from '../../../shared/components/AppQRCodeScanner';
+import {THEME} from '../../../shared/theme';
 import L from '../../../shared/utils/LanguageHandler';
+import {addAddressVS} from '../../../shared/utils/validations';
+import styles from './styles';
 
 const initialValues: any = {
   name: '',
@@ -35,7 +32,10 @@ const AddContact = (props: PROPS) => {
   const {wallet} = useSelector((state: RootState) => state.wallet);
 
   const dispatch = useDispatch();
-  const toggleModal = () => setShowCurrencyModal(!showCurrencyModal);
+  const toggleModal = () => {
+    Keyboard.dismiss();
+    setShowCurrencyModal(!showCurrencyModal);
+  };
 
   const onSelectCoin = (coin: any) => {
     setShowCurrencyModal(false);

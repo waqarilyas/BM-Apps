@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
   productPrice: {
     fontFamily: THEME.FONTS.TYPE.SEMIBOLD,
     color: THEME.COLORS.white,
+    alignItems: 'center',
   },
   productCount: {flexDirection: 'row'},
   countView: {

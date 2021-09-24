@@ -837,6 +837,18 @@ export const language = [
       Spanish: 'Detalles de la tienda',
     },
   },
+  {
+    label: {
+      English: 'Enable Algorithmic Protection Fee',
+      Spanish: 'Habilitar tarifa de protección algorítmica',
+    },
+  },
+  {
+    label: {
+      English: 'Disable Algorithmic Protection Fee',
+      Spanish: 'Deshabilitar la tarifa de protección algorítmica',
+    },
+  },
 ];
 
 const L = (value: any) => {

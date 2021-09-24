@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
+import {calculateTax} from '../../services/helper.service';
 
 const initialState = {
   products: [],
@@ -8,6 +9,7 @@ const initialState = {
   customPrice: null,
   contacts: [],
   APFee: 0,
+  totalTaxAmount: 0,
 };
 
 export const posSlice = createSlice({
@@ -20,6 +22,10 @@ export const posSlice = createSlice({
       objToPush.count = 1;
       state.totalCartAmount =
         state.totalCartAmount + parseFloat(action.payload.price);
+
+      state.totalTaxAmount =
+        state.totalTaxAmount +
+        calculateTax(action.payload.price, action.payload.tax);
       state.totalTax = state.totalTax + parseFloat(action.payload.tax);
       state.cart.push(objToPush);
     },
@@ -31,6 +37,10 @@ export const posSlice = createSlice({
       cartData.splice(ind, 1);
 
       state.totalCartAmount -= parseFloat(action.payload.price) * count;
+      state.totalTaxAmount -= calculateTax(
+        parseFloat(action.payload.price) * count,
+        parseFloat(action.payload.tax),
+      );
       state.totalTax -= parseFloat(action.payload.tax) * count;
       state.cart = cartData;
     },
@@ -39,7 +49,10 @@ export const posSlice = createSlice({
       const ind = cartData.findIndex(item => item._id === action.payload._id);
       state.totalCartAmount += parseFloat(action.payload.price);
       state.totalTax += parseFloat(action.payload.tax);
-
+      state.totalTaxAmount += calculateTax(
+        parseFloat(action.payload.price),
+        parseFloat(action.payload.tax),
+      );
       cartData[ind].count += 1;
       state.cart = cartData;
     },
@@ -51,6 +64,10 @@ export const posSlice = createSlice({
         cartData[ind].count -= 1;
         state.totalCartAmount -= parseFloat(action.payload.price);
         state.totalTax -= parseFloat(action.payload.tax);
+        state.totalTaxAmount -= calculateTax(
+          parseFloat(action.payload.price),
+          parseFloat(action.payload.tax),
+        );
       }
       state.cart = cartData;
     },
@@ -63,6 +80,7 @@ export const posSlice = createSlice({
       state.totalTax = 0;
       state.customPrice = null;
       state.APFee = 0;
+      state.totalTaxAmount = 0;
     },
     addContact: (state, action) => {
       state.contacts.push(action.payload);

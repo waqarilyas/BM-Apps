@@ -8,6 +8,7 @@ import {Coin, GenericNavigation} from '../../../shared/models/types';
 import {RootState} from '../../../shared/store';
 import {resetPos} from '../../../shared/store/reducers/posReducer';
 import {
+  resetSettings,
   setTaxEnabled,
   setThumbEnabled,
 } from '../../../shared/store/reducers/settingsReducer';
@@ -84,6 +85,7 @@ const SettingsMain = (props: Props) => {
     dispatch(setTaxEnabled(false));
     dispatch(resetUser());
     dispatch(resetWallet());
+    dispatch(resetSettings());
   };
 
   const navToCurrencySelection = () => {
