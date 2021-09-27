@@ -19,6 +19,7 @@ import {createShopVS} from '../../../shared/utils/validations';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import styles from './styles';
 import {THEME} from '../../../shared/theme';
+import L from '../../../shared/utils/LanguageHandler';
 
 interface Props extends GenericNavigation {}
 
@@ -68,8 +69,8 @@ const AddPlace = (props: Props) => {
     createNewShop(values)
       .then(res => {
         Toast.show({
-          text1: 'Successfull',
-          text2: 'Your shop has been created successfully',
+          text1: L('Successfull'),
+          text2: L('Your shop has been created successfully'),
           type: 'success',
         });
         getMerchantShops();
@@ -77,7 +78,7 @@ const AddPlace = (props: Props) => {
       })
       .catch(err => {
         Toast.show({
-          text1: 'Request Failed',
+          text1: L('Request Failed'),
           text2: err?.response?.data?.message,
           type: 'error',
         });
@@ -88,8 +89,8 @@ const AddPlace = (props: Props) => {
   };
 
   return (
-    <>
-      <AppHeader showBack title="Add Store" />
+    <View style={styles.mainContainer}>
+      <AppHeader showBack title={L('Add Store')} />
       <KeyboardAwareScrollView style={styles.container}>
         <Formik
           initialValues={initialValues}
@@ -108,14 +109,14 @@ const AddPlace = (props: Props) => {
                 <Text style={styles.errors}>{errors.name}</Text>
               ) : null}
               <AppInput
-                placeholder="Name"
+                placeholder={L('Name')}
                 onChangeText={handleChange('name')}
               />
               {touched.category && errors.category ? (
                 <Text style={styles.errors}>{errors.category}</Text>
               ) : null}
               <AppInput
-                placeholder="Category"
+                placeholder={L('Category')}
                 // icon="keyboard-arrow-down"
                 onChangeText={handleChange('category')}
               />
@@ -125,7 +126,7 @@ const AddPlace = (props: Props) => {
               <View style={styles.placesContainer}>
                 <GooglePlacesAutocomplete
                   keepResultsAfterBlur
-                  placeholder="Location"
+                  placeholder={L('Location')}
                   fetchDetails={true}
                   nearbyPlacesAPI="GoogleReverseGeocoding"
                   currentLocation={true}
@@ -180,7 +181,7 @@ const AddPlace = (props: Props) => {
                 <Text style={styles.errors}>{errors.phone}</Text>
               ) : null}
               <AppInput
-                placeholder="Contact"
+                placeholder={L('Contact')}
                 onChangeText={handleChange('phone')}
               />
 
@@ -188,7 +189,7 @@ const AddPlace = (props: Props) => {
                 <Text style={styles.errors}>{errors.website}</Text>
               ) : null}
               <AppInput
-                placeholder="Website (optional)"
+                placeholder={L('Website (optional)')}
                 onChangeText={handleChange('website')}
               />
               {/* <Text style={styles.label}>Add Photos</Text>
@@ -200,7 +201,7 @@ const AddPlace = (props: Props) => {
           <ImageMiniPreview source={ICONS.IMAGE_PICKER} />
         </ScrollView> */}
               <PrimaryButton
-                title="Add Place"
+                title={L('Add Shop')}
                 buttonStyle={styles.addButton}
                 onPress={handleSubmit}
               />
@@ -209,7 +210,7 @@ const AddPlace = (props: Props) => {
         </Formik>
         <AppLoader isVisible={loading} />
       </KeyboardAwareScrollView>
-    </>
+    </View>
   );
 };
 

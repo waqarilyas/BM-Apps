@@ -1,18 +1,17 @@
-import React, {useState, useEffect, useRef} from 'react';
-import {View, Text, TouchableOpacity, Pressable} from 'react-native';
-import AppHeader from '../../../shared/components/AppHeader';
-import {GenericNavigation} from '../../../shared/models/types';
-import styles from './styles';
-import MapView, {PROVIDER_GOOGLE, Marker, Callout} from 'react-native-maps';
-import Icon from 'react-native-vector-icons/Ionicons';
-import {THEME} from '../../../shared/theme';
+import React, {useEffect, useRef, useState} from 'react';
+import {Text, TouchableOpacity, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
-import {ICONS} from '../../../assets';
-import {getAllShops} from '../../../shared/services/merchant.service';
+import Geolocation from 'react-native-geolocation-service';
+import MapView, {Callout, Marker} from 'react-native-maps';
 import Toast from 'react-native-toast-message';
+import {ICONS} from '../../../assets';
+import AppHeader from '../../../shared/components/AppHeader';
 import AppLoader from '../../../shared/components/AppLoader';
-import Geolocation from '@react-native-community/geolocation';
 import ShopDetailsModal from '../../../shared/components/ShopDetailsModal';
+import {GenericNavigation} from '../../../shared/models/types';
+import {getAllShops} from '../../../shared/services/merchant.service';
+import L from '../../../shared/utils/LanguageHandler';
+import styles from './styles';
 
 interface Props extends GenericNavigation {}
 
@@ -32,8 +31,8 @@ const NearBy = (props: Props) => {
       })
       .catch(err => {
         Toast.show({
-          text1: 'Request Failed',
-          text2: 'Unable to get shops data',
+          text1: L('Request Failed'),
+          text2: L('Unable to get shops data'),
           type: 'error',
         });
         console.log(err);
@@ -43,21 +42,38 @@ const NearBy = (props: Props) => {
       });
   }, []);
 
-  const animateToCurrentLocation = () => {
+  const animateToCurrentLocation = async () => {
     try {
-      Geolocation.getCurrentPosition(info => {
-        const {latitude, longitude} = info.coords;
+      Geolocation.getCurrentPosition(
+        info => {
+          const {latitude, longitude} = info.coords;
 
-        mapRef?.current?.animateToRegion(
-          {
-            latitude: latitude,
-            longitude: longitude,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          },
-          2000,
-        );
-      });
+          mapRef?.current?.animateToRegion(
+            {
+              latitude: latitude,
+              longitude: longitude,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            },
+            2000,
+          );
+        },
+        error => {
+          console.log(error.code, error.message);
+          Toast.show({
+            text1: L('Request Failed'),
+            text2: error.message,
+            type: 'error',
+          });
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 15000,
+          maximumAge: 10000,
+          showLocationDialog: true,
+          forceRequestLocation: true,
+        },
+      );
     } catch (err) {
       console.log('---error---', err);
     }
@@ -65,7 +81,7 @@ const NearBy = (props: Props) => {
 
   return (
     <View style={styles.container}>
-      <AppHeader title="Stores" />
+      <AppHeader title={L('Stores')} />
       <View style={{flex: 1}}>
         <MapView
           showsUserLocation={true}

@@ -48,7 +48,9 @@ export const handleImageSelection = (type: 'camera' | 'gallery') => {
     try {
       type == 'camera'
         ? ImagePicker.openCamera({
-            cropping: false,
+            width: 500,
+            height: 500,
+            cropping: true,
             includeBase64: true,
           })
             .then(image => {
@@ -59,7 +61,9 @@ export const handleImageSelection = (type: 'camera' | 'gallery') => {
             })
         : type == 'gallery'
         ? ImagePicker.openPicker({
-            cropping: false,
+            width: 500,
+            height: 500,
+            cropping: true,
             includeBase64: true,
           })
             .then(image => {
@@ -94,7 +98,7 @@ export const CheckConnectivity = () => {
   }
 };
 
-const handleFirstConnectivityChange = (isConnected: any1234) => {
+const handleFirstConnectivityChange = (isConnected: any) => {
   NetInfo.isConnected.removeEventListener(
     'connectionChange',
     handleFirstConnectivityChange,
@@ -105,4 +109,12 @@ const handleFirstConnectivityChange = (isConnected: any1234) => {
   } else {
     Alert.alert('You are online!');
   }
+};
+
+export const calculateTotal = (totalPrice: any | Number, tax: Number | any) => {
+  return totalPrice - totalPrice * (tax / 100);
+};
+
+export const calculateTax = (price: any, tax: any) => {
+  return parseFloat(price) * (parseFloat(tax) / 100);
 };

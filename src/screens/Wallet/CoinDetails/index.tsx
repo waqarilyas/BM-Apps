@@ -1,6 +1,6 @@
 import {useFocusEffect} from '@react-navigation/native';
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {View, Text, ScrollView, TouchableOpacity} from 'react-native';
+import {View, Text, ScrollView, TouchableOpacity, FlatList} from 'react-native';
 import {useSelector} from 'react-redux';
 import AppHeader from '../../../shared/components/AppHeader';
 import TransactionButton from '../../../shared/components/TransactionButton';
@@ -13,6 +13,7 @@ import {
 import {checkTransactions} from '../../../shared/services/wallet.service';
 import {RootState} from '../../../shared/store';
 import {THEME} from '../../../shared/theme';
+import L from '../../../shared/utils/LanguageHandler';
 import styles from './styles';
 
 interface Props extends GenericNavigation {}
@@ -64,19 +65,19 @@ const CoinDetails = (props: Props) => {
   );
 
   return (
-    <>
-      <AppHeader showBack title="Wallet" />
+    <View style={styles.mainContainer}>
+      <AppHeader showBack title={L('Wallet')} />
       <View style={styles.container}>
         <View style={styles.tabs}>
           <TouchableOpacity
             onPress={showBalance}
             style={[styles.tab, {backgroundColor: getTabBackground(0)}]}>
-            <Text style={styles.tabTitle}>Balance</Text>
+            <Text style={styles.tabTitle}>{L('Balance')}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={showTransactions}
             style={[styles.tab, {backgroundColor: getTabBackground(1)}]}>
-            <Text style={styles.tabTitle}>Transactions</Text>
+            <Text style={styles.tabTitle}>{L('Transactions')}</Text>
           </TouchableOpacity>
         </View>
 
@@ -94,28 +95,37 @@ const CoinDetails = (props: Props) => {
               </Text>
             </View>
             <View style={styles.actions}>
-              <TransactionButton onPress={navToSend} title="SEND" kind="send" />
+              <TransactionButton
+                onPress={navToSend}
+                title={L('SEND')}
+                kind="send"
+              />
               <TransactionButton
                 onPress={navToReceive}
-                title="RECEIVE"
+                title={L('RECEIVE')}
                 kind="receive"
               />
             </View>
           </>
         ) : (
-          <ScrollView style={styles.transactions}>
-            {sortedTransactions.map((item, number) => (
-              <TransactionItem
-                key={number}
-                item={item}
-                kind={coin?.address === item.from ? 'sent' : 'received'}
-                coinSymbol={coin?.coin_symbol!}
-              />
-            ))}
-          </ScrollView>
+          <FlatList
+            data={sortedTransactions}
+            keyExtractor={(_, index) => index.toString()}
+            contentContainerStyle={{marginTop: THEME.MARGIN.LOW}}
+            renderItem={({item, index}) => {
+              return (
+                <TransactionItem
+                  key={index}
+                  item={item}
+                  kind={coin?.address === item.from ? 'sent' : 'received'}
+                  coinSymbol={coin?.coin_symbol!}
+                />
+              );
+            }}
+          />
         )}
       </View>
-    </>
+    </View>
   );
 };
 

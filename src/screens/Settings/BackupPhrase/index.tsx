@@ -8,6 +8,7 @@ import {SECRET_PHRASE} from '../../../shared/utils/AppConstants';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../shared/store';
 import {THEME} from '../../../shared/theme';
+import L from '../../../shared/utils/LanguageHandler';
 
 interface Props {}
 
@@ -27,12 +28,13 @@ const BackupPhrase = (props: Props) => {
     }
   }, [showPhrase, mnemonic_phrase]);
   return (
-    <>
-      <AppHeader title="Recovery Phrase" showBack />
+    <View style={styles.mainContainer}>
+      <AppHeader title={L('Recovery Phrase')} showBack />
       <View style={styles.container}>
         <Text style={styles.title}>
-          Write your recovery phrase on paper and store it in a safe place such
-          as a safe deposit box. Anyone with this phrase can access your funds.
+          {L(
+            'Write your recovery phrase on paper and store it in a safe place such as a safe deposit box. Anyone with this phrase can access your funds.',
+          )}
         </Text>
         <View style={styles.phrasesView}>
           {phrase.map((item, index) => (
@@ -56,12 +58,12 @@ const BackupPhrase = (props: Props) => {
               tintColor={THEME.COLORS.white}
             />
             <Text style={styles.directionText}>
-              Press and Hold to {showPhrase ? 'Hide' : 'Reveal'}.
+              {L('Press and Hold to')} {showPhrase ? L('Hide') : L('Reveal')}.
             </Text>
           </View>
         </TouchableOpacity>
       </View>
-    </>
+    </View>
   );
 };
 

@@ -1,5 +1,5 @@
 import React, {useCallback, useState, useEffect, useMemo} from 'react';
-import {ScrollView, Text, View} from 'react-native';
+import {ScrollView, Text, View, BackHandler} from 'react-native';
 import {PieChart, PieChartData} from 'react-native-svg-charts';
 import {ChartItem, Coin, GenericNavigation} from '../../../shared/models/types';
 import styles from './styles';
@@ -13,11 +13,17 @@ import {initSocket, socket} from '../../../shared/utils/sockets';
 import {renderWallet} from '../../../shared/store/actions/walletActions';
 import {EMPTY_CHART_DATA} from '../../../shared/utils/AppConstants';
 import {getInitialMerchantData} from '../../../shared/services/merchant.service';
+import TouchID from 'react-native-touch-id';
+import Toast from 'react-native-toast-message';
+import AuthModal from '../../../shared/components/AuthModal';
+import L from '../../../shared/utils/LanguageHandler';
 
 interface Props extends GenericNavigation {}
 
 const WalletMain = (props: Props) => {
+  const {thumbEnabled} = useSelector((state: RootState) => state.settings);
   const [searchText, setSearchText] = useState('');
+  const [authOpen, setAuthOpen] = useState(thumbEnabled);
   const {wallet, walletLoading} = useSelector(
     (state: RootState) => state.wallet,
   );
@@ -101,52 +107,58 @@ const WalletMain = (props: Props) => {
   }, [wallet.length, realtimeListener]);
 
   useEffect(() => {
-    if (wallet.length) {
+    if (wallet.length > 0) {
       getInitialMerchantData();
     }
   }, [wallet]);
 
   return (
     <>
-      <AppHeader title="Wallet" />
-      <AppLoader isVisible={walletLoading} />
-      <View style={styles.container}>
-        <PieChart
-          animate={true}
-          style={styles.pieChart}
-          valueAccessor={({item}: any) => item.vs_currency_balance}
-          data={Number(totalValue) > 0 ? chartData : EMPTY_CHART_DATA}
-          outerRadius={'100%'}
-          innerRadius={'82%'}
-          padAngle={0}
-        />
-        <View style={styles.innerCircle}>
-          <Text style={styles.innerLargeText}>
-            {totalValue.split('.')[0]}
-            <Text style={styles.innerSmallText}>
-              .{totalValue.split('.')[1]} {currency}
+      <View style={styles.mainContainer}>
+        <AppHeader title={L('Wallet')} />
+
+        <View style={styles.container}>
+          <PieChart
+            animate={true}
+            style={styles.pieChart}
+            valueAccessor={({item}: any) => item.vs_currency_balance}
+            data={Number(totalValue) > 0 ? chartData : EMPTY_CHART_DATA}
+            outerRadius={'100%'}
+            innerRadius={'82%'}
+            padAngle={0}
+          />
+          <View style={styles.innerCircle}>
+            <Text style={styles.innerLargeText}>
+              {totalValue.split('.')[0]}
+              <Text style={styles.innerSmallText}>
+                .{totalValue.split('.')[1]} {currency}
+              </Text>
             </Text>
-          </Text>
+          </View>
+          <AppSearchInput
+            value={searchText}
+            onChangeText={setSearchText}
+            placeholder={`${L('Search')}...`}
+          />
+          <ScrollView style={styles.listContainer}>
+            {filteredWallet.map((item, index) => {
+              if (item.is_active) {
+                return (
+                  <CoinListItem
+                    key={index}
+                    item={item}
+                    onPress={() => navigateToCoinDetail(item.coin_symbol)}
+                  />
+                );
+              }
+            })}
+          </ScrollView>
         </View>
-        <AppSearchInput
-          value={searchText}
-          onChangeText={setSearchText}
-          placeholder="Search..."
-        />
-        <ScrollView style={styles.listContainer}>
-          {filteredWallet.map((item, index) => {
-            if (item.is_active) {
-              return (
-                <CoinListItem
-                  key={index}
-                  item={item}
-                  onPress={() => navigateToCoinDetail(item.coin_symbol)}
-                />
-              );
-            }
-          })}
-        </ScrollView>
+        {thumbEnabled && authOpen && (
+          <AuthModal visible={true} onClose={() => setAuthOpen(false)} />
+        )}
       </View>
+      <AppLoader isVisible={walletLoading} />
     </>
   );
 };

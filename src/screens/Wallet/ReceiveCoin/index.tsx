@@ -18,6 +18,7 @@ import {
 } from '../../../shared/services/helper.service';
 import {GetImageForCoin} from '../../../assets/coins';
 import blockConfig from '../../../../block.config';
+import L from '../../../shared/utils/LanguageHandler';
 
 interface Props extends GenericNavigation {}
 
@@ -39,8 +40,8 @@ const ReceiveCoin = (props: Props) => {
   const COIN_URL = `${blockConfig.API_URL}/admin/coin/${coin?.coin_symbol}`;
 
   return (
-    <>
-      <AppHeader title="Wallet" showBack />
+    <View style={styles.mainContainer}>
+      <AppHeader title={L('Wallet')} showBack />
       <View style={styles.container}>
         <FastImage
           source={GetImageForCoin(coin?.coin_symbol!)}
@@ -50,7 +51,7 @@ const ReceiveCoin = (props: Props) => {
         {/* <SvgUri width="100%" height="100%" uri={COIN_URL} /> */}
         <QRcodeGenerator value={coin?.address || ''} />
         <Text style={styles.instruction}>
-          Use the address below to receive funds.
+          {L('Use the address below to receive funds.')}
         </Text>
         <TouchableOpacity onPress={onPressAddress} style={styles.keyContainer}>
           <Text numberOfLines={1} style={styles.keyText}>
@@ -64,18 +65,18 @@ const ReceiveCoin = (props: Props) => {
               resizeMode={FastImage.resizeMode.contain}
               style={{width: RF(20), height: RF(20)}}
             />
-            <Text style={styles.copied}> Copied</Text>
+            <Text style={styles.copied}>{L('Copied')}</Text>
           </View>
         )}
         <PrimaryButton
           icon="share"
-          title="Share"
+          title={L('Share')}
           buttonStyle={{width: '55%', height: HP(6)}}
           textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
           onPress={() => AppShareContent(coin?.address, 'Addess')}
         />
       </View>
-    </>
+    </View>
   );
 };
 

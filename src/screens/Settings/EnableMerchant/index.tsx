@@ -1,6 +1,6 @@
 import {Formik} from 'formik';
 import React, {useState} from 'react';
-import {Text} from 'react-native';
+import {Text, View} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Toast from 'react-native-toast-message';
 import {RootStateOrAny, useDispatch, useSelector} from 'react-redux';
@@ -14,6 +14,7 @@ import {
   setMerchantData,
   setMerchantEnabledState,
 } from '../../../shared/store/reducers/userReducer';
+import L from '../../../shared/utils/LanguageHandler';
 import {createMerchantVS} from '../../../shared/utils/validations';
 import styles from './styles';
 
@@ -47,15 +48,15 @@ const EnableMerchant = (props: Props) => {
         dispatch(setMerchantData(res?.data));
         dispatch(setMerchantEnabledState(true));
         Toast.show({
-          text1: 'Successfull',
-          text2: 'Your merchant account enabled successfully',
+          text1: L('Successfull'),
+          text2: L('Your merchant account enabled successfully'),
           type: 'success',
         });
         props.navigation?.goBack();
       })
       .catch(err => {
         Toast.show({
-          text1: 'Request Failed',
+          text1: L('Request Failed'),
           text2: err?.response?.data?.message,
           type: 'error',
         });
@@ -66,8 +67,8 @@ const EnableMerchant = (props: Props) => {
   };
 
   return (
-    <>
-      <AppHeader showBack title="Enable Merchant" />
+    <View style={styles.mainContainer}>
+      <AppHeader showBack title={L('Enable Merchant')} />
       <KeyboardAwareScrollView style={styles.container}>
         <Formik
           initialValues={initialValues}
@@ -87,7 +88,7 @@ const EnableMerchant = (props: Props) => {
               ) : null}
 
               <AppInput
-                placeholder="First Name"
+                placeholder={L('First Name')}
                 onChangeText={handleChange('firstName')}
               />
 
@@ -95,7 +96,7 @@ const EnableMerchant = (props: Props) => {
                 <Text style={styles.errors}>{errors.lastName}</Text>
               ) : null}
               <AppInput
-                placeholder="Last Name"
+                placeholder={L('Last Name')}
                 onChangeText={handleChange('lastName')}
               />
 
@@ -103,7 +104,7 @@ const EnableMerchant = (props: Props) => {
                 <Text style={styles.errors}>{errors.email}</Text>
               ) : null}
               <AppInput
-                placeholder="Email"
+                placeholder={L('Email')}
                 onChangeText={handleChange('email')}
                 keyboardType="email-address"
               />
@@ -112,7 +113,7 @@ const EnableMerchant = (props: Props) => {
                 <Text style={styles.errors}>{errors.phoneNumber}</Text>
               ) : null}
               <AppInput
-                placeholder="Phone Number"
+                placeholder={L('Phone Number')}
                 onChangeText={handleChange('phoneNumber')}
                 keyboardType="number-pad"
               />
@@ -122,12 +123,12 @@ const EnableMerchant = (props: Props) => {
               ) : null}
 
               <AppInput
-                placeholder="POS Address"
+                placeholder={L('POS Address')}
                 onChangeText={handleChange('address')}
               />
 
               <PrimaryButton
-                title="Create Merchant"
+                title={L('Create Merchant')}
                 buttonStyle={styles.addButton}
                 onPress={handleSubmit}
               />
@@ -136,7 +137,7 @@ const EnableMerchant = (props: Props) => {
         </Formik>
         <AppLoader isVisible={loading} />
       </KeyboardAwareScrollView>
-    </>
+    </View>
   );
 };
 

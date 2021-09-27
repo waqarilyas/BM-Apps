@@ -7,6 +7,7 @@ import {ICONS} from '../../../assets';
 import GLOBAL_STYLE from '../../theme/global';
 import {Transaction} from '../../models/types';
 import moment from 'moment';
+import L from '../../utils/LanguageHandler';
 const Web3 = require('web3');
 
 interface Props {
@@ -18,7 +19,7 @@ const TransactionItem = (props: Props) => {
   const TRANSACTION_COLOR =
     props.kind === 'sent' ? THEME.COLORS.blue : THEME.COLORS.green;
   const TRANSACTION_ICON = props.kind === 'sent' ? ICONS.SENT : ICONS.RECEIVED;
-  const TRANSACTION_TEXT = props.kind === 'sent' ? 'Sent' : 'Received';
+  const TRANSACTION_TEXT = props.kind === 'sent' ? L('Sent') : L('Received');
   let transactionTime = new Date(props.item.timeStamp);
 
   const openExplorer = async () => {

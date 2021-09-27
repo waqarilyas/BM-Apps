@@ -32,7 +32,6 @@ export const createNewProduct = (params: any) => {
     'POST',
     `${blockConfig.API_URL}/product/save`,
     {
-      // Authorization: 'Bearer ' + authToken,
       Accept: 'application/json, text/plain, */*',
       'Content-Type': 'multipart/form-data,octet-stream',
       // Accept: 'application/json',
@@ -47,8 +46,8 @@ export const getInitialMerchantData = async () => {
   let walletAddress = '';
 
   wallet.forEach(item => {
-    if (item.coin_symbol == 'btc') {
-      walletAddress = item.public_key;
+    if (item.coin_symbol == 'eth') {
+      walletAddress = item.address;
       store.dispatch(setWalletAddress(walletAddress));
     }
   });
@@ -77,4 +76,8 @@ export const getMerchantProducts = async () => {
 
 export const getAllShops = async () => {
   return axios.get(`${blockConfig.API_URL}/shop/getAllShops`);
+};
+
+export const getShopProducts = async (shopId: string) => {
+  return axios.get(`${blockConfig.API_URL}/product/getByShop/${shopId}`);
 };

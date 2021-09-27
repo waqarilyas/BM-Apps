@@ -15,7 +15,7 @@ const PurchaseHistory = (props: Props) => {
     props.navigation?.navigate('PurchaseDetail');
   };
   return (
-    <>
+    <View style={styles.mainContainer}>
       <AppHeader title="Sale History" showBack />
       <View style={styles.container}>
         <TouchableOpacity onPress={clearHistory} style={styles.clearHistory}>
@@ -52,7 +52,7 @@ const PurchaseHistory = (props: Props) => {
           />
         </ScrollView>
       </View>
-    </>
+    </View>
   );
 };
 

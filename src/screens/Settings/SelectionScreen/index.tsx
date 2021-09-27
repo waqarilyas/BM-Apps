@@ -17,6 +17,7 @@ import RadioButtonRN from 'radio-buttons-react-native';
 import {THEME} from '../../../shared/theme';
 import GLOBAL_STYLE from '../../../shared/theme/global';
 import Toast from 'react-native-toast-message';
+import L from '../../../shared/utils/LanguageHandler';
 
 interface Props extends GenericNavigation {
   route: RouteProp<{params: {selectionType: string}}, 'params'>;
@@ -38,8 +39,8 @@ const SelectionScreen = (props: Props) => {
   const changeLanguage = (language: string) => {
     dispatch(setLanguage(language));
     Toast.show({
-      text1: 'Success',
-      text2: 'Language updated successfully!',
+      text1: L('Successfull'),
+      text2: L('Language updated successfully!'),
       type: 'success',
     });
     props?.navigation?.goBack();
@@ -48,8 +49,8 @@ const SelectionScreen = (props: Props) => {
   const changeCurrency = (currency: string) => {
     dispatch(setCurrency(currency));
     Toast.show({
-      text1: 'Success',
-      text2: 'Currency updated successfully!',
+      text1: L('Successfull'),
+      text2: L('Currency updated successfully!'),
       type: 'success',
     });
     props?.navigation?.goBack();
@@ -70,9 +71,10 @@ const SelectionScreen = (props: Props) => {
 
   const HEADER_TITLE =
     selectionType === ScreenSelectionType.Currency ? 'Currency' : 'Language';
+
   return (
-    <>
-      <AppHeader title={`Choose ${HEADER_TITLE}`} showBack />
+    <View style={styles.mainContainer}>
+      <AppHeader title={L('Choose Currency')} showBack />
       <View style={styles.container}>
         <RadioButtonRN
           activeColor={THEME.COLORS.accentBlue}
@@ -86,14 +88,15 @@ const SelectionScreen = (props: Props) => {
           data={selections}
           selectedBtn={(e: any) => onItemPress(e.label)}
         />
-        {/* <PrimaryButton
+
+        <PrimaryButton
           loading={loading}
-          title="Save"
+          title={L('Save')}
           buttonStyle={{width: '50%'}}
           textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
         /> */}
       </View>
-    </>
+    </View>
   );
 };
 

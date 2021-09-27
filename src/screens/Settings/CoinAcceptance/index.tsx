@@ -5,6 +5,7 @@ import AppHeader from '../../../shared/components/AppHeader';
 import AppSearchInput from '../../../shared/components/AppSearchInput';
 import CoinListItem from '../../../shared/components/CoinListItem';
 import {RootState} from '../../../shared/store';
+import L from '../../../shared/utils/LanguageHandler';
 import styles from './styles';
 
 interface Props {}
@@ -24,11 +25,11 @@ const CoinAcceptance = (props: Props) => {
     );
   }, [searchText, wallet]);
   return (
-    <>
-      <AppHeader showBack title="Coins Acceptance Settings" />
+    <View style={styles.mainContainer}>
+      <AppHeader showBack title={L('Coin Acceptance Settings')} />
       <View style={styles.container}>
         <AppSearchInput value={searchText} onChangeText={setSearchText} />
-        <Text style={styles.label}>Accepted Coins</Text>
+        <Text style={styles.label}>{L('Accepted Coins')}</Text>
         <ScrollView bounces={false} style={styles.coinsList}>
           {filteredWallet.map((item, index) => (
             <CoinListItem
@@ -40,7 +41,7 @@ const CoinAcceptance = (props: Props) => {
           ))}
         </ScrollView>
       </View>
-    </>
+    </View>
   );
 };
 

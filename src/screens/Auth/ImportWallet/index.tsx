@@ -14,6 +14,7 @@ import {
 } from '../../../shared/store/reducers/walletReducer';
 import styles from './styles';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import L from '../../../shared/utils/LanguageHandler';
 
 interface Props extends GenericNavigation {}
 
@@ -50,7 +51,7 @@ const ImportWallet = (props: Props) => {
     }
   };
   return (
-    <>
+    <View style={styles.mainContainer}>
       <AppHeader showBack />
       <KeyboardAwareScrollView
         keyboardShouldPersistTaps="handled"
@@ -63,11 +64,12 @@ const ImportWallet = (props: Props) => {
             textAlignVertical="top"
             value={phrase}
             onChangeText={setPhrase}
-            placeholder="Enter your secret recovery phrase"
+            placeholder={L('Enter your secret recovery phrase')}
             inputStyle={styles.input}
             textInputStyle={styles.textInput}
             multiline
             numberOfLines={3}
+            autoCapitalize="none"
           />
         </View>
         <PrimaryButton
@@ -76,7 +78,7 @@ const ImportWallet = (props: Props) => {
           onPress={onImportWallet}
         />
       </KeyboardAwareScrollView>
-    </>
+    </View>
   );
 };
 

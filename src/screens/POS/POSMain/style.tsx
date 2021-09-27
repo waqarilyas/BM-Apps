@@ -12,7 +12,8 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginVertical: THEME.MARGIN.HIGH,
+    marginBottom: THEME.MARGIN.HIGH,
+    marginTop: THEME.MARGIN.LOW,
   },
   topAction: {
     flexDirection: 'row',
@@ -47,9 +48,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: RF(5),
     justifyContent: 'center',
+    marginTop: RF(15),
   },
   closeIcon: {
-    paddingLeft: RF(3),
+    paddingLeft: RF(1),
+    marginBottom: RF(4),
   },
 });
 

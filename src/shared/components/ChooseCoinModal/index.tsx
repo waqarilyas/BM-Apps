@@ -9,10 +9,13 @@ import {
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Modal from 'react-native-modal';
+import {useSelector} from 'react-redux';
 import {COINS} from '../../../assets/coins';
+import {RootState} from '../../store';
 import {THEME} from '../../theme';
 import GLOBAL_STYLE from '../../theme/global';
 import {HP, WP, RF} from '../../theme/responsive';
+import L from '../../utils/LanguageHandler';
 
 interface Props {
   isVisible: boolean;
@@ -23,6 +26,9 @@ interface Props {
 
 const ChooseCoinModal = (props: Props) => {
   const {data, onPressCoin} = props;
+  const {contacts} = useSelector((state: RootState) => state.pos);
+
+  console.log(contacts);
 
   const RenderCoin = ({data}: {data: any}) => {
     let image = COINS.BTC;
@@ -44,11 +50,39 @@ const ChooseCoinModal = (props: Props) => {
           style={styles.coinImage}
         />
         <Text style={styles.coinText}>
-          {data.coin_name}({data.coin_symbol})
+          {data.coin_name}({data.coin_symbol?.toUpperCase()})
         </Text>
       </TouchableOpacity>
     );
   };
+  // const RenderContacts = ({data}: {data: any}) => {
+  //   const {name, address, coin} = data;
+  //   let image = COINS.BTC;
+
+  //   if (coin.coin_symbol == 'eth') {
+  //     image = COINS.ETH;
+  //   } else if (coin.coin_symbol == 'weenus') {
+  //     image = COINS.WEENUS;
+  //   }
+
+  //   return (
+  //     <TouchableOpacity
+  //       activeOpacity={0.9}
+  //       onPress={() => onPressCoin(data)}
+  //       style={styles.coinContainer}>
+  //       <FastImage
+  //         source={image}
+  //         resizeMode={FastImage.resizeMode.contain}
+  //         style={styles.coinImage}
+  //       />
+  //       <View>
+  //         <Text style={styles.coinText}>{name}</Text>
+  //         <Text style={styles.coinText}>{address}</Text>
+  //       </View>
+  //     </TouchableOpacity>
+  //   );
+  // };
+
   return (
     <Modal
       isVisible={props.isVisible}
@@ -62,9 +96,27 @@ const ChooseCoinModal = (props: Props) => {
           showsVerticalScrollIndicator={false}
           data={data}
           keyExtractor={(item, index) => index.toString()}
+          ListHeaderComponent={() => (
+            <Text style={styles.contactsHeader}>{L('Wallet')}</Text>
+          )}
           renderItem={({item, index}) => {
             return <RenderCoin data={item} />;
           }}
+          // ListFooterComponent={() => {
+          //   return (
+          //     <FlatList
+          //       showsVerticalScrollIndicator={false}
+          //       ListHeaderComponent={() => (
+          //         <Text style={styles.contactsHeader}>Contacts</Text>
+          //       )}
+          //       data={contacts}
+          //       keyExtractor={(item, index) => index.toString()}
+          //       renderItem={({item, index}) => {
+          //         return <RenderContacts data={item} />;
+          //       }}
+          //     />
+          //   );
+          // }}
         />
 
         {/* <ScrollView showsVerticalScrollIndicator={false}>
@@ -101,5 +153,10 @@ const styles = StyleSheet.create({
     color: THEME.COLORS.white,
     fontSize: THEME.FONTS.SIZE.SMALL,
     marginLeft: THEME.MARGIN.LOW,
+  },
+  contactsHeader: {
+    fontSize: RF(14),
+    color: THEME.COLORS.white,
+    marginBottom: RF(10),
   },
 });

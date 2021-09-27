@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {View, Text} from 'react-native';
+import React, {useEffect, useState, useRef} from 'react';
+import {View, Text, Keyboard} from 'react-native';
 import AppHeader from '../../../shared/components/AppHeader';
 import AppInput from '../../../shared/components/AppInput';
 import PrimaryButton from '../../../shared/components/PrimaryButton';
@@ -20,6 +20,7 @@ import {useSelector} from 'react-redux';
 import RNFetchBlob from 'rn-fetch-blob';
 import {createNewProduct} from '../../../shared/services/merchant.service';
 import Toast from 'react-native-toast-message';
+import L from '../../../shared/utils/LanguageHandler';
 
 interface Props {}
 
@@ -37,17 +38,18 @@ const AddProduct = (props: Props) => {
   const [genericError, setGenericError]: any = useState(null);
   const {merchantData} = useSelector((state: RootState) => state.user);
   const {merchantShop} = useSelector((state: RootState) => state.user);
+  const scrollRef = useRef();
 
   const openPicker = () => setImageModalOpen(true);
 
   const handleData = (values: any, action: any) => {
     if (values.price == 0) {
-      action.setFieldError('price', 'Price cannot be 0');
+      action.setFieldError('price', L('Price cannot be 0'));
       return;
     }
 
     if (!image) {
-      setGenericError('Please select your product image to continue');
+      setGenericError(L('Please select your product image to continue'));
       return;
     }
     setLoading(true);
@@ -90,34 +92,49 @@ const AddProduct = (props: Props) => {
         console.log('uploaded', written / total);
       })
       .then(response => {
-        console.log('---response---', response.info());
+        if (response.info().status === 413) {
+          Toast.show({
+            text1: L('Request Failed'),
+            text2: L('Image is too large. Please select another one'),
+            type: 'error',
+          });
+        }
+
         response.json();
       })
       .then(RetrivedData => {
-        console.log('---retrieved data------', RetrivedData);
         Toast.show({
-          text1: 'Success',
-          text2: 'Your product has been saved successfully',
+          text1: L('Successfull'),
+          text2: L('Your product has been saved successfully'),
           type: 'success',
         });
         setLoading(false);
-        // props.navigation.goBack();
+        props.navigation.navigate('POSMain');
       })
       .catch(err => {
-        console.log('---error----', err);
         setLoading(false);
-        Toast.show({
-          text1: 'Request Failed',
-          text2: err?.response?.data?.message,
-          type: 'error',
-        });
+        // Toast.show({
+        //   text1: 'Request Failed',
+        //   text2: err?.response?.data?.message,
+        //   type: 'error',
+        // });
       });
   };
 
+  useEffect(() => {
+    const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
+      scrollRef?.current?.scrollToEnd({animated: true});
+    });
+
+    return () => {
+      hideSubscription.remove();
+    };
+  }, [Keyboard]);
+
   return (
-    <>
-      <AppHeader showBack title="Add Product" showCart />
-      <KeyboardAwareScrollView style={styles.container}>
+    <View style={styles.mainContainer}>
+      <AppHeader showBack title={L('Add Product')} showCart />
+      <KeyboardAwareScrollView style={styles.container} ref={scrollRef}>
         <View style={styles.imageContainer}>
           {image?.path && (
             <FastImage source={{uri: image?.path}} style={styles.image} />
@@ -153,16 +170,17 @@ const AddProduct = (props: Props) => {
                 <Text style={styles.errors}>{errors.title}</Text>
               ) : null}
               <AppInput
-                placeholder="Title"
+                placeholder={L('Title')}
                 onChangeText={handleChange('title')}
               />
               {touched.price && errors.price ? (
                 <Text style={styles.errors}>{errors.price}</Text>
               ) : null}
               <AppInput
-                placeholder="Price"
+                placeholder={L('Price')}
                 keyboardType="number-pad"
                 onChangeText={handleChange('price')}
+                returnKeyType="done"
               />
               {touched.tax && errors.tax ? (
                 <Text style={styles.errors}>{errors.tax}</Text>
@@ -170,14 +188,15 @@ const AddProduct = (props: Props) => {
 
               <AppInput
                 keyboardType="number-pad"
-                placeholder="Tax"
+                placeholder={L('Tax')}
                 onChangeText={handleChange('tax')}
+                returnKeyType="done"
               />
               {touched.category && errors.category ? (
                 <Text style={styles.errors}>{errors.category}</Text>
               ) : null}
               <AppInput
-                placeholder="Category"
+                placeholder={L('Category')}
                 onChangeText={handleChange('category')}
               />
               {genericError ? (
@@ -186,7 +205,7 @@ const AddProduct = (props: Props) => {
                 </Text>
               ) : null}
               <PrimaryButton
-                title="Save"
+                title={L('Save')}
                 buttonStyle={styles.saveButton}
                 textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
                 onPress={handleSubmit}
@@ -201,7 +220,7 @@ const AddProduct = (props: Props) => {
         />
         <AppLoader isVisible={loading} />
       </KeyboardAwareScrollView>
-    </>
+    </View>
   );
 };
 

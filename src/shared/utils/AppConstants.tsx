@@ -40,3 +40,14 @@ export const EMPTY_CHART_DATA: any = [
     onPress: () => console.log('Press'),
   },
 ];
+
+export const Languages = [
+  {
+    label: 'English',
+    short: 'Eng',
+  },
+  {
+    label: 'Spanish',
+    short: 'Spa',
+  },
+];

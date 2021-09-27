@@ -1,8 +1,11 @@
 import React from 'react';
 import {Modal, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {navigate} from '../../services/nav.service';
 import {THEME} from '../../theme';
 import {RF} from '../../theme/responsive';
+import L from '../../utils/LanguageHandler';
+import PrimaryButton from '../PrimaryButton';
 
 const ShopDetailsModal = ({
   visible,
@@ -18,10 +21,10 @@ const ShopDetailsModal = ({
       <View style={styles.centeredView}>
         <View style={styles.innerView}>
           {/* <TouchableOpacity style={styles.iconsContainer} onPress={() => {}}>
-            <Icon name="camera" size={RF(25)} color={THEME.COLORS.white} />
+          <Icon name="camera" size={RF(25)} color={THEME.COLORS.white} />
             <Text style={styles.iconName}>Camera</Text>
           </TouchableOpacity> */}
-          <Text style={styles.storeTitle}>SHOP INFO</Text>
+          <Text style={styles.storeTitle}>{L('SHOP INFO')}</Text>
           <CardItem title={data.name} icon="person" />
           <CardItem title={data.phone} icon="phone-portrait-outline" />
           <CardItem title={data.website} icon="md-logo-web-component" />
@@ -33,6 +36,15 @@ const ShopDetailsModal = ({
           <Text style={styles.address}>{data.address}</Text> */}
           <TouchableOpacity style={styles.closeContainer} onPress={closeModal}>
             <Icon name="close" size={RF(25)} color={THEME.COLORS.white} />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.showButton}
+            onPress={() => {
+              closeModal();
+              navigate('ShopDetails', {shop: data._id});
+            }}>
+            <Text style={styles.showText}>{L('Show Products')}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -113,6 +125,18 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     fontSize: RF(16),
     marginVertical: THEME.MARGIN.HIGH,
+  },
+  showButton: {
+    backgroundColor: THEME.COLORS.accentBlue,
+    paddingVertical: RF(10),
+    paddingHorizontal: RF(20),
+    borderRadius: RF(100),
+    marginTop: RF(20),
+  },
+  showText: {
+    color: THEME.COLORS.white,
+    fontFamily: THEME.FONTS.TYPE.MEDIUM,
+    textAlign: 'center',
   },
 });
 

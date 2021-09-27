@@ -10,6 +10,10 @@ export const NOT_EMPTY_CELL_BG_COLOR = THEME.COLORS.white;
 export const ACTIVE_CELL_BG_COLOR = THEME.COLORS.secondaryBackground;
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    backgroundColor: THEME.COLORS.primaryBackground,
+  },
   container: {
     flex: 1,
     backgroundColor: THEME.COLORS.primaryBackground,

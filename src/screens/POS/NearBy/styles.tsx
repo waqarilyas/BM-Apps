@@ -5,7 +5,7 @@ import {RF} from '../../../shared/theme/responsive';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: THEME.COLORS.primaryBackground,
+    backgroundColor: THEME.COLORS.primaryBackground,
   },
   nearByView: {
     width: '100%',

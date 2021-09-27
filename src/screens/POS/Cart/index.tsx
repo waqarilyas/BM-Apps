@@ -1,26 +1,26 @@
 import React from 'react';
-import {View, Text, TextInput, TouchableOpacity, FlatList} from 'react-native';
+import {FlatList, Text, TouchableOpacity, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
-import {ICONS} from '../../../assets';
-import AppHeader from '../../../shared/components/AppHeader';
-import styles from './styles';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {RF} from '../../../shared/theme/responsive';
-import {THEME} from '../../../shared/theme';
+import {useDispatch, useSelector} from 'react-redux';
+import AppHeader from '../../../shared/components/AppHeader';
 import DashedLine from '../../../shared/components/DashedLine';
-import AppInput from '../../../shared/components/AppInput';
+import EmptyScreenComponent from '../../../shared/components/EmptyScreenComponent';
 import PrimaryButton from '../../../shared/components/PrimaryButton';
 import {GenericNavigation} from '../../../shared/models/types';
-import {useSelector, useDispatch} from 'react-redux';
-import GLOBAL_STYLE from '../../../shared/theme/global';
+import {calculateTotal} from '../../../shared/services/helper.service';
 import {RootState} from '../../../shared/store';
 import {
   decreaseItemCount,
   increaseItemCount,
   removeItemFromCart,
 } from '../../../shared/store/reducers/posReducer';
-import EmptyScreenComponent from '../../../shared/components/EmptyScreenComponent';
+import {THEME} from '../../../shared/theme';
+import GLOBAL_STYLE from '../../../shared/theme/global';
+import {RF} from '../../../shared/theme/responsive';
+import L from '../../../shared/utils/LanguageHandler';
+import styles from './styles';
 
 interface Props extends GenericNavigation {}
 
@@ -32,9 +32,8 @@ const Cart = (props: Props) => {
     dispatch(increaseItemCount(item));
   };
   const decrementProduct = (item: any) => dispatch(decreaseItemCount(item));
-  const {cart, totalCartAmount, totalTax} = useSelector(
-    (state: RootState) => state.pos,
-  );
+  const {cart, totalCartAmount, customPrice, APFee, totalTaxAmount} =
+    useSelector((state: RootState) => state.pos);
 
   const navToPayment = () =>
     props.navigation?.navigate('Payment', {type: 'cart'});
@@ -62,6 +61,9 @@ const Cart = (props: Props) => {
           <View style={styles.productBottomRow}>
             <Text numberOfLines={1} style={styles.productPrice}>
               ${data.price}
+            </Text>
+            <Text numberOfLines={1} style={styles.productPrice}>
+              Tax: {data.tax}%
             </Text>
             <View style={styles.productCount}>
               <TouchableOpacity
@@ -93,9 +95,10 @@ const Cart = (props: Props) => {
       </View>
     );
   };
+
   return (
-    <>
-      <AppHeader title="Cart" showBack />
+    <View style={styles.mainContainer}>
+      <AppHeader title={L('Cart')} showBack />
       {cart.length > 0 ? (
         <KeyboardAwareScrollView style={styles.container}>
           <>
@@ -110,16 +113,32 @@ const Cart = (props: Props) => {
                 );
               }}
             />
+            {/* <AppInput
+              placeholder={L('Enter Custom Price')}
+              keyboardType="number-pad"
+              onChangeText={p => {
+                dispatch(setCustomPrice(parseFloat(p)));
+              }}
+            /> */}
 
             {/* <View style={styles.productContainer}>{renderProductCard()}</View> */}
             <View style={styles.totalContainer}>
               <View style={styles.totalRow}>
-                <Text style={styles.totalText}>Items</Text>
-                <Text style={styles.totalText}>$ {totalCartAmount}</Text>
+                <Text style={styles.totalText}>{L('Price')}</Text>
+                <Text style={styles.totalText}>
+                  $ {customPrice ? customPrice : totalCartAmount}
+                </Text>
               </View>
               <View style={styles.totalRow}>
-                <Text style={styles.totalText}>Tax</Text>
-                <Text style={styles.totalText}>$ {totalTax}</Text>
+                <Text style={styles.totalText}>{L('Tax')}</Text>
+                <Text style={styles.totalText}>
+                  ${' '}
+                  {customPrice
+                    ? APFee
+                      ? APFee
+                      : 0
+                    : totalTaxAmount.toFixed(2)}{' '}
+                </Text>
               </View>
               {/* <View style={styles.totalRow}>
                 <Text style={styles.totalText}>Tip</Text>
@@ -136,14 +155,17 @@ const Cart = (props: Props) => {
                     styles.totalText,
                     {fontFamily: THEME.FONTS.TYPE.SEMIBOLD},
                   ]}>
-                  Total
+                  {L('Total')}
                 </Text>
                 <Text
                   style={[
                     styles.totalText,
                     {fontFamily: THEME.FONTS.TYPE.SEMIBOLD},
                   ]}>
-                  $ {totalCartAmount + totalTax}
+                  ${' '}
+                  {customPrice
+                    ? calculateTotal(customPrice, APFee ? APFee : 0)
+                    : totalCartAmount + totalTaxAmount}
                 </Text>
               </View>
             </View>
@@ -161,7 +183,7 @@ const Cart = (props: Props) => {
             </View> */}
             <View style={styles.bottomButtonContainer}>
               <PrimaryButton
-                title="Check out"
+                title={L('Check out')}
                 onPress={navToPayment}
                 textStyle={[GLOBAL_STYLE.LARGE_BUTTON_TEXT]}
               />
@@ -169,9 +191,9 @@ const Cart = (props: Props) => {
           </>
         </KeyboardAwareScrollView>
       ) : (
-        <EmptyScreenComponent title="Nothing in cart" />
+        <EmptyScreenComponent title={L('Nothing in cart')} />
       )}
-    </>
+    </View>
   );
 };
 

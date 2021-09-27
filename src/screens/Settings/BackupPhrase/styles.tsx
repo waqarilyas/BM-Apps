@@ -2,6 +2,10 @@ import {StyleSheet} from 'react-native';
 import {THEME} from '../../../shared/theme';
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    backgroundColor: THEME.COLORS.primaryBackground,
+  },
   container: {
     flex: 1,
     backgroundColor: THEME.COLORS.primaryBackground,

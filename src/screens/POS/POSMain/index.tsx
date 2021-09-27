@@ -9,8 +9,8 @@ import {
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Toast from 'react-native-toast-message';
-import Icon from 'react-native-vector-icons/Ionicons';
 import IC from 'react-native-vector-icons/FontAwesome5';
+import Icon from 'react-native-vector-icons/Ionicons';
 import {useSelector} from 'react-redux';
 import {ICONS} from '../../../assets';
 import AppHeader from '../../../shared/components/AppHeader';
@@ -23,6 +23,7 @@ import {getMerchantProducts} from '../../../shared/services/merchant.service';
 import {RootState} from '../../../shared/store';
 import {THEME} from '../../../shared/theme';
 import {RF} from '../../../shared/theme/responsive';
+import L from '../../../shared/utils/LanguageHandler';
 import styles from './style';
 
 interface Props extends GenericNavigation {}
@@ -40,92 +41,83 @@ const POSMain = (props: Props) => {
   const wait = (timeout: any) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
-  const onRefresh = () => {
-    setRefreshing(true);
-    setLoading(true);
-    getMerchantProducts()
-      .then(res => {
-        setProducts(res.data);
-      })
-      .catch(err => {
-        console.log('---error---', err);
-        Toast.show({
-          text1: 'Request Failed',
-          text2: 'Unable to get products',
-          type: 'error',
-        });
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-    wait(2000).then(() => setRefreshing(false));
-  };
 
   const navToAddProduct = () => {
     if (!merchantShop) {
-      Alert.alert('Failed', 'Please add a shop to continue', [
+      Alert.alert(L('Failed'), L('Please add a shop to continue'), [
         {text: 'OK', onPress: () => console.log('OK Pressed')},
       ]);
 
       return;
     }
-
+    setSearchVisible(false);
+    setSearchText('');
+    setSearchResults([]);
     props.navigation?.navigate('AddProduct');
   };
-  const navToNearBy = () => {
-    props.navigation?.navigate('NearBy');
-  };
+
   const navToProductDetail = (item: any) => {
     props.navigation?.navigate('ProductDetails', {data: item});
   };
 
-  const updateResult = (query: string) => {
-    setSearchText(query);
-    let results: any = [];
-    products.map((algo: string) => {
-      query.split(' ').map(word => {
-        if (algo.title.toLowerCase().indexOf(word.toLowerCase()) != -1) {
-          results.push(algo);
-        }
-      });
+  const updateResult = (e: string) => {
+    setSearchText(e);
+
+    let text = e.toLowerCase();
+    let trucks = [...products];
+    let filteredItems = trucks.filter(item => {
+      return item.title.toLowerCase().match(text);
     });
-    setSearchResults(results);
+    setSearchResults(filteredItems);
   };
 
-  useEffect(() => {
-    const unsubscribe = props.navigation.addListener('focus', () => {
-      setReload(!reload);
-    });
-
-    return unsubscribe;
-  }, [props.navigation]);
-
-  useEffect(() => {
-    setLoading(true);
-
+  const getProducts = () => {
     getMerchantProducts()
       .then(res => {
-        setProducts(res.data);
+        setProducts(
+          res.data?.sort(function (a: any, b: any) {
+            // Turn your strings into dates, and then subtract them
+            // to get a value that is either negative, positive, or zero.
+            return new Date(b.createdAt) - new Date(a.createdAt);
+          }),
+        );
       })
       .catch(err => {
-        console.log('---error---', err);
         Toast.show({
-          text1: 'Request Failed',
-          text2: 'Unable to get products',
+          text1: L('Request Failed'),
+          text2: L('Unable to get products'),
           type: 'error',
         });
       })
       .finally(() => {
         setLoading(false);
       });
-  }, [reload]);
+  };
 
+  const onRefresh = () => {
+    setRefreshing(true);
+    getProducts();
+    wait(2000).then(() => setRefreshing(false));
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    getProducts();
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = props.navigation.addListener('focus', () => {
+      getProducts();
+    });
+
+    return unsubscribe;
+  }, [props.navigation]);
   return (
     <View style={styles.mainContainer}>
       {searchVisible ? (
         <View style={styles.searchContainer}>
           <SearchBar
-            placeholder="Search here"
+            placeholder={L('Search')}
             onChangeText={updateResult}
             value={searchText}
           />
@@ -143,7 +135,7 @@ const POSMain = (props: Props) => {
         </View>
       ) : (
         <AppHeader
-          title="Point of Sale"
+          title={L('Point of Sale')}
           showSearch
           searchAction={() => setSearchVisible(true)}
         />
@@ -159,7 +151,22 @@ const POSMain = (props: Props) => {
               resizeMode={FastImage.resizeMode.contain}
               style={styles.actionIcon}
             />
-            <Text style={styles.actionText}>Add Product</Text>
+            <Text style={styles.actionText}>{L('Add Product')}</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={styles.topAction}
+            onPress={() =>
+              props.navigation?.navigate('Payment', {type: 'invoice'})
+            }>
+            <IC
+              name="file-invoice"
+              color={THEME.COLORS.accentBlue}
+              size={RF(18)}
+            />
+
+            <Text style={styles.actionText}>{L('Direct Invoice')}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -178,7 +185,7 @@ const POSMain = (props: Props) => {
           </TouchableOpacity>
         </View>
 
-        <Text style={styles.categoryLabel}>Products</Text>
+        <Text style={styles.categoryLabel}>{L('Products')}</Text>
 
         <FlatList
           data={searchText.length > 0 ? searchResults : products}
@@ -186,10 +193,19 @@ const POSMain = (props: Props) => {
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
           numColumns={3}
+          columnWrapperStyle={{
+            // backgroundColor: 'red',
+            flexWrap: 'wrap-reverse',
+          }}
+          contentContainerStyle={
+            products.length == 0 && {
+              flex: 1,
+            }
+          }
+          keyboardShouldPersistTaps="always"
           ListEmptyComponent={() => (
-            <EmptyScreenComponent title="No products found!" />
+            <EmptyScreenComponent title={L('No products found!')} />
           )}
-          contentContainerStyle={{flex: 1}}
           showsVerticalScrollIndicator={false}
           keyExtractor={(_, index) => index.toString()}
           renderItem={({item, index}) => {

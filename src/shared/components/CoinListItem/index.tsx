@@ -25,9 +25,12 @@ interface Props extends TouchableOpacityProps {
 }
 const CoinListItem = (props: Props) => {
   const dispatch = useDispatch();
-
+  const {balance, coin_symbol} = props.item;
   const COIN_URL = `${blockConfig.API_URL}/admin/coin/${props.item.coin_symbol}`;
   const onPressToggle = () => dispatch(setCoinIsActive(props.item.coin_symbol));
+
+  const percentage = props.item.chart_data?.changePercentage24h?.toFixed(2);
+
   return (
     <TouchableOpacity
       activeOpacity={1}
@@ -60,10 +63,20 @@ const CoinListItem = (props: Props) => {
               onToggle={onPressToggle}
             />
           ) : (
-            <Text style={styles.name}>
-              {props.item.chart_data?.changePercentage24h?.toFixed(2) || '0.00'}
-              %
-            </Text>
+            <View>
+              <Text style={styles.rightName}>
+                {balance} {coin_symbol?.toUpperCase()}
+              </Text>
+
+              <Text
+                style={[
+                  styles.rightName,
+                  percentage < 0 && {color: THEME.COLORS.red},
+                  percentage > 0 && {color: THEME.COLORS.green},
+                ]}>
+                {percentage || '0.00'}%
+              </Text>
+            </View>
           )}
         </View>
       </View>
@@ -105,4 +118,10 @@ const styles = StyleSheet.create({
     fontFamily: THEME.FONTS.TYPE.REGULAR,
   },
   right: {height: '100%', justifyContent: 'center'},
+  rightName: {
+    fontSize: THEME.FONTS.SIZE.XXSMALL,
+    color: THEME.COLORS.textLight,
+    fontFamily: THEME.FONTS.TYPE.REGULAR,
+    textAlign: 'right',
+  },
 });
