@@ -1,20 +1,17 @@
-import React, {useState, useEffect, useRef} from 'react';
-import {View, Text, TouchableOpacity, PermissionsAndroid} from 'react-native';
-import AppHeader from '../../../shared/components/AppHeader';
-import {GenericNavigation} from '../../../shared/models/types';
-import styles from './styles';
-import MapView, {PROVIDER_GOOGLE, Marker, Callout} from 'react-native-maps';
-import Icon from 'react-native-vector-icons/Ionicons';
-import {THEME} from '../../../shared/theme';
+import React, {useEffect, useRef, useState} from 'react';
+import {Text, TouchableOpacity, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
-import {ICONS} from '../../../assets';
-import {getAllShops} from '../../../shared/services/merchant.service';
-import Toast from 'react-native-toast-message';
-import AppLoader from '../../../shared/components/AppLoader';
 import Geolocation from 'react-native-geolocation-service';
+import MapView, {Callout, Marker} from 'react-native-maps';
+import Toast from 'react-native-toast-message';
+import {ICONS} from '../../../assets';
+import AppHeader from '../../../shared/components/AppHeader';
+import AppLoader from '../../../shared/components/AppLoader';
 import ShopDetailsModal from '../../../shared/components/ShopDetailsModal';
-import {requestMultiple, PERMISSIONS} from 'react-native-permissions';
+import {GenericNavigation} from '../../../shared/models/types';
+import {getAllShops} from '../../../shared/services/merchant.service';
 import L from '../../../shared/utils/LanguageHandler';
+import styles from './styles';
 
 interface Props extends GenericNavigation {}
 
@@ -73,6 +70,8 @@ const NearBy = (props: Props) => {
           enableHighAccuracy: true,
           timeout: 15000,
           maximumAge: 10000,
+          showLocationDialog: true,
+          forceRequestLocation: true,
         },
       );
     } catch (err) {

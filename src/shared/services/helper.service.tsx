@@ -116,5 +116,5 @@ export const calculateTotal = (totalPrice: any | Number, tax: Number | any) => {
 };
 
 export const calculateTax = (price: any, tax: any) => {
-  return parseFloat(price).toFixed(0) * (parseFloat(tax).toFixed(0) / 100);
+  return parseFloat(price) * (parseFloat(tax) / 100);
 };

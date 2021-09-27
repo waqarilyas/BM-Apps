@@ -91,9 +91,10 @@ const ShopDetails = (props: Props) => {
         </View>
       ) : (
         <AppHeader
-          title={L('Shop Details')}
+          title={L('Products')}
           showSearch
           searchAction={() => setSearchVisible(true)}
+          showBack
         />
       )}
       <View style={styles.container}>

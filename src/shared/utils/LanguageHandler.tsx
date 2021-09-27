@@ -849,6 +849,18 @@ export const language = [
       Spanish: 'Deshabilitar la tarifa de protección algorítmica',
     },
   },
+  {
+    label: {
+      English: 'Tax Deduction',
+      Spanish: 'Deducción de impuestos',
+    },
+  },
+  {
+    label: {
+      English: 'Tax In Percentage',
+      Spanish: 'Impuesto en porcentaje',
+    },
+  },
 ];
 
 const L = (value: any) => {

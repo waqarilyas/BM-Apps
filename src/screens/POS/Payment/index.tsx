@@ -21,11 +21,10 @@ import {GenericNavigation} from '../../../shared/models/types';
 import {
   AppShareContent,
   AppShowToast,
-  calculateTax,
   calculateTotal,
 } from '../../../shared/services/helper.service';
 import {RootState} from '../../../shared/store';
-import {resetCart, setAPFee} from '../../../shared/store/reducers/posReducer';
+import {resetCart} from '../../../shared/store/reducers/posReducer';
 import {THEME} from '../../../shared/theme';
 import GLOBAL_STYLE from '../../../shared/theme/global';
 import {RF, WP} from '../../../shared/theme/responsive';
@@ -39,16 +38,18 @@ const Payment = (props: Props) => {
   const dispatch = useDispatch();
 
   const {wallet} = useSelector((state: RootState) => state.wallet);
-  const {cart, totalCartAmount, totalTax, customPrice, APFee, totalTaxAmount} =
-    useSelector((state: RootState) => state.pos);
+  const {totalCartAmount, customPrice, APFee, totalTaxAmount} = useSelector(
+    (state: RootState) => state.pos,
+  );
 
   const {taxEnabled} = useSelector((state: RootState) => state.settings);
   const [copied, setCopied] = useState(false);
   const [showCurrencyModal, setShowCurrencyModal] = useState(false);
   const [selectedCoin, setSelectedCoin] = useState();
   const [customTax, setCustomTax] = useState(0);
+  const [invoiceTax, setInvoiceTax] = useState(0);
+  const [totalInvoiceAmount, setTotalInvoiceAmount] = useState(0);
 
-  // const [customPrice, setCustomPrice] = useState(0);
   const [usdPrice, setUSDPrice] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
 
@@ -79,9 +80,17 @@ const Payment = (props: Props) => {
   }, []);
 
   useEffect(() => {
-    const priceInUSD = (totalPrice + customTax) / wallet[0]?.chart_data?.rate;
+    let priceInUSD = (totalPrice + customTax) / wallet[0]?.chart_data?.rate;
+    setTotalInvoiceAmount(totalPrice + customTax);
+
+    if (invoiceTax > 0) {
+      priceInUSD = (priceInUSD * invoiceTax) / 100;
+      setTotalInvoiceAmount(
+        totalPrice + ((totalPrice + customTax) * invoiceTax) / 100,
+      );
+    }
     setUSDPrice(priceInUSD);
-  }, [totalPrice, customTax]);
+  }, [totalPrice, customTax, invoiceTax]);
 
   return (
     <View style={styles.mainContainer}>
@@ -114,7 +123,33 @@ const Payment = (props: Props) => {
                   setTotalPrice(0);
                   return;
                 }
-                setTotalPrice(parseInt(text));
+                setTotalPrice(parseFloat(text));
+              }}
+            />
+
+            <AppInput
+              placeholder={L('Tax In Percentage')}
+              keyboardType="number-pad"
+              returnKeyType="done"
+              onChangeText={text => {
+                if (text.length == 0) {
+                  setInvoiceTax(0);
+                  return;
+                }
+                setInvoiceTax(parseFloat(text));
+              }}
+            />
+
+            <AppInput
+              placeholder="Algorithmic Protection Fee"
+              keyboardType="number-pad"
+              onChangeText={p => {
+                if (p.length == 0) {
+                  setCustomTax(0);
+                  return;
+                }
+                setCustomTax(parseFloat(p));
+                // setTotalPrice(calculateTax(totalPrice, p) + totalPrice);
               }}
             />
 
@@ -142,7 +177,7 @@ const Payment = (props: Props) => {
           <Text style={styles.amountUSD}>
             $
             {type == 'invoice' || customPrice
-              ? totalPrice + customTax
+              ? totalInvoiceAmount
               : totalCartAmount + totalTaxAmount}{' '}
             USD
           </Text>

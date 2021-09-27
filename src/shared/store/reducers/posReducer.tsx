@@ -43,6 +43,12 @@ export const posSlice = createSlice({
       );
       state.totalTax -= parseFloat(action.payload.tax) * count;
       state.cart = cartData;
+
+      if (state.cart.length > 0) {
+        state.totalCartAmount = 0;
+        state.totalTax = 0;
+        state.totalTaxAmount = 0;
+      }
     },
     increaseItemCount: (state, action) => {
       let cartData = [...state.cart];

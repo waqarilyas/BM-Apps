@@ -130,7 +130,7 @@ const Cart = (props: Props) => {
                 </Text>
               </View>
               <View style={styles.totalRow}>
-                <Text style={styles.totalText}>{L('Tax Deduction')}</Text>
+                <Text style={styles.totalText}>{L('Tax')}</Text>
                 <Text style={styles.totalText}>
                   ${' '}
                   {customPrice

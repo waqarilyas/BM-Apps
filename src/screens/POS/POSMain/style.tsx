@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: RF(5),
     justifyContent: 'center',
     marginTop: RF(15),
-    // backgroundColor: 'red',
   },
   closeIcon: {
     paddingLeft: RF(1),
