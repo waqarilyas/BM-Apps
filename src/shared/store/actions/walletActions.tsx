@@ -14,7 +14,7 @@ import {AppShowToast} from '../../services/helper.service';
 
 export const renderWallet =
   () => async (dispatch: AppDispatch, getState: () => RootState) => {
-    dispatch(setWalletLoading(true));
+    // dispatch(setWalletLoading(true));
     const {defaultCurrency} = getState().wallet;
     try {
       const mnemonic = await generateMnemonic();
@@ -36,6 +36,7 @@ export const renderWallet =
           defaultCurrency,
           index,
         );
+
         if (activeAssets.length - 1 === index) {
           dispatch(setWalletLoading(false));
         }

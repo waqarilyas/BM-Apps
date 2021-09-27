@@ -168,21 +168,6 @@ const POSMain = (props: Props) => {
 
             <Text style={styles.actionText}>{L('Direct Invoice')}</Text>
           </TouchableOpacity>
-
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={styles.topAction}
-            onPress={() =>
-              props.navigation?.navigate('Payment', {type: 'invoice'})
-            }>
-            <IC
-              name="file-invoice"
-              color={THEME.COLORS.accentBlue}
-              size={RF(18)}
-            />
-
-            <Text style={styles.actionText}>Direct Invoice</Text>
-          </TouchableOpacity>
         </View>
 
         <Text style={styles.categoryLabel}>{L('Products')}</Text>

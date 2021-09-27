@@ -41,7 +41,6 @@ const Payment = (props: Props) => {
   const {totalCartAmount, customPrice, APFee, totalTaxAmount} = useSelector(
     (state: RootState) => state.pos,
   );
-
   const {taxEnabled} = useSelector((state: RootState) => state.settings);
   const [copied, setCopied] = useState(false);
   const [showCurrencyModal, setShowCurrencyModal] = useState(false);
@@ -80,7 +79,7 @@ const Payment = (props: Props) => {
   }, []);
 
   useEffect(() => {
-    let priceInUSD = (totalPrice + customTax) / wallet[0]?.chart_data?.rate;
+    let priceInUSD = (totalPrice + customTax) / selectedCoin?.chart_data?.rate;
     setTotalInvoiceAmount(totalPrice + customTax);
 
     if (invoiceTax > 0) {
@@ -137,19 +136,6 @@ const Payment = (props: Props) => {
                   return;
                 }
                 setInvoiceTax(parseFloat(text));
-              }}
-            />
-
-            <AppInput
-              placeholder="Algorithmic Protection Fee"
-              keyboardType="number-pad"
-              onChangeText={p => {
-                if (p.length == 0) {
-                  setCustomTax(0);
-                  return;
-                }
-                setCustomTax(parseFloat(p));
-                // setTotalPrice(calculateTax(totalPrice, p) + totalPrice);
               }}
             />
 
