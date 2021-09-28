@@ -61,12 +61,12 @@ const SettingsMain = (props: Props) => {
       L('Are you sure you want to logout?'),
       [
         {
-          text: 'Cancel',
+          text: L('Cancel'),
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
         {
-          text: 'YES',
+          text: L('YES'),
           onPress: () => {
             logOutUser();
           },
@@ -197,12 +197,12 @@ const SettingsMain = (props: Props) => {
           chevron
           onPress={navToPurchaseHistory}
         /> */}
-        <SettingItem
+        {/* <SettingItem
           title={L('Choose Currency')}
           value={settings.currency}
           onPress={navToCurrencySelection}
           chevron
-        />
+        /> */}
         <SettingItem
           title={L('Choose Language')}
           value={settings.language}

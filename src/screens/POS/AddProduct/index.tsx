@@ -188,7 +188,7 @@ const AddProduct = (props: Props) => {
 
               <AppInput
                 keyboardType="number-pad"
-                placeholder={L('Tax')}
+                placeholder={L('Tax In Percentage')}
                 onChangeText={handleChange('tax')}
                 returnKeyType="done"
               />

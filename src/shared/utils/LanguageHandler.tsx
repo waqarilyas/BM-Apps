@@ -861,6 +861,24 @@ export const language = [
       Spanish: 'Impuesto en porcentaje',
     },
   },
+  {
+    label: {
+      English: 'Avl. Balance',
+      Spanish: 'Avl. Equilibrio',
+    },
+  },
+  {
+    label: {
+      English: 'Pasted',
+      Spanish: 'Pegado',
+    },
+  },
+  {
+    label: {
+      English: 'YES',
+      Spanish: 'SÍ',
+    },
+  },
 ];
 
 const L = (value: any) => {

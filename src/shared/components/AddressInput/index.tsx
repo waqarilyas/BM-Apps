@@ -15,6 +15,7 @@ import {ICONS} from '../../../assets';
 import Clipboard from '@react-native-clipboard/clipboard';
 import {AppShowToast} from '../../services/helper.service';
 import AppQRCodeScanner from '../AppQRCodeScanner';
+import L from '../../utils/LanguageHandler';
 
 interface Props extends TextInputProps {
   inputStyle?: StyleProp<TextStyle>;
@@ -23,7 +24,7 @@ interface Props extends TextInputProps {
 
 const AddressInput = (props: Props) => {
   const onPressPaste = async () => {
-    AppShowToast('Pasted');
+    AppShowToast(L('Pasted'));
     let text = await Clipboard.getString();
     props.onChangeAddress(text);
   };
