@@ -1,12 +1,9 @@
-//import liraries
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Modal, TouchableOpacity} from 'react-native';
-
-import TouchID from 'react-native-touch-id';
+import {Modal, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Toast from 'react-native-toast-message';
+import TouchID from 'react-native-touch-id';
 import {THEME} from '../../theme';
 import {RF} from '../../theme/responsive';
-import PrimaryButton from '../PrimaryButton';
 import L from '../../utils/LanguageHandler';
 
 const AuthModal = ({
@@ -20,19 +17,17 @@ const AuthModal = ({
 
   const authenticate = () => {
     TouchID.authenticate('to unlock your wallet', {
-      title: 'Authentication Required', // Android
-      imageColor: '#e00606', // Android
-      imageErrorColor: '#ff0000', // Android
-      sensorDescription: 'Touch sensor', // Android
-      sensorErrorDescription: 'Failed', // Android
-      cancelText: '', // Android
-      fallbackLabel: '', // iOS (if empty, then label is hidden)
-      unifiedErrors: false, // use unified error messages (default false)
-      passcodeFallback: true, // iOS - allows the device to fall back to using the passcode, if faceid/touch is not available. this does not mean that if touchid/faceid fails the first few times it will revert to passcode, rather that if the former are not enrolled, then it will use the passcode.
+      title: 'Authentication Required',
+      imageColor: '#e00606',
+      imageErrorColor: '#ff0000',
+      sensorDescription: 'Touch sensor',
+      sensorErrorDescription: 'Failed',
+      cancelText: '',
+      fallbackLabel: '',
+      unifiedErrors: false,
+      passcodeFallback: true,
     })
-      .then(success => {
-        // Success code
-        console.log('--success--', success);
+      .then((success: any) => {
         Toast.show({
           text1: L('Successfull'),
           text2: 'Authentication successfull',
@@ -40,9 +35,9 @@ const AuthModal = ({
         });
         onClose();
       })
-      .catch(error => {
+      .catch((error: any) => {
         setError(true);
-        console.log('--error--', error.code);
+
         if (error.code == 'FINGERPRINT_ERROR_LOCKOUT') {
           Toast.show({
             text1: L('Request Failed'),
@@ -74,7 +69,6 @@ const AuthModal = ({
   );
 };
 
-// define your styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,

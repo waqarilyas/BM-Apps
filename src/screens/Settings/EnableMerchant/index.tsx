@@ -41,10 +41,8 @@ const EnableMerchant = (props: Props) => {
     setLoading(true);
     values.walletAddress = walletAddress;
 
-    console.log('--final values--', values);
     createNewMerchant(values)
       .then(res => {
-        console.log('--values after create---', res?.data);
         dispatch(setMerchantData(res?.data));
         dispatch(setMerchantEnabledState(true));
         Toast.show({

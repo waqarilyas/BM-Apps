@@ -22,7 +22,7 @@ interface Props extends GenericNavigation {
 const LanguageSelection = (props: Props) => {
   const {language} = useSelector((state: RootState) => state.settings);
 
-  const [selectedLanguage, setSelectedLanguage] = useState(null);
+  const [selectedLanguage, setSelectedLanguage]: any = useState(null);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
@@ -47,7 +47,6 @@ const LanguageSelection = (props: Props) => {
 
   useEffect(() => {
     setSelectedLanguage(language);
-    console.log(Languages.indexOf(lan => lan.label == language));
   }, []);
 
   return (

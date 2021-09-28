@@ -43,7 +43,6 @@ export const getERC20NetworkFee = (
 };
 
 export const handleImageSelection = (type: 'camera' | 'gallery') => {
-  console.log(type);
   return new Promise((resolve: any, reject: any) => {
     try {
       type == 'camera'
@@ -116,5 +115,5 @@ export const calculateTotal = (totalPrice: any | Number, tax: Number | any) => {
 };
 
 export const calculateTax = (price: any, tax: any) => {
-  return parseFloat(price) * (parseFloat(tax) / 100);
+  return price * (tax / 100);
 };
