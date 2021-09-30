@@ -27,17 +27,17 @@ const AppSearchInput = (props: Props) => {
       />
       <TextInput
         {...props}
-        placeholder={`${L('Search')}...`}
+        placeholder={`${L('Search')} Coin`}
         placeholderTextColor={THEME.COLORS.textLight}
         style={[styles.inputContainer, props.inputStyle]}
         selectionColor={THEME.COLORS.white}
       />
-      <Icon
+      {/* <Icon
         style={{alignSelf: 'center'}}
         name="filter"
         size={24}
         color={THEME.COLORS.textLight}
-      />
+      /> */}
     </View>
   );
 };
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: HP(6),
     backgroundColor: THEME.COLORS.secondaryBackground,
-    borderRadius: RF(30),
+    borderRadius: RF(5),
     paddingHorizontal: RF(16),
     marginVertical: THEME.MARGIN.LOW,
   },

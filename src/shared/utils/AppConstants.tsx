@@ -16,6 +16,7 @@ export const currenciesEnum: any = {
   IDR: 'Rp',
   PKR: 'PKR',
 };
+export const SECRET_STRING = '\u274B\u274B\u274B\u274B';
 
 export const SECRET_PHRASE = [
   '*****',

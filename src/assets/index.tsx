@@ -36,6 +36,8 @@ const ICONS = {
   QR_OVERLAY: require('./images/qrOverlay.png'),
   //Settings
   PHRASE_EYE: require('./icons/phraseEye.png'),
+  EYE: require('./icons/eye.png'),
+  EYE_OFF: require('./icons/eye-off.png'),
 };
 
 export {ICONS};

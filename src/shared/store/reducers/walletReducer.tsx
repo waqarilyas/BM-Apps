@@ -26,6 +26,7 @@ const initialState: WalletState = {
   portfolioChartData: [],
   walletLoading: true,
   walletAddress: '',
+  showBalances: true,
 };
 export const walletSlice = createSlice({
   name: 'wallet',
@@ -75,6 +76,9 @@ export const walletSlice = createSlice({
     setWalletAddress: (state, action) => {
       state.walletAddress = action.payload;
     },
+    setShowBalances: (state, action) => {
+      state.showBalances = action.payload;
+    },
   },
 });
 
@@ -92,6 +96,7 @@ export const {
   setCoinIsActive,
   resetWallet,
   setWalletAddress,
+  setShowBalances,
 } = walletSlice.actions;
 
 export default walletSlice.reducer;

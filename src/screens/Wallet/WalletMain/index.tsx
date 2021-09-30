@@ -11,12 +11,18 @@ import {RootState} from '../../../shared/store';
 import AppLoader from '../../../shared/components/AppLoader';
 import {initSocket, socket} from '../../../shared/utils/sockets';
 import {renderWallet} from '../../../shared/store/actions/walletActions';
-import {EMPTY_CHART_DATA} from '../../../shared/utils/AppConstants';
+import {
+  EMPTY_CHART_DATA,
+  SECRET_STRING,
+} from '../../../shared/utils/AppConstants';
 import {getInitialMerchantData} from '../../../shared/services/merchant.service';
 import TouchID from 'react-native-touch-id';
 import Toast from 'react-native-toast-message';
 import AuthModal from '../../../shared/components/AuthModal';
 import L from '../../../shared/utils/LanguageHandler';
+import ShopDetails from '../../POS/ShopDetails';
+import GLOBAL_STYLE from '../../../shared/theme/global';
+import ConfidentialText from '../../../shared/components/ConfidentialText';
 
 interface Props extends GenericNavigation {}
 
@@ -24,7 +30,7 @@ const WalletMain = (props: Props) => {
   const {thumbEnabled} = useSelector((state: RootState) => state.settings);
   const [searchText, setSearchText] = useState('');
   const [authOpen, setAuthOpen] = useState(thumbEnabled);
-  const {wallet, walletLoading} = useSelector(
+  const {wallet, walletLoading, showBalances} = useSelector(
     (state: RootState) => state.wallet,
   );
   const dispatch = useDispatch();
@@ -115,7 +121,7 @@ const WalletMain = (props: Props) => {
   return (
     <>
       <View style={styles.mainContainer}>
-        <AppHeader title={L('Wallet')} />
+        <AppHeader title={L('Wallet')} showEye />
 
         <View style={styles.container}>
           <PieChart
@@ -129,10 +135,16 @@ const WalletMain = (props: Props) => {
           />
           <View style={styles.innerCircle}>
             <Text style={styles.innerLargeText}>
-              {totalValue.split('.')[0]}
-              <Text style={styles.innerSmallText}>
-                .{totalValue.split('.')[1]} {currency}
-              </Text>
+              {showBalances ? (
+                <>
+                  {totalValue.split('.')[0]}
+                  <Text style={styles.innerSmallText}>
+                    .{totalValue.split('.')[1]} {currency}
+                  </Text>
+                </>
+              ) : (
+                <ConfidentialText />
+              )}
             </Text>
           </View>
           <AppSearchInput

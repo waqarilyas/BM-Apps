@@ -89,6 +89,7 @@ export interface WalletState {
   portfolioChartData: any;
   walletLoading: boolean;
   walletAddress: string;
+  showBalances: boolean;
 }
 
 export interface UserState {

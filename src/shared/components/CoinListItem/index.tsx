@@ -12,11 +12,14 @@ import {THEME} from '../../theme';
 import ToggleSwitch from 'toggle-switch-react-native';
 import {Coin} from '../../models/types';
 import blockConfig from '../../../../block.config';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {setCoinIsActive} from '../../store/reducers/walletReducer';
 import {SvgUri} from 'react-native-svg';
 import FastImage from 'react-native-fast-image';
 import {GetImageForCoin} from '../../../assets/coins';
+import {parse} from 'url';
+import {RootState} from '../../store';
+import ConfidentialText from '../ConfidentialText';
 
 interface Props extends TouchableOpacityProps {
   toggle?: boolean;
@@ -30,6 +33,7 @@ const CoinListItem = (props: Props) => {
   const onPressToggle = () => dispatch(setCoinIsActive(props.item.coin_symbol));
 
   const percentage = props.item.chart_data?.changePercentage24h?.toFixed(2);
+  const {showBalances} = useSelector((state: RootState) => state.wallet);
 
   return (
     <TouchableOpacity
@@ -40,19 +44,34 @@ const CoinListItem = (props: Props) => {
         <View style={styles.left}>
           <FastImage
             source={GetImageForCoin(props.item.coin_symbol)}
-            style={{width: '100%', height: '100%'}}
+            style={{
+              borderRadius: THEME.RADIUS.BOX,
+              width: '100%',
+              height: '100%',
+            }}
             resizeMode={FastImage.resizeMode.contain}
           />
+          <Text style={styles.name}>
+            {props.item.coin_symbol.toUpperCase()}
+          </Text>
+
           {/* <SvgUri width="100%" height="100%" uri={COIN_URL} /> */}
         </View>
+
         <View style={styles.main}>
           <Text style={styles.price}>
             ${props.item.vs_currency_balance || '0.00'}
           </Text>
-          <Text style={styles.name}>
-            {props.item.coin_name} ({props.item.coin_symbol.toUpperCase()})
+          <Text
+            style={[
+              styles.price,
+              percentage < 0 && {color: THEME.COLORS.red},
+              percentage > 0 && {color: THEME.COLORS.green},
+            ]}>
+            {percentage || '0.00'}%
           </Text>
         </View>
+
         <View style={styles.right}>
           {props.toggle ? (
             <ToggleSwitch
@@ -64,18 +83,30 @@ const CoinListItem = (props: Props) => {
             />
           ) : (
             <View>
-              <Text style={styles.rightName}>
-                {balance} {coin_symbol?.toUpperCase()}
-              </Text>
-
-              <Text
-                style={[
-                  styles.rightName,
-                  percentage < 0 && {color: THEME.COLORS.red},
-                  percentage > 0 && {color: THEME.COLORS.green},
-                ]}>
-                {percentage || '0.00'}%
-              </Text>
+              {showBalances ? (
+                <>
+                  <Text style={styles.rightName}>
+                    {parseFloat(balance).toFixed(2)}{' '}
+                    {coin_symbol?.toUpperCase()}
+                  </Text>
+                  <Text style={styles.rightName}>0.00 USD</Text>
+                </>
+              ) : (
+                <>
+                  <ConfidentialText
+                    style={{
+                      alignSelf: 'flex-end',
+                      color: 'white',
+                    }}
+                  />
+                  <ConfidentialText
+                    style={{
+                      alignSelf: 'flex-end',
+                      color: 'white',
+                    }}
+                  />
+                </>
+              )}
             </View>
           )}
         </View>
@@ -89,38 +120,48 @@ export default CoinListItem;
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    height: RF(65),
-    borderRadius: THEME.RADIUS.BOX,
+    height: RF(55),
+    justifyContent: 'space-between',
+    borderRadius: THEME.RADIUS.SMALLBOX,
     flexDirection: 'row',
-    paddingHorizontal: THEME.PADDING.LOW,
+    paddingHorizontal: THEME.PADDING.SUPERLOW,
     paddingVertical: THEME.PADDING.LOW,
     backgroundColor: THEME.COLORS.secondaryBackground,
-    marginBottom: THEME.MARGIN.VERYLOW,
+    marginBottom: THEME.MARGIN.NORMAL,
     alignItems: 'center',
   },
   left: {
-    width: '20%',
-    height: '90%',
+    flex: 0.2,
+    flexDirection: 'row',
+    height: '100%',
   },
   main: {
-    marginLeft: THEME.MARGIN.LOW,
-    flex: 1,
-    justifyContent: 'space-around',
+    height: '100%',
+    flex: 0.2,
+    marginLeft: THEME.MARGIN.HIGH,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   price: {
     fontFamily: THEME.FONTS.TYPE.REGULAR,
-    fontSize: THEME.FONTS.SIZE.MEDIUM,
+    fontSize: THEME.FONTS.SIZE.XXXSMALL,
     color: THEME.COLORS.white,
   },
   name: {
     fontSize: THEME.FONTS.SIZE.XXSMALL,
-    color: THEME.COLORS.textLight,
-    fontFamily: THEME.FONTS.TYPE.REGULAR,
+    color: THEME.COLORS.white,
+    fontFamily: THEME.FONTS.TYPE.SEMIBOLD,
+    alignSelf: 'center',
   },
-  right: {height: '100%', justifyContent: 'center'},
+  right: {
+    flex: 0.3,
+    height: '100%',
+    justifyContent: 'center',
+    paddingRight: THEME.PADDING.VERYLOW,
+  },
   rightName: {
-    fontSize: THEME.FONTS.SIZE.XXSMALL,
-    color: THEME.COLORS.textLight,
+    fontSize: THEME.FONTS.SIZE.XXXSMALL,
+    color: THEME.COLORS.white,
     fontFamily: THEME.FONTS.TYPE.REGULAR,
     textAlign: 'right',
   },
