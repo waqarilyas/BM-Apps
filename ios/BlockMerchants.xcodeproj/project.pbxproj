@@ -19,6 +19,7 @@
 		B2B3DC80A7DE41D09177DC71 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C68755BC347844DEADA2FBAE /* Montserrat-Bold.ttf */; };
 		BF57E466B0E8452D91003103 /* Montserrat-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AEC7F165BF3045A28F1AAA21 /* Montserrat-SemiBold.ttf */; };
 		F6430F35787444C8BF3E2565 /* Montserrat-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9619446132CF49C6B0FF70DD /* Montserrat-Medium.ttf */; };
+		FA138B822706E80C00A15A76 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA138B812706E80C00A15A76 /* File.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +71,8 @@
 		E1FBFC14C7E4461CBEA771FC /* Montserrat-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Light.ttf"; path = "../src/assets/fonts/Montserrat-Light.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F15D2BEEBA36412398EFA83E /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
+		FA138B802706E80C00A15A76 /* BlockMerchants-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BlockMerchants-Bridging-Header.h"; sourceTree = "<group>"; };
+		FA138B812706E80C00A15A76 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +145,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				FA138B812706E80C00A15A76 /* File.swift */,
 				13B07FAE1A68108700A75B9A /* BlockMerchants */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* BlockMerchantsTests */,
@@ -149,6 +153,7 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				A495EF3B723BD99F9AA93423 /* Pods */,
 				C591EE3B806E406DBB417D9F /* Resources */,
+				FA138B802706E80C00A15A76 /* BlockMerchants-Bridging-Header.h */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -262,7 +267,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1300;
 					};
 				};
 			};
@@ -471,6 +476,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				FA138B822706E80C00A15A76 /* File.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -490,6 +496,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 744D24E1F88FF6AC74B43B8C /* Pods-BlockMerchants-BlockMerchantsTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -517,6 +524,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0BE112889C48ADB54BBF6EB2 /* Pods-BlockMerchants-BlockMerchantsTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = BlockMerchantsTests/Info.plist;
@@ -561,6 +569,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.kryptomind.blockmerchant;
 				PRODUCT_NAME = BlockMerchants;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "BlockMerchants-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -590,6 +599,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.kryptomind.blockmerchant;
 				PRODUCT_NAME = BlockMerchants;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "BlockMerchants-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

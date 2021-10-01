@@ -17,6 +17,10 @@ import TouchID from 'react-native-touch-id';
 import Toast from 'react-native-toast-message';
 import AuthModal from '../../../shared/components/AuthModal';
 import L from '../../../shared/utils/LanguageHandler';
+import {
+  updateCoinBalance,
+  updateCoinRates,
+} from '../../../shared/services/wallet.service';
 
 interface Props extends GenericNavigation {}
 
@@ -29,46 +33,55 @@ const WalletMain = (props: Props) => {
   );
   const dispatch = useDispatch();
   const {currency} = useSelector((state: RootState) => state.settings);
+  const {defaultCurrency} = useSelector((state: RootState) => state.wallet);
 
   const navigateToCoinDetail = (name: string) =>
     props.navigation?.navigate('CoinDetails', {coin_symbol: name});
 
-  let [totalValue, erc20Address, nonErc20Address, bitcoinAddress, chartData] =
-    useMemo(() => {
-      let newTotal = wallet.length
-        ? wallet
-            .map(i => i.vs_currency_balance)
-            .reduce((total: any, current) => {
-              total = Number(current || '0.00') + Number(total);
-              return total;
-            })
-        : 0;
-      if (isNaN(Number(newTotal))) {
-        newTotal = '0.00';
-      }
-      let btcAddress = wallet.find((c: Coin) => c.coin_symbol === 'btc');
-      let nonErc20 = wallet.find(
-        (c: Coin) => !c.is_erc20 && c.coin_symbol !== 'btc',
-      );
-      let erc20 = wallet.find((c: Coin) => c.is_erc20);
+  let [
+    totalValue,
+    erc20Address,
+    nonErc20Address,
+    bitcoinAddress,
+    chartData,
+    dogeAddress,
+  ] = useMemo(() => {
+    let newTotal = wallet.length
+      ? wallet
+          .map(i => i.vs_currency_balance)
+          .reduce((total: any, current) => {
+            total = Number(current || '0.00') + Number(total);
+            return total;
+          })
+      : 0;
+    if (isNaN(Number(newTotal))) {
+      newTotal = '0.00';
+    }
+    let btcAddress = wallet.find((c: Coin) => c.coin_symbol === 'btc');
+    let dogeAddress = wallet.find((c: Coin) => c.coin_symbol === 'doge');
+    let nonErc20 = wallet.find(
+      (c: Coin) => !c.is_erc20 && c.coin_symbol !== 'btc',
+    );
+    let erc20 = wallet.find((c: Coin) => c.is_erc20);
 
-      let newChartData = wallet.map(c => {
-        let chartObject = {
-          key: c.order_index,
-          vs_currency_balance: c.vs_currency_balance,
-          svg: {fill: c.coin_color},
-          onPress: () => console.log('Presed'),
-        };
-        return chartObject;
-      });
-      return [
-        Number(newTotal).toFixed(2),
-        erc20?.address,
-        nonErc20?.address,
-        btcAddress?.address,
-        newChartData,
-      ];
-    }, [wallet]);
+    let newChartData = wallet.map(c => {
+      let chartObject = {
+        key: c.order_index,
+        vs_currency_balance: c.vs_currency_balance,
+        svg: {fill: c.coin_color},
+        onPress: () => console.log('Pressed'),
+      };
+      return chartObject;
+    });
+    return [
+      Number(newTotal).toFixed(2),
+      erc20?.address,
+      nonErc20?.address,
+      btcAddress?.address,
+      newChartData,
+      dogeAddress,
+    ];
+  }, [wallet]);
 
   const filteredWallet = useMemo(() => {
     if (!searchText) {
@@ -82,21 +95,32 @@ const WalletMain = (props: Props) => {
   const realtimeListener = useCallback(async () => {
     await initSocket(`${erc20Address}`);
     await initSocket(`${bitcoinAddress}`);
+    await initSocket(`${dogeAddress}`);
 
     socket.on('connect', () => {
+      socket.on(`coin-data`, async (data: any) => {
+        updateCoinRates(wallet, defaultCurrency);
+      });
       socket.on(`${erc20Address}`, async (data: any) => {
-        if (data?.balance === '0') {
-        } else {
-          console.log('\x1b[31m', 'Incoming update');
-          dispatch(renderWallet());
-        }
+        updateCoinBalance({
+          coinSymbol: data.coinSymbol,
+          address: erc20Address!,
+          wallet,
+        });
       });
       socket.on(`${bitcoinAddress}`, async (data: any) => {
-        if (data?.balance === '0') {
-        } else {
-          console.log('\x1b[31m', 'Incoming update');
-          dispatch(renderWallet());
-        }
+        updateCoinBalance({
+          coinSymbol: data.coinSymbol,
+          address: bitcoinAddress!,
+          wallet,
+        });
+      });
+      socket.on(`${dogeAddress}`, async (data: any) => {
+        updateCoinBalance({
+          coinSymbol: data.coinSymbol,
+          address: dogeAddress!,
+          wallet,
+        });
       });
     });
   }, [erc20Address, bitcoinAddress, dispatch]);
