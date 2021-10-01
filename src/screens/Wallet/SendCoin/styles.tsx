@@ -47,11 +47,13 @@ const styles = StyleSheet.create({
   },
   detailsText: {
     color: THEME.COLORS.white,
+    fontSize: THEME.FONTS.SIZE.XXXSMALL,
   },
   availableText: {
     textAlign: 'left',
     paddingTop: THEME.PADDING.VERYLOW,
     color: THEME.COLORS.green,
+    fontSize: THEME.FONTS.SIZE.XXXSMALL,
   },
   usdText: {
     color: THEME.COLORS.textLight,

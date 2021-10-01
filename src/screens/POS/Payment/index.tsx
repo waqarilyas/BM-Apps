@@ -133,7 +133,7 @@ const Payment = (props: Props) => {
           <>
             <AppInput
               placeholder={L('Enter Amount USD')}
-              keyboardType="number-pad"
+              keyboardType="decimal-pad"
               returnKeyType="done"
               onChangeText={text => {
                 if (text.length == 0) {
@@ -147,7 +147,7 @@ const Payment = (props: Props) => {
 
             <AppInput
               placeholder={L('Tax In Percentage')}
-              keyboardType="number-pad"
+              keyboardType="decimal-pad"
               returnKeyType="done"
               onChangeText={text => {
                 if (text.length == 0) {
@@ -161,7 +161,8 @@ const Payment = (props: Props) => {
             {taxEnabled && (
               <AppInput
                 placeholder="Algorithmic Protection Fee"
-                keyboardType="number-pad"
+                keyboardType="decimal-pad"
+                returnKeyType="done"
                 onChangeText={p => {
                   if (p.length == 0) {
                     setCustomTax(0);

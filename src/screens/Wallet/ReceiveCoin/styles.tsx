@@ -13,8 +13,8 @@ const styles = StyleSheet.create({
     paddingTop: THEME.MARGIN.VERYHIGH,
   },
   coinIcon: {
-    height: RF(75),
-    width: RF(75),
+    height: RF(60),
+    width: RF(60),
     marginVertical: THEME.MARGIN.HIGH,
     alignSelf: 'center',
   },

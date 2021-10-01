@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
     width: RF(30),
     height: RF(30),
     marginRight: THEME.MARGIN.LOW,
+    marginLeft: THEME.MARGIN.LOW,
   },
   label: {color: THEME.COLORS.textLight},
   optionContainer: {

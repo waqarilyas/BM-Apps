@@ -178,7 +178,7 @@ const AddProduct = (props: Props) => {
               ) : null}
               <AppInput
                 placeholder={L('Price')}
-                keyboardType="number-pad"
+                keyboardType="decimal-pad"
                 onChangeText={handleChange('price')}
                 returnKeyType="done"
               />
@@ -187,7 +187,7 @@ const AddProduct = (props: Props) => {
               ) : null}
 
               <AppInput
-                keyboardType="number-pad"
+                keyboardType="decimal-pad"
                 placeholder={L('Tax In Percentage')}
                 onChangeText={handleChange('tax')}
                 returnKeyType="done"

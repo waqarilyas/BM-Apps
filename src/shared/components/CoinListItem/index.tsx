@@ -154,10 +154,11 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   right: {
+    alignItems: 'flex-end',
     flex: 0.3,
     height: '100%',
     justifyContent: 'center',
-    paddingRight: THEME.PADDING.VERYLOW,
+    paddingRight: THEME.PADDING.LOW,
   },
   rightName: {
     fontSize: THEME.FONTS.SIZE.XXXSMALL,

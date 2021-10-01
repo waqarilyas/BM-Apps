@@ -82,9 +82,12 @@ const ChooseCoinModal = (props: Props) => {
           resizeMode={FastImage.resizeMode.contain}
           style={styles.coinImage}
         />
-        <View>
+
+        <View style={{width: '90%'}}>
           <Text style={styles.coinText}>{name}</Text>
-          <Text style={styles.coinText}>{address}</Text>
+          <Text style={[styles.coinText, {fontSize: THEME.FONTS.SIZE.XXSMALL}]}>
+            {address}
+          </Text>
         </View>
       </TouchableOpacity>
     );
@@ -164,6 +167,7 @@ const styles = StyleSheet.create({
     color: THEME.COLORS.white,
     fontSize: THEME.FONTS.SIZE.SMALL,
     marginLeft: THEME.MARGIN.LOW,
+    marginRight: THEME.MARGIN.SUPERHIGH,
   },
   contactsHeader: {
     fontSize: RF(14),
