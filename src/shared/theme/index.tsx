@@ -18,7 +18,7 @@ export const THEME = {
     gradientTopColor: '#269CDD',
     gradientBottomColor: '#235DAC',
     dottedBorder: '#20FFFF',
-    tabColor: '#0D0725',
+    tabColor: '#3B315D',
   },
   FONTS: {
     SIZE: {
@@ -60,6 +60,7 @@ export const THEME = {
   },
   RADIUS: {
     BOX: RF(10),
+    SMALLBOX: RF(5),
     OVAL: RF(24),
   },
 };

@@ -34,6 +34,8 @@ export const createNewProduct = (params: any) => {
     {
       Accept: 'application/json, text/plain, */*',
       'Content-Type': 'multipart/form-data,octet-stream',
+      // Accept: 'application/json',
+      // 'Content-Type': 'application/json',
     },
     params,
   );

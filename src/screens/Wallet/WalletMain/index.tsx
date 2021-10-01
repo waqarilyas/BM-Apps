@@ -1,26 +1,24 @@
-import React, {useCallback, useState, useEffect, useMemo} from 'react';
-import {ScrollView, Text, View, BackHandler} from 'react-native';
-import {PieChart, PieChartData} from 'react-native-svg-charts';
-import {ChartItem, Coin, GenericNavigation} from '../../../shared/models/types';
-import styles from './styles';
-import AppHeader from '../../../shared/components/AppHeader';
-import AppSearchInput from '../../../shared/components/AppSearchInput';
-import CoinListItem from '../../../shared/components/CoinListItem';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import {ScrollView, Text, View} from 'react-native';
+import {PieChart} from 'react-native-svg-charts';
 import {useDispatch, useSelector} from 'react-redux';
-import {RootState} from '../../../shared/store';
+import AppHeader from '../../../shared/components/AppHeader';
 import AppLoader from '../../../shared/components/AppLoader';
-import {initSocket, socket} from '../../../shared/utils/sockets';
-import {renderWallet} from '../../../shared/store/actions/walletActions';
-import {EMPTY_CHART_DATA} from '../../../shared/utils/AppConstants';
-import {getInitialMerchantData} from '../../../shared/services/merchant.service';
-import TouchID from 'react-native-touch-id';
-import Toast from 'react-native-toast-message';
+import AppSearchInput from '../../../shared/components/AppSearchInput';
 import AuthModal from '../../../shared/components/AuthModal';
-import L from '../../../shared/utils/LanguageHandler';
+import CoinListItem from '../../../shared/components/CoinListItem';
+import ConfidentialText from '../../../shared/components/ConfidentialText';
+import {Coin, GenericNavigation} from '../../../shared/models/types';
+import {getInitialMerchantData} from '../../../shared/services/merchant.service';
 import {
   updateCoinBalance,
   updateCoinRates,
 } from '../../../shared/services/wallet.service';
+import {RootState} from '../../../shared/store';
+import {EMPTY_CHART_DATA} from '../../../shared/utils/AppConstants';
+import L from '../../../shared/utils/LanguageHandler';
+import {initSocket, socket} from '../../../shared/utils/sockets';
+import styles from './styles';
 
 interface Props extends GenericNavigation {}
 
@@ -28,7 +26,7 @@ const WalletMain = (props: Props) => {
   const {thumbEnabled} = useSelector((state: RootState) => state.settings);
   const [searchText, setSearchText] = useState('');
   const [authOpen, setAuthOpen] = useState(thumbEnabled);
-  const {wallet, walletLoading} = useSelector(
+  const {wallet, walletLoading, showBalances} = useSelector(
     (state: RootState) => state.wallet,
   );
   const dispatch = useDispatch();
@@ -140,7 +138,7 @@ const WalletMain = (props: Props) => {
   return (
     <>
       <View style={styles.mainContainer}>
-        <AppHeader title={L('Wallet')} />
+        <AppHeader title={L('Wallet')} showEye />
 
         <View style={styles.container}>
           <PieChart
@@ -154,10 +152,16 @@ const WalletMain = (props: Props) => {
           />
           <View style={styles.innerCircle}>
             <Text style={styles.innerLargeText}>
-              {totalValue.split('.')[0]}
-              <Text style={styles.innerSmallText}>
-                .{totalValue.split('.')[1]} {currency}
-              </Text>
+              {showBalances ? (
+                <>
+                  {totalValue.split('.')[0]}
+                  <Text style={styles.innerSmallText}>
+                    .{totalValue.split('.')[1]} {currency}
+                  </Text>
+                </>
+              ) : (
+                <ConfidentialText />
+              )}
             </Text>
           </View>
           <AppSearchInput

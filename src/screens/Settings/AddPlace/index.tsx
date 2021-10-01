@@ -35,7 +35,7 @@ const initialValues: any = {
 const AddPlace = (props: Props) => {
   const [loading, setLoading] = useState(false);
   const [photos, setPhotos] = useState([]);
-  const [location, setLocation] = useState({
+  const [location, setLocation]: any = useState({
     latitude: 37.78825,
     longitude: -122.4324,
     latitudeDelta: 0.0922,
@@ -135,12 +135,6 @@ const AddPlace = (props: Props) => {
                     placeholderTextColor: THEME.COLORS.textLight,
                   }}
                   onPress={(data, details = null) => {
-                    console.log(
-                      '-----data----',
-                      data,
-                      '----------details----',
-                      details,
-                    );
                     setFieldValue('address', data.description);
                     setFieldValue('location', details?.geometry.location);
                     setLocation({

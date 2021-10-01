@@ -3,6 +3,7 @@ import {StyleSheet, Text, View, Platform, ViewStyle} from 'react-native';
 import {THEME} from '../../theme';
 import {RF, WP} from '../../theme/responsive';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Feather from 'react-native-vector-icons/Feather';
 import {useNavigation} from '@react-navigation/core';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import FastImage from 'react-native-fast-image';
@@ -11,13 +12,15 @@ import GLOBAL_STYLE from '../../theme/global';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {StyleProp} from 'react-native';
 import {RootState} from '../../store';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {setShowBalances} from '../../store/reducers/walletReducer';
 
 interface Props {
   title?: string;
   showBack?: boolean;
   showCart?: boolean;
   showSearch?: boolean;
+  showEye?: boolean;
   backAction?: () => void;
   headerStyle?: StyleProp<ViewStyle>;
   searchAction?: () => void;
@@ -26,13 +29,16 @@ interface Props {
 const AppHeader = (props: Props) => {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
+  const dispatch = useDispatch();
   const {cart} = useSelector((state: RootState) => state.pos);
+  const {showBalances} = useSelector((state: RootState) => state.wallet);
 
   let notificationCount = cart.length;
 
   const showCart = () => {
     navigation.navigate('Cart');
   };
+  const toggleEye = () => dispatch(setShowBalances(!showBalances));
 
   return (
     <View
@@ -51,6 +57,20 @@ const AppHeader = (props: Props) => {
         <Text style={styles.header}>{props.title || ''}</Text>
       </View>
       <View style={styles.right}>
+        {props.showEye ? (
+          <TouchableOpacity
+            activeOpacity={1}
+            onPress={toggleEye}
+            style={styles.rightButton}>
+            <FastImage
+              source={showBalances ? ICONS.EYE_OFF : ICONS.EYE}
+              resizeMode={FastImage.resizeMode.contain}
+              style={{width: RF(32), height: RF(32)}}
+            />
+          </TouchableOpacity>
+        ) : (
+          <View />
+        )}
         {props.showSearch ? (
           <TouchableOpacity onPress={props.searchAction}>
             <FastImage
@@ -107,6 +127,11 @@ const styles = StyleSheet.create({
   },
   right: {
     flexDirection: 'row',
+  },
+  rightButton: {
+    // justifyContent: "center",
+    alignItems: 'center',
+    marginRight: THEME.MARGIN.LOW,
   },
   cart: {
     width: RF(24),

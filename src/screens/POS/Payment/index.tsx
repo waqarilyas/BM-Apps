@@ -35,37 +35,40 @@ interface Props extends GenericNavigation {}
 
 const Payment = (props: Props) => {
   const {type}: any = props.route?.params;
-  const dispatch = useDispatch();
 
-  const {wallet} = useSelector((state: RootState) => state.wallet);
-  const {totalCartAmount, customPrice, APFee, totalTaxAmount} = useSelector(
-    (state: RootState) => state.pos,
-  );
-
-  const {taxEnabled} = useSelector((state: RootState) => state.settings);
   const [copied, setCopied] = useState(false);
   const [showCurrencyModal, setShowCurrencyModal] = useState(false);
   const [selectedCoin, setSelectedCoin] = useState();
   const [customTax, setCustomTax] = useState(0);
   const [invoiceTax, setInvoiceTax] = useState(0);
   const [totalInvoiceAmount, setTotalInvoiceAmount] = useState(0);
+  const [customAmount, setCustomAmount] = useState(0);
+  const [contact, setContact] = useState(null);
 
-  const [usdPrice, setUSDPrice] = useState(0);
+  const [currencyPrice, setcurrencyPrice] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
+
+  const dispatch = useDispatch();
+  const {wallet} = useSelector((state: RootState) => state.wallet);
+  const {totalCartAmount, customPrice, APFee, totalTaxAmount} = useSelector(
+    (state: RootState) => state.pos,
+  );
+  const {taxEnabled} = useSelector((state: RootState) => state.settings);
 
   const toggleModal = () => setShowCurrencyModal(!showCurrencyModal);
 
   const onSelectCoin = (coin: any) => {
     let price = totalPrice / coin?.chart_data?.rate;
-    setUSDPrice(price);
+    setcurrencyPrice(price);
     setShowCurrencyModal(false);
     setSelectedCoin(coin);
+    setCopied(false);
   };
 
   const onPressAddress = () => {
     setCopied(true);
     AppShowToast(L('Copied'));
-    Clipboard.setString(selectedCoin?.address);
+    Clipboard.setString(contact ? contact.address : selectedCoin?.address);
   };
 
   useEffect(() => {
@@ -80,17 +83,31 @@ const Payment = (props: Props) => {
   }, []);
 
   useEffect(() => {
-    let priceInUSD = (totalPrice + customTax) / wallet[0]?.chart_data?.rate;
-    setTotalInvoiceAmount(totalPrice + customTax);
+    let total;
+
+    if (type == 'invoice') {
+      total = customAmount;
+    } else {
+      total = totalPrice;
+    }
 
     if (invoiceTax > 0) {
-      priceInUSD = (priceInUSD * invoiceTax) / 100;
-      setTotalInvoiceAmount(
-        totalPrice + ((totalPrice + customTax) * invoiceTax) / 100,
-      );
+      const tax = (total * invoiceTax) / 100;
+      setTotalInvoiceAmount(total + tax);
+      total = total + tax;
+    } else {
+      setTotalInvoiceAmount(customAmount);
     }
-    setUSDPrice(priceInUSD);
-  }, [totalPrice, customTax, invoiceTax]);
+
+    if (customTax > 0) {
+      total = total + customTax;
+      setTotalInvoiceAmount(total);
+    }
+
+    let priceInUSD = total / selectedCoin?.chart_data?.rate;
+
+    setcurrencyPrice(priceInUSD);
+  }, [customAmount, totalPrice, invoiceTax, customTax, selectedCoin]);
 
   return (
     <View style={styles.mainContainer}>
@@ -120,10 +137,11 @@ const Payment = (props: Props) => {
               returnKeyType="done"
               onChangeText={text => {
                 if (text.length == 0) {
-                  setTotalPrice(0);
+                  setCustomAmount(0);
                   return;
                 }
-                setTotalPrice(parseFloat(text));
+                setCustomAmount(parseFloat(text));
+                // calculateTotal(parseFloat(text));
               }}
             />
 
@@ -137,19 +155,6 @@ const Payment = (props: Props) => {
                   return;
                 }
                 setInvoiceTax(parseFloat(text));
-              }}
-            />
-
-            <AppInput
-              placeholder="Algorithmic Protection Fee"
-              keyboardType="number-pad"
-              onChangeText={p => {
-                if (p.length == 0) {
-                  setCustomTax(0);
-                  return;
-                }
-                setCustomTax(parseFloat(p));
-                // setTotalPrice(calculateTax(totalPrice, p) + totalPrice);
               }}
             />
 
@@ -172,7 +177,7 @@ const Payment = (props: Props) => {
 
         <View style={styles.amountContainer}>
           <Text style={styles.amountBTC}>
-            {usdPrice} {selectedCoin?.coin_symbol?.toUpperCase()}
+            {currencyPrice} {selectedCoin?.coin_symbol?.toUpperCase()}
           </Text>
           <Text style={styles.amountUSD}>
             $
@@ -196,7 +201,7 @@ const Payment = (props: Props) => {
         </Text>
         <Pressable style={styles.keyContainer} onPress={onPressAddress}>
           <Text numberOfLines={1} style={styles.keyText}>
-            {selectedCoin?.address}
+            {contact ? contact.address : selectedCoin?.address}
           </Text>
         </Pressable>
         {copied && (
@@ -243,7 +248,8 @@ const Payment = (props: Props) => {
         onPressBackdrop={toggleModal}
         onPressCoin={onSelectCoin}
         data={wallet}
-        selectedCoin={selectedCoin}
+        onSelectContact={(con: any) => setContact(con)}
+        renderContacts
       />
     </View>
   );

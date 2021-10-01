@@ -113,20 +113,12 @@ const Cart = (props: Props) => {
                 );
               }}
             />
-            {/* <AppInput
-              placeholder={L('Enter Custom Price')}
-              keyboardType="number-pad"
-              onChangeText={p => {
-                dispatch(setCustomPrice(parseFloat(p)));
-              }}
-            /> */}
 
-            {/* <View style={styles.productContainer}>{renderProductCard()}</View> */}
             <View style={styles.totalContainer}>
               <View style={styles.totalRow}>
                 <Text style={styles.totalText}>{L('Price')}</Text>
                 <Text style={styles.totalText}>
-                  $ {customPrice ? customPrice : totalCartAmount}
+                  $ {customPrice ? customPrice : totalCartAmount.toFixed(4)}
                 </Text>
               </View>
               <View style={styles.totalRow}>
@@ -137,17 +129,10 @@ const Cart = (props: Props) => {
                     ? APFee
                       ? APFee
                       : 0
-                    : totalTaxAmount.toFixed(2)}{' '}
+                    : totalTaxAmount.toFixed(4)}{' '}
                 </Text>
               </View>
-              {/* <View style={styles.totalRow}>
-                <Text style={styles.totalText}>Tip</Text>
-                <TextInput
-                  placeholder="Enter Tip"
-                  placeholderTextColor={THEME.COLORS.textLight}
-                  style={styles.tipInput}
-                />
-              </View> */}
+
               <DashedLine />
               <View style={[styles.totalRow, {marginTop: THEME.MARGIN.LOW}]}>
                 <Text
@@ -165,7 +150,7 @@ const Cart = (props: Props) => {
                   ${' '}
                   {customPrice
                     ? calculateTotal(customPrice, APFee ? APFee : 0)
-                    : totalCartAmount + totalTaxAmount}
+                    : (totalCartAmount + totalTaxAmount).toFixed(4)}
                 </Text>
               </View>
             </View>

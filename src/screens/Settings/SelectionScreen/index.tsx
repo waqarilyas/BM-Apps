@@ -94,7 +94,7 @@ const SelectionScreen = (props: Props) => {
           title={L('Save')}
           buttonStyle={{width: '50%'}}
           textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
-        />
+        /> */}
       </View>
     </View>
   );

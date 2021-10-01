@@ -1,16 +1,12 @@
 import {AppDispatch, RootState} from '..';
+import {PublicInfoPayload} from '../../models/types';
+import {AppShowToast} from '../../services/helper.service';
 import {
-  generateMnemonic,
-  setActiveAssets,
-  setAgeOfPortfolio,
-  renderIsRenderedState,
   checkCoin,
-  checkRate,
-  checkBalance,
-  setCoinsPublicInfo,
   getWallets,
+  renderIsRenderedState,
+  setCoinsPublicInfo,
 } from '../../services/wallet.service';
-import {Coin, PublicInfoPayload} from '../../models/types';
 import {
   setBep20Fee,
   setBTCFee,
@@ -19,7 +15,6 @@ import {
   setERC20Fee,
   setWalletLoading,
 } from '../reducers/walletReducer';
-import {AppShowToast} from '../../services/helper.service';
 // import bip39 from 'bip39';
 let bip39 = require('bip39');
 

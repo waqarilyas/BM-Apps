@@ -225,7 +225,7 @@ const SendCoin = (props: Props) => {
 
         <View style={styles.sideInfo}>
           <Text style={styles.availBalalnce}>
-            Avl. Balance: {coin?.balance || '0.00'}{' '}
+            {L('Avl. Balance')}: {coin?.balance || '0.00'}{' '}
             {coin?.coin_symbol.toUpperCase()}
           </Text>
         </View>

@@ -86,6 +86,7 @@ const AddProduct = (props: Props) => {
         data: values.tax,
       },
     ];
+
     createNewProduct(params)
       .uploadProgress((written, total) => {
         console.log('uploaded', written / total);
@@ -187,7 +188,7 @@ const AddProduct = (props: Props) => {
 
               <AppInput
                 keyboardType="number-pad"
-                placeholder={L('Tax')}
+                placeholder={L('Tax In Percentage')}
                 onChangeText={handleChange('tax')}
                 returnKeyType="done"
               />

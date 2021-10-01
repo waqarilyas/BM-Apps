@@ -22,13 +22,13 @@ interface Props {
   onPressBackdrop: () => void;
   onPressCoin: (coin: string) => void;
   data: any;
+  onSelectContact?: (val: any) => void;
+  renderContacts?: boolean;
 }
 
 const ChooseCoinModal = (props: Props) => {
-  const {data, onPressCoin} = props;
+  const {data, onPressCoin, onSelectContact, renderContacts} = props;
   const {contacts} = useSelector((state: RootState) => state.pos);
-
-  console.log(contacts);
 
   const RenderCoin = ({data}: {data: any}) => {
     let image = COINS.BTC;
@@ -42,7 +42,10 @@ const ChooseCoinModal = (props: Props) => {
     return (
       <TouchableOpacity
         activeOpacity={0.9}
-        onPress={() => onPressCoin(data)}
+        onPress={() => {
+          onPressCoin(data);
+          renderContacts && onSelectContact(null);
+        }}
         style={styles.coinContainer}>
         <FastImage
           source={image}
@@ -55,33 +58,37 @@ const ChooseCoinModal = (props: Props) => {
       </TouchableOpacity>
     );
   };
-  // const RenderContacts = ({data}: {data: any}) => {
-  //   const {name, address, coin} = data;
-  //   let image = COINS.BTC;
 
-  //   if (coin.coin_symbol == 'eth') {
-  //     image = COINS.ETH;
-  //   } else if (coin.coin_symbol == 'weenus') {
-  //     image = COINS.WEENUS;
-  //   }
+  const RenderContacts = ({data}: {data: any}) => {
+    const {name, address, coin} = data;
+    let image = COINS.BTC;
 
-  //   return (
-  //     <TouchableOpacity
-  //       activeOpacity={0.9}
-  //       onPress={() => onPressCoin(data)}
-  //       style={styles.coinContainer}>
-  //       <FastImage
-  //         source={image}
-  //         resizeMode={FastImage.resizeMode.contain}
-  //         style={styles.coinImage}
-  //       />
-  //       <View>
-  //         <Text style={styles.coinText}>{name}</Text>
-  //         <Text style={styles.coinText}>{address}</Text>
-  //       </View>
-  //     </TouchableOpacity>
-  //   );
-  // };
+    if (coin.coin_symbol == 'eth') {
+      image = COINS.ETH;
+    } else if (coin.coin_symbol == 'weenus') {
+      image = COINS.WEENUS;
+    }
+
+    return (
+      <TouchableOpacity
+        activeOpacity={0.9}
+        onPress={() => {
+          renderContacts && onSelectContact(data);
+          onPressCoin(coin);
+        }}
+        style={styles.coinContainer}>
+        <FastImage
+          source={image}
+          resizeMode={FastImage.resizeMode.contain}
+          style={styles.coinImage}
+        />
+        <View>
+          <Text style={styles.coinText}>{name}</Text>
+          <Text style={styles.coinText}>{address}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <Modal
@@ -102,21 +109,25 @@ const ChooseCoinModal = (props: Props) => {
           renderItem={({item, index}) => {
             return <RenderCoin data={item} />;
           }}
-          // ListFooterComponent={() => {
-          //   return (
-          //     <FlatList
-          //       showsVerticalScrollIndicator={false}
-          //       ListHeaderComponent={() => (
-          //         <Text style={styles.contactsHeader}>Contacts</Text>
-          //       )}
-          //       data={contacts}
-          //       keyExtractor={(item, index) => index.toString()}
-          //       renderItem={({item, index}) => {
-          //         return <RenderContacts data={item} />;
-          //       }}
-          //     />
-          //   );
-          // }}
+          ListFooterComponent={() => {
+            if (renderContacts) {
+              return (
+                <FlatList
+                  showsVerticalScrollIndicator={false}
+                  ListHeaderComponent={() => (
+                    <Text style={styles.contactsHeader}>Contacts</Text>
+                  )}
+                  data={contacts}
+                  keyExtractor={(item, index) => index.toString()}
+                  renderItem={({item, index}) => {
+                    return <RenderContacts data={item} />;
+                  }}
+                />
+              );
+            } else {
+              return null;
+            }
+          }}
         />
 
         {/* <ScrollView showsVerticalScrollIndicator={false}>

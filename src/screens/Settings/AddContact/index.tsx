@@ -27,7 +27,7 @@ interface PROPS extends GenericNavigation {}
 
 const AddContact = (props: PROPS) => {
   const [showCurrencyModal, setShowCurrencyModal] = useState(false);
-  const [selectedCoin, setSelectedCoin] = useState();
+  const [selectedCoin, setSelectedCoin]: any = useState();
   const [qrVisible, setQrVisible] = useState(false);
   const {wallet} = useSelector((state: RootState) => state.wallet);
 
@@ -125,7 +125,6 @@ const AddContact = (props: PROPS) => {
             <AppQRCodeScanner
               isVisible={qrVisible}
               callBack={res => {
-                console.log(res);
                 setQrVisible(false);
                 setFieldValue('address', res.replace('ethereum:', ''));
               }}
@@ -138,7 +137,6 @@ const AddContact = (props: PROPS) => {
         onPressBackdrop={toggleModal}
         onPressCoin={onSelectCoin}
         data={wallet}
-        selectedCoin={selectedCoin}
       />
     </View>
   );

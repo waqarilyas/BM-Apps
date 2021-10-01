@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* BlockMerchantsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* BlockMerchantsTests.m */; };
+		04FCDB2027059D7C009479DA /* libswiftWebKit.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 04FCDB1F27059D7C009479DA /* libswiftWebKit.tbd */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -18,6 +19,8 @@
 		8E2456C13D20A96E890E1186 /* libPods-BlockMerchants-BlockMerchantsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 769C4F7D9D92BBB39649EB5C /* libPods-BlockMerchants-BlockMerchantsTests.a */; };
 		B2B3DC80A7DE41D09177DC71 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C68755BC347844DEADA2FBAE /* Montserrat-Bold.ttf */; };
 		BF57E466B0E8452D91003103 /* Montserrat-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AEC7F165BF3045A28F1AAA21 /* Montserrat-SemiBold.ttf */; };
+		E29F7CCA2702B3AE00ED036B /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E29F7CC92702B3AE00ED036B /* NetworkExtension.framework */; };
+		E29F7CCC2702B3D000ED036B /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E29F7CCB2702B3D000ED036B /* ExternalAccessory.framework */; };
 		F6430F35787444C8BF3E2565 /* Montserrat-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9619446132CF49C6B0FF70DD /* Montserrat-Medium.ttf */; };
 		FA138B822706E80C00A15A76 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA138B812706E80C00A15A76 /* File.swift */; };
 /* End PBXBuildFile section */
@@ -38,6 +41,7 @@
 		00E356F21AD99517003FC87E /* BlockMerchantsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlockMerchantsTests.m; sourceTree = "<group>"; };
 		048AF7D6C9C340D2BBEEBFE5 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
 		04E8516061A144FFBB387548 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
+		04FCDB1F27059D7C009479DA /* libswiftWebKit.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libswiftWebKit.tbd; path = usr/lib/swift/libswiftWebKit.tbd; sourceTree = SDKROOT; };
 		0BE112889C48ADB54BBF6EB2 /* Pods-BlockMerchants-BlockMerchantsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlockMerchants-BlockMerchantsTests.release.xcconfig"; path = "Target Support Files/Pods-BlockMerchants-BlockMerchantsTests/Pods-BlockMerchants-BlockMerchantsTests.release.xcconfig"; sourceTree = "<group>"; };
 		10AA283CB2468083A76FB25D /* Pods-BlockMerchants.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlockMerchants.debug.xcconfig"; path = "Target Support Files/Pods-BlockMerchants/Pods-BlockMerchants.debug.xcconfig"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* BlockMerchants.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlockMerchants.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -69,6 +73,9 @@
 		C68755BC347844DEADA2FBAE /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Bold.ttf"; path = "../src/assets/fonts/Montserrat-Bold.ttf"; sourceTree = "<group>"; };
 		D86E7CB0844245EE87027BAC /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		E1FBFC14C7E4461CBEA771FC /* Montserrat-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Light.ttf"; path = "../src/assets/fonts/Montserrat-Light.ttf"; sourceTree = "<group>"; };
+		E29F7CC82702B3AD00ED036B /* BlockMerchants.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = BlockMerchants.entitlements; path = BlockMerchants/BlockMerchants.entitlements; sourceTree = "<group>"; };
+		E29F7CC92702B3AE00ED036B /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
+		E29F7CCB2702B3D000ED036B /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F15D2BEEBA36412398EFA83E /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		FA138B802706E80C00A15A76 /* BlockMerchants-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BlockMerchants-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -88,7 +95,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04FCDB2027059D7C009479DA /* libswiftWebKit.tbd in Frameworks */,
+				E29F7CCC2702B3D000ED036B /* ExternalAccessory.framework in Frameworks */,
 				8D4871576A2B2C9EECE3343A /* libPods-BlockMerchants.a in Frameworks */,
+				E29F7CCA2702B3AE00ED036B /* NetworkExtension.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -115,6 +125,7 @@
 		13B07FAE1A68108700A75B9A /* BlockMerchants */ = {
 			isa = PBXGroup;
 			children = (
+				E29F7CC82702B3AD00ED036B /* BlockMerchants.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -128,6 +139,9 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				04FCDB1F27059D7C009479DA /* libswiftWebKit.tbd */,
+				E29F7CCB2702B3D000ED036B /* ExternalAccessory.framework */,
+				E29F7CC92702B3AE00ED036B /* NetworkExtension.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				7A773DF6E4B93E7BFB72ABFB /* libPods-BlockMerchants.a */,
 				769C4F7D9D92BBB39649EB5C /* libPods-BlockMerchants-BlockMerchantsTests.a */,
@@ -551,15 +565,20 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = BlockMerchants/BlockMerchants.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 3TB8D2484F;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = BlockMerchants/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -582,14 +601,19 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = BlockMerchants/BlockMerchants.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 3TB8D2484F;
 				INFOPLIST_FILE = BlockMerchants/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",

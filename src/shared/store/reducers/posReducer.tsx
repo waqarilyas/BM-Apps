@@ -23,12 +23,12 @@ export const posSlice = createSlice({
       state.totalCartAmount =
         state.totalCartAmount + parseFloat(action.payload.price);
 
-      state.totalTaxAmount =
-        state.totalTaxAmount +
-        calculateTax(action.payload.price, action.payload.tax);
+      const tax = calculateTax(action.payload.price, action.payload.tax);
+      state.totalTaxAmount = state.totalTaxAmount + tax;
       state.totalTax = state.totalTax + parseFloat(action.payload.tax);
       state.cart.push(objToPush);
     },
+
     removeItemFromCart: (state, action) => {
       const cartData = [...state.cart];
 
@@ -43,13 +43,13 @@ export const posSlice = createSlice({
       );
       state.totalTax -= parseFloat(action.payload.tax) * count;
       state.cart = cartData;
-
-      if (state.cart.length > 0) {
+      if (state.cart.length == 0) {
         state.totalCartAmount = 0;
         state.totalTax = 0;
         state.totalTaxAmount = 0;
       }
     },
+
     increaseItemCount: (state, action) => {
       let cartData = [...state.cart];
       const ind = cartData.findIndex(item => item._id === action.payload._id);

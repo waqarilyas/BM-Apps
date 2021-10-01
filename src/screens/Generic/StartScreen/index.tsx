@@ -1,12 +1,11 @@
 import {NavigationProp} from '@react-navigation/core';
-import React, {useEffect, useState} from 'react';
-import {DeviceEventEmitter, Linking, Text, View} from 'react-native';
+import React, {useState} from 'react';
+import {Linking, Text, View} from 'react-native';
 import {useDispatch} from 'react-redux';
 import AppLoader from '../../../shared/components/AppLoader';
 import Logo from '../../../shared/components/Logo';
 import PrimaryButton from '../../../shared/components/PrimaryButton';
 import SecondaryButton from '../../../shared/components/SecondaryButton';
-import {CheckConnectivity} from '../../../shared/services/helper.service';
 import {renderWallet} from '../../../shared/store/actions/walletActions';
 import {
   setIsWalletRendered,

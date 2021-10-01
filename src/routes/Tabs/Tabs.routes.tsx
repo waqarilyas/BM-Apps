@@ -10,6 +10,7 @@ import POSStack from './POS/POS.routes';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../shared/store';
 import L from '../../shared/utils/LanguageHandler';
+import {View} from 'react-native';
 
 const Tab = createBottomTabNavigator();
 
@@ -21,8 +22,10 @@ const BottomTabs = () => {
     <Tab.Navigator
       sceneContainerStyle={{backgroundColor: THEME.COLORS.primaryBackground}}
       tabBarOptions={{
-        activeTintColor: 'white',
-        inactiveTintColor: 'gray',
+        activeTintColor: '#00A8FF',
+
+        inactiveTintColor: 'white',
+
         tabStyle: {
           backgroundColor: THEME.COLORS.tabColor,
           paddingVertical: 6,
@@ -41,12 +44,53 @@ const BottomTabs = () => {
             imageName = ICONS.SETTINGS;
           }
           return (
-            <FastImage
-              source={imageName}
-              style={{height: RF(20), width: RF(20)}}
-              resizeMode={FastImage.resizeMode.contain}
-              tintColor={color}
-            />
+            <>
+              {focused ? (
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderTopWidth: 4,
+
+                    borderTopColor: '#00A8FF',
+                    marginTop: RF(5),
+                    height: RF(50),
+                    width: RF(50),
+                  }}>
+                  <FastImage
+                    source={imageName}
+                    style={{
+                      height: RF(20),
+                      width: RF(20),
+                      marginBottom: THEME.MARGIN.VERYLOW,
+                    }}
+                    resizeMode={FastImage.resizeMode.contain}
+                    tintColor={color}
+                  />
+                </View>
+              ) : (
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+
+                    marginTop: RF(5),
+                    height: RF(50),
+                    width: RF(50),
+                  }}>
+                  <FastImage
+                    source={imageName}
+                    style={{
+                      height: RF(20),
+                      width: RF(20),
+                      marginBottom: THEME.MARGIN.SUPERLOW,
+                    }}
+                    resizeMode={FastImage.resizeMode.contain}
+                    tintColor={color}
+                  />
+                </View>
+              )}
+            </>
           );
         },
       })}>
