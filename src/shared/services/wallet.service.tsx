@@ -16,17 +16,17 @@ var Buffer = require('buffer');
 import Web3 from 'web3';
 import {Transaction as EthereumTx} from 'ethereumjs-tx';
 import {getFixedAmount} from './helper.service';
+let bip39 = require('bip39');
 
 export const generateMnemonic = async () => {
   try {
     const {mnemonic} = store.getState().wallet;
     if (!mnemonic.mnemonic_phrase) {
-      const response = await axios.get(
-        `${blockConfig.API_URL}/wallet/new/mnemonic`,
-      );
-      let fetchedMnemonic = {mnemonic_phrase: response.data, is_restore: false};
+      const response = await bip39.generateMnemonic();
+
+      let fetchedMnemonic = {mnemonic_phrase: response, is_restore: false};
       store.dispatch(setMnemonic(fetchedMnemonic));
-      return response.data;
+      return response;
     } else {
       return mnemonic.mnemonic_phrase;
     }

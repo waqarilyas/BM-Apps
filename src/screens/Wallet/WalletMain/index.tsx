@@ -82,6 +82,7 @@ const WalletMain = (props: Props) => {
   const realtimeListener = useCallback(async () => {
     await initSocket(`${erc20Address}`);
     await initSocket(`${bitcoinAddress}`);
+
     socket.on('connect', () => {
       socket.on(`${erc20Address}`, async (data: any) => {
         if (data?.balance === '0') {

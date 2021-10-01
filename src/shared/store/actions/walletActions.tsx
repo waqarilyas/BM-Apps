@@ -11,13 +11,22 @@ import {
 import {Coin} from '../../models/types';
 import {setWalletLoading} from '../reducers/walletReducer';
 import {AppShowToast} from '../../services/helper.service';
+// import bip39 from 'bip39';
+let bip39 = require('bip39');
 
 export const renderWallet =
   () => async (dispatch: AppDispatch, getState: () => RootState) => {
     dispatch(setWalletLoading(true));
     const {defaultCurrency} = getState().wallet;
     try {
+      //new code
+
+      // const mnemonic = await bip39.generateMnemonic();
+
+      //new code ends here
+
       const mnemonic = await generateMnemonic();
+      // console.log('--mnemonic-----', mnemonic);
       const activeAssets = await setActiveAssets();
       const portfolioAge = await setAgeOfPortfolio();
       const rendered = await renderIsRenderedState();
