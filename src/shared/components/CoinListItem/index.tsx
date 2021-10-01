@@ -29,6 +29,11 @@ interface Props extends TouchableOpacityProps {
 const CoinListItem = (props: Props) => {
   const dispatch = useDispatch();
   const {balance, coin_symbol} = props.item;
+
+  const rate = props?.item?.chart_data?.rate;
+
+  console.log('----props item----', props.item);
+
   const COIN_URL = `${blockConfig.API_URL}/admin/coin/${props.item.coin_symbol}`;
   const onPressToggle = () => dispatch(setCoinIsActive(props.item.coin_symbol));
 
@@ -86,10 +91,10 @@ const CoinListItem = (props: Props) => {
               {showBalances ? (
                 <>
                   <Text style={styles.rightName}>
-                    {parseFloat(balance).toFixed(2)}{' '}
+                    {balance ? parseFloat(balance).toFixed(2) : 0.0}{' '}
                     {coin_symbol?.toUpperCase()}
                   </Text>
-                  <Text style={styles.rightName}>0.00 USD</Text>
+                  <Text style={styles.rightName}>{rate ? rate : 0} USD</Text>
                 </>
               ) : (
                 <>

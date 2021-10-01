@@ -127,7 +127,9 @@ const WalletMain = (props: Props) => {
     if (wallet.length) {
       realtimeListener();
     }
-  }, [wallet.length, realtimeListener]);
+
+    return () => socket.removeAllListeners();
+  }, []);
 
   useEffect(() => {
     if (wallet.length > 0) {

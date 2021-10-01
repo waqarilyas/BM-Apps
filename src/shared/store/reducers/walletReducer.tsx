@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
+import {State} from 'react-native-gesture-handler';
 import {WalletState} from '../../models/types/index';
 
 const initialState: WalletState = {
@@ -30,6 +31,7 @@ const initialState: WalletState = {
   erc20_fee: '0.00',
   doge_fee: '0.00',
   btc_fee: '0.00',
+  showBalances: false,
 };
 export const walletSlice = createSlice({
   name: 'wallet',
@@ -97,6 +99,9 @@ export const walletSlice = createSlice({
     setDogeFee(state, action) {
       state.doge_fee = action.payload;
     },
+    setShowBalances(state, action) {
+      state.showBalances = action.payload;
+    },
   },
 });
 
@@ -119,6 +124,7 @@ export const {
   setERC20Fee,
   setBTCFee,
   setDogeFee,
+  setShowBalances,
 } = walletSlice.actions;
 
 export default walletSlice.reducer;

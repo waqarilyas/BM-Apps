@@ -49,9 +49,8 @@ export const renderWallet =
     //   dispatch(setWalletLoading(false));
     // }
     dispatch(setWalletLoading(true));
-    const {defaultCurrency} = getState().wallet;
+
     try {
-      const mnemonic = bip39.generateMnemonic();
       const walletAssets = await getWallets();
       let publicInfoCollection: PublicInfoPayload[] = [];
 
@@ -71,6 +70,7 @@ export const renderWallet =
 
       /* Semd Public Code Info */
       const res = await setCoinsPublicInfo(publicInfoCollection);
+
       for (let index = 0; index < walletAssets.length; index++) {
         const asset = walletAssets[index];
         const {balance, vs_currency_balance, chart_data, coinSymbol} =

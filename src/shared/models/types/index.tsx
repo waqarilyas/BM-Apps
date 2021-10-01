@@ -93,6 +93,7 @@ export interface WalletState {
   erc20_fee: string;
   doge_fee: string;
   btc_fee: string;
+  showBalances: boolean;
 }
 
 export interface UserState {
