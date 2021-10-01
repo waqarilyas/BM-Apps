@@ -25,7 +25,7 @@ export const AppShareContent = (data: any, title: string) => {
 };
 
 export const getFixedAmount = (amount: number) => {
-  return amount.toFixed(amount > 10 ? 2 : 6);
+  return amount?.toFixed(amount > 10 ? 2 : 6);
 };
 
 export const getPairPrice = ({basePrice, counterPrice}: any) => {

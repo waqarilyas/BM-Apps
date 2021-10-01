@@ -26,7 +26,10 @@ const initialState: WalletState = {
   portfolioChartData: [],
   walletLoading: true,
   walletAddress: '',
-  showBalances: true,
+  bep20_fee: '0.00',
+  erc20_fee: '0.00',
+  doge_fee: '0.00',
+  btc_fee: '0.00',
 };
 export const walletSlice = createSlice({
   name: 'wallet',
@@ -73,11 +76,26 @@ export const walletSlice = createSlice({
         return c;
       });
     },
+    setCoinBalanceAndRates(state, action) {
+      state.wallet[action.payload.index].balance = action.payload.balance;
+      state.wallet[action.payload.index].vs_currency_balance =
+        action.payload.vs_currency_balance;
+      state.wallet[action.payload.index].chart_data = action.payload.chart_data;
+    },
     setWalletAddress: (state, action) => {
       state.walletAddress = action.payload;
     },
-    setShowBalances: (state, action) => {
-      state.showBalances = action.payload;
+    setBep20Fee(state, action) {
+      state.bep20_fee = action.payload;
+    },
+    setERC20Fee(state, action) {
+      state.erc20_fee = action.payload;
+    },
+    setBTCFee(state, action) {
+      state.btc_fee = action.payload;
+    },
+    setDogeFee(state, action) {
+      state.doge_fee = action.payload;
     },
   },
 });
@@ -96,7 +114,11 @@ export const {
   setCoinIsActive,
   resetWallet,
   setWalletAddress,
-  setShowBalances,
+  setCoinBalanceAndRates,
+  setBep20Fee,
+  setERC20Fee,
+  setBTCFee,
+  setDogeFee,
 } = walletSlice.actions;
 
 export default walletSlice.reducer;

@@ -89,7 +89,10 @@ export interface WalletState {
   portfolioChartData: any;
   walletLoading: boolean;
   walletAddress: string;
-  showBalances: boolean;
+  bep20_fee: string;
+  erc20_fee: string;
+  doge_fee: string;
+  btc_fee: string;
 }
 
 export interface UserState {
@@ -117,4 +120,11 @@ export interface SendPayload {
   feeReceivingAccount: any;
   contractAbi: any;
   contractAddress: any;
+}
+
+//Add Public Info Payload
+export interface PublicInfoPayload {
+  address: string;
+  coinSymbol: string;
+  hdPath: string;
 }

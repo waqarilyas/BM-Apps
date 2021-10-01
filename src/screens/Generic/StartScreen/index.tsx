@@ -7,8 +7,13 @@ import Logo from '../../../shared/components/Logo';
 import PrimaryButton from '../../../shared/components/PrimaryButton';
 import SecondaryButton from '../../../shared/components/SecondaryButton';
 import {renderWallet} from '../../../shared/store/actions/walletActions';
+import {
+  setIsWalletRendered,
+  setMnemonic,
+} from '../../../shared/store/reducers/walletReducer';
 import {THEME} from '../../../shared/theme';
 import styles from './styles';
+let bip39 = require('bip39');
 
 interface Props {
   navigation: NavigationProp<any>;
@@ -19,8 +24,16 @@ const StartScreen = (props: Props) => {
   const dispatch = useDispatch();
   const navToImportWallet = () => props.navigation.navigate('ImportWallet');
 
-  const handleCreateNewWallet = () => {
-    dispatch(renderWallet());
+  const handleCreateNewWallet = async () => {
+    dispatch(
+      setMnemonic({
+        mnemonic_phrase: bip39.generateMnemonic(),
+        is_restore: false,
+      }),
+    );
+    setTimeout(() => {
+      dispatch(renderWallet());
+    }, 1000);
   };
   const openTermsAndCondition = async () => {
     try {

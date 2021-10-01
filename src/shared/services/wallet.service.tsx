@@ -1,6 +1,11 @@
 import axios from 'axios';
 import blockConfig from '../../../block.config';
-import {Coin, GenerateWalletParams, SendPayload} from '../models/types';
+import {
+  Coin,
+  GenerateWalletParams,
+  PublicInfoPayload,
+  SendPayload,
+} from '../models/types';
 import {store} from '../store';
 import {
   setCoin,
@@ -16,17 +21,17 @@ var Buffer = require('buffer');
 import Web3 from 'web3';
 import {Transaction as EthereumTx} from 'ethereumjs-tx';
 import {getFixedAmount} from './helper.service';
+let bip39 = require('bip39');
 
 export const generateMnemonic = async () => {
   try {
     const {mnemonic} = store.getState().wallet;
     if (!mnemonic.mnemonic_phrase) {
-      const response = await axios.get(
-        `${blockConfig.API_URL}/wallet/new/mnemonic`,
-      );
-      let fetchedMnemonic = {mnemonic_phrase: response.data, is_restore: false};
+      const response = await bip39.generateMnemonic();
+
+      let fetchedMnemonic = {mnemonic_phrase: response, is_restore: false};
       store.dispatch(setMnemonic(fetchedMnemonic));
-      return response.data;
+      return response;
     } else {
       return mnemonic.mnemonic_phrase;
     }
@@ -49,17 +54,23 @@ export const setActiveAssets = async () => {
         a.orderIndex > b.orderIndex ? 1 : -1,
       );
       const coinListForWalletGeneration = await sortedCoinList.map(
-        (coin: any) => {
+        (coin: any, index: number) => {
           return {
+            index: index,
             coin_symbol: coin.coinSymbol,
             coin_name: coin.name,
             order_index: coin.orderIndex,
             is_active: true,
             is_erc20: coin.isErc20 ? 1 : 0,
+            is_bep20: coin.isBep20 ? 1 : 0,
+            icon: coin.icon,
             balance: 0,
+            isMarketDataAvailable: coin.isMarketDataAvailable,
             coin_color: coin.coinColor,
             processingFee: coin.processingFee,
             blockchain: coin.blockchain,
+            contractAddress: coin.contractAddress,
+            contractAbi: coin.contractAbi,
           };
         },
       );
@@ -109,14 +120,11 @@ export const checkCoin = async (
     );
 
     if (mnemonic.is_restore) {
-      console.log('RESTORING WALLLET---->');
-      dispatch(setPortfolioAge(new Date()));
       const coinData = await generateWallet({
         coinSymbol: coinSymbol,
         recovery: mnemonic.is_restore,
         mnemonics: mnemonic.mnemonic_phrase,
       });
-
       let myCoinData = {
         ...isCoin[0],
         public_key: coinData._publicKey,
@@ -142,11 +150,15 @@ export const checkCoin = async (
           is_restore: false,
         }),
       );
+      return {
+        address: coinData.address,
+        coinSymbol: coinSymbol,
+        hdPath: coinData.path,
+      };
     }
 
     if (isCoin.length > 0 && isCoin[0].private_key) {
     } else {
-      dispatch(setPortfolioAge(new Date()));
       const coinData = await generateWallet({
         coinSymbol: coinSymbol,
         recovery: mnemonic.is_restore,
@@ -171,6 +183,11 @@ export const checkCoin = async (
         tx_history: [],
       };
       dispatch(setCoin({index: coinIndex, coinData: myCoinData}));
+      return {
+        address: coinData.address,
+        coinSymbol: coinSymbol,
+        hdPath: coinData.path,
+      };
     }
   } catch (e) {
     throw e;
@@ -612,3 +629,86 @@ export const submitBtcLikeTx = async (signedTx: any, symbol: any) => {
     });
   return submittedTx;
 };
+
+export const getCoinBalance = async (body: {
+  coinSymbol: string;
+  address: string;
+}) =>
+  axios.get(
+    `${blockConfig.API_URL}/wallet/balance/${body.coinSymbol}/${body.address}`,
+  );
+
+export const updateCoinRates = async (wallet: Coin[], currency: string) => {
+  for (let index = 0; index < wallet.length; index++) {
+    const asset: Coin = wallet[index];
+    await checkRate(asset.coin_symbol, currency, asset.index);
+  }
+};
+
+export const updateCoinBalance = async (params: {
+  coinSymbol: string;
+  address: string;
+  wallet: Coin[];
+}) => {
+  try {
+    let coin = params.wallet.find(c => c.coin_symbol === params.coinSymbol);
+    //Get Balance
+    const res = await getCoinBalance({
+      coinSymbol: params.coinSymbol,
+      address: params.address,
+    });
+    //Update Balance for that Coin
+    store.dispatch(
+      setCoinBalance({
+        index: coin?.index,
+        balance: res.data.balance,
+        vs_currency_balance: res.data.vs_currency_balance,
+      }),
+    );
+  } catch (error) {
+    console.log('Error while updating the balance:', error);
+  }
+};
+
+export const getWallets = async () => {
+  const {wallet} = store.getState().wallet;
+  try {
+    const coinList = await getCoinsList();
+    if (wallet.length < coinList.data.length) {
+      const sortedCoinList = await coinList.data.sort((a: any, b: any) =>
+        a.orderIndex > b.orderIndex ? 1 : -1,
+      );
+      const coinListForWalletGeneration = sortedCoinList.map(
+        (coin: any, index: number) => {
+          return {
+            index: index,
+            coin_symbol: coin.coinSymbol,
+            coin_name: coin.name,
+            order_index: coin.orderIndex,
+            is_active: true,
+            is_erc20: coin.isErc20 ? 1 : 0,
+            is_bep20: coin.isBep20 ? 1 : 0,
+            icon: coin.icon,
+            balance: 0,
+            isMarketDataAvailable: coin.isMarketDataAvailable,
+            coin_color: coin.coinColor,
+            processingFee: coin.processingFee,
+            blockchain: coin.blockchain,
+            contractAddress: coin.contractAddress,
+            contractAbi: coin.contractAbi,
+          };
+        },
+      );
+      store.dispatch(setWallet(coinListForWalletGeneration));
+      return coinListForWalletGeneration;
+    } else {
+      return wallet;
+    }
+  } catch (error) {
+    console.log('Error render active assets:', error?.response.data);
+    throw error;
+  }
+};
+
+export const setCoinsPublicInfo = async (payload: PublicInfoPayload[]) =>
+  await axios.post(`${blockConfig.API_URL}/wallet/publicinfo`, payload);
