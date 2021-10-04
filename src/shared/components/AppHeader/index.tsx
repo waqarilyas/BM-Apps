@@ -65,7 +65,7 @@ const AppHeader = (props: Props) => {
             <FastImage
               source={showBalances ? ICONS.EYE_OFF : ICONS.EYE}
               resizeMode={FastImage.resizeMode.contain}
-              style={{width: RF(32), height: RF(32)}}
+              style={{width: RF(25), height: RF(25)}}
             />
           </TouchableOpacity>
         ) : (
