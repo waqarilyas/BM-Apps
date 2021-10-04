@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   optionContainer: {
     width: '100%',
     backgroundColor: THEME.COLORS.secondaryBackground,
-    borderRadius: THEME.RADIUS.OVAL,
+    borderRadius: THEME.RADIUS.SMALLBOX,
     padding: THEME.PADDING.LOW,
     flexDirection: 'row',
     alignItems: 'center',

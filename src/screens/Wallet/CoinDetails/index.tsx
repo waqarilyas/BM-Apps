@@ -2,6 +2,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {View, Text, ScrollView, TouchableOpacity, FlatList} from 'react-native';
 import {useSelector} from 'react-redux';
+import {parse} from 'url';
 import AppHeader from '../../../shared/components/AppHeader';
 import TransactionButton from '../../../shared/components/TransactionButton';
 import TransactionItem from '../../../shared/components/TransactionItem';
@@ -85,13 +86,13 @@ const CoinDetails = (props: Props) => {
           <>
             <View style={styles.details}>
               <Text style={styles.balance}>
-                {coin?.balance}{' '}
+                {parseFloat(coin?.balance).toFixed(6)}{' '}
                 <Text style={styles.short}>
                   {coin?.coin_symbol.toUpperCase()}
                 </Text>
               </Text>
               <Text style={styles.usdBalance}>
-                ${coin?.vs_currency_balance || '0.00'}
+                ${parseFloat(coin?.vs_currency_balance).toFixed(6) || '0.00'}
               </Text>
             </View>
             <View style={styles.actions}>

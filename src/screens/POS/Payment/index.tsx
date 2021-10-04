@@ -81,7 +81,7 @@ const Payment = (props: Props) => {
         : totalCartAmount + totalTaxAmount,
     );
   }, []);
-
+  console.log('currency price', currencyPrice);
   useEffect(() => {
     let total;
 
@@ -122,8 +122,7 @@ const Payment = (props: Props) => {
           />
           <View style={{flex: 1}}>
             <Text style={{color: THEME.COLORS.white}}>
-              {selectedCoin?.coin_name}(
-              {selectedCoin?.coin_symbol?.toUpperCase()})
+              {contact ? contact.name : selectedCoin?.coin_name}
             </Text>
           </View>
           {/* <Icon name="chevron-down" size={24} color={THEME.COLORS.white} /> */}

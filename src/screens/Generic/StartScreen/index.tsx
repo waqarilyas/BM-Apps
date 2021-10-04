@@ -1,6 +1,6 @@
 import {NavigationProp} from '@react-navigation/core';
 import React, {useState} from 'react';
-import {Linking, Text, View} from 'react-native';
+import {Linking, Text, View, SafeAreaView} from 'react-native';
 import {useDispatch} from 'react-redux';
 import AppLoader from '../../../shared/components/AppLoader';
 import Logo from '../../../shared/components/Logo';
@@ -47,32 +47,35 @@ const StartScreen = (props: Props) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Logo style={{marginTop: THEME.MARGIN.SUPERHIGH}} />
-      <Text style={styles.heading}>Wallet Setup</Text>
-      <Text style={styles.subHeading}>
-        Import an existing wallet or create a new one
-      </Text>
-      <View style={styles.actionsContainer}>
-        <PrimaryButton
-          title="Import using secret recovery phrase"
-          onPress={navToImportWallet}
-        />
-        <SecondaryButton
-          title="Create a new wallet"
-          onPress={handleCreateNewWallet}
-        />
-      </View>
-      <View style={styles.footer}>
-        <Text style={styles.text}>
-          By proceeding, you are agree with our{' '}
-          <Text onPress={openTermsAndCondition} style={styles.linkText}>
-            Terms {'&'} Condition
-          </Text>
+    <>
+      <SafeAreaView style={styles.container}>
+        <Logo style={{marginTop: THEME.MARGIN.SUPERHIGH}} />
+        <Text style={styles.heading}>Wallet Setup</Text>
+        <Text style={styles.subHeading}>
+          Import an existing wallet or create a new one
         </Text>
-      </View>
-      <AppLoader isVisible={loading} />
-    </View>
+        <View style={styles.actionsContainer}>
+          <PrimaryButton
+            title="Import using secret recovery phrase"
+            onPress={navToImportWallet}
+          />
+          <SecondaryButton
+            title="Create a new wallet"
+            onPress={handleCreateNewWallet}
+          />
+        </View>
+        <View style={styles.footer}>
+          <Text style={styles.text}>
+            By proceeding, you are agree with our{' '}
+            <Text onPress={openTermsAndCondition} style={styles.linkText}>
+              Terms {'&'} Condition
+            </Text>
+          </Text>
+        </View>
+        {/* <AppLoader isVisible={loading} /> */}
+      </SafeAreaView>
+      {/* <SafeAreaView style={{backgroundColor: THEME.COLORS.primaryBackground}} /> */}
+    </>
   );
 };
 

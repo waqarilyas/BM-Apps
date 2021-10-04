@@ -30,6 +30,8 @@ const styles = StyleSheet.create({
     marginVertical: THEME.MARGIN.NORMAL,
   },
   amountContainer: {
+    borderWidth: 1,
+    borderColor: 'white',
     alignSelf: 'center',
     marginVertical: THEME.MARGIN.LOW,
   },

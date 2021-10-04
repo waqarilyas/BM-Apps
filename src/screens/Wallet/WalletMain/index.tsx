@@ -86,7 +86,7 @@ const WalletMain = (props: Props) => {
       return wallet;
     }
     return wallet.filter(item =>
-      item.coin_name.toUpperCase().includes(searchText?.toUpperCase()),
+      item.coin_symbol.toUpperCase().includes(searchText?.toUpperCase()),
     );
   }, [searchText, wallet]);
 
@@ -189,7 +189,7 @@ const WalletMain = (props: Props) => {
           <AuthModal visible={true} onClose={() => setAuthOpen(false)} />
         )}
       </View>
-      <AppLoader isVisible={walletLoading} />
+      {/* <AppLoader isVisible={walletLoading} /> */}
     </>
   );
 };

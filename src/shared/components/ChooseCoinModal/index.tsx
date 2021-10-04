@@ -37,6 +37,16 @@ const ChooseCoinModal = (props: Props) => {
       image = COINS.ETH;
     } else if (data.coin_symbol == 'weenus') {
       image = COINS.WEENUS;
+    } else if (data.coin_symbol == 'btc') {
+      image = COINS.BTC;
+    } else if (data.coin_symbol == 'bnb') {
+      image = COINS.BNB;
+    } else if (data.coin_symbol == 'usdt') {
+      image = COINS.USDT;
+    } else if (data.coin_symbol == 'doge') {
+      image = COINS.DOGE;
+    } else if (data.coin_symbol == 'busd') {
+      image = COINS.BUSD;
     }
 
     return (
@@ -63,10 +73,21 @@ const ChooseCoinModal = (props: Props) => {
     const {name, address, coin} = data;
     let image = COINS.BTC;
 
+    console.log('coin', coin);
     if (coin.coin_symbol == 'eth') {
       image = COINS.ETH;
     } else if (coin.coin_symbol == 'weenus') {
       image = COINS.WEENUS;
+    } else if (coin.coin_symbol == 'btc') {
+      image = COINS.BTC;
+    } else if (coin.coin_symbol == 'bnb') {
+      image = COINS.BNB;
+    } else if (data.coin_symbol == 'usdt') {
+      image = COINS.USDT;
+    } else if (data.coin_symbol == 'doge') {
+      image = COINS.DOGE;
+    } else if (data.coin_symbol == 'busd') {
+      image = COINS.BUSD;
     }
 
     return (

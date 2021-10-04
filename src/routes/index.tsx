@@ -27,14 +27,12 @@ const Routes = () => {
 
   return (
     <>
-      <SafeAreaView
-        style={{flex: 1, backgroundColor: THEME.COLORS.primaryBackground}}>
-        <NavigationContainer ref={navigationRef}>
-          {isRendered ? <BottomTabs /> : <AuthStack />}
-          <Toast ref={ref => Toast.setRef(ref)} position="bottom" />
-        </NavigationContainer>
-      </SafeAreaView>
-      <SafeAreaView style={{backgroundColor: THEME.COLORS.tabColor}} />
+      {/* <SafeAreaView
+        style={{flex: 1, backgroundColor: THEME.COLORS.primaryBackground}}> */}
+      <NavigationContainer ref={navigationRef}>
+        {isRendered ? <BottomTabs /> : <AuthStack />}
+        <Toast ref={ref => Toast.setRef(ref)} position="bottom" />
+      </NavigationContainer>
     </>
   );
 };
