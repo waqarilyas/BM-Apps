@@ -1,5 +1,5 @@
 import React, {useMemo} from 'react';
-import {Alert, StyleSheet, View} from 'react-native';
+import {Alert, StyleSheet, View, Text} from 'react-native';
 import Toast from 'react-native-toast-message';
 import {useDispatch, useSelector} from 'react-redux';
 import AppHeader from '../../../shared/components/AppHeader';
@@ -18,6 +18,7 @@ import {
 } from '../../../shared/store/reducers/userReducer';
 import {resetWallet} from '../../../shared/store/reducers/walletReducer';
 import {THEME} from '../../../shared/theme';
+import {RF} from '../../../shared/theme/responsive';
 import L from '../../../shared/utils/LanguageHandler';
 import {socket} from '../../../shared/utils/sockets';
 
@@ -171,6 +172,12 @@ const SettingsMain = (props: Props) => {
   return (
     <View style={styles.container}>
       <AppHeader title={L('Settings')} />
+
+      {merchantEnabled && merchantData?.isDisabled && (
+        <Text style={styles.adminError}>
+          Your account has been disabled by admin
+        </Text>
+      )}
       <View style={styles.container}>
         {/* <SettingItem title="Address Book" chevron /> */}
         {/* {!merchantShop && ( */}
@@ -292,5 +299,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: THEME.COLORS.primaryBackground,
+  },
+  adminError: {
+    color: THEME.COLORS.red,
+    textAlign: 'center',
+    fontSize: RF(14),
+    fontWeight: '700',
   },
 });

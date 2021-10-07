@@ -38,6 +38,7 @@ const ICONS = {
   PHRASE_EYE: require('./icons/phraseEye.png'),
   EYE: require('./icons/eye.png'),
   EYE_OFF: require('./icons/eye-off.png'),
+  placeholderCoin: require('./icons/placeholderCoin.png'),
 };
 
 export {ICONS};

@@ -36,13 +36,25 @@ const POSMain = (props: Props) => {
   const [searchVisible, setSearchVisible] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [searchResults, setSearchResults]: any = useState([]);
-  const {merchantShop} = useSelector((state: RootState) => state.user);
+  const {merchantShop, merchantData} = useSelector(
+    (state: RootState) => state.user,
+  );
 
   const wait = (timeout: any) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
 
   const navToAddProduct = () => {
+    if (merchantData?.isDisabled) {
+      Alert.alert(
+        L('Failed'),
+        L('Your account has been disabled by admin! You cannot add products!'),
+        [{text: 'OK', onPress: () => console.log('OK Pressed')}],
+      );
+
+      return;
+    }
+
     if (!merchantShop) {
       Alert.alert(L('Failed'), L('Please add a shop to continue'), [
         {text: 'OK', onPress: () => console.log('OK Pressed')},

@@ -20,6 +20,7 @@ import {GetImageForCoin} from '../../../assets/coins';
 import {parse} from 'url';
 import {RootState} from '../../store';
 import ConfidentialText from '../ConfidentialText';
+import {ICONS} from '../../../assets';
 
 interface Props extends TouchableOpacityProps {
   toggle?: boolean;
@@ -28,17 +29,18 @@ interface Props extends TouchableOpacityProps {
 }
 const CoinListItem = (props: Props) => {
   const dispatch = useDispatch();
+  const {item} = props;
   const {balance, coin_symbol} = props.item;
 
   const rate = props?.item?.chart_data?.rate;
-
-  console.log('----props item----', props.item);
 
   const COIN_URL = `${blockConfig.API_URL}/admin/coin/${props.item.coin_symbol}`;
   const onPressToggle = () => dispatch(setCoinIsActive(props.item.coin_symbol));
 
   const percentage = props.item.chart_data?.changePercentage24h?.toFixed(2);
   const {showBalances} = useSelector((state: RootState) => state.wallet);
+
+  console.log('---', item?.icon?.url);
 
   return (
     <TouchableOpacity
@@ -48,7 +50,9 @@ const CoinListItem = (props: Props) => {
       <View style={styles.container}>
         <View style={styles.left}>
           <FastImage
-            source={GetImageForCoin(props.item.coin_symbol)}
+            source={
+              item?.icon?.url ? {uri: item?.icon?.url} : ICONS.placeholderCoin
+            }
             style={{
               borderRadius: THEME.RADIUS.BOX,
               width: '100%',

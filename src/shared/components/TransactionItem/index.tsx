@@ -23,7 +23,6 @@ const TransactionItem = (props: Props) => {
   let transactionTime = new Date(props.item.timeStamp);
 
   const openExplorer = async () => {
-    console.log(props.item.explorerUrl);
     try {
       const supported = await Linking.canOpenURL(props.item.explorerUrl);
       if (supported) {

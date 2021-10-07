@@ -73,7 +73,6 @@ const ChooseCoinModal = (props: Props) => {
     const {name, address, coin} = data;
     let image = COINS.BTC;
 
-    console.log('coin', coin);
     if (coin.coin_symbol == 'eth') {
       image = COINS.ETH;
     } else if (coin.coin_symbol == 'weenus') {

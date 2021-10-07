@@ -96,7 +96,6 @@ export const renderWallet =
       dispatch(setWalletLoading(false));
       AppShowToast('Wallet Imported');
     } catch (error: any) {
-      console.log('Render Wallet Error:', error);
       if (error.response.message) {
         AppShowToast(error.response.message);
       } else {

@@ -81,7 +81,7 @@ const Payment = (props: Props) => {
         : totalCartAmount + totalTaxAmount,
     );
   }, []);
-  console.log('currency price', currencyPrice);
+
   useEffect(() => {
     let total;
 

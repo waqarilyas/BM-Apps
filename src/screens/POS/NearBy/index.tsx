@@ -59,7 +59,6 @@ const NearBy = (props: Props) => {
           );
         },
         error => {
-          console.log(error.code, error.message);
           Toast.show({
             text1: L('Request Failed'),
             text2: error.message,
