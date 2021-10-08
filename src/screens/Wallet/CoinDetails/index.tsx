@@ -4,6 +4,7 @@ import {View, Text, ScrollView, TouchableOpacity, FlatList} from 'react-native';
 import {useSelector} from 'react-redux';
 import {parse} from 'url';
 import AppHeader from '../../../shared/components/AppHeader';
+import ConfidentialText from '../../../shared/components/ConfidentialText';
 import TransactionButton from '../../../shared/components/TransactionButton';
 import TransactionItem from '../../../shared/components/TransactionItem';
 import {
@@ -20,7 +21,9 @@ import styles from './styles';
 interface Props extends GenericNavigation {}
 
 const CoinDetails = (props: Props) => {
-  const {wallet} = useSelector((state: RootState) => state.wallet);
+  const {wallet, showBalances} = useSelector(
+    (state: RootState) => state.wallet,
+  );
   const [activeIndex, setActiveIndex] = useState(0);
   const [transactions, setTransactions] = useState<Transaction[] | []>([]);
 
@@ -86,16 +89,30 @@ const CoinDetails = (props: Props) => {
           <>
             <View style={styles.details}>
               <Text style={styles.balance}>
-                {coin?.balance ? parseFloat(coin?.balance).toFixed(6) : '0.00'}{' '}
+                {showBalances ? (
+                  coin?.balance ? (
+                    parseFloat(coin?.balance).toFixed(6)
+                  ) : (
+                    '0.00'
+                  )
+                ) : (
+                  <ConfidentialText />
+                )}{' '}
                 <Text style={styles.short}>
                   {coin?.coin_symbol.toUpperCase()}
                 </Text>
               </Text>
               <Text style={styles.usdBalance}>
                 $
-                {coin?.vs_currency_balance
-                  ? parseFloat(coin?.vs_currency_balance).toFixed(6)
-                  : '0.00'}
+                {showBalances ? (
+                  coin?.vs_currency_balance ? (
+                    parseFloat(coin?.vs_currency_balance).toFixed(6)
+                  ) : (
+                    '0.00'
+                  )
+                ) : (
+                  <ConfidentialText />
+                )}{' '}
               </Text>
             </View>
             <View style={styles.actions}>

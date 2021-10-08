@@ -31,7 +31,7 @@ const initialState: WalletState = {
   erc20_fee: '0.00',
   doge_fee: '0.00',
   btc_fee: '0.00',
-  showBalances: false,
+  showBalances: true,
 };
 export const walletSlice = createSlice({
   name: 'wallet',

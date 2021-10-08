@@ -21,11 +21,12 @@ import {
 import {handleTx} from '../../../shared/services/wallet.service';
 import WAValidator from 'multicoin-address-validator';
 import L from '../../../shared/utils/LanguageHandler';
+import ConfidentialText from '../../../shared/components/ConfidentialText';
 
 interface Props extends GenericNavigation {}
 
 const SendCoin = (props: Props) => {
-  const {wallet, defaultCurrency} = useSelector(
+  const {wallet, defaultCurrency, showBalances} = useSelector(
     (state: RootState) => state.wallet,
   );
   const [address, setAddress] = useState(
@@ -226,7 +227,8 @@ const SendCoin = (props: Props) => {
 
         <View style={styles.sideInfo}>
           <Text style={styles.availBalalnce}>
-            {L('Avl. Balance')}: {coin?.balance || '0.00'}{' '}
+            {L('Avl. Balance')}:{' '}
+            {showBalances ? coin?.balance || '0.00' : <ConfidentialText />}{' '}
             {coin?.coin_symbol.toUpperCase()}
           </Text>
         </View>
