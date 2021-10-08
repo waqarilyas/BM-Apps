@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {ScrollView, Text, View} from 'react-native';
+import {RefreshControl, ScrollView, Text, View} from 'react-native';
 import {PieChart} from 'react-native-svg-charts';
 import {useDispatch, useSelector} from 'react-redux';
 import AppHeader from '../../../shared/components/AppHeader';
@@ -15,6 +15,7 @@ import {
   updateCoinRates,
 } from '../../../shared/services/wallet.service';
 import {RootState} from '../../../shared/store';
+import {refreshCoinsBalances} from '../../../shared/store/actions/walletActions';
 import {EMPTY_CHART_DATA} from '../../../shared/utils/AppConstants';
 import L from '../../../shared/utils/LanguageHandler';
 import {initSocket, socket} from '../../../shared/utils/sockets';
@@ -23,26 +24,27 @@ import styles from './styles';
 interface Props extends GenericNavigation {}
 
 const WalletMain = (props: Props) => {
+  const {
+    wallet: {wallet, defaultCurrency, walletRefreshing, showBalances},
+    util: {balancesUpdateNeeded},
+  } = useSelector((state: RootState) => state);
   const {thumbEnabled} = useSelector((state: RootState) => state.settings);
+
   const [searchText, setSearchText] = useState('');
   const [authOpen, setAuthOpen] = useState(thumbEnabled);
-  const {wallet, walletLoading, showBalances} = useSelector(
-    (state: RootState) => state.wallet,
-  );
+  const {walletLoading} = useSelector((state: RootState) => state.wallet);
   const dispatch = useDispatch();
   const {currency} = useSelector((state: RootState) => state.settings);
-  const {defaultCurrency} = useSelector((state: RootState) => state.wallet);
 
   const navigateToCoinDetail = (name: string) =>
     props.navigation?.navigate('CoinDetails', {coin_symbol: name});
 
   let [
     totalValue,
-    erc20Address,
-    nonErc20Address,
+    erc20Andbep20Address,
     bitcoinAddress,
-    chartData,
     dogeAddress,
+    chartData,
   ] = useMemo(() => {
     let newTotal = wallet.length
       ? wallet
@@ -57,27 +59,22 @@ const WalletMain = (props: Props) => {
     }
     let btcAddress = wallet.find((c: Coin) => c.coin_symbol === 'btc');
     let dogeAddress = wallet.find((c: Coin) => c.coin_symbol === 'doge');
-    let nonErc20 = wallet.find(
-      (c: Coin) => !c.is_erc20 && c.coin_symbol !== 'btc',
-    );
     let erc20 = wallet.find((c: Coin) => c.is_erc20);
-
-    let newChartData = wallet.map(c => {
+    let newChartData = wallet.map((c, index) => {
       let chartObject = {
-        key: c.order_index,
+        key: index,
         vs_currency_balance: c.vs_currency_balance,
         svg: {fill: c.coin_color},
-        onPress: () => console.log('Pressed'),
+        onPress: () => console.log('Presed'),
       };
       return chartObject;
     });
     return [
       Number(newTotal).toFixed(2),
       erc20?.address,
-      nonErc20?.address,
       btcAddress?.address,
+      dogeAddress?.address,
       newChartData,
-      dogeAddress,
     ];
   }, [wallet]);
 
@@ -91,7 +88,7 @@ const WalletMain = (props: Props) => {
   }, [searchText, wallet]);
 
   const realtimeListener = useCallback(async () => {
-    await initSocket(`${erc20Address}`);
+    await initSocket(`${erc20Andbep20Address}`);
     await initSocket(`${bitcoinAddress}`);
     await initSocket(`${dogeAddress}`);
 
@@ -99,10 +96,11 @@ const WalletMain = (props: Props) => {
       socket.on(`coin-data`, async (data: any) => {
         updateCoinRates(wallet, defaultCurrency);
       });
-      socket.on(`${erc20Address}`, async (data: any) => {
+      socket.on(`${erc20Andbep20Address}`, async (data: any) => {
+        console.log('BEP20 Socket data:', data);
         updateCoinBalance({
           coinSymbol: data.coinSymbol,
-          address: erc20Address!,
+          address: erc20Andbep20Address!,
           wallet,
         });
       });
@@ -121,50 +119,22 @@ const WalletMain = (props: Props) => {
         });
       });
     });
-  }, [erc20Address, bitcoinAddress, dispatch]);
-
-  // const realtimeListener = async () => {
-  //   console.log('--listeners initialized---');
-  //   await initSocket(`${erc20Address}`);
-  //   await initSocket(`${bitcoinAddress}`);
-  //   await initSocket(`${dogeAddress}`);
-
-  //   socket.on('connect', () => {
-  //     socket.on(`coin-data`, async (data: any) => {
-  //       updateCoinRates(wallet, defaultCurrency);
-  //     });
-  //     socket.on(`${erc20Address}`, async (data: any) => {
-  //       updateCoinBalance({
-  //         coinSymbol: data.coinSymbol,
-  //         address: erc20Address!,
-  //         wallet,
-  //       });
-  //     });
-  //     socket.on(`${bitcoinAddress}`, async (data: any) => {
-  //       updateCoinBalance({
-  //         coinSymbol: data.coinSymbol,
-  //         address: bitcoinAddress!,
-  //         wallet,
-  //       });
-  //     });
-  //     socket.on(`${dogeAddress}`, async (data: any) => {
-  //       updateCoinBalance({
-  //         coinSymbol: data.coinSymbol,
-  //         address: dogeAddress!,
-  //         wallet,
-  //       });
-  //     });
-  //   });
-  // };
+  }, []);
 
   useEffect(() => {
-    if (wallet.length > 0) {
-      console.log('--wallet length is greater--');
+    if (balancesUpdateNeeded) {
+      dispatch(refreshCoinsBalances(false));
+    }
+    if (wallet.length) {
       realtimeListener();
     }
-
-    return () => socket.removeAllListeners();
+    return () => {
+      socket.removeListener('coin-data');
+      socket.removeAllListeners();
+    };
   }, []);
+
+  const onRefreshBalances = () => dispatch(refreshCoinsBalances(true));
 
   useEffect(() => {
     if (wallet.length > 0) {
@@ -179,15 +149,14 @@ const WalletMain = (props: Props) => {
 
         <View style={styles.container}>
           <PieChart
-            animate={true}
             style={styles.pieChart}
             valueAccessor={({item}: any) => item.vs_currency_balance}
             data={Number(totalValue) > 0 ? chartData : EMPTY_CHART_DATA}
             outerRadius={'100%'}
-            innerRadius={'82%'}
+            innerRadius={'90%'}
             padAngle={0}
           />
-          <View style={styles.innerCircle}>
+          {/* <View style={styles.innerCircle}>
             <Text style={styles.innerLargeText}>
               {showBalances ? (
                 <>
@@ -208,6 +177,48 @@ const WalletMain = (props: Props) => {
           />
           <ScrollView style={styles.listContainer}>
             {filteredWallet.map((item, index) => {
+              if (item.is_active) {
+                return (
+                  <CoinListItem
+                    key={index}
+                    item={item}
+                    onPress={() => navigateToCoinDetail(item.coin_symbol)}
+                  />
+                );
+              }
+            })}
+          </ScrollView> */}
+
+          <View style={styles.innerCircle}>
+            <Text style={styles.innerLargeText}>
+              {showBalances ? (
+                <>
+                  {totalValue.split('.')[0]}
+                  <Text style={styles.innerSmallText}>
+                    .{totalValue.split('.')[1]} {currency}
+                  </Text>
+                </>
+              ) : (
+                <ConfidentialText />
+              )}
+            </Text>
+          </View>
+          <AppSearchInput
+            value={searchText}
+            onChangeText={setSearchText}
+            placeholder={`${L('Search')}...`}
+          />
+
+          <ScrollView
+            refreshControl={
+              <RefreshControl
+                refreshing={walletRefreshing}
+                onRefresh={onRefreshBalances}
+              />
+            }
+            style={styles.listContainer}
+            showsVerticalScrollIndicator={false}>
+            {wallet.map((item, index) => {
               if (item.is_active) {
                 return (
                   <CoinListItem

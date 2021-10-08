@@ -28,13 +28,14 @@ const StartScreen = (props: Props) => {
   const handleCreateNewWallet = async () => {
     setLoading(true);
     let mnemonic = bip39.generateMnemonic();
-    createBTCWallet(mnemonic);
+    // createBTCWallet(mnemonic);
     dispatch(
       setMnemonic({
         mnemonic_phrase: mnemonic,
         is_restore: false,
       }),
     );
+
     setTimeout(() => {
       dispatch(renderWallet());
     }, 1000);

@@ -738,3 +738,8 @@ export const createBTCWallet = (mnemonic: string) => {
   console.log('Address:', account0.getAddress(0));
   console.log('\n');
 };
+
+export const getAllCoinsBalances = async (body: {
+  currencyCode: string;
+  walletsInfo: {coinSymbol: string; address: string}[];
+}) => axios.post(`${blockConfig.API_URL}/wallet/balance`, body);
