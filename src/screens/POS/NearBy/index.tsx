@@ -32,7 +32,7 @@ const NearBy = (props: Props) => {
     ).then(response => {
       console.log('Permission Check', response);
       if (response == true) {
-        animateAndResult();
+        animateToCurrentLocation();
       } else {
         if (Platform.OS === 'android') {
           requestLocationPermission();
@@ -40,27 +40,6 @@ const NearBy = (props: Props) => {
       }
     });
   }, []);
-
-  const animateAndResult = async () => {
-    setLoading(true);
-    animateToCurrentLocation();
-
-    getAllShops()
-      .then(res => {
-        setShops(res.data);
-      })
-      .catch(err => {
-        Toast.show({
-          text1: L('Request Failed'),
-          text2: L('Unable to get shops data'),
-          type: 'error',
-        });
-        console.log(err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
 
   const requestLocationPermission = async () => {
     try {
@@ -84,26 +63,26 @@ const NearBy = (props: Props) => {
     }
   };
 
-  // useEffect(() => {
-  //   setLoading(true);
-  //   animateToCurrentLocation();
+  useEffect(() => {
+    setLoading(true);
+    // animateToCurrentLocation();
 
-  //   getAllShops()
-  //     .then(res => {
-  //       setShops(res.data);
-  //     })
-  //     .catch(err => {
-  //       Toast.show({
-  //         text1: L('Request Failed'),
-  //         text2: L('Unable to get shops data'),
-  //         type: 'error',
-  //       });
-  //       console.log(err);
-  //     })
-  //     .finally(() => {
-  //       setLoading(false);
-  //     });
-  // }, []);
+    getAllShops()
+      .then(res => {
+        setShops(res.data);
+      })
+      .catch(err => {
+        Toast.show({
+          text1: L('Request Failed'),
+          text2: L('Unable to get shops data'),
+          type: 'error',
+        });
+        console.log(err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
 
   const animateToCurrentLocation = async () => {
     try {
