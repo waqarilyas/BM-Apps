@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TouchableOpacityProps,
   ViewStyle,
+  ActivityIndicator,
 } from 'react-native';
 import {THEME} from '../../theme';
 import GLOBAL_STYLE from '../../theme/global';
@@ -14,6 +15,7 @@ import {HP, RF, WP} from '../../theme/responsive';
 interface Props extends TouchableOpacityProps {
   title: string;
   buttonStyle?: StyleProp<ViewStyle>;
+  loading?: boolean;
 }
 
 const SecondaryButton = (props: Props) => {
@@ -22,7 +24,11 @@ const SecondaryButton = (props: Props) => {
       style={[styles.container, props.buttonStyle]}
       {...props}
       activeOpacity={0.7}>
-      <Text style={styles.buttonText}>{props.title}</Text>
+      {props.loading ? (
+        <ActivityIndicator color={THEME.COLORS.accentBlue} />
+      ) : (
+        <Text style={styles.buttonText}>{props.title}</Text>
+      )}
     </TouchableOpacity>
   );
 };

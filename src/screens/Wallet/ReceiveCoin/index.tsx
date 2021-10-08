@@ -27,7 +27,7 @@ const ReceiveCoin = (props: Props) => {
   const {wallet} = useSelector((state: RootState) => state.wallet);
   const coin = useMemo(() => {
     return wallet.find(
-      (c: Coin) => c.coin_symbol === props.route?.params?.coinSymbol,
+      (c: Coin) => c?.coin_symbol === props.route?.params?.coinSymbol,
     );
   }, [wallet, props.route]);
 

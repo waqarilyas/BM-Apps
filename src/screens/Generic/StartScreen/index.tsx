@@ -6,6 +6,7 @@ import AppLoader from '../../../shared/components/AppLoader';
 import Logo from '../../../shared/components/Logo';
 import PrimaryButton from '../../../shared/components/PrimaryButton';
 import SecondaryButton from '../../../shared/components/SecondaryButton';
+import {createBTCWallet} from '../../../shared/services/wallet.service';
 import {renderWallet} from '../../../shared/store/actions/walletActions';
 import {
   setIsWalletRendered,
@@ -25,9 +26,12 @@ const StartScreen = (props: Props) => {
   const navToImportWallet = () => props.navigation.navigate('ImportWallet');
 
   const handleCreateNewWallet = async () => {
+    setLoading(true);
+    let mnemonic = bip39.generateMnemonic();
+    createBTCWallet(mnemonic);
     dispatch(
       setMnemonic({
-        mnemonic_phrase: bip39.generateMnemonic(),
+        mnemonic_phrase: mnemonic,
         is_restore: false,
       }),
     );
@@ -60,6 +64,7 @@ const StartScreen = (props: Props) => {
             onPress={navToImportWallet}
           />
           <SecondaryButton
+            loading={loading}
             title="Create a new wallet"
             onPress={handleCreateNewWallet}
           />

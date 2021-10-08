@@ -123,18 +123,48 @@ const WalletMain = (props: Props) => {
     });
   }, [erc20Address, bitcoinAddress, dispatch]);
 
-  useEffect(() => {
-    if (wallet.length) {
-      realtimeListener();
-    }
+  // const realtimeListener = async () => {
+  //   console.log('--listeners initialized---');
+  //   await initSocket(`${erc20Address}`);
+  //   await initSocket(`${bitcoinAddress}`);
+  //   await initSocket(`${dogeAddress}`);
 
-    return () => socket.removeAllListeners();
-  }, []);
+  //   socket.on('connect', () => {
+  //     socket.on(`coin-data`, async (data: any) => {
+  //       updateCoinRates(wallet, defaultCurrency);
+  //     });
+  //     socket.on(`${erc20Address}`, async (data: any) => {
+  //       updateCoinBalance({
+  //         coinSymbol: data.coinSymbol,
+  //         address: erc20Address!,
+  //         wallet,
+  //       });
+  //     });
+  //     socket.on(`${bitcoinAddress}`, async (data: any) => {
+  //       updateCoinBalance({
+  //         coinSymbol: data.coinSymbol,
+  //         address: bitcoinAddress!,
+  //         wallet,
+  //       });
+  //     });
+  //     socket.on(`${dogeAddress}`, async (data: any) => {
+  //       updateCoinBalance({
+  //         coinSymbol: data.coinSymbol,
+  //         address: dogeAddress!,
+  //         wallet,
+  //       });
+  //     });
+  //   });
+  // };
 
   useEffect(() => {
     if (wallet.length > 0) {
+      console.log('--wallet length is greater--');
+      realtimeListener();
       getInitialMerchantData();
     }
+
+    return () => socket.removeAllListeners();
   }, [wallet]);
 
   return (

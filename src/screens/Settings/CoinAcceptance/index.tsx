@@ -21,7 +21,7 @@ const CoinAcceptance = (props: Props) => {
     return wallet.filter(
       item =>
         item.coin_name.toUpperCase().includes(searchText?.toUpperCase()) ||
-        item.coin_symbol.toUpperCase().includes(searchText?.toUpperCase()),
+        item?.coin_symbol.toUpperCase().includes(searchText?.toUpperCase()),
     );
   }, [searchText, wallet]);
   return (

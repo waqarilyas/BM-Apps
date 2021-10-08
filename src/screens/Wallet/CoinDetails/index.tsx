@@ -26,7 +26,7 @@ const CoinDetails = (props: Props) => {
 
   const coin = useMemo(() => {
     return wallet.find(
-      (c: Coin) => c.coin_symbol === props.route?.params?.coin_symbol,
+      (c: Coin) => c?.coin_symbol === props.route?.params?.coin_symbol,
     );
   }, [wallet, props.route]);
 

@@ -11,7 +11,6 @@ import {CheckConnectivity} from './src/shared/services/helper.service';
 import NetInfo from '@react-native-community/netinfo';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 
-LogBox.ignoreAllLogs(true);
 const App = () => {
   useEffect(() => {
     Platform.OS === 'android' && StatusBar.setBackgroundColor('black');

@@ -36,9 +36,9 @@ const SettingsMain = (props: Props) => {
   );
 
   let [erc20Address, nonErc20Address, bitcoinAddress] = useMemo(() => {
-    let btcAddress = wallet.find((c: Coin) => c.coin_symbol === 'btc');
+    let btcAddress = wallet.find((c: Coin) => c?.coin_symbol === 'btc');
     let nonErc20 = wallet.find(
-      (c: Coin) => !c.is_erc20 && c.coin_symbol !== 'btc',
+      (c: Coin) => !c.is_erc20 && c?.coin_symbol !== 'btc',
     );
     let erc20 = wallet.find((c: Coin) => c.is_erc20);
 

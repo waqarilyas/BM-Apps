@@ -15,7 +15,6 @@ import {
   setERC20Fee,
   setWalletLoading,
 } from '../reducers/walletReducer';
-// import bip39 from 'bip39';
 let bip39 = require('bip39');
 
 export const renderWallet =

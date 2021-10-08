@@ -39,7 +39,7 @@ const SendCoin = (props: Props) => {
 
   const [coin, ETH_RATE] = useMemo(() => {
     let selectedCoin = wallet.find(
-      (c: Coin) => c.coin_symbol === props.route?.params?.coinSymbol,
+      (c: Coin) => c?.coin_symbol === props.route?.params?.coinSymbol,
     );
     let eth = wallet.find((c: Coin) => c.coin_name === 'Ethereum');
     return [selectedCoin, eth?.chart_data.rate];
@@ -115,6 +115,7 @@ const SendCoin = (props: Props) => {
   const onSend = async () => {
     try {
       if (coin?.coin_symbol !== 'weenus') {
+        console.log(address, '---', coin?.coin_symbol);
         let valid = WAValidator.validate(address, coin?.coin_symbol);
         if (!valid) {
           return AppShowToast(

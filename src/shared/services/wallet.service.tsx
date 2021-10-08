@@ -22,6 +22,7 @@ import Web3 from 'web3';
 import {Transaction as EthereumTx} from 'ethereumjs-tx';
 import {getFixedAmount} from './helper.service';
 let bip39 = require('bip39');
+const BIP84 = require('bip84');
 
 export const generateMnemonic = async () => {
   try {
@@ -712,3 +713,28 @@ export const getWallets = async () => {
 
 export const setCoinsPublicInfo = async (payload: PublicInfoPayload[]) =>
   await axios.post(`${blockConfig.API_URL}/wallet/publicinfo`, payload);
+
+export const createBTCWallet = (mnemonic: string) => {
+  console.log('--craete btc wallet called--');
+
+  var root = new BIP84.fromSeed(mnemonic);
+  var child0 = root.deriveAccount(0);
+
+  console.log('mnemonic:', mnemonic);
+  console.log('rootpriv:', root.getRootPrivateKey());
+  console.log('rootpub:', root.getRootPublicKey());
+  console.log('\n');
+
+  var account0 = new BIP84.fromZPrv(child0);
+
+  console.log("Account 0, root = m/84'/0'/0'");
+  console.log('Account 0 xprv:', account0.getAccountPrivateKey());
+  console.log('Account 0 xpub:', account0.getAccountPublicKey());
+  console.log('\n');
+
+  console.log("Account 0, first receiving address = m/84'/0'/0'/0/0");
+  console.log('Prvkey:', account0.getPrivateKey(0));
+  console.log('Pubkey:', account0.getPublicKey(0));
+  console.log('Address:', account0.getAddress(0));
+  console.log('\n');
+};

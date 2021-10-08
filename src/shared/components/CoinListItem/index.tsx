@@ -40,8 +40,6 @@ const CoinListItem = (props: Props) => {
   const percentage = props.item.chart_data?.changePercentage24h?.toFixed(2);
   const {showBalances} = useSelector((state: RootState) => state.wallet);
 
-  console.log('---', item?.icon?.url);
-
   return (
     <TouchableOpacity
       activeOpacity={1}

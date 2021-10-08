@@ -59,9 +59,10 @@ const NearBy = (props: Props) => {
           );
         },
         error => {
+          console.log('-error=:', error);
           Toast.show({
             text1: L('Request Failed'),
-            text2: error.message,
+            text2: error?.message,
             type: 'error',
           });
         },
@@ -89,6 +90,7 @@ const NearBy = (props: Props) => {
           {shops.map((item, index) => {
             return (
               <TouchableOpacity
+                key={index}
                 onPress={() => console.log('hello')}
                 style={{backgroundColor: 'red'}}>
                 <Marker key={index} coordinate={item.location}>
