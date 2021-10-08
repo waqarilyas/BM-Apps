@@ -30,7 +30,7 @@ const Routes = () => {
       {/* <SafeAreaView
         style={{flex: 1, backgroundColor: THEME.COLORS.primaryBackground}}> */}
       <NavigationContainer ref={navigationRef}>
-        {isRendered ? <BottomTabs /> : <AuthStack />}
+        {!isRendered ? <BottomTabs /> : <AuthStack />}
         <Toast ref={ref => Toast.setRef(ref)} position="bottom" />
       </NavigationContainer>
     </>

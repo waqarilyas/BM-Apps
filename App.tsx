@@ -10,6 +10,7 @@ import {setWalletLoading} from './src/shared/store/reducers/walletReducer';
 import {CheckConnectivity} from './src/shared/services/helper.service';
 import NetInfo from '@react-native-community/netinfo';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import BottomTabs from './src/routes/Tabs/Tabs.routes';
 
 const App = () => {
   useEffect(() => {
@@ -32,13 +33,14 @@ const App = () => {
     return () => unsubscribe();
   }, []);
   return (
-    // <SafeAreaProvider>
-    <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        <Routes />
-      </PersistGate>
-    </Provider>
-    // </SafeAreaProvider>
+    // <BottomTabs />
+    <SafeAreaProvider>
+      <Provider store={store}>
+        <PersistGate persistor={persistor}>
+          <Routes />
+        </PersistGate>
+      </Provider>
+    </SafeAreaProvider>
   );
 };
 
