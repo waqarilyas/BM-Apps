@@ -27,18 +27,21 @@ const NearBy = (props: Props) => {
   const [selectedShop, setSelectedShop] = useState(null);
   const mapRef = useRef(null);
   useEffect(() => {
-    PermissionsAndroid.check(
-      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-    ).then(response => {
-      console.log('Permission Check', response);
-      if (response == true) {
-        animateToCurrentLocation();
-      } else {
-        if (Platform.OS === 'android') {
-          requestLocationPermission();
+    if (Platform.OS == 'android') {
+      PermissionsAndroid.check(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      ).then(response => {
+        if (response == true) {
+          animateToCurrentLocation();
+        } else {
+          if (Platform.OS === 'android') {
+            requestLocationPermission();
+          }
         }
-      }
-    });
+      });
+    } else if (Platform.OS == 'ios') {
+      animateToCurrentLocation();
+    }
   }, []);
 
   const requestLocationPermission = async () => {
