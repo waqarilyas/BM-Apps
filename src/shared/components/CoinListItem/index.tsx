@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {
+  ActivityIndicator,
   StyleProp,
   StyleSheet,
   Text,
@@ -14,10 +15,8 @@ import {Coin} from '../../models/types';
 import blockConfig from '../../../../block.config';
 import {useDispatch, useSelector} from 'react-redux';
 import {setCoinIsActive} from '../../store/reducers/walletReducer';
-import {SvgUri} from 'react-native-svg';
+
 import FastImage from 'react-native-fast-image';
-import {GetImageForCoin} from '../../../assets/coins';
-import {parse} from 'url';
 import {RootState} from '../../store';
 import ConfidentialText from '../ConfidentialText';
 import {ICONS} from '../../../assets';
@@ -28,13 +27,14 @@ interface Props extends TouchableOpacityProps {
   onPress?: () => void;
 }
 const CoinListItem = (props: Props) => {
+  const [loading, setLoading] = useState(false);
+
   const dispatch = useDispatch();
   const {item} = props;
   const {balance, coin_symbol} = props.item;
 
   const rate = props?.item?.chart_data?.rate;
 
-  const COIN_URL = `${blockConfig.API_URL}/admin/coin/${props.item.coin_symbol}`;
   const onPressToggle = () => dispatch(setCoinIsActive(props.item.coin_symbol));
 
   const percentage = props.item.chart_data?.changePercentage24h?.toFixed(2);
@@ -51,6 +51,8 @@ const CoinListItem = (props: Props) => {
             source={
               item?.icon?.url ? {uri: item?.icon?.url} : ICONS.placeholderCoin
             }
+            onLoadStart={() => setLoading(true)}
+            onLoadEnd={() => setLoading(false)}
             style={{
               borderRadius: THEME.RADIUS.BOX,
               width: '100%',
@@ -62,6 +64,11 @@ const CoinListItem = (props: Props) => {
             {props.item.coin_symbol.toUpperCase()}
           </Text>
 
+          {loading && (
+            <View style={styles.activityIndicator}>
+              <ActivityIndicator size="small" color={THEME.COLORS.accentBlue} />
+            </View>
+          )}
           {/* <SvgUri width="100%" height="100%" uri={COIN_URL} /> */}
         </View>
 
@@ -173,5 +180,15 @@ const styles = StyleSheet.create({
     color: THEME.COLORS.white,
     fontFamily: THEME.FONTS.TYPE.REGULAR,
     textAlign: 'right',
+  },
+  activityIndicator: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    // backgroundColor: 'red',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

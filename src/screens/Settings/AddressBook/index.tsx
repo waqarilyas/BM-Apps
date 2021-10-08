@@ -54,7 +54,7 @@ const AddressBook = (props: PROPS) => {
 
               return (
                 <FilterCard
-                  image={GetImageForCoin(item?.coin_symbol)}
+                  image={{uri: item?.icon?.url}}
                   name={item?.coin_symbol.toUpperCase()}
                   selected={selected}
                   onPress={() => handleFilterSelect(item)}
@@ -78,7 +78,7 @@ const AddressBook = (props: PROPS) => {
           renderItem={({item, index}) => {
             const shown =
               item?.coin?.coin_symbol === selectedFilter?.coin_symbol;
-            if (shown)
+            if (shown) {
               return (
                 <AddressCard
                   name={item.name}
@@ -86,6 +86,7 @@ const AddressBook = (props: PROPS) => {
                   onPress={() => onPressAddress(item?.address)}
                 />
               );
+            }
           }}
         />
       </View>
