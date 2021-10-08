@@ -177,7 +177,7 @@ const AddProduct = (props: Props) => {
                 <Text style={styles.errors}>{errors.price}</Text>
               ) : null}
               <AppInput
-                placeholder={L('Price')}
+                placeholder={L('Enter Amount USD')}
                 keyboardType="decimal-pad"
                 onChangeText={handleChange('price')}
                 returnKeyType="done"

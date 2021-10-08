@@ -145,7 +145,7 @@ const Payment = (props: Props) => {
             />
 
             <AppInput
-              placeholder={L('Tax In Percentage')}
+              placeholder={`${L('Tax')} %`}
               keyboardType="decimal-pad"
               returnKeyType="done"
               onChangeText={text => {

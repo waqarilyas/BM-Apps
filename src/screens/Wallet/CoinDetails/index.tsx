@@ -86,13 +86,16 @@ const CoinDetails = (props: Props) => {
           <>
             <View style={styles.details}>
               <Text style={styles.balance}>
-                {parseFloat(coin?.balance).toFixed(6)}{' '}
+                {coin?.balance ? parseFloat(coin?.balance).toFixed(6) : '0.00'}{' '}
                 <Text style={styles.short}>
                   {coin?.coin_symbol.toUpperCase()}
                 </Text>
               </Text>
               <Text style={styles.usdBalance}>
-                ${parseFloat(coin?.vs_currency_balance).toFixed(6) || '0.00'}
+                $
+                {coin?.vs_currency_balance
+                  ? parseFloat(coin?.vs_currency_balance).toFixed(6)
+                  : '0.00'}
               </Text>
             </View>
             <View style={styles.actions}>
