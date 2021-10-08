@@ -1,5 +1,11 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {
+  Platform,
+  PermissionsAndroid,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Geolocation from 'react-native-geolocation-service';
 import MapView, {Callout, Marker} from 'react-native-maps';
@@ -20,8 +26,22 @@ const NearBy = (props: Props) => {
   const [loading, setLoading] = useState(false);
   const [selectedShop, setSelectedShop] = useState(null);
   const mapRef = useRef(null);
-
   useEffect(() => {
+    PermissionsAndroid.check(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+    ).then(response => {
+      console.log('Permission Check', response);
+      if (response == true) {
+        animateAndResult();
+      } else {
+        if (Platform.OS === 'android') {
+          requestLocationPermission();
+        }
+      }
+    });
+  }, []);
+
+  const animateAndResult = async () => {
     setLoading(true);
     animateToCurrentLocation();
 
@@ -40,7 +60,50 @@ const NearBy = (props: Props) => {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  };
+
+  const requestLocationPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: 'BlockMerchants want to access your location.',
+          message: 'Block App needs access to your location ',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('You can access the current location');
+      } else {
+        console.log('location permission denied');
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+
+  // useEffect(() => {
+  //   setLoading(true);
+  //   animateToCurrentLocation();
+
+  //   getAllShops()
+  //     .then(res => {
+  //       setShops(res.data);
+  //     })
+  //     .catch(err => {
+  //       Toast.show({
+  //         text1: L('Request Failed'),
+  //         text2: L('Unable to get shops data'),
+  //         type: 'error',
+  //       });
+  //       console.log(err);
+  //     })
+  //     .finally(() => {
+  //       setLoading(false);
+  //     });
+  // }, []);
 
   const animateToCurrentLocation = async () => {
     try {
@@ -67,8 +130,8 @@ const NearBy = (props: Props) => {
           });
         },
         {
-          enableHighAccuracy: true,
-          timeout: 15000,
+          enableHighAccuracy: false,
+          timeout: 50000,
           maximumAge: 10000,
           showLocationDialog: true,
           forceRequestLocation: true,
