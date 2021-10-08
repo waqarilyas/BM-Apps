@@ -34,13 +34,13 @@ const App = () => {
   }, []);
   return (
     // <BottomTabs />
-    <SafeAreaProvider>
-      <Provider store={store}>
-        <PersistGate persistor={persistor}>
-          <Routes />
-        </PersistGate>
-      </Provider>
-    </SafeAreaProvider>
+    // <SafeAreaProvider>
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <Routes />
+      </PersistGate>
+    </Provider>
+    // </SafeAreaProvider>
   );
 };
 
