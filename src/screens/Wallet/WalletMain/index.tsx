@@ -161,10 +161,15 @@ const WalletMain = (props: Props) => {
     if (wallet.length > 0) {
       console.log('--wallet length is greater--');
       realtimeListener();
-      getInitialMerchantData();
     }
 
     return () => socket.removeAllListeners();
+  }, []);
+
+  useEffect(() => {
+    if (wallet.length > 0) {
+      getInitialMerchantData();
+    }
   }, [wallet]);
 
   return (
@@ -219,7 +224,7 @@ const WalletMain = (props: Props) => {
           <AuthModal visible={true} onClose={() => setAuthOpen(false)} />
         )}
       </View>
-      {/* <AppLoader isVisible={walletLoading} /> */}
+      <AppLoader isVisible={walletLoading} />
     </>
   );
 };
