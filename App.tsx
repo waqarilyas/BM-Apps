@@ -2,18 +2,16 @@ import NetInfo from '@react-native-community/netinfo';
 import React, {useEffect} from 'react';
 import {Alert, Platform, StatusBar} from 'react-native';
 import 'react-native-gesture-handler';
-import {Provider} from 'react-redux';
+import {Provider, useDispatch} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import './shim';
 import Routes from './src/routes/';
 import {persistor, store} from './src/shared/store/';
-import {setWalletLoading} from './src/shared/store/reducers/walletReducer';
 
 const App = () => {
   useEffect(() => {
     Platform.OS === 'android' && StatusBar.setBackgroundColor('black');
     StatusBar.setBarStyle('light-content');
-    store.dispatch(setWalletLoading(false));
   });
 
   useEffect(() => {

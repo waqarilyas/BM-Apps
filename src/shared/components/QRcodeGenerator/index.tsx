@@ -11,7 +11,7 @@ type Props = {
 export const QRcodeGenerator = (props: Props) => {
   return (
     <View style={styles.container}>
-      <QRCode size={WP(40) - RF(10)} value={props?.value} />
+      <QRCode size={WP(40) - RF(10)} value={props?.value ? props.value : ''} />
     </View>
   );
 };

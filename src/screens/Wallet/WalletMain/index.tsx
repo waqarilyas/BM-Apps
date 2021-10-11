@@ -25,16 +25,20 @@ interface Props extends GenericNavigation {}
 
 const WalletMain = (props: Props) => {
   const {
-    wallet: {wallet, defaultCurrency, walletRefreshing, showBalances},
+    wallet: {
+      wallet,
+      defaultCurrency,
+      walletRefreshing,
+      showBalances,
+      walletLoading,
+    },
     util: {balancesUpdateNeeded},
+    settings: {thumbEnabled, currency},
   } = useSelector((state: RootState) => state);
-  const {thumbEnabled} = useSelector((state: RootState) => state.settings);
 
   const [searchText, setSearchText] = useState('');
   const [authOpen, setAuthOpen] = useState(thumbEnabled);
-  const {walletLoading} = useSelector((state: RootState) => state.wallet);
   const dispatch = useDispatch();
-  const {currency} = useSelector((state: RootState) => state.settings);
 
   const navigateToCoinDetail = (name: string) =>
     props.navigation?.navigate('CoinDetails', {coin_symbol: name});
@@ -129,6 +133,9 @@ const WalletMain = (props: Props) => {
       realtimeListener();
     }
     return () => {
+      socket.removeListener(dogeAddress);
+      socket.removeListener(erc20Andbep20Address);
+      socket.removeListener(bitcoinAddress);
       socket.removeListener('coin-data');
       socket.removeAllListeners();
     };
@@ -218,7 +225,7 @@ const WalletMain = (props: Props) => {
             }
             style={styles.listContainer}
             showsVerticalScrollIndicator={false}>
-            {wallet.map((item, index) => {
+            {filteredWallet.map((item, index) => {
               if (item.is_active) {
                 return (
                   <CoinListItem

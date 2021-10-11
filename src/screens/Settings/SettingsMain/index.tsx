@@ -182,13 +182,16 @@ const SettingsMain = (props: Props) => {
         {/* <SettingItem title="Address Book" chevron /> */}
         {/* {!merchantShop && ( */}
 
-        {merchantData && !merchantShop && merchantEnabled && (
-          <SettingItem
-            title={L('Add Store Location')}
-            chevron
-            onPress={navToAddPlace}
-          />
-        )}
+        {merchantData &&
+          !merchantShop &&
+          merchantEnabled &&
+          !merchantData?.isDisabled && (
+            <SettingItem
+              title={L('Add Store Location')}
+              chevron
+              onPress={navToAddPlace}
+            />
+          )}
 
         {/* )} */}
         {!merchantData && (

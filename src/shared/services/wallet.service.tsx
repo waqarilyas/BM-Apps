@@ -15,12 +15,15 @@ import {
   setMnemonic,
   setPortfolioAge,
   setWallet,
+  setWalletLoading,
 } from '../store/reducers/walletReducer';
 import {ECPair, script, Transaction} from 'bitcoinjs-lib';
 var Buffer = require('buffer');
 import Web3 from 'web3';
 import {Transaction as EthereumTx} from 'ethereumjs-tx';
 import {getFixedAmount} from './helper.service';
+import {accountRecovery, createAddress} from './walletcore';
+import Toast from 'react-native-toast-message';
 let bip39 = require('bip39');
 const BIP84 = require('bip84');
 
@@ -42,8 +45,8 @@ export const generateMnemonic = async () => {
   }
 };
 
-export const getCoinsList = () => {
-  return axios.get(`${blockConfig.API_URL}/coin-rates/list/coins`);
+export const getCoinsList = async () => {
+  return await axios.get(`${blockConfig.API_URL}/coin-rates/list/coins`);
 };
 
 export const setActiveAssets = async () => {
@@ -195,24 +198,71 @@ export const checkCoin = async (
   }
 };
 
-export const generateWallet = async ({
-  coinSymbol,
-  recovery,
-  mnemonics,
-}: GenerateWalletParams) => {
+// export const generateWallet = async ({
+//   coinSymbol,
+//   recovery,
+//   mnemonics,
+// }: GenerateWalletParams) => {
+//   try {
+//     const response = await axios({
+//       method: 'post',
+//       url: `${blockConfig.API_URL}/wallet/new`,
+//       data: {
+//         coinSymbol,
+//         mnemonics,
+//         recovery,
+//       },
+//     });
+//     return response.data;
+//   } catch (e) {
+//     console.log('Error generating wallet:', e);
+//     throw e;
+//   }
+// };
+
+// export const generateWallet = async (body: {
+//   coinSymbol: string;
+//   recovery: boolean;
+//   mnemonics: string;
+// }) => {
+//   /** coin info */
+//   const {wallet} = store.getState().wallet;
+//   const coin: Coin = wallet.find(
+//     (c: Coin) => c.coin_symbol === body.coinSymbol,
+//   );
+//   try {
+//     if (!body.recovery) {
+//       const wallet = await createAddress(coin, body.mnemonics);
+//       return {...wallet, isErc20: coin?.is_erc20, isBep20: coin?.is_bep20};
+//     } else {
+//       const wallet = await accountRecovery(coin, body.mnemonics, 2, null);
+//       return {...wallet, isErc20: coin?.is_erc20, isBep20: coin?.is_bep20};
+//     }
+//   } catch (e) {
+//     console.log('error generating wallet: ', e);
+//     throw e;
+//   }
+// };
+
+export const generateWallet = async (body: {
+  coinSymbol: string;
+  recovery: boolean;
+  mnemonics: string;
+}) => {
+  /* coin info */
+  const {wallet} = store.getState().wallet;
+  const coin: Coin = wallet.find(
+    (c: Coin) => c.coin_symbol === body.coinSymbol,
+  );
   try {
-    const response = await axios({
-      method: 'post',
-      url: `${blockConfig.API_URL}/wallet/new`,
-      data: {
-        coinSymbol,
-        mnemonics,
-        recovery,
-      },
-    });
-    return response.data;
+    if (!body.recovery) {
+      const wallet = await createAddress(coin, body.mnemonics, body.recovery);
+      return {...wallet, isErc20: coin?.is_erc20, isBep20: coin?.is_bep20};
+    } else {
+      const wallet = await accountRecovery(coin, body.mnemonics, 2, null);
+      return {...wallet, isErc20: coin?.is_erc20, isBep20: coin?.is_bep20};
+    }
   } catch (e) {
-    console.log('Error generating wallet:', e);
     throw e;
   }
 };
@@ -601,7 +651,7 @@ export const signBtcLikeTx = (
   tx: any,
   privateKey: string,
 ): {pubKeys: string[]; signatures: string[]} => {
-  const keys = ECPair.fromPrivateKey(Buffer.Buffer.from(privateKey, 'hex'));
+  const keys = ECPair?.fromPrivateKey(Buffer.Buffer.from(privateKey, 'hex'));
   const pubKeys: string[] = [];
   const signatures = tx.tosign.map((toSign: string) => {
     pubKeys.push(keys.publicKey.toString('hex'));
@@ -675,6 +725,7 @@ export const getWallets = async () => {
   const {wallet} = store.getState().wallet;
   try {
     const coinList = await getCoinsList();
+
     if (wallet.length < coinList.data.length) {
       const sortedCoinList = await coinList.data.sort((a: any, b: any) =>
         a.orderIndex > b.orderIndex ? 1 : -1,
@@ -706,7 +757,14 @@ export const getWallets = async () => {
       return wallet;
     }
   } catch (error) {
-    console.log('Error render active assets:', error?.response.data);
+    store.dispatch(setWalletLoading(false));
+    Toast.show({
+      text1: 'Error',
+      text2:
+        'Unable to perform the request at the moment. Please try again later',
+      type: 'error',
+    });
+    console.log('Error render active assets:', error);
     throw error;
   }
 };

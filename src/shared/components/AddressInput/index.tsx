@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: HP(6),
     backgroundColor: THEME.COLORS.secondaryBackground,
-    borderRadius: RF(30),
+    borderRadius: RF(5),
     paddingHorizontal: RF(16),
   },
   inputContainer: {

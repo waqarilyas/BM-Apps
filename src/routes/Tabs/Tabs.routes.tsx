@@ -25,14 +25,13 @@ const BottomTabs = () => {
         sceneContainerStyle={{backgroundColor: THEME.COLORS.tabColor}}
         tabBarOptions={{
           activeTintColor: '#00A8FF',
-
           inactiveTintColor: 'white',
-
           tabStyle: {
             backgroundColor: THEME.COLORS.tabColor,
             paddingVertical: 6,
           },
-          style: {height: RF(55)},
+
+          style: {height: RF(55), borderTopWidth: 0},
           keyboardHidesTabBar: true,
         }}
         screenOptions={({route}) => ({

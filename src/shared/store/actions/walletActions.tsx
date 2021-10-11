@@ -72,7 +72,7 @@ export const renderWallet =
       }
       await renderIsRenderedState();
 
-      /* Semd Public Code Info */
+      /* Send Public Code Info */
       const res = await setCoinsPublicInfo(publicInfoCollection);
       for (let index = 0; index < walletAssets.length; index++) {
         const asset = walletAssets[index];
@@ -147,8 +147,10 @@ export const refreshCoinsBalances =
         console.log('Initial Balance Update');
         dispatch(setBalancesUpdateNeeded(false));
       }
+      dispatch(setWalletLoading(false));
     } catch (error) {
       console.log('Error refreshing balances:', error);
       dispatch(setWalletRefreshing(false));
+      dispatch(setWalletLoading(false));
     }
   };

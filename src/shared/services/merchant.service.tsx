@@ -8,6 +8,7 @@ import {
 } from '../store/reducers/userReducer';
 import RNFetchBlob from 'rn-fetch-blob';
 import {setWalletAddress} from '../store/reducers/walletReducer';
+import Toast from 'react-native-toast-message';
 
 export const createNewMerchant = (params: any) => {
   return axios.post(`${blockConfig.API_URL}/Merchant/save`, params);
@@ -42,28 +43,33 @@ export const createNewProduct = (params: any) => {
 };
 
 export const getInitialMerchantData = async () => {
-  const {wallet} = store.getState().wallet;
-  let walletAddress = '';
+  try {
+    const {wallet} = store.getState().wallet;
 
-  wallet.forEach(item => {
-    if (item.coin_symbol == 'eth') {
-      walletAddress = item.address;
-      store.dispatch(setWalletAddress(walletAddress));
-    }
-  });
+    let walletAddress = '';
 
-  const res = await axios.get(
-    `${blockConfig.API_URL}/merchant/currentMerchant?walletAddress=${walletAddress}`,
-  );
+    wallet.forEach(item => {
+      if (item.coin_symbol == 'btc') {
+        walletAddress = item.address;
+        store.dispatch(setWalletAddress(walletAddress));
+      }
+    });
 
-  if (res.data) {
-    store.dispatch(setMerchantData(res.data));
-    store.dispatch(setMerchantEnabledState(true));
-    const shopData = await axios.get(
-      `${blockConfig.API_URL}/shop/getByMerchant/${res.data._id}`,
+    const res = await axios.get(
+      `${blockConfig.API_URL}/merchant/currentMerchant?walletAddress=${walletAddress}`,
     );
 
-    store.dispatch(setMerchantShop(shopData.data));
+    if (res.data) {
+      store.dispatch(setMerchantData(res.data));
+      store.dispatch(setMerchantEnabledState(true));
+      const shopData = await axios.get(
+        `${blockConfig.API_URL}/shop/getByMerchant/${res.data._id}`,
+      );
+
+      store.dispatch(setMerchantShop(shopData.data));
+    }
+  } catch (err) {
+    console.log('--error from get initial merchant data---', err);
   }
 };
 

@@ -49,7 +49,7 @@ const ReceiveCoin = (props: Props) => {
           style={styles.coinIcon}
         />
         {/* <SvgUri width="100%" height="100%" uri={COIN_URL} /> */}
-        <QRcodeGenerator value={coin?.address || ''} />
+        {/* <QRcodeGenerator value={coin?.address || ''} /> */}
         <Text style={styles.instruction}>
           {L('Use the address below to receive funds.')}
         </Text>
