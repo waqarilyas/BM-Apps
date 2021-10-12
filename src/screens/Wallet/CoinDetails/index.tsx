@@ -32,6 +32,7 @@ const CoinDetails = (props: Props) => {
 
   useFocusEffect(
     useCallback(() => {
+      console.log('\x1b[32m', 'Focused');
       checkTransactions(coin?.coin_symbol, coin?.address)
         .then((data: Transaction[]) => {
           setTransactions(
@@ -42,7 +43,7 @@ const CoinDetails = (props: Props) => {
           );
         })
         .catch(err => console.log('Error getting transaction:', err));
-    }, [coin]),
+    }, []),
   );
 
   const showBalance = () => setActiveIndex(0);

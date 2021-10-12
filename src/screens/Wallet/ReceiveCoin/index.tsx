@@ -1,24 +1,23 @@
+import Clipboard from '@react-native-clipboard/clipboard';
 import React, {useMemo, useState} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {useSelector} from 'react-redux';
+import defaultConfig from '../../../../block.config';
 import {ICONS} from '../../../assets';
+import {GetImageForCoin} from '../../../assets/coins';
 import AppHeader from '../../../shared/components/AppHeader';
 import PrimaryButton from '../../../shared/components/PrimaryButton';
-import {QRcodeGenerator} from '../../../shared/components/QRcodeGenerator';
 import {Coin, GenericNavigation} from '../../../shared/models/types';
-import {RootState} from '../../../shared/store';
-import GLOBAL_STYLE from '../../../shared/theme/global';
-import {HP, RF} from '../../../shared/theme/responsive';
-import styles from './styles';
-import Clipboard from '@react-native-clipboard/clipboard';
 import {
   AppShareContent,
   AppShowToast,
 } from '../../../shared/services/helper.service';
-import {GetImageForCoin} from '../../../assets/coins';
-import blockConfig from '../../../../block.config';
+import {RootState} from '../../../shared/store';
+import GLOBAL_STYLE from '../../../shared/theme/global';
+import {HP, RF} from '../../../shared/theme/responsive';
 import L from '../../../shared/utils/LanguageHandler';
+import styles from './styles';
 
 interface Props extends GenericNavigation {}
 
@@ -37,7 +36,7 @@ const ReceiveCoin = (props: Props) => {
     Clipboard.setString(coin?.address!);
   };
 
-  const COIN_URL = `${blockConfig.API_URL}/admin/coin/${coin?.coin_symbol}`;
+  const COIN_URL = `${defaultConfig.API_URL}/admin/coin/${coin?.coin_symbol}`;
 
   return (
     <View style={styles.mainContainer}>

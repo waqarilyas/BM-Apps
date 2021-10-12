@@ -1,5 +1,5 @@
 import axios from 'axios';
-import blockConfig from '../../../block.config';
+import defaultConfig from '../../../block.config';
 import {
   Coin,
   GenerateWalletParams,
@@ -46,7 +46,7 @@ export const generateMnemonic = async () => {
 };
 
 export const getCoinsList = async () => {
-  return await axios.get(`${blockConfig.API_URL}/coin-rates/list/coins`);
+  return await axios.get(`${defaultConfig.API_URL}/coin-rates/list/coins`);
 };
 
 export const setActiveAssets = async () => {
@@ -206,7 +206,7 @@ export const checkCoin = async (
 //   try {
 //     const response = await axios({
 //       method: 'post',
-//       url: `${blockConfig.API_URL}/wallet/new`,
+//       url: `${defaultConfig.API_URL}/wallet/new`,
 //       data: {
 //         coinSymbol,
 //         mnemonics,
@@ -256,7 +256,7 @@ export const generateWallet = async (body: {
   );
   try {
     if (!body.recovery) {
-      const wallet = await createAddress(coin, body.mnemonics, body.recovery);
+      const wallet = await createAddress(coin, body.mnemonics);
       return {...wallet, isErc20: coin?.is_erc20, isBep20: coin?.is_bep20};
     } else {
       const wallet = await accountRecovery(coin, body.mnemonics, 2, null);
@@ -274,7 +274,7 @@ export const checkRate = async (
 ) => {
   try {
     const response = await axios.get(
-      `${blockConfig.API_URL}/coin-rates/${coin}?vs_currency=${currency}`,
+      `${defaultConfig.API_URL}/coin-rates/${coin}?vs_currency=${currency}`,
     );
     store.dispatch(setCoinRate({index, chartData: response.data}));
   } catch (err) {
@@ -285,7 +285,9 @@ export const checkRate = async (
 
 export const checkTransactions = async (coinSymbol: any, coinAddress: any) => {
   return axios
-    .get(`${blockConfig.API_URL}/transaction/${coinAddress}/${coinSymbol}/txs`)
+    .get(
+      `${defaultConfig.API_URL}/transaction/${coinAddress}/${coinSymbol}/txs`,
+    )
     .then(res => res.data);
 };
 
@@ -300,7 +302,7 @@ export const checkBalance = async (
     .wallet.wallet.filter(c => c.coin_symbol === coinSymbol)[0];
   await axios
     .get(
-      `${blockConfig.API_URL}/wallet/balance/${coinSymbol}/${coinData.address}?vs_currency=${currency}`,
+      `${defaultConfig.API_URL}/wallet/balance/${coinSymbol}/${coinData.address}?vs_currency=${currency}`,
     )
     .then(async res => {
       store.dispatch(
@@ -338,7 +340,7 @@ export const validateMnemonic = async (recovery: string) => {
   try {
     const isValidated = await axios({
       method: 'post',
-      url: `${blockConfig.API_URL}/wallet/validate/mnemonic`,
+      url: `${defaultConfig.API_URL}/wallet/validate/mnemonic`,
       data: {
         mnemonic: recovery,
       },
@@ -415,7 +417,7 @@ const EthLikeTxToCompany = async (txPayload: any) => {
 
 async function createEthLikeTx(txPayload: any) {
   const web3 = new Web3(
-    new Web3.providers.HttpProvider(blockConfig.INFURA_URL),
+    new Web3.providers.HttpProvider(defaultConfig.INFURA_URL),
   );
   const nonce = await web3.eth.getTransactionCount(txPayload.from);
   const balance = await web3.eth.getBalance(txPayload.from);
@@ -431,7 +433,7 @@ async function createEthLikeTx(txPayload: any) {
     gas: 21000,
     gasPrice: gasPrices.low * 1000000000,
     nonce: nonce,
-    chainId: blockConfig.CHAIN_ID, // EIP 155 chainId - mainnet: 1, rinkeby: 4
+    chainId: defaultConfig.CHAIN_ID, // EIP 155 chainId - mainnet: 1, rinkeby: 4
   };
   console.log('\x1b[32m', 'ETH Transaction created:', trx);
   return trx;
@@ -493,7 +495,7 @@ const Erc20LikeTxToCompany = async (txPayload: any) => {
 async function createErc20LikeTx(txPayload: any) {
   try {
     let web3 = new Web3(
-      new Web3.providers.HttpProvider(blockConfig.INFURA_URL),
+      new Web3.providers.HttpProvider(defaultConfig.INFURA_URL),
     );
 
     const gasPrices = await getCurrentGasPrices();
@@ -515,7 +517,7 @@ async function createErc20LikeTx(txPayload: any) {
       gas: 80000,
       gasPrice: gasPrices.low * 1000000000,
       nonce: nonce,
-      chainId: blockConfig.CHAIN_ID, // EIP 155 chainId - mainnet: 1, rinkeby: 4
+      chainId: defaultConfig.CHAIN_ID, // EIP 155 chainId - mainnet: 1, rinkeby: 4
     };
     console.log('\x1b[32m', 'Eth Transaction Created:', trx);
     return trx;
@@ -528,10 +530,10 @@ async function createErc20LikeTx(txPayload: any) {
 const signEthLikeTx = async (privateKey: string, trx: any) => {
   try {
     const web3 = new Web3(
-      new Web3.providers.HttpProvider(blockConfig.INFURA_URL),
+      new Web3.providers.HttpProvider(defaultConfig.INFURA_URL),
     );
     /* sign tx */
-    const transaction = new EthereumTx(trx, {chain: blockConfig.CHAIN_ID});
+    const transaction = new EthereumTx(trx, {chain: defaultConfig.CHAIN_ID});
     transaction.sign(Buffer.Buffer.from(privateKey, 'hex'));
     /* send tx */
     const serializedTransaction = transaction.serialize();
@@ -549,7 +551,7 @@ const submitEthLikeTx = async (txHash: string, txPayload: any) => {
   try {
     await axios({
       method: 'post',
-      url: `${blockConfig.API_URL}/transaction/monitorTx`,
+      url: `${defaultConfig.API_URL}/transaction/monitorTx`,
       data: {
         txHash,
         coinSymbol: txPayload.symbol,
@@ -564,7 +566,7 @@ const submitEthLikeTx = async (txHash: string, txPayload: any) => {
 
 async function getCurrentGasPrices() {
   try {
-    const response = await axios.get(blockConfig.ETH_GAS_API);
+    const response = await axios.get(defaultConfig.ETH_GAS_API);
     const prices = {
       low: response.data.safeLow / 10,
       medium: response.data.average / 10,
@@ -630,7 +632,7 @@ export const BtcLikeTxToCompany = async (txPayload: any) => {
 const createBtcLikeTx = async (txPayload: any) => {
   const createdTx = await axios({
     method: 'post',
-    url: `${blockConfig.API_URL}/transaction/btctest/send`,
+    url: `${defaultConfig.API_URL}/transaction/btctest/send`,
     data: {
       to: txPayload.to,
       from: txPayload.from,
@@ -669,7 +671,7 @@ export const signBtcLikeTx = (
 export const submitBtcLikeTx = async (signedTx: any, symbol: any) => {
   const submittedTx = await axios({
     method: 'post',
-    url: `${blockConfig.API_URL}/transaction/${symbol}/submit`,
+    url: `${defaultConfig.API_URL}/transaction/${symbol}/submit`,
     data: signedTx,
   })
     .then(response => {
@@ -686,7 +688,7 @@ export const getCoinBalance = async (body: {
   address: string;
 }) =>
   axios.get(
-    `${blockConfig.API_URL}/wallet/balance/${body.coinSymbol}/${body.address}`,
+    `${defaultConfig.API_URL}/wallet/balance/${body.coinSymbol}/${body.address}`,
   );
 
 export const updateCoinRates = async (wallet: Coin[], currency: string) => {
@@ -770,7 +772,7 @@ export const getWallets = async () => {
 };
 
 export const setCoinsPublicInfo = async (payload: PublicInfoPayload[]) =>
-  await axios.post(`${blockConfig.API_URL}/wallet/publicinfo`, payload);
+  await axios.post(`${defaultConfig.API_URL}/wallet/publicinfo`, payload);
 
 export const createBTCWallet = (mnemonic: string) => {
   console.log('--craete btc wallet called--');
@@ -800,4 +802,4 @@ export const createBTCWallet = (mnemonic: string) => {
 export const getAllCoinsBalances = async (body: {
   currencyCode: string;
   walletsInfo: {coinSymbol: string; address: string}[];
-}) => axios.post(`${blockConfig.API_URL}/wallet/balance`, body);
+}) => axios.post(`${defaultConfig.API_URL}/wallet/balance`, body);

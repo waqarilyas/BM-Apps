@@ -1,7 +1,7 @@
 import io from 'socket.io-client';
-import blockConfig from '../../../block.config';
+import defaultConfig from '../../../block.config';
 
-export let socket = io.connect(blockConfig.API_URL);
+export let socket = io.connect(defaultConfig.API_URL);
 
 export const initSocket = async (address: string) => {
   try {
@@ -11,7 +11,7 @@ export const initSocket = async (address: string) => {
       return;
     }
 
-    socket = io.connect(blockConfig.API_URL, {
+    socket = io.connect(defaultConfig.API_URL, {
       query: {
         address,
       },

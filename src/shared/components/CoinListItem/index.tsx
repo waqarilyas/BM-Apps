@@ -11,7 +11,7 @@ import {RF} from '../../theme/responsive';
 import {THEME} from '../../theme';
 import ToggleSwitch from 'toggle-switch-react-native';
 import {Coin} from '../../models/types';
-import blockConfig from '../../../../block.config';
+// import blockConfig from '../../../../block.config';
 import {useDispatch, useSelector} from 'react-redux';
 import {setCoinIsActive} from '../../store/reducers/walletReducer';
 import {SvgUri} from 'react-native-svg';
@@ -21,6 +21,8 @@ import {parse} from 'url';
 import {RootState} from '../../store';
 import ConfidentialText from '../ConfidentialText';
 import {ICONS} from '../../../assets';
+import defaultConfig from '../../../../block.config';
+// import {blockConfig} from '../../../../block.config';
 
 interface Props extends TouchableOpacityProps {
   toggle?: boolean;
@@ -34,7 +36,7 @@ const CoinListItem = (props: Props) => {
 
   const rate = props?.item?.chart_data?.rate;
 
-  const COIN_URL = `${blockConfig.API_URL}/admin/coin/${props.item.coin_symbol}`;
+  const COIN_URL = `${defaultConfig.API_URL}/admin/coin/${props.item.coin_symbol}`;
   const onPressToggle = () => dispatch(setCoinIsActive(props.item.coin_symbol));
 
   const percentage = props.item.chart_data?.changePercentage24h?.toFixed(2);

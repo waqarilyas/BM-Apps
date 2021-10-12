@@ -8,7 +8,7 @@ import {derivePath, getPublicKey} from 'ed25519-hd-key';
 import {Address} from 'ethereumjs-util';
 import HDKey from 'hdkey';
 import wif from 'wif';
-import blockConfig from '../../../block.config';
+import defaultConfig from '../../../block.config';
 import {Coin} from '../models/types';
 const BIP84 = require('bip84');
 
@@ -161,7 +161,7 @@ export const createECDSA = (
       seed: seed.toString('hex'),
       _publicKey: child._publicKey.toString('hex'),
       _privateKey: child._privateKey.toString('hex'),
-      address: Address?.fromPrivateKey(child._privateKey).toString(),
+      address: Address.fromPrivateKey(child._privateKey).toString(),
     };
   }
 };
@@ -188,11 +188,7 @@ export const createEdDSA = (symbol: any) => {
  * @param symbol
  * @param algo
  */
-export const createHdWallet = (
-  symbol: string,
-  mnemonic: string,
-  recovery: boolean,
-) => {
+export const createHdWallet = (symbol: string, mnemonic: string) => {
   if (symbol === 'btc') {
     return createBech32Wallet(mnemonic);
   }
@@ -266,20 +262,16 @@ export const accountRecovery = async (
 //   }
 //   return createHdWallet(symbol, mnemonic);
 // };
-export const createAddress = (
-  coin: Coin,
-  mnemonic: string,
-  recovery: boolean = false,
-) => {
+export const createAddress = (coin: Coin, mnemonic: string) => {
   let symbol = coin.coin_symbol;
   if (coin.is_erc20 || coin.is_bep20 || coin.coin_symbol === 'bnb') {
     symbol = 'eth';
   }
-  return createHdWallet(symbol, mnemonic, recovery);
+  return createHdWallet(symbol, mnemonic);
 };
 
 export const BCNetwork = (symbol: any) => {
-  if (blockConfig.ENV === 'development') {
+  if (defaultConfig.ENV === 'development') {
     return 'btc/test3';
   } else {
     return symbol + '/main';
@@ -299,7 +291,7 @@ export const checkValidAddress = async (
   if (coinType === 'isEth' || coinType === 'isERC20') {
     const txs = await axios
       .get(
-        `${blockConfig.ETHERSCAN_API_URL}/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${blockConfig.ETHERSCAN_API_KEY}`,
+        `${defaultConfig.ETHERSCAN_API_URL}/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${defaultConfig.ETHERSCAN_API_KEY}`,
       )
       .then(function (response) {
         return response.data;
@@ -311,7 +303,7 @@ export const checkValidAddress = async (
   } else if (coinType === 'isBnb' || coinType === 'isBEP20') {
     const txs = await axios
       .get(
-        `${blockConfig.BSCSCAN_API_URL}/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${blockConfig.BSCSCAN_API_KEY}`,
+        `${defaultConfig.BSCSCAN_API_URL}/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${defaultConfig.BSCSCAN_API_KEY}`,
       )
       .then(function (response) {
         return response.data;
@@ -323,10 +315,10 @@ export const checkValidAddress = async (
   } else {
     const txs = await axios
       .get(
-        `${blockConfig.BLOCKCYPHER_URL}/${
-          blockConfig.BLOCKCYPHER_API_VERSION
+        `${defaultConfig.BLOCKCYPHER_URL}/${
+          defaultConfig.BLOCKCYPHER_API_VERSION
         }/${BCNetwork(coin)}/addrs/${address}/balance?token=${
-          blockConfig.BLOCKCYPHER_API_TOKEN
+          defaultConfig.BLOCKCYPHER_API_TOKEN
         }`,
       )
       .then(function (response) {
@@ -351,7 +343,7 @@ export const getCoinBlockchain = async (coin: Coin) => {
 };
 
 export const btcLikeAddressVersion = (symbol: any) => {
-  if (blockConfig.ENV === 'development') {
+  if (defaultConfig.ENV === 'development') {
     if (symbol !== 'btc') {
       return 0x1b;
     } else {

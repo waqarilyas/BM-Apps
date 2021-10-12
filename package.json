@@ -39,6 +39,7 @@
     "domain-browser": "^1.2.0",
     "ed25519-hd-key": "^1.2.0",
     "ethereumjs-tx": "^2.1.2",
+    "ethereumjs-util": "^7.1.2",
     "events": "^1.1.1",
     "faker": "^5.5.3",
     "formik": "^2.2.9",

@@ -1,26 +1,25 @@
+import WAValidator from 'multicoin-address-validator';
 import React, {useMemo, useState} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
+import {useSelector} from 'react-redux';
 import AddressInput from '../../../shared/components/AddressInput';
 import AppHeader from '../../../shared/components/AppHeader';
 import AppInput from '../../../shared/components/AppInput';
-import PrimaryButton from '../../../shared/components/PrimaryButton';
-import {THEME} from '../../../shared/theme';
-import {HP} from '../../../shared/theme/responsive';
-import styles from './styles';
 import PaymentStatusModal from '../../../shared/components/PaymentStatusModal';
-import GLOBAL_STYLE from '../../../shared/theme/global';
-import {RootState} from '../../../shared/store';
-import {useSelector} from 'react-redux';
+import PrimaryButton from '../../../shared/components/PrimaryButton';
 import {Coin, GenericNavigation} from '../../../shared/models/types';
-import {currenciesEnum} from '../../../shared/utils/AppConstants';
 import {
   AppShowToast,
   getFixedAmount,
-  getPairPrice,
 } from '../../../shared/services/helper.service';
 import {handleTx} from '../../../shared/services/wallet.service';
-import WAValidator from 'multicoin-address-validator';
+import {RootState} from '../../../shared/store';
+import {THEME} from '../../../shared/theme';
+import GLOBAL_STYLE from '../../../shared/theme/global';
+import {HP} from '../../../shared/theme/responsive';
+import {currenciesEnum} from '../../../shared/utils/AppConstants';
 import L from '../../../shared/utils/LanguageHandler';
+import styles from './styles';
 
 interface Props extends GenericNavigation {}
 
@@ -115,13 +114,13 @@ const SendCoin = (props: Props) => {
   const onSend = async () => {
     try {
       if (coin?.coin_symbol !== 'weenus') {
-        console.log(address, '---', coin?.coin_symbol);
-        let valid = WAValidator.validate(address, coin?.coin_symbol);
-        if (!valid) {
-          return AppShowToast(
-            `Please enter a ${coin?.coin_name} valid address`,
-          );
-        }
+        // console.log(address, '---', coin?.coin_symbol);
+        // let valid = WAValidator.validate(address, coin?.coin_symbol);
+        // if (!valid) {
+        //   return AppShowToast(
+        //     `Please enter a ${coin?.coin_name} valid address`,
+        //   );
+        // }
       } else if (coin?.coin_symbol === 'weenus') {
         let valid = WAValidator.validate(address, 'eth');
         if (!valid) {
@@ -130,6 +129,9 @@ const SendCoin = (props: Props) => {
           );
         }
       }
+
+      console.log('usdtAmount:', usdtAmount);
+
       if (usdtAmount) {
         if (isNaN(Number(usdtAmount))) {
           return AppShowToast(L('Amount must be a number'));
@@ -173,7 +175,7 @@ const SendCoin = (props: Props) => {
       setPaymentError(false);
     } catch (error) {
       setLoading(false);
-      setPaymentError(error);
+      setPaymentError(error ? true : false);
       setShowModal(true);
       console.log('Error Sending Coin.', error);
     }
