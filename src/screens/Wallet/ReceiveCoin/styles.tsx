@@ -54,6 +54,11 @@ const styles = StyleSheet.create({
     fontSize: THEME.FONTS.SIZE.SMALL,
     color: THEME.COLORS.green,
   },
+  qrContainer: {
+    alignSelf: 'center',
+    padding: RF(5),
+    backgroundColor: 'white',
+  },
 });
 
 export default styles;

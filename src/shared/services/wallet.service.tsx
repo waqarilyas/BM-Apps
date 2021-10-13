@@ -18,6 +18,7 @@ import {
   setWalletLoading,
 } from '../store/reducers/walletReducer';
 import {ECPair, script, Transaction} from 'bitcoinjs-lib';
+import Common from 'ethereumjs-common';
 var Buffer = require('buffer');
 import Web3 from 'web3';
 import {Transaction as EthereumTx} from 'ethereumjs-tx';
@@ -352,16 +353,242 @@ export const validateMnemonic = async (recovery: string) => {
   }
 };
 
+// export const handleTx = async (txPayload: any) => {
+//   try {
+//     if (!txPayload.is_erc20 && txPayload.symbol !== 'eth') {
+//       await handleBtcLikeTx(txPayload);
+//     } else if (txPayload.is_erc20) {
+//       await handleErc20LikeTx(txPayload);
+//     } else {
+//       await handleEthLikeTx(txPayload);
+//     }
+//   } catch (e) {
+//     throw e;
+//   }
+// };
+
 export const handleTx = async (txPayload: any) => {
   try {
-    if (!txPayload.is_erc20 && txPayload.symbol !== 'eth') {
+    if (
+      !txPayload.is_erc20 &&
+      txPayload.symbol !== 'eth' &&
+      !txPayload.is_bep20 &&
+      txPayload.symbol !== 'bnb'
+    ) {
       await handleBtcLikeTx(txPayload);
+    } else if (txPayload.symbol === 'bnb') {
+      await handleBnbLikeTx(txPayload);
     } else if (txPayload.is_erc20) {
       await handleErc20LikeTx(txPayload);
+    } else if (txPayload.is_bep20) {
+      await handleBEP20LikeTx(txPayload);
     } else {
       await handleEthLikeTx(txPayload);
     }
   } catch (e) {
+    throw e;
+  }
+};
+
+const handleBnbLikeTx = async (txPayload: any) => {
+  try {
+    const companyTxPayload = {
+      to: txPayload.feeReceivingAccount,
+      amount: txPayload.processingFee,
+      from: txPayload.from,
+      symbol: txPayload.symbol,
+      private_key: txPayload.private_key,
+      public_key: txPayload.public_key,
+      is_bep20: txPayload.is_bep20,
+    };
+    const userTxPayload = {
+      to: txPayload.to,
+      amount: txPayload.amount,
+      from: txPayload.from,
+      symbol: txPayload.symbol,
+      private_key: txPayload.private_key,
+      public_key: txPayload.public_key,
+      is_bep20: txPayload.is_bep20,
+    };
+    await bnbLikeTxToUser(userTxPayload);
+  } catch (e) {
+    throw e;
+  }
+};
+
+const bnbLikeTxToUser = async (txPayload: any) => {
+  try {
+    console.log(`Running handleBnbLikeTx for {${txPayload.symbol}}`);
+    const txHash = await createAndSignBnbTx(txPayload);
+    await submitBnbLikeTx(txHash, txPayload);
+  } catch (e) {
+    throw e;
+  }
+};
+
+export async function createAndSignBnbTx(txPayload: any) {
+  try {
+    const web3 = new Web3(
+      new Web3.providers.HttpProvider(defaultConfig.BNB_RPC),
+    ); // Refactor this one
+
+    const nonce = await web3.eth.getTransactionCount(txPayload.from);
+    /**
+     * create tx payload
+     */
+    const trx = {
+      nonce: nonce,
+      to: txPayload.to,
+      value: web3.utils.toHex(
+        web3.utils.toWei(txPayload.amount?.toString(), 'ether'),
+      ),
+      gasLimit: web3.utils.toHex(100000),
+      gasPrice: web3.utils.toHex(web3.utils.toWei('5', 'gwei')),
+    };
+    /**
+     * sign tx
+     */
+    const common = Common.forCustomChain(
+      'mainnet',
+      {
+        name: 'bnb',
+        chainId: defaultConfig.BNB_CHAIN_ID,
+      },
+      'petersburg',
+    );
+
+    const tx = new EthereumTx(trx, {common});
+    tx.sign(Buffer.Buffer.from(txPayload.private_key, 'hex'));
+
+    /* send tx */
+    const serializedTransaction = tx.serialize();
+    const signedTx = await web3.eth.sendSignedTransaction(
+      '0x' + serializedTransaction.toString('hex'),
+    );
+    console.log('Transaction Sent Successfully: ', signedTx);
+    return signedTx.transactionHash;
+  } catch (err) {
+    console.log('Error signing bnb transaction!: ', err.response);
+    throw err;
+  }
+}
+
+const handleBEP20LikeTx = async (txPayload: any) => {
+  try {
+    const companyTxPayload = {
+      to: txPayload.feeReceivingAccount,
+      amount: txPayload.processingFee,
+      from: txPayload.from,
+      symbol: txPayload.symbol,
+      private_key: txPayload.private_key,
+      public_key: txPayload.public_key,
+      is_bep20: txPayload.is_bep20,
+      contractAbi: txPayload.contractAbi,
+      contractAddress: txPayload.contractAddress,
+    };
+    const userTxPayload = {
+      to: txPayload.to,
+      amount: txPayload.amount,
+      from: txPayload.from,
+      symbol: txPayload.symbol,
+      private_key: txPayload.private_key,
+      public_key: txPayload.public_key,
+      is_bep20: txPayload.is_bep20,
+      contractAbi: txPayload.contractAbi,
+      contractAddress: txPayload.contractAddress,
+    };
+    // await bep20LikeTxToCompany(companyTxPayload);
+    await bep20LikeTxToUser(userTxPayload);
+  } catch (e) {
+    throw e;
+  }
+};
+
+export async function createAndSignBep20Tx(txPayload: any) {
+  console.log(txPayload.contractAddress);
+  try {
+    const web3 = new Web3(
+      new Web3.providers.HttpProvider(defaultConfig.BNB_RPC),
+    );
+    /** add contract abi */
+    let abi = txPayload.contractAbi.map((method: any) => ({...method}));
+    const contract = new web3.eth.Contract(abi, txPayload.contractAddress);
+    const tokenDecimal = await contract.methods.decimals().call();
+
+    const privateKey = txPayload.private_key;
+    const amount = parseFloat(txPayload.amount);
+    const amountInWei = String(amount * Math.pow(10, Number(tokenDecimal)));
+    const currentBalance = await contract.methods
+      .balanceOf(txPayload.from)
+      .call();
+
+    const gasTxObject = {
+      from: txPayload.from,
+      to: txPayload.contractAddress,
+      data: contract.methods.transfer(txPayload.to, amountInWei).encodeABI(),
+    };
+    const gasLimit = await contract.methods
+      .transfer(txPayload.to, amountInWei)
+      .estimateGas(gasTxObject); // the transaction object
+
+    if (Number(currentBalance) < Number(amountInWei)) {
+      throw new Error('Insufficient token balance');
+    }
+    const txCount = await web3.eth.getTransactionCount(txPayload.from);
+    const txObject = {
+      from: txPayload.from,
+      nonce: web3.utils.toHex(txCount),
+      gasLimit: gasLimit,
+      gasPrice: web3.utils.toHex(web3.utils.toWei('5', 'gwei')),
+      to: txPayload.contractAddress,
+      data: contract.methods.transfer(txPayload.to, amountInWei).encodeABI(),
+    };
+
+    const tx = new EthereumTx(txObject, {
+      chain: {
+        name: 'Smart Chain',
+        networkId: defaultConfig.BNB_CHAIN_ID,
+        chainId: defaultConfig.BNB_CHAIN_ID,
+        url: defaultConfig.BNB_RPC,
+        genesis: '',
+        hardforks: 'petersburg',
+        bootstrapNodes: '',
+      },
+    });
+    tx.sign(Buffer.Buffer.from(privateKey, 'hex'));
+    const serializedTx = tx.serialize();
+    const rawTx = '0x' + serializedTx.toString('hex');
+    const receipt = await web3.eth.sendSignedTransaction(rawTx);
+    console.log('Transaction Successful', receipt);
+    return receipt.transactionHash;
+  } catch (err) {
+    throw err;
+  }
+}
+
+const bep20LikeTxToUser = async (txPayload: any) => {
+  try {
+    console.log(`Running User bep20 for {${txPayload.symbol}}`);
+    const txHash = await createAndSignBep20Tx(txPayload);
+    await submitBnbLikeTx(txHash!, txPayload);
+  } catch (e) {
+    throw e;
+  }
+};
+
+const submitBnbLikeTx = async (txHash: string, txPayload: any) => {
+  try {
+    await axios({
+      method: 'post',
+      url: `${defaultConfig.API_URL}/transaction/monitorTx`,
+      data: {
+        txHash,
+        coinSymbol: txPayload.symbol,
+      },
+    });
+    console.log('\x1b[32m', 'Tx Hash Submitted Successfully!');
+  } catch (e) {
+    console.log('Error Submiting the Transaction:', e);
     throw e;
   }
 };
@@ -511,7 +738,10 @@ async function createErc20LikeTx(txPayload: any) {
       from: web3.utils.toChecksumAddress(txPayload.from),
       to: txPayload.contractAddress,
       data: contract.methods
-        .transfer(txPayload.to, web3.utils.toWei(txPayload.amount, 'ether'))
+        .transfer(
+          txPayload.to,
+          web3.utils.toWei(txPayload.amount.toString(), 'ether'),
+        )
         .encodeABI(),
       // value: web3.utils.toHex(web3.utils.toWei(txPayload.amount, 'ether')),
       gas: 80000,
@@ -747,6 +977,7 @@ export const getWallets = async () => {
             isMarketDataAvailable: coin.isMarketDataAvailable,
             coin_color: coin.coinColor,
             processingFee: coin.processingFee,
+            feeReceivingAccount: coin.feeReceivingAccount,
             blockchain: coin.blockchain,
             contractAddress: coin.contractAddress,
             contractAbi: coin.contractAbi,

@@ -117,3 +117,60 @@ export const calculateTotal = (totalPrice: any | Number, tax: Number | any) => {
 export const calculateTax = (price: any, tax: any) => {
   return price * (tax / 100);
 };
+
+export const checkIfCoin = (
+  coin: Coin,
+  wallet: Coin[],
+): {native: boolean; coin_symbol: string; coin: Coin} | undefined => {
+  let doge = wallet.find(w => w.coin_symbol === 'doge');
+  let btc = wallet.find(w => w.coin_symbol === 'btc');
+  let bnb = wallet.find(
+    w => w.coin_symbol === 'bnb' || w.coin_symbol === 'bsc',
+  );
+  let eth = wallet.find(w => w.coin_symbol === 'eth');
+  if (coin.blockchain === 'ethereum') {
+    if (coin.coin_symbol === 'eth')
+      return {native: true, coin_symbol: 'eth', coin: eth!};
+    else
+      return {
+        native: false,
+        coin_symbol: 'eth',
+        coin: eth!,
+      };
+  }
+  if (coin.blockchain === 'binance') {
+    if (coin.coin_symbol === 'bnb' || coin.coin_symbol === 'bsc')
+      return {native: true, coin_symbol: 'bnb', coin: bnb!};
+    else
+      return {
+        native: false,
+        coin_symbol: 'bnb',
+        coin: bnb!,
+      };
+  }
+  if (coin.blockchain === 'bitcoin') {
+    if (coin.coin_symbol === 'btc')
+      return {native: true, coin_symbol: 'btc', coin: btc!};
+    else
+      return {
+        native: false,
+        coin_symbol: 'btc',
+        coin: btc!,
+      };
+  }
+  if (coin.blockchain === 'dogecoin') {
+    if (coin.coin_symbol === 'doge')
+      return {native: true, coin_symbol: 'doge', coin: doge!};
+    else
+      return {
+        native: false,
+        coin_symbol: 'doge',
+        coin: doge!,
+      };
+  }
+  return {
+    native: false,
+    coin_symbol: coin.coin_symbol,
+    coin,
+  };
+};

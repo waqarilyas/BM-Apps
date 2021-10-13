@@ -4,6 +4,7 @@ import {View, Text, ScrollView, TouchableOpacity, FlatList} from 'react-native';
 import {useSelector} from 'react-redux';
 import {parse} from 'url';
 import AppHeader from '../../../shared/components/AppHeader';
+import EmptyScreenComponent from '../../../shared/components/EmptyScreenComponent';
 import TransactionButton from '../../../shared/components/TransactionButton';
 import TransactionItem from '../../../shared/components/TransactionItem';
 import {
@@ -30,21 +31,30 @@ const CoinDetails = (props: Props) => {
     );
   }, [wallet, props.route]);
 
-  useFocusEffect(
-    useCallback(() => {
-      console.log('\x1b[32m', 'Focused');
-      checkTransactions(coin?.coin_symbol, coin?.address)
-        .then((data: Transaction[]) => {
-          setTransactions(
-            data.map(t => {
-              t.epoch = new Date(t.timeStamp).getTime();
-              return t;
-            }),
-          );
-        })
-        .catch(err => console.log('Error getting transaction:', err));
-    }, []),
-  );
+  const getTransactions = () => {
+    checkTransactions(coin?.coin_symbol, coin?.address)
+      .then((data: Transaction[]) => {
+        setTransactions(
+          data.map(t => {
+            t.epoch = new Date(t.timeStamp).getTime();
+            return t;
+          }),
+        );
+      })
+      .catch(err => console.log('Error getting transaction:', err));
+  };
+
+  useEffect(() => {
+    getTransactions();
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = props?.navigation.addListener('focus', () => {
+      getTransactions();
+    });
+
+    return unsubscribe;
+  }, [props.navigation]);
 
   const showBalance = () => setActiveIndex(0);
   const showTransactions = () => setActiveIndex(1);
@@ -116,7 +126,19 @@ const CoinDetails = (props: Props) => {
           <FlatList
             data={sortedTransactions}
             keyExtractor={(_, index) => index.toString()}
-            contentContainerStyle={{marginTop: THEME.MARGIN.LOW}}
+            contentContainerStyle={
+              sortedTransactions.length == 0
+                ? {
+                    flex: 1,
+                  }
+                : {
+                    marginTop: THEME.MARGIN.LOW,
+                  }
+            }
+            ListEmptyComponent={() => (
+              <EmptyScreenComponent title={L('No transactions found!')} />
+            )}
+            // contentContainerStyle={{marginTop: THEME.MARGIN.LOW}}
             renderItem={({item, index}) => {
               return (
                 <TransactionItem

@@ -10,6 +10,7 @@ import PrimaryButton from '../../../shared/components/PrimaryButton';
 import {Coin, GenericNavigation} from '../../../shared/models/types';
 import {
   AppShowToast,
+  checkIfCoin,
   getFixedAmount,
 } from '../../../shared/services/helper.service';
 import {handleTx} from '../../../shared/services/wallet.service';
@@ -17,7 +18,10 @@ import {RootState} from '../../../shared/store';
 import {THEME} from '../../../shared/theme';
 import GLOBAL_STYLE from '../../../shared/theme/global';
 import {HP} from '../../../shared/theme/responsive';
-import {currenciesEnum} from '../../../shared/utils/AppConstants';
+import {
+  blockchainsEnum,
+  currenciesEnum,
+} from '../../../shared/utils/AppConstants';
 import L from '../../../shared/utils/LanguageHandler';
 import styles from './styles';
 
@@ -27,6 +31,8 @@ const SendCoin = (props: Props) => {
   const {wallet, defaultCurrency} = useSelector(
     (state: RootState) => state.wallet,
   );
+  const {wallet: walletState} = useSelector((state: RootState) => state);
+
   const [address, setAddress] = useState(
     __DEV__ ? '0x848A11486d4DA33e7270412FdEcb3D597A5A5357' : '',
   );
@@ -36,13 +42,13 @@ const SendCoin = (props: Props) => {
   const [loading, setLoading] = useState(false);
   const [paymentError, setPaymentError] = useState(false);
 
-  const [coin, ETH_RATE] = useMemo(() => {
-    let selectedCoin = wallet.find(
-      (c: Coin) => c?.coin_symbol === props.route?.params?.coinSymbol,
-    );
-    let eth = wallet.find((c: Coin) => c.coin_name === 'Ethereum');
-    return [selectedCoin, eth?.chart_data.rate];
-  }, [wallet, props.route]);
+  // const [coin, ETH_RATE] = useMemo(() => {
+  //   let selectedCoin = wallet.find(
+  //     (c: Coin) => c?.coin_symbol === props.route?.params?.coinSymbol,
+  //   );
+  //   let eth = wallet.find((c: Coin) => c.coin_name === 'Ethereum');
+  //   return [selectedCoin, eth?.chart_data.rate];
+  // }, [wallet, props.route]);
 
   const onChangeAddress = (text: string) => setAddress(text);
   const toggleModal = () => {
@@ -62,7 +68,7 @@ const SendCoin = (props: Props) => {
   };
 
   const onChangeCoinAmount = (text: string) => {
-    setCoinAmount(text);
+    setCoinAmount(String(text)); // COIN AMOUNT STATE
     let newFiatAmount = Number(text) * Number(coin?.chart_data.rate);
     setUsdtAmount(newFiatAmount.toFixed(newFiatAmount > 10 ? 2 : 6));
   };
@@ -78,29 +84,61 @@ const SendCoin = (props: Props) => {
     setUsdtAmount(coin?.vs_currency_balance!);
   };
 
+  // const networkFee = useMemo(() => {
+  //   let ETH = wallet.find((c: Coin) => c.coin_name === 'Ethereum');
+  //   if (coin?.coin_symbol === 'eth') {
+  //     return coin?.chart_data?.networkFeeMin;
+  //   } else if (coin?.coin_symbol !== 'eth' && coin?.blockchain === 'ethereum') {
+  //     return (
+  //       (Number(ETH?.chart_data.networkFeeMin) * Number(ETH?.chart_data.rate)) /
+  //       Number(coin.chart_data.rate)
+  //     );
+  //     //convert network fee to desire count amount
+  //   } else {
+  //     return coin?.chart_data.networkFeeMin;
+  //   }
+  // }, [wallet, coin]);
+
+  const [coin, nativeCoin] = useMemo(() => {
+    const c = wallet.find(
+      (c: Coin) => c.coin_symbol === props.route?.params?.coinSymbol,
+    );
+    const isC = checkIfCoin(c!, wallet);
+    return [c, isC];
+  }, [wallet, props.route]);
+
   const networkFee = useMemo(() => {
-    let ETH = wallet.find((c: Coin) => c.coin_name === 'Ethereum');
-    if (coin?.coin_symbol === 'eth') {
-      return coin?.chart_data?.networkFeeMin;
-    } else if (coin?.coin_symbol !== 'eth' && coin?.blockchain === 'ethereum') {
-      return (
-        (Number(ETH?.chart_data.networkFeeMin) * Number(ETH?.chart_data.rate)) /
-        Number(coin.chart_data.rate)
-      );
-      //convert network fee to desire count amount
-    } else {
-      return coin?.chart_data.networkFeeMin;
-    }
-  }, [wallet, coin]);
+    if (nativeCoin?.coin.blockchain === blockchainsEnum.ETHEREUM)
+      return Number(walletState.erc20_fee) * 1.05;
+    else if (nativeCoin?.coin.blockchain === blockchainsEnum.BINANCE)
+      return Number(walletState.bep20_fee) * 2;
+    else if (nativeCoin?.coin.blockchain === blockchainsEnum.BITCOIN)
+      return Number(walletState.btc_fee) * 1.05;
+    else if (nativeCoin?.coin.blockchain === blockchainsEnum.DOGECOIN)
+      return Number(walletState.doge_fee) * 1.05;
+  }, [wallet, coin, nativeCoin]);
+
+  // const [totalAmount] = useMemo(() => {
+  //   let t_coin: any = Number(coinAmount);
+  //   if (nativeCoin?.native) {
+  //     t_coin = Number(coinAmount) + Number(networkFee);
+  //   }
+  //   if (!coinAmount || Number(coinAmount) <= 0) {
+  //     t_coin = '0.000000';
+  //   }
+  //   return [Number(t_coin).toFixed(6)];
+  // }, [usdtAmount, coinAmount, coin, nativeCoin]);
 
   const [totalFiat, totalAmount] = useMemo(() => {
     let t_fiat: any = Number(usdtAmount);
 
-    let t_coin: any =
-      Number(coinAmount) +
-      Number(networkFee) * 2.05 +
-      coin?.chart_data.coin?.processingFee;
+    // let t_coin: any =
+    //   Number(coinAmount) +
+    //   Number(networkFee) * 2.05 +
+    //   Number(coin?.processingFee);
 
+    let t_coin: any =
+      Number(coinAmount) + Number(networkFee) + Number(coin?.processingFee);
     if (!coinAmount || Number(coinAmount) <= 0) {
       t_coin = '0.000000';
     }
@@ -123,14 +161,12 @@ const SendCoin = (props: Props) => {
         // }
       } else if (coin?.coin_symbol === 'weenus') {
         let valid = WAValidator.validate(address, 'eth');
-        if (!valid) {
-          return AppShowToast(
-            `Please enter a ${coin?.coin_name} valid address`,
-          );
-        }
+        // if (!valid) {
+        //   return AppShowToast(
+        //     `Please enter a ${coin?.coin_name} valid address`,
+        //   );
+        // }
       }
-
-      console.log('usdtAmount:', usdtAmount);
 
       if (usdtAmount) {
         if (isNaN(Number(usdtAmount))) {
@@ -140,9 +176,9 @@ const SendCoin = (props: Props) => {
       if (Number(coinAmount) <= 0) {
         return AppShowToast(L('Please enter a valid amount'));
       }
-      if (address === coin?.address) {
-        return AppShowToast(L('You cannot send to your own addresss'));
-      }
+      // if (address === coin?.address) {
+      //   return AppShowToast(L('You cannot send to your own addresss'));
+      // }
       if (!coinAmount) {
         return AppShowToast(L('Please enter coin amount'));
       }
@@ -164,10 +200,10 @@ const SendCoin = (props: Props) => {
         private_key: coin?.private_key,
         public_key: coin?.public_key,
         is_erc20: coin?.is_erc20,
-        processingFee: coin?.chart_data?.coin?.processingFee,
-        feeReceivingAccount: coin?.chart_data?.coin?.feeReceivingAccount,
-        contractAbi: coin?.chart_data?.coin?.contractAbi,
-        contractAddress: coin?.chart_data?.coin?.contractAddress,
+        processingFee: coin?.processingFee,
+        contractAbi: coin?.contractAbi,
+        contractAddress: coin?.contractAddress,
+        feeReceivingAccount: coin?.feeReceivingAccount,
       };
       await handleTx(payload);
       setLoading(false);
@@ -180,6 +216,8 @@ const SendCoin = (props: Props) => {
       console.log('Error Sending Coin.', error);
     }
   };
+
+  console.log('--total amount--:', totalAmount);
 
   return (
     <View style={styles.mainContainer}>
@@ -209,7 +247,7 @@ const SendCoin = (props: Props) => {
         </View>
         <AppInput
           inputStyle={{marginTop: THEME.MARGIN.NORMAL}}
-          value={coinAmount}
+          value={coinAmount.toString()}
           keyboardType="numeric"
           onChangeText={onChangeCoinAmount}
           returnKeyType="done"
@@ -219,7 +257,7 @@ const SendCoin = (props: Props) => {
         />
         <AppInput
           inputStyle={{marginTop: THEME.MARGIN.NORMAL}}
-          value={usdtAmount}
+          value={usdtAmount.toString()}
           keyboardType="numeric"
           returnKeyType="done"
           onChangeText={onChangeUsdtAmount}
@@ -236,16 +274,18 @@ const SendCoin = (props: Props) => {
         <View style={styles.details}>
           <Text style={styles.detailsText}>
             {L('Transaction Fee')} :{' '}
-            {getFixedAmount(Number(coin?.chart_data.networkFeeMin) * 2)}{' '}
+            {getFixedAmount(Number(coin?.chart_data.networkFeeMin))}{' '}
             {coin?.coin_symbol.toUpperCase()}
             <Text style={styles.usdText}>
               {'     '}
-              {convertToFiatString(Number(coin?.chart_data.networkFeeMin) * 2)}
+              {convertToFiatString(Number(coin?.chart_data.networkFeeMin))}
             </Text>
           </Text>
+
           <Text style={styles.availableText}>
             {'    '}
-            {L('Total Amount')} : {Number(totalAmount).toFixed(6)}{' '}
+            {L('Total Amount')} :{' '}
+            {totalAmount ? Number(totalAmount)?.toFixed(6) : 0}{' '}
             {coin?.coin_symbol.toUpperCase()}
             <Text style={styles.usdText}>
               {'     '}

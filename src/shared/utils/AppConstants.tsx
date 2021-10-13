@@ -52,3 +52,11 @@ export const Languages = [
     short: 'Spa',
   },
 ];
+
+export enum blockchainsEnum {
+  BITCOIN = 'bitcoin',
+  BINANCE = 'binance',
+  ETHEREUM = 'ethereum',
+  DASH = 'dash',
+  DOGECOIN = 'dogecoin',
+}

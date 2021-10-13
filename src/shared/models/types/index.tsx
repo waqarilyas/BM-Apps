@@ -47,6 +47,9 @@ export interface Coin {
   balance: string;
   coin_color: string;
   processingFee: string;
+  blockchain?: string;
+  contractAddress: string;
+  contractAbi: any;
   //Remaining
   public_key: string;
   private_key: string;
@@ -59,6 +62,7 @@ export interface Coin {
   chart_data: any;
   vs_currency_balance: string;
   tx_history: any;
+  feeReceivingAccount: string;
 }
 
 export interface Mnemonic {
