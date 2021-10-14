@@ -98,8 +98,6 @@ const WalletMain = (props: Props) => {
 
     socket.on('connect', () => {
       socket.on(`coin-data`, async (data: any) => {
-        console.log('---socket called---', data);
-
         updateCoinRates(wallet, defaultCurrency);
       });
       socket.on(`${erc20Andbep20Address}`, async (data: any) => {
