@@ -69,7 +69,7 @@ export const getInitialMerchantData = async () => {
       store.dispatch(setMerchantShop(shopData.data));
     }
   } catch (err) {
-    console.log('--error from get initial merchant data---', err);
+    // console.log('--error from get initial merchant data---', err);
   }
 };
 

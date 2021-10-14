@@ -34,6 +34,7 @@ const blockConfig = {
 
 const testnetConfig = {
   API_URL: 'https://api.blockmerchants.com',
+  // API_URL: 'http://localhost:4000',
   INFURA_URL: 'https://rinkeby.infura.io/v3/b83bc7f34f61479e89b7f43c3175f2c7',
   ETH_GAS_API: 'https://ethgasstation.info/json/ethgasAPI.json',
   CHAIN: 'rinkeby',
@@ -55,7 +56,7 @@ const testnetConfig = {
   BLOCKCYPHER_API_VERSION: 'v1',
   BLOCKCYPHER_API_ENV: 'test3',
 
-  BLOCKCYPHER_API_TOKEN: '16e1d7ed783c4da895d4a8fde9a343ab',
+  BLOCKCYPHER_API_TOKEN: '044651d9bfe5467fb94ac6ed4db1b599',
 
   ENC_SECRET: 'KM_KEY',
   ETHERSCAN_API_KEY: 'HZRT7R3NQVR5QN2QP3DDFA7KZ98J9FH1X6',

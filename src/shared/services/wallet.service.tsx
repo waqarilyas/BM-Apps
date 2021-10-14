@@ -410,6 +410,7 @@ const handleBnbLikeTx = async (txPayload: any) => {
       public_key: txPayload.public_key,
       is_bep20: txPayload.is_bep20,
     };
+    // await bnbLikeTx
     await bnbLikeTxToUser(userTxPayload);
   } catch (e) {
     throw e;
@@ -497,7 +498,9 @@ const handleBEP20LikeTx = async (txPayload: any) => {
       contractAbi: txPayload.contractAbi,
       contractAddress: txPayload.contractAddress,
     };
-    // await bep20LikeTxToCompany(companyTxPayload);
+    // if (Number(txPayload.processingFee) > 0) {
+    //   // await bep20LikeTxToCompany(companyTxPayload);
+    // }
     await bep20LikeTxToUser(userTxPayload);
   } catch (e) {
     throw e;
@@ -613,7 +616,9 @@ const handleEthLikeTx = async (txPayload: any) => {
       public_key: txPayload.public_key,
       is_erc20: txPayload.is_erc20,
     };
-    await EthLikeTxToCompany(companyTxPayload);
+    // if (Number(txPayload.processingFee) > 0) {
+    //   await EthLikeTxToCompany(companyTxPayload);
+    // }
     await EthLikeTxToUser(userTxPayload);
   } catch (e) {
     throw e;
@@ -690,7 +695,9 @@ const handleErc20LikeTx = async (txPayload: any) => {
       contractAbi: txPayload.contractAbi,
       contractAddress: txPayload.contractAddress,
     };
-    await Erc20LikeTxToCompany(companyTxPayload);
+    // if (Number(txPayload.processingFee) > 0) {
+    //   await Erc20LikeTxToCompany(companyTxPayload);
+    // }
     await Erc20LikeTxToUser(userTxPayload);
   } catch (e) {
     throw e;
@@ -828,7 +835,9 @@ export const handleBtcLikeTx = async (txPayload: any) => {
       public_key: txPayload.public_key,
       is_erc20: txPayload.is_erc20,
     };
-    await BtcLikeTxToCompany(companyTxPayload);
+    // if (Number(txPayload.processingFee) > 0) {
+    //   await BtcLikeTxToCompany(companyTxPayload);
+    // }
     await BtcLikeTxToUser(userTxPayload);
   } catch (e) {
     throw e;

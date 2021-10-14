@@ -44,6 +44,7 @@ export interface Coin {
   order_index: string;
   is_active: boolean;
   is_erc20: boolean;
+  is_bep20: boolean;
   balance: string;
   coin_color: string;
   processingFee: string;

@@ -22,7 +22,7 @@ const ImportWallet = (props: Props) => {
   const dispatch = useDispatch();
   const [phrase, setPhrase] = useState(
     __DEV__
-      ? 'ranch relax sudden just tray soccer often analyst garment maximum hollow text'
+      ? 'garage night wisdom ribbon broccoli almost future pumpkin fantasy silk fatigue inform'
       : '',
   );
   const [loading, setLoading] = useState(false);

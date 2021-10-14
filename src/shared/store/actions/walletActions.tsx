@@ -23,35 +23,6 @@ let bip39 = require('bip39');
 
 export const renderWallet =
   () => async (dispatch: AppDispatch, getState: () => RootState) => {
-    // // dispatch(setWalletLoading(true));
-    // const {defaultCurrency} = getState().wallet;
-    // try {
-    //   const activeAssets = await setActiveAssets();
-
-    //   await activeAssets.map(async (asset: Coin, index: number) => {
-    //     await checkCoin(
-    //       asset.coin_symbol,
-    //       Number(asset.order_index),
-    //       asset.coin_name,
-    //       asset.is_erc20,
-    //     );
-    //     await checkRate(asset.coin_symbol, defaultCurrency, index);
-    //     await checkBalance(
-    //       asset.coin_symbol,
-    //       asset.is_erc20,
-    //       defaultCurrency,
-    //       index,
-    //     );
-    //     if (activeAssets.length - 1 === index) {
-    //       dispatch(setWalletLoading(false));
-    //     }
-    //   });
-    // } catch (error) {
-    //   console.log('Error rendering wallet:', error);
-    //   AppShowToast('Wallet sync failed');
-    //   dispatch(setWalletLoading(false));
-    // }
-
     dispatch(setWalletLoading(true));
     dispatch(setBalancesUpdateNeeded(false));
 
@@ -77,7 +48,7 @@ export const renderWallet =
       for (let index = 0; index < walletAssets.length; index++) {
         const asset = walletAssets[index];
         const {balance, vs_currency_balance, chart_data, coinSymbol} =
-          res.data.find((c: any) => c.coinSymbol === asset.coin_symbol);
+          res.data?.find((c: any) => c.coinSymbol === asset.coin_symbol);
         if (coinSymbol === 'btc') {
           dispatch(setBTCFee(chart_data.networkFeeAvg));
         } else if (coinSymbol === 'bnb' || coinSymbol === 'bsc') {

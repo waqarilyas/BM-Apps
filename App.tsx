@@ -7,6 +7,7 @@ import {PersistGate} from 'redux-persist/integration/react';
 import './shim';
 import Routes from './src/routes/';
 import {persistor, store} from './src/shared/store/';
+import {setWalletLoading} from './src/shared/store/reducers/walletReducer';
 
 const App = () => {
   useEffect(() => {
@@ -23,10 +24,12 @@ const App = () => {
           [{text: 'OK', onPress: () => console.log('OK Pressed')}],
         );
       }
+      store.dispatch(setWalletLoading(false));
     });
 
     return () => unsubscribe();
   }, []);
+
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>

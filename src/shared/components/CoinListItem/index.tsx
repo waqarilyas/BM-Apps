@@ -33,12 +33,8 @@ const CoinListItem = (props: Props) => {
   const dispatch = useDispatch();
   const {item} = props;
   const {balance, coin_symbol} = props.item;
-
   const rate = props?.item?.chart_data?.rate;
-
-  const COIN_URL = `${defaultConfig.API_URL}/admin/coin/${props.item.coin_symbol}`;
   const onPressToggle = () => dispatch(setCoinIsActive(props.item.coin_symbol));
-
   const percentage = props.item.chart_data?.changePercentage24h?.toFixed(2);
   const {showBalances} = useSelector((state: RootState) => state.wallet);
 

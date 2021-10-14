@@ -1,7 +1,7 @@
 import WAValidator from 'multicoin-address-validator';
 import React, {useMemo, useState} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import AddressInput from '../../../shared/components/AddressInput';
 import AppHeader from '../../../shared/components/AppHeader';
 import AppInput from '../../../shared/components/AppInput';
@@ -15,6 +15,8 @@ import {
 } from '../../../shared/services/helper.service';
 import {handleTx} from '../../../shared/services/wallet.service';
 import {RootState} from '../../../shared/store';
+import {refreshCoinsBalances} from '../../../shared/store/actions/walletActions';
+import {setBalancesUpdateNeeded} from '../../../shared/store/reducers/utilReducer';
 import {THEME} from '../../../shared/theme';
 import GLOBAL_STYLE from '../../../shared/theme/global';
 import {HP} from '../../../shared/theme/responsive';
@@ -34,14 +36,14 @@ const SendCoin = (props: Props) => {
   const {wallet: walletState} = useSelector((state: RootState) => state);
 
   const [address, setAddress] = useState(
-    __DEV__ ? '0x848A11486d4DA33e7270412FdEcb3D597A5A5357' : '',
+    __DEV__ ? '0x373F9437e89ecD5f7589C269A990E402E0Cd6894' : '',
   );
   const [usdtAmount, setUsdtAmount] = useState('');
   const [coinAmount, setCoinAmount] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [paymentError, setPaymentError] = useState(false);
-
+  const dispatch = useDispatch();
   // const [coin, ETH_RATE] = useMemo(() => {
   //   let selectedCoin = wallet.find(
   //     (c: Coin) => c?.coin_symbol === props.route?.params?.coinSymbol,
@@ -139,6 +141,7 @@ const SendCoin = (props: Props) => {
 
     let t_coin: any =
       Number(coinAmount) + Number(networkFee) + Number(coin?.processingFee);
+
     if (!coinAmount || Number(coinAmount) <= 0) {
       t_coin = '0.000000';
     }
@@ -206,6 +209,7 @@ const SendCoin = (props: Props) => {
         feeReceivingAccount: coin?.feeReceivingAccount,
       };
       await handleTx(payload);
+      dispatch(refreshCoinsBalances(true));
       setLoading(false);
       setShowModal(true);
       setPaymentError(false);
@@ -216,8 +220,6 @@ const SendCoin = (props: Props) => {
       console.log('Error Sending Coin.', error);
     }
   };
-
-  console.log('--total amount--:', totalAmount);
 
   return (
     <View style={styles.mainContainer}>
@@ -238,12 +240,12 @@ const SendCoin = (props: Props) => {
         />
         <View style={styles.labelContainer}>
           <Text style={styles.label}>{L('Amount')}</Text>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             activeOpacity={0.5}
             style={styles.max}
             onPress={onPressMax}>
             <Text style={styles.maxText}>{L('Max')}</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         <AppInput
           inputStyle={{marginTop: THEME.MARGIN.NORMAL}}

@@ -98,10 +98,11 @@ const WalletMain = (props: Props) => {
 
     socket.on('connect', () => {
       socket.on(`coin-data`, async (data: any) => {
+        console.log('---socket called---', data);
+
         updateCoinRates(wallet, defaultCurrency);
       });
       socket.on(`${erc20Andbep20Address}`, async (data: any) => {
-        console.log('BEP20 Socket data:', data);
         updateCoinBalance({
           coinSymbol: data.coinSymbol,
           address: erc20Andbep20Address!,
@@ -148,6 +149,14 @@ const WalletMain = (props: Props) => {
       getInitialMerchantData();
     }
   }, [wallet]);
+
+  useEffect(() => {
+    const unsubscribe = props.navigation?.addListener('focus', () => {
+      dispatch(refreshCoinsBalances(true));
+    });
+
+    return unsubscribe;
+  }, [props.navigation]);
 
   return (
     <>
