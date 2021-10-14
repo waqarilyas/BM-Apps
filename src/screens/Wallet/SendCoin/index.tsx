@@ -1,6 +1,6 @@
 import WAValidator from 'multicoin-address-validator';
 import React, {useMemo, useState} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Text, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import AddressInput from '../../../shared/components/AddressInput';
 import AppHeader from '../../../shared/components/AppHeader';
@@ -16,7 +16,6 @@ import {
 import {handleTx} from '../../../shared/services/wallet.service';
 import {RootState} from '../../../shared/store';
 import {refreshCoinsBalances} from '../../../shared/store/actions/walletActions';
-import {setBalancesUpdateNeeded} from '../../../shared/store/reducers/utilReducer';
 import {THEME} from '../../../shared/theme';
 import GLOBAL_STYLE from '../../../shared/theme/global';
 import {HP} from '../../../shared/theme/responsive';
@@ -120,24 +119,8 @@ const SendCoin = (props: Props) => {
       return Number(walletState.doge_fee) * 1.05;
   }, [wallet, coin, nativeCoin]);
 
-  // const [totalAmount] = useMemo(() => {
-  //   let t_coin: any = Number(coinAmount);
-  //   if (nativeCoin?.native) {
-  //     t_coin = Number(coinAmount) + Number(networkFee);
-  //   }
-  //   if (!coinAmount || Number(coinAmount) <= 0) {
-  //     t_coin = '0.000000';
-  //   }
-  //   return [Number(t_coin).toFixed(6)];
-  // }, [usdtAmount, coinAmount, coin, nativeCoin]);
-
   const [totalFiat, totalAmount] = useMemo(() => {
     let t_fiat: any = Number(usdtAmount);
-
-    // let t_coin: any =
-    //   Number(coinAmount) +
-    //   Number(networkFee) * 2.05 +
-    //   Number(coin?.processingFee);
 
     let t_coin: any =
       Number(coinAmount) + Number(networkFee) + Number(coin?.processingFee);
@@ -155,20 +138,8 @@ const SendCoin = (props: Props) => {
   const onSend = async () => {
     try {
       if (coin?.coin_symbol !== 'weenus') {
-        // console.log(address, '---', coin?.coin_symbol);
-        // let valid = WAValidator.validate(address, coin?.coin_symbol);
-        // if (!valid) {
-        //   return AppShowToast(
-        //     `Please enter a ${coin?.coin_name} valid address`,
-        //   );
-        // }
       } else if (coin?.coin_symbol === 'weenus') {
         let valid = WAValidator.validate(address, 'eth');
-        // if (!valid) {
-        //   return AppShowToast(
-        //     `Please enter a ${coin?.coin_name} valid address`,
-        //   );
-        // }
       }
 
       if (usdtAmount) {
@@ -179,9 +150,7 @@ const SendCoin = (props: Props) => {
       if (Number(coinAmount) <= 0) {
         return AppShowToast(L('Please enter a valid amount'));
       }
-      // if (address === coin?.address) {
-      //   return AppShowToast(L('You cannot send to your own addresss'));
-      // }
+
       if (!coinAmount) {
         return AppShowToast(L('Please enter coin amount'));
       }
