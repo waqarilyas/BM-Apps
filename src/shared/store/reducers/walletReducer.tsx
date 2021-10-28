@@ -4,7 +4,6 @@ import {WalletState} from '../../models/types/index';
 
 const initialState: WalletState = {
   wallet: [],
-  portfolio_age: '',
   mnemonic: {
     mnemonic_phrase: '',
     is_restore: false,
@@ -12,12 +11,12 @@ const initialState: WalletState = {
   password_protection: {
     password: '',
     is_restore: false,
+    status: false,
   },
   isRendered: false,
   walletReady: false,
   walletRendered: false,
   isProtected: false,
-  wallet_data_available: false,
   walletDataLoaded: false,
   best24H: '',
   best24HBalance: '',
@@ -25,8 +24,8 @@ const initialState: WalletState = {
   change24H: 0,
   defaultCurrency: 'USD',
   portfolioChartData: [],
-  walletLoading: true,
-  walletAddress: '',
+  walletLoading: false,
+  walletRefreshing: false,
   bep20_fee: '0.00',
   erc20_fee: '0.00',
   doge_fee: '0.00',
@@ -50,9 +49,6 @@ export const walletSlice = createSlice({
     setWallet(state, action) {
       state.wallet = action.payload;
     },
-    setPortfolioAge(state, action) {
-      state.portfolio_age = action.payload;
-    },
     setCoin(state, action) {
       state.wallet[action.payload.index] = action.payload.coinData;
     },
@@ -64,8 +60,17 @@ export const walletSlice = createSlice({
       state.wallet[action.payload.index].vs_currency_balance =
         action.payload.vs_currency_balance;
     },
+    setCoinBalanceAndRates(state, action) {
+      state.wallet[action.payload.index].balance = action.payload.balance;
+      state.wallet[action.payload.index].vs_currency_balance =
+        action.payload.vs_currency_balance;
+      state.wallet[action.payload.index].chart_data = action.payload.chart_data;
+    },
     setWalletLoading(state, action) {
       state.walletLoading = action.payload;
+    },
+    setWalletRefreshing(state, action) {
+      state.walletRefreshing = action.payload;
     },
     setWalletRestore(state, action) {
       state.mnemonic.is_restore = action.payload;
@@ -78,14 +83,9 @@ export const walletSlice = createSlice({
         return c;
       });
     },
-    setCoinBalanceAndRates(state, action) {
-      state.wallet[action.payload.index].balance = action.payload.balance;
-      state.wallet[action.payload.index].vs_currency_balance =
-        action.payload.vs_currency_balance;
-      state.wallet[action.payload.index].chart_data = action.payload.chart_data;
-    },
-    setWalletAddress: (state, action) => {
-      state.walletAddress = action.payload;
+    setPassword(state, action) {
+      state.password_protection.status = action.payload.status;
+      state.password_protection.password = action.payload.password;
     },
     setBep20Fee(state, action) {
       state.bep20_fee = action.payload;
@@ -102,29 +102,32 @@ export const walletSlice = createSlice({
     setShowBalances(state, action) {
       state.showBalances = action.payload;
     },
+    setWalletAddress: (state, action) => {
+      state.walletAddress = action.payload;
+    },
   },
 });
 
 export const {
-  setDefaultCurrency,
   setIsWalletRendered,
   setMnemonic,
   setWallet,
-  setPortfolioAge,
   setCoin,
   setCoinRate,
   setCoinBalance,
+  setCoinBalanceAndRates,
   setWalletLoading,
+  setWalletRefreshing,
   setWalletRestore,
   setCoinIsActive,
   resetWallet,
-  setWalletAddress,
-  setCoinBalanceAndRates,
+  setPassword,
   setBep20Fee,
   setERC20Fee,
   setBTCFee,
   setDogeFee,
   setShowBalances,
+  setWalletAddress,
 } = walletSlice.actions;
 
 export default walletSlice.reducer;

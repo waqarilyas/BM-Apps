@@ -7,6 +7,7 @@ import walletReducer from './reducers/walletReducer';
 import userReducer from './reducers/userReducer';
 import settingsReducer from './reducers/settingsReducer';
 import ReduxThunk from 'redux-thunk';
+import utilReducer from './reducers/utilReducer';
 
 declare var window: any;
 
@@ -14,6 +15,7 @@ const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
   whitelist: ['user', 'wallet', 'pos', 'settings'],
+  blacklist: ['util'],
 };
 
 const reducers = combineReducers({
@@ -21,6 +23,7 @@ const reducers = combineReducers({
   wallet: walletReducer,
   user: userReducer,
   settings: settingsReducer,
+  util: utilReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);

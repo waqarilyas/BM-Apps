@@ -24,21 +24,24 @@ const styles = StyleSheet.create({
     height: RF(150),
     alignSelf: 'center',
     marginVertical: THEME.MARGIN.VERYHIGH,
+    marginTop: THEME.MARGIN.SUPERHIGH,
   },
   instruction: {
-    color: THEME.COLORS.blue,
+    color: THEME.COLORS.white,
     textAlign: 'center',
-    fontSize: THEME.FONTS.SIZE.SMALL,
-    paddingVertical: THEME.PADDING.NORMAL,
+    fontSize: THEME.FONTS.SIZE.XXSMALL,
+    paddingTop: THEME.PADDING.SUPERHIGH,
+    paddingBottom: THEME.PADDING.NORMAL,
   },
   keyContainer: {
+    flexDirection: 'row',
     alignSelf: 'center',
     width: '90%',
     borderRadius: 2,
     borderWidth: 2,
-    paddingHorizontal: THEME.PADDING.NORMAL,
+    paddingHorizontal: THEME.PADDING.HIGH,
     borderStyle: 'dashed',
-    borderColor: THEME.COLORS.secondaryBackground,
+    borderColor: THEME.COLORS.tintBlue,
     alignItems: 'center',
     justifyContent: 'center',
     height: RF(50),
@@ -53,6 +56,16 @@ const styles = StyleSheet.create({
   copied: {
     fontSize: THEME.FONTS.SIZE.SMALL,
     color: THEME.COLORS.green,
+  },
+  noteView: {
+    marginHorizontal: THEME.MARGIN.NORMAL,
+    marginTop: THEME.MARGIN.NORMAL,
+  },
+  note: {
+    fontFamily: THEME.FONTS.TYPE.REGULAR,
+    fontSize: THEME.FONTS.SIZE.XXXSMALL,
+    color: THEME.COLORS.textLight,
+    marginBottom: THEME.MARGIN.LOW,
   },
 });
 

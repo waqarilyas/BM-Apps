@@ -2,9 +2,9 @@ import {RF} from './responsive';
 
 export const THEME = {
   COLORS: {
-    primaryBackground: '#130A35',
+    primaryBackground: '#1B232E',
     primaryBackgroundLower: 'rgba(19, 10, 53, 1)',
-    secondaryBackground: '#2B234A',
+    secondaryBackground: '#242E42',
     accentBlue: '#27A3E3',
     lightBlue: '#209EE2',
     textLight: '#928FA3',
@@ -18,7 +18,9 @@ export const THEME = {
     gradientTopColor: '#269CDD',
     gradientBottomColor: '#235DAC',
     dottedBorder: '#20FFFF',
-    tabColor: '#3B315D',
+    tabColor: '#242E42',
+    darkGrey: '#323943',
+    tintBlue: '#00A8FF',
   },
   FONTS: {
     SIZE: {
@@ -53,6 +55,7 @@ export const THEME = {
     SUPERLOW: RF(2),
     VERYLOW: RF(4),
     LOW: RF(8),
+    MID_LOW: RF(12),
     NORMAL: RF(16),
     HIGH: RF(24),
     VERYHIGH: RF(32),

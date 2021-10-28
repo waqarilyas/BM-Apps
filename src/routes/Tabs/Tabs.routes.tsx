@@ -22,15 +22,18 @@ const BottomTabs = () => {
   return (
     <>
       <Tab.Navigator
-        sceneContainerStyle={{backgroundColor: THEME.COLORS.tabColor}}
+        sceneContainerStyle={{
+          backgroundColor: THEME.COLORS.tabColor,
+        }}
         tabBarOptions={{
           activeTintColor: '#00A8FF',
 
-          inactiveTintColor: 'white',
+          inactiveTintColor: '#707070',
 
           tabStyle: {
             backgroundColor: THEME.COLORS.tabColor,
-            paddingVertical: 6,
+
+            paddingVertical: 3,
           },
           style: {height: RF(55)},
           keyboardHidesTabBar: true,
@@ -52,9 +55,6 @@ const BottomTabs = () => {
                     style={{
                       justifyContent: 'center',
                       alignItems: 'center',
-                      borderTopWidth: 4,
-
-                      borderTopColor: '#00A8FF',
                       marginTop: RF(5),
                       height: RF(50),
                       width: RF(50),
@@ -62,9 +62,9 @@ const BottomTabs = () => {
                     <FastImage
                       source={imageName}
                       style={{
-                        height: RF(20),
-                        width: RF(20),
-                        marginBottom: THEME.MARGIN.VERYLOW,
+                        height: RF(30),
+                        width: RF(30),
+                        marginBottom: THEME.MARGIN.LOW,
                       }}
                       resizeMode={FastImage.resizeMode.contain}
                       tintColor={color}
@@ -82,9 +82,9 @@ const BottomTabs = () => {
                     <FastImage
                       source={imageName}
                       style={{
-                        height: RF(20),
-                        width: RF(20),
-                        marginBottom: THEME.MARGIN.SUPERLOW,
+                        height: RF(30),
+                        width: RF(30),
+                        marginBottom: THEME.MARGIN.LOW,
                       }}
                       resizeMode={FastImage.resizeMode.contain}
                       tintColor={color}

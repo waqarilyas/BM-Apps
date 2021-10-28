@@ -1,19 +1,23 @@
 import {AppDispatch, RootState} from '..';
-import {PublicInfoPayload} from '../../models/types';
+import {CoinBalancesResEntity, PublicInfoPayload} from '../../models/types';
 import {AppShowToast} from '../../services/helper.service';
 import {
   checkCoin,
+  getAllCoinsBalances,
   getWallets,
   renderIsRenderedState,
   setCoinsPublicInfo,
 } from '../../services/wallet.service';
+import {setBalancesUpdateNeeded} from '../reducers/utilReducer';
 import {
   setBep20Fee,
   setBTCFee,
+  setCoinBalance,
   setCoinBalanceAndRates,
   setDogeFee,
   setERC20Fee,
   setWalletLoading,
+  setWalletRefreshing,
 } from '../reducers/walletReducer';
 let bip39 = require('bip39');
 
@@ -49,6 +53,7 @@ export const renderWallet =
     // }
 
     dispatch(setWalletLoading(true));
+    dispatch(setBalancesUpdateNeeded(false));
 
     try {
       const walletAssets = await getWallets();
@@ -65,12 +70,10 @@ export const renderWallet =
         );
         publicInfoCollection.push(publicInfo);
       }
-
       await renderIsRenderedState();
 
       /* Semd Public Code Info */
       const res = await setCoinsPublicInfo(publicInfoCollection);
-
       for (let index = 0; index < walletAssets.length; index++) {
         const asset = walletAssets[index];
         const {balance, vs_currency_balance, chart_data, coinSymbol} =
@@ -106,5 +109,46 @@ export const renderWallet =
         );
       }
       dispatch(setWalletLoading(false));
+    }
+  };
+
+export const refreshCoinsBalances =
+  (pullToRefresh: boolean = false) =>
+  async (dispatch: AppDispatch, getState: () => RootState) => {
+    if (pullToRefresh) {
+      dispatch(setWalletRefreshing(true));
+    }
+
+    const {defaultCurrency, wallet} = getState().wallet;
+    let walletsInfo = wallet.map(w => {
+      return {
+        address: w.address,
+        coinSymbol: w.coin_symbol,
+      };
+    });
+    try {
+      let balancesRes = await getAllCoinsBalances({
+        currencyCode: defaultCurrency,
+        walletsInfo,
+      });
+      balancesRes.data.forEach((b: CoinBalancesResEntity) => {
+        let relevantWallet = wallet.find(w => w.coin_symbol === b.coinSymbol);
+        dispatch(
+          setCoinBalance({
+            index: relevantWallet?.index,
+            vs_currency_balance: b?.vs_currency_balance,
+            balance: b?.balance,
+          }),
+        );
+      });
+      if (pullToRefresh) {
+        dispatch(setWalletRefreshing(false));
+      } else {
+        console.log('Initial Balance Update');
+        dispatch(setBalancesUpdateNeeded(false));
+      }
+    } catch (error) {
+      console.log('Error refreshing balances:', error);
+      dispatch(setWalletRefreshing(false));
     }
   };

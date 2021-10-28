@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: THEME.PADDING.SUPERLOW,
     paddingVertical: THEME.PADDING.LOW,
-    backgroundColor: THEME.COLORS.secondaryBackground,
+    backgroundColor: THEME.COLORS.primaryBackground,
     marginBottom: THEME.MARGIN.NORMAL,
     alignItems: 'center',
   },

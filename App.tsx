@@ -1,16 +1,13 @@
-import 'react-native-gesture-handler';
-import React, {useEffect} from 'react';
-import {Provider, useDispatch} from 'react-redux';
-import {PersistGate} from 'redux-persist/integration/react';
-import {persistor, store} from './src/shared/store/';
-import Routes from './src/routes/';
-import {Platform, StatusBar, LogBox, Text, Alert} from 'react-native';
-import './shim';
-import {setWalletLoading} from './src/shared/store/reducers/walletReducer';
-import {CheckConnectivity} from './src/shared/services/helper.service';
 import NetInfo from '@react-native-community/netinfo';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
-import BottomTabs from './src/routes/Tabs/Tabs.routes';
+import React, {useEffect} from 'react';
+import {Alert, Platform, StatusBar} from 'react-native';
+import 'react-native-gesture-handler';
+import {Provider} from 'react-redux';
+import {PersistGate} from 'redux-persist/integration/react';
+import './shim';
+import Routes from './src/routes/';
+import {persistor, store} from './src/shared/store/';
+import {setWalletLoading} from './src/shared/store/reducers/walletReducer';
 
 const App = () => {
   useEffect(() => {
@@ -33,14 +30,11 @@ const App = () => {
     return () => unsubscribe();
   }, []);
   return (
-    // <BottomTabs />
-    // <SafeAreaProvider>
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <Routes />
       </PersistGate>
     </Provider>
-    // </SafeAreaProvider>
   );
 };
 

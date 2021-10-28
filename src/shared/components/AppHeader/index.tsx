@@ -30,6 +30,7 @@ const AppHeader = (props: Props) => {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
   const dispatch = useDispatch();
+  const {isRendered} = useSelector((state: RootState) => state.wallet);
   const {cart} = useSelector((state: RootState) => state.pos);
   const {showBalances} = useSelector((state: RootState) => state.wallet);
 
@@ -42,7 +43,16 @@ const AppHeader = (props: Props) => {
 
   return (
     <View
-      style={[styles.container, {paddingTop: insets.top}, props.headerStyle]}>
+      style={[
+        styles.container,
+        {
+          paddingTop: insets.top,
+          backgroundColor: isRendered
+            ? THEME.COLORS.secondaryBackground
+            : THEME.COLORS.primaryBackground,
+        },
+        props.headerStyle,
+      ]}>
       <View style={styles.left}>
         {props.showBack ? (
           <Icon

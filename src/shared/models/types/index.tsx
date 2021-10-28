@@ -72,14 +72,12 @@ export interface PasswordProtection {
 }
 export interface WalletState {
   wallet: Coin[];
-  portfolio_age: string | number;
   isRendered: boolean;
   walletRendered: boolean;
   mnemonic: Mnemonic;
   password_protection: PasswordProtection;
   isProtected: boolean;
   walletReady: boolean;
-  wallet_data_available: boolean;
   walletDataLoaded: boolean;
   best24H: string;
   best24HBalance: string;
@@ -88,12 +86,13 @@ export interface WalletState {
   defaultCurrency: string;
   portfolioChartData: any;
   walletLoading: boolean;
-  walletAddress: string;
+  walletRefreshing: boolean;
   bep20_fee: string;
   erc20_fee: string;
   doge_fee: string;
   btc_fee: string;
   showBalances: boolean;
+  walletAddress: string;
 }
 
 export interface UserState {
@@ -128,4 +127,11 @@ export interface PublicInfoPayload {
   address: string;
   coinSymbol: string;
   hdPath: string;
+}
+
+export interface CoinBalancesResEntity {
+  address: string;
+  balance: number;
+  coinSymbol: string;
+  vs_currency_balance: number;
 }

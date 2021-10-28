@@ -11,7 +11,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: THEME.COLORS.primaryBackground,
-    paddingTop: THEME.PADDING.HIGH,
   },
   tabs: {
     width: '100%',
@@ -30,24 +29,29 @@ const styles = StyleSheet.create({
     color: THEME.COLORS.white,
   },
   balance: {
-    fontSize: THEME.FONTS.SIZE.XXLARGE,
-    fontFamily: THEME.FONTS.TYPE.SEMIBOLD,
-    paddingBottom: THEME.PADDING.LOW,
+    alignSelf: 'center',
+    fontSize: THEME.FONTS.SIZE.LARGE,
+    fontFamily: THEME.FONTS.TYPE.MEDIUM,
+    paddingBottom: THEME.PADDING.VERYLOW,
     color: THEME.COLORS.white,
   },
   short: {
-    fontSize: THEME.FONTS.SIZE.MEDIUM,
-    color: THEME.COLORS.gold,
+    fontSize: THEME.FONTS.SIZE.LARGE,
+    color: THEME.COLORS.white,
   },
   usdBalance: {
-    fontSize: THEME.FONTS.SIZE.SMALL,
-    color: THEME.COLORS.textLight,
+    fontSize: THEME.FONTS.SIZE.XXSMALL,
+    color: THEME.COLORS.white,
     textAlign: 'center',
+  },
+  buttonGroup: {
+    flexDirection: 'row',
+    marginTop: THEME.MARGIN.HIGH,
   },
   details: {
     alignSelf: 'center',
-    marginVertical: THEME.MARGIN.SUPERHIGH,
-    marginTop: THEME.MARGIN.NOVAHIGH,
+    marginVertical: THEME.MARGIN.HIGH,
+    marginTop: THEME.MARGIN.SUPERHIGH,
   },
   actions: {
     paddingHorizontal: THEME.PADDING.LOW,
@@ -57,6 +61,20 @@ const styles = StyleSheet.create({
   transactions: {
     paddingHorizontal: THEME.PADDING.LOW,
     // marginTop: THEME.MARGIN.HIGH,
+  },
+  secondaryHeader: {
+    marginTop: THEME.MARGIN.HIGH,
+    marginLeft: THEME.MARGIN.NORMAL,
+    marginBottom: THEME.MARGIN.VERYLOW,
+    fontSize: THEME.FONTS.SIZE.XSMALL,
+    fontFamily: THEME.FONTS.TYPE.REGULAR,
+    color: THEME.COLORS.white,
+  },
+  coinImage: {
+    height: RF(80),
+    width: RF(80),
+    marginBottom: THEME.MARGIN.NORMAL,
+    alignSelf: 'center',
   },
 });
 

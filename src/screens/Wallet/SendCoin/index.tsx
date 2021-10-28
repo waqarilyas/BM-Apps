@@ -189,16 +189,18 @@ const SendCoin = (props: Props) => {
       />
       <AppHeader title={L('Wallet')} showBack />
       <View style={styles.container}>
-        <Text style={styles.label}>{L('Send to')}</Text>
         <AddressInput
-          inputStyle={{marginVertical: THEME.MARGIN.NORMAL}}
+          inputStyle={{
+            borderRadius: THEME.RADIUS.SMALLBOX,
+            marginVertical: THEME.MARGIN.NORMAL,
+            backgroundColor: THEME.COLORS.darkGrey,
+          }}
           value={address}
           placeholder={L('Address')}
           onChangeText={setAddress}
           onChangeAddress={onChangeAddress}
         />
         <View style={styles.labelContainer}>
-          <Text style={styles.label}>{L('Amount')}</Text>
           <TouchableOpacity
             activeOpacity={0.5}
             style={styles.max}
@@ -207,7 +209,10 @@ const SendCoin = (props: Props) => {
           </TouchableOpacity>
         </View>
         <AppInput
-          inputStyle={{marginTop: THEME.MARGIN.NORMAL}}
+          inputStyle={{
+            marginTop: THEME.MARGIN.NORMAL,
+            backgroundColor: THEME.COLORS.darkGrey,
+          }}
           value={coinAmount}
           keyboardType="numeric"
           onChangeText={onChangeCoinAmount}
@@ -217,7 +222,10 @@ const SendCoin = (props: Props) => {
           )} ${coin?.coin_symbol.toUpperCase()}`}
         />
         <AppInput
-          inputStyle={{marginTop: THEME.MARGIN.NORMAL}}
+          inputStyle={{
+            marginTop: THEME.MARGIN.NORMAL,
+            backgroundColor: THEME.COLORS.darkGrey,
+          }}
           value={usdtAmount}
           keyboardType="numeric"
           returnKeyType="done"
@@ -226,15 +234,25 @@ const SendCoin = (props: Props) => {
         />
 
         <View style={styles.sideInfo}>
-          <Text style={styles.availBalalnce}>
-            {L('Avl. Balance')}:{' '}
+          <Text style={[styles.availBalalnce, {color: THEME.COLORS.white}]}>
+            {L('Fee')}:{' '}
+            {showBalances ? (
+              getFixedAmount(Number(coin?.chart_data.networkFeeMin) * 2) ||
+              '0.00'
+            ) : (
+              <ConfidentialText />
+            )}{' '}
+            {coin?.coin_symbol.toUpperCase()}
+          </Text>
+          <Text style={[styles.availBalalnce, {color: THEME.COLORS.white}]}>
+            {L('You Will Get')}:{' '}
             {showBalances ? coin?.balance || '0.00' : <ConfidentialText />}{' '}
             {coin?.coin_symbol.toUpperCase()}
           </Text>
         </View>
 
         <View style={styles.details}>
-          <Text style={styles.detailsText}>
+          {/* <Text style={styles.detailsText}>
             {L('Transaction Fee')} :{' '}
             {getFixedAmount(Number(coin?.chart_data.networkFeeMin) * 2)}{' '}
             {coin?.coin_symbol.toUpperCase()}
@@ -251,15 +269,14 @@ const SendCoin = (props: Props) => {
               {'     '}
               {totalFiat}
             </Text>
-          </Text>
+          </Text> */}
         </View>
 
         <PrimaryButton
           loading={loading}
-          icon="arrow-long-up"
-          title={L('SEND')}
-          buttonStyle={{width: '55%', height: HP(6)}}
-          textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
+          title={L('Send')}
+          buttonStyle={{width: '100%', height: HP(6)}}
+          textStyle={{fontFamily: THEME.FONTS.TYPE.MEDIUM}}
           onPress={onSend}
         />
       </View>

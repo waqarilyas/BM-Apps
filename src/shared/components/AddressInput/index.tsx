@@ -85,5 +85,8 @@ const styles = StyleSheet.create({
     height: '100%',
     marginRight: THEME.MARGIN.NORMAL,
   },
-  scan: {width: RF(20), height: '100%'},
+  scan: {
+    width: RF(20),
+    height: '100%',
+  },
 });
