@@ -10,6 +10,7 @@ import Icon from 'react-native-vector-icons/Entypo';
 import {THEME} from '../../theme';
 import {RF} from '../../theme/responsive';
 import ToggleSwitch from 'toggle-switch-react-native';
+import FastImage, {Source} from 'react-native-fast-image';
 
 interface Props extends TouchableOpacityProps {
   title?: string;
@@ -18,13 +19,17 @@ interface Props extends TouchableOpacityProps {
   toggleSwitch?: (value: boolean) => void;
   value?: string;
   chevron?: boolean;
+  source: number | Source;
 }
 
 const SettingItem = (props: Props) => {
   return (
     <TouchableOpacity {...props} style={styles.container}>
       <>
-        <Text style={styles.title}>{props.title}</Text>
+        <View style={styles.left}>
+          <FastImage source={props.source} style={styles.icon} />
+          <Text style={styles.title}>{props.title}</Text>
+        </View>
         <View style={styles.right}>
           {props.value && <Text style={styles.value}>({props.value})</Text>}
           {props.chevron && (
@@ -58,15 +63,29 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderColor: THEME.COLORS.textLight,
-    paddingHorizontal: THEME.PADDING.NORMAL,
+    paddingHorizontal: THEME.PADDING.LOW,
   },
-  title: {color: THEME.COLORS.white, fontSize: THEME.FONTS.SIZE.SMALL},
+  title: {
+    color: THEME.COLORS.white,
+    fontSize: THEME.FONTS.SIZE.XXSMALL,
+    fontFamily: THEME.FONTS.TYPE.MEDIUM,
+  },
+  left: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  icon: {
+    borderRadius: THEME.RADIUS.SMALLBOX,
+    height: RF(25),
+    width: RF(25),
+    marginRight: THEME.MARGIN.NORMAL,
+  },
+
   right: {flexDirection: 'row', alignItems: 'center'},
   value: {
     color: THEME.COLORS.textLight,
     marginRight: THEME.MARGIN.LOW,
-    fontSize: THEME.FONTS.SIZE.SMALL,
+    fontSize: THEME.FONTS.SIZE.XXSMALL,
+    fontFamily: THEME.FONTS.TYPE.MEDIUM,
   },
 });

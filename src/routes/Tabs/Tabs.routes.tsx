@@ -35,7 +35,8 @@ const BottomTabs = () => {
 
             paddingVertical: 3,
           },
-          style: {height: RF(55)},
+          style: {height: RF(55), borderTopWidth: 0},
+
           keyboardHidesTabBar: true,
         }}
         screenOptions={({route}) => ({
@@ -55,7 +56,7 @@ const BottomTabs = () => {
                     style={{
                       justifyContent: 'center',
                       alignItems: 'center',
-                      marginTop: RF(5),
+                      marginTop: THEME.MARGIN.LOW,
                       height: RF(50),
                       width: RF(50),
                     }}>
@@ -75,7 +76,7 @@ const BottomTabs = () => {
                     style={{
                       justifyContent: 'center',
                       alignItems: 'center',
-                      marginTop: RF(5),
+                      marginTop: THEME.MARGIN.LOW,
                       height: RF(50),
                       width: RF(50),
                     }}>
