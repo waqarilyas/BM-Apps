@@ -261,6 +261,7 @@ const SettingsMain = (props: Props) => {
 
             {merchantEnabled && (
               <SettingItem
+                source={ICONS.PROTECTION_FEE}
                 title={
                   taxEnabled
                     ? L('Disable Algorithmic Protection Fee')
@@ -294,6 +295,7 @@ const SettingsMain = (props: Props) => {
 
             {merchantData && (
               <SettingItem
+                source={ICONS.SWITCH_BUYER}
                 title={
                   merchantEnabled
                     ? L('Switch to Buyer')

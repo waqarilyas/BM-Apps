@@ -9,6 +9,8 @@ const ICONS = {
   ADD_CONTACT: require('./icons/AddContacts.png'),
   COIN_ACCEPTANCE: require('./icons/coinAcceptance.png'),
   BACKUP_WALLET: require('./icons/backupPhrase.png'),
+  SWITCH_BUYER: require('./icons/SwitchBuyer.png'),
+  PROTECTION_FEE: require('./icons/ProtectionFee.png'),
   THUMB: require('./icons/thumb.png'),
   CART: require('./icons/cart.png'),
   POS: require('./icons/pos.png'),
