@@ -2,6 +2,7 @@ import React, {useMemo} from 'react';
 import {Alert, StyleSheet, View, Text} from 'react-native';
 import Toast from 'react-native-toast-message';
 import {useDispatch, useSelector} from 'react-redux';
+import {ICONS} from '../../../assets';
 import AppHeader from '../../../shared/components/AppHeader';
 import SettingItem from '../../../shared/components/SettingItem';
 import {Coin, GenericNavigation} from '../../../shared/models/types';
@@ -111,7 +112,7 @@ const SettingsMain = (props: Props) => {
 
   const handleModeSwitch = () => {
     Alert.alert(
-      L(`Confirm`),
+      L('Confirm'),
       `${L('Are you sure you want to switch to')} ${
         merchantEnabled ? 'Buyer' : 'Merchant'
       }?`,
@@ -140,7 +141,7 @@ const SettingsMain = (props: Props) => {
 
   const handleTaxEnabled = () => {
     Alert.alert(
-      L(`Confirm`),
+      L('Confirm'),
       `${L('Are you sure you want to ')} ${
         taxEnabled
           ? 'disable Algorithmic Protection Fee '
@@ -170,129 +171,151 @@ const SettingsMain = (props: Props) => {
   };
 
   return (
-    <View style={styles.container}>
+    <>
       <AppHeader title={L('Settings')} />
 
-      {merchantEnabled && merchantData?.isDisabled && (
-        <Text style={styles.adminError}>
-          Your account has been disabled by admin
-        </Text>
-      )}
       <View style={styles.container}>
-        {/* <SettingItem title="Address Book" chevron /> */}
-        {/* {!merchantShop && ( */}
-
-        {merchantData &&
-          !merchantShop &&
-          merchantEnabled &&
-          !merchantData?.isDisabled && (
-            <SettingItem
-              title={L('Add Store Location')}
-              chevron
-              onPress={navToAddPlace}
-            />
-          )}
-
-        {/* )} */}
-        {!merchantData && (
-          <SettingItem
-            title={L('Enable Merchant Account')}
-            chevron
-            onPress={() => handleNavigate('EnableMerchant')}
-          />
+        {merchantEnabled && merchantData?.isDisabled && (
+          <Text style={styles.adminError}>
+            Your account has been disabled by admin
+          </Text>
         )}
-        {/* <SettingItem title="Change PIN" chevron onPress={navToChangePIN} /> */}
-        {/* <SettingItem
+        <View style={styles.container}>
+          {/* <SettingItem title="Address Book" chevron /> */}
+          {/* {!merchantShop && ( */}
+          <View>
+            <Text style={styles.header}>Wallet</Text>
+            {merchantData && !merchantShop && merchantEnabled && (
+              <SettingItem
+                title={L('Add Store Location')}
+                chevron
+                onPress={navToAddPlace}
+              />
+            )}
+
+            {/* )} */}
+            {!merchantData && (
+              <SettingItem
+                source={ICONS.ENABLE_MERCHANT}
+                title={L('Enable Merchant Account')}
+                chevron
+                onPress={() => handleNavigate('EnableMerchant')}
+              />
+            )}
+          </View>
+          {/* <SettingItem title="Change PIN" chevron onPress={navToChangePIN} /> */}
+          {/* <SettingItem
           title="Sales History"
           chevron
           onPress={navToPurchaseHistory}
         /> */}
-        {/* <SettingItem
+          {/* <SettingItem
           title={L('Choose Currency')}
           value={settings.currency}
           onPress={navToCurrencySelection}
           chevron
         /> */}
-        <SettingItem
-          title={L('Choose Language')}
-          value={settings.language}
-          chevron
-          onPress={navToLanguageSelection}
-        />
-        {/* <SettingItem
+          <View>
+            <Text style={styles.header}>Localization</Text>
+            <SettingItem
+              source={ICONS.LANGUAGE}
+              title={L('Choose Language')}
+              value={settings.language}
+              chevron
+              onPress={navToLanguageSelection}
+            />
+          </View>
+          {/* <SettingItem
           title="POS Default Tax Rate"
           value={`${settings.defaultTaxRate}%`}
           chevron
         /> */}
-        {/* <SettingItem
+          {/* <SettingItem
           activeOpacity={1}
           title="Use Dark Mood"
           showSwitch
           switchState={settings.darkMode}
           toggleSwitch={toggleDarkMode}
         /> */}
-        <SettingItem
-          title={L('Coin Acceptance Settings')}
-          chevron
-          onPress={navToCoinAcceptance}
-        />
-        <SettingItem
-          title={L('Backup Phrase')}
-          chevron
-          onPress={navToBackupPhrase}
-        />
+          <View>
+            <Text style={styles.header}>Security</Text>
+            <SettingItem
+              source={ICONS.COIN_ACCEPTANCE}
+              title={L('Coin Acceptance Settings')}
+              chevron
+              onPress={navToCoinAcceptance}
+            />
+            <SettingItem
+              source={ICONS.BACKUP_WALLET}
+              title={L('Backup Phrase')}
+              chevron
+              onPress={navToBackupPhrase}
+            />
 
-        <SettingItem
-          title={L('Add Contacts')}
-          chevron
-          onPress={() => props?.navigation?.navigate('AddressBook')}
-        />
+            <SettingItem
+              source={ICONS.ADD_CONTACT}
+              title={L('Add Contacts')}
+              chevron
+              onPress={() => props?.navigation?.navigate('AddressBook')}
+            />
 
-        {merchantEnabled && (
-          <SettingItem
-            title={
-              taxEnabled
-                ? L('Disable Algorithmic Protection Fee')
-                : L('Enable Algorithmic Protection Fee')
-            }
-            // chevron
-            onPress={handleTaxEnabled}
-          />
-        )}
+            {merchantEnabled && (
+              <SettingItem
+                source={ICONS.PROTECTION_FEE}
+                title={
+                  taxEnabled
+                    ? L('Disable Algorithmic Protection Fee')
+                    : L('Enable Algorithmic Protection Fee')
+                }
+                // chevron
+                onPress={handleTaxEnabled}
+              />
+            )}
 
-        <SettingItem
-          title={
-            thumbEnabled
-              ? L('Disable Thumb Impression')
-              : L('Enable Thumb Impression')
-          }
-          onPress={() => {
-            thumbEnabled
-              ? dispatch(setThumbEnabled(false))
-              : dispatch(setThumbEnabled(true));
-            Toast.show({
-              text1: L('Success'),
-              text2: `${L('Thumb Impression')} ${
-                thumbEnabled ? 'disabled' : 'enabled'
-              } ${L('successfully')}`,
-              type: 'success',
-            });
-          }}
-        />
+            <SettingItem
+              source={ICONS.THUMB}
+              title={
+                thumbEnabled
+                  ? L('Disable Thumb Impression')
+                  : L('Enable Thumb Impression')
+              }
+              onPress={() => {
+                thumbEnabled
+                  ? dispatch(setThumbEnabled(false))
+                  : dispatch(setThumbEnabled(true));
+                Toast.show({
+                  text1: L('Success'),
+                  text2: `${L('Thumb Impression')} ${
+                    thumbEnabled ? 'disabled' : 'enabled'
+                  } ${L('successfully')}`,
+                  type: 'success',
+                });
+              }}
+            />
 
-        {merchantData && (
-          <SettingItem
-            title={
-              merchantEnabled ? L('Switch to Buyer') : L('Switch to Merchant')
-            }
-            // chevron
-            onPress={handleModeSwitch}
-          />
-        )}
+            {merchantData && (
+              <SettingItem
+                source={ICONS.SWITCH_BUYER}
+                title={
+                  merchantEnabled
+                    ? L('Switch to Buyer')
+                    : L('Switch to Merchant')
+                }
+                // chevron
+                onPress={handleModeSwitch}
+              />
+            )}
 
-        <SettingItem title={L('Log Out')} chevron onPress={onLogout} />
+            <SettingItem
+              source={ICONS.LANGUAGE}
+              title={L('Log Out')}
+              chevron
+              onPress={onLogout}
+            />
+          </View>
+        </View>
       </View>
-    </View>
+    </>
   );
 };
 
@@ -302,11 +325,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: THEME.COLORS.primaryBackground,
+    paddingTop: THEME.PADDING.VERYLOW,
   },
   adminError: {
     color: THEME.COLORS.red,
     textAlign: 'center',
     fontSize: RF(14),
     fontWeight: '700',
+  },
+  header: {
+    color: THEME.COLORS.white,
+    fontFamily: THEME.FONTS.TYPE.SEMIBOLD,
+    fontSize: THEME.FONTS.SIZE.SMALL,
+    marginLeft: THEME.MARGIN.LOW,
+    marginVertical: THEME.MARGIN.LOW,
   },
 });

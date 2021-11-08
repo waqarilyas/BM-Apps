@@ -28,7 +28,12 @@ const Routes = () => {
   return (
     <>
       <SafeAreaView
-        style={{flex: 1, backgroundColor: THEME.COLORS.primaryBackground}}>
+        style={{
+          flex: 1,
+          backgroundColor: isRendered
+            ? THEME.COLORS.secondaryBackground
+            : THEME.COLORS.primaryBackground,
+        }}>
         <NavigationContainer ref={navigationRef}>
           {isRendered ? <BottomTabs /> : <AuthStack />}
           <Toast ref={ref => Toast.setRef(ref)} position="bottom" />

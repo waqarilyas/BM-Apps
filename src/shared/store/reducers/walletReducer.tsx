@@ -1,5 +1,4 @@
 import {createSlice} from '@reduxjs/toolkit';
-import {State} from 'react-native-gesture-handler';
 import {WalletState} from '../../models/types/index';
 
 const initialState: WalletState = {

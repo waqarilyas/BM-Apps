@@ -1,10 +1,11 @@
 import WAValidator from 'multicoin-address-validator';
 import React, {useMemo, useState} from 'react';
-import {Text, View} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import AddressInput from '../../../shared/components/AddressInput';
 import AppHeader from '../../../shared/components/AppHeader';
 import AppInput from '../../../shared/components/AppInput';
+import ConfidentialText from '../../../shared/components/ConfidentialText';
 import PaymentStatusModal from '../../../shared/components/PaymentStatusModal';
 import PrimaryButton from '../../../shared/components/PrimaryButton';
 import {Coin, GenericNavigation} from '../../../shared/models/types';
@@ -17,7 +18,6 @@ import {handleTx} from '../../../shared/services/wallet.service';
 import {RootState} from '../../../shared/store';
 import {refreshCoinsBalances} from '../../../shared/store/actions/walletActions';
 import {THEME} from '../../../shared/theme';
-import GLOBAL_STYLE from '../../../shared/theme/global';
 import {HP} from '../../../shared/theme/responsive';
 import {
   blockchainsEnum,
@@ -29,7 +29,7 @@ import styles from './styles';
 interface Props extends GenericNavigation {}
 
 const SendCoin = (props: Props) => {
-  const {wallet, defaultCurrency} = useSelector(
+  const {wallet, defaultCurrency, showBalances} = useSelector(
     (state: RootState) => state.wallet,
   );
   const {wallet: walletState} = useSelector((state: RootState) => state);
@@ -199,26 +199,31 @@ const SendCoin = (props: Props) => {
       />
       <AppHeader title={L('Wallet')} showBack />
       <View style={styles.container}>
-        <Text style={styles.label}>{L('Send to')}</Text>
         <AddressInput
-          inputStyle={{marginVertical: THEME.MARGIN.NORMAL}}
+          inputStyle={{
+            borderRadius: THEME.RADIUS.SMALLBOX,
+            marginVertical: THEME.MARGIN.NORMAL,
+            backgroundColor: THEME.COLORS.darkGrey,
+          }}
           value={address}
           placeholder={L('Address')}
           onChangeText={setAddress}
           onChangeAddress={onChangeAddress}
         />
         <View style={styles.labelContainer}>
-          <Text style={styles.label}>{L('Amount')}</Text>
-          {/* <TouchableOpacity
+          <TouchableOpacity
             activeOpacity={0.5}
             style={styles.max}
             onPress={onPressMax}>
             <Text style={styles.maxText}>{L('Max')}</Text>
-          </TouchableOpacity> */}
+          </TouchableOpacity>
         </View>
         <AppInput
-          inputStyle={{marginTop: THEME.MARGIN.NORMAL}}
-          value={coinAmount.toString()}
+          inputStyle={{
+            marginTop: THEME.MARGIN.NORMAL,
+            backgroundColor: THEME.COLORS.darkGrey,
+          }}
+          value={coinAmount}
           keyboardType="numeric"
           onChangeText={onChangeCoinAmount}
           returnKeyType="done"
@@ -227,8 +232,11 @@ const SendCoin = (props: Props) => {
           )} ${coin?.coin_symbol.toUpperCase()}`}
         />
         <AppInput
-          inputStyle={{marginTop: THEME.MARGIN.NORMAL}}
-          value={usdtAmount.toString()}
+          inputStyle={{
+            marginTop: THEME.MARGIN.NORMAL,
+            backgroundColor: THEME.COLORS.darkGrey,
+          }}
+          value={usdtAmount}
           keyboardType="numeric"
           returnKeyType="done"
           onChangeText={onChangeUsdtAmount}
@@ -236,14 +244,25 @@ const SendCoin = (props: Props) => {
         />
 
         <View style={styles.sideInfo}>
-          <Text style={styles.availBalalnce}>
-            {L('Avl. Balance')}: {coin?.balance || '0.00'}{' '}
+          <Text style={[styles.availBalalnce, {color: THEME.COLORS.white}]}>
+            {L('Fee')}:{' '}
+            {showBalances ? (
+              getFixedAmount(Number(coin?.chart_data.networkFeeMin) * 2) ||
+              '0.00'
+            ) : (
+              <ConfidentialText />
+            )}{' '}
+            {coin?.coin_symbol.toUpperCase()}
+          </Text>
+          <Text style={[styles.availBalalnce, {color: THEME.COLORS.white}]}>
+            {L('You Will Get')}:{' '}
+            {showBalances ? coin?.balance || '0.00' : <ConfidentialText />}{' '}
             {coin?.coin_symbol.toUpperCase()}
           </Text>
         </View>
 
         <View style={styles.details}>
-          <Text style={styles.detailsText}>
+          {/* <Text style={styles.detailsText}>
             {L('Transaction Fee')} :{' '}
             {getFixedAmount(Number(coin?.chart_data.networkFeeMin))}{' '}
             {coin?.coin_symbol.toUpperCase()}
@@ -262,15 +281,14 @@ const SendCoin = (props: Props) => {
               {'     '}
               {totalFiat}
             </Text>
-          </Text>
+          </Text> */}
         </View>
 
         <PrimaryButton
           loading={loading}
-          icon="arrow-long-up"
-          title={L('SEND')}
-          buttonStyle={{width: '55%', height: HP(6)}}
-          textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
+          title={L('Send')}
+          buttonStyle={{width: '100%', height: HP(6)}}
+          textStyle={{fontFamily: THEME.FONTS.TYPE.MEDIUM}}
           onPress={onSend}
         />
       </View>

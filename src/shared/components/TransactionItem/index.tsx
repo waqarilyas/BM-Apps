@@ -16,9 +16,7 @@ interface Props {
   coinSymbol: string;
 }
 const TransactionItem = (props: Props) => {
-  const TRANSACTION_COLOR =
-    props.kind === 'sent' ? THEME.COLORS.blue : THEME.COLORS.green;
-  const TRANSACTION_ICON = props.kind === 'sent' ? ICONS.SENT : ICONS.RECEIVED;
+  const TRANSACTION_ICON = props.kind === 'sent' ? ICONS.SEND : ICONS.RECEIVEDT;
   const TRANSACTION_TEXT = props.kind === 'sent' ? L('Sent') : L('Received');
   let transactionTime = new Date(props.item.timeStamp);
 
@@ -42,21 +40,19 @@ const TransactionItem = (props: Props) => {
         <FastImage
           source={TRANSACTION_ICON}
           resizeMode={FastImage.resizeMode.contain}
-          style={{width: '45%', height: '45%'}}
+          style={{width: '95%', height: '95   %'}}
         />
       </View>
       <View style={styles.main}>
         <Text style={styles.price}>
-          {TRANSACTION_TEXT} {props.item.coinSymbol.toUpperCase()}
+          {props.item.amount} {props.item.coinSymbol.toUpperCase()}
         </Text>
         <Text style={styles.smallText}>
           {moment(transactionTime).format('MMM DD, YYYY, h:mm:ss a')}
         </Text>
       </View>
       <View style={styles.right}>
-        <Text style={[styles.smallText, {color: TRANSACTION_COLOR}]}>
-          {props.item.amount} {props.item.coinSymbol.toUpperCase()}
-        </Text>
+        <Text style={styles.rightText}>{TRANSACTION_TEXT}</Text>
         {/* <Text style={styles.smallText}>$1450.00 USD</Text> */}
       </View>
     </TouchableOpacity>
@@ -69,19 +65,27 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: RF(65),
+
     borderRadius: THEME.RADIUS.BOX,
     flexDirection: 'row',
-    paddingHorizontal: THEME.PADDING.LOW,
+    paddingHorizontal: THEME.PADDING.MID_LOW,
     paddingVertical: THEME.PADDING.LOW,
-    backgroundColor: THEME.COLORS.secondaryBackground,
+    backgroundColor: THEME.COLORS.primaryBackground,
+    marginHorizontal: THEME.MARGIN.HIGH,
     marginBottom: THEME.MARGIN.LOW,
+    alignSelf: 'center',
   },
   left: {width: '16%', height: '100%', ...GLOBAL_STYLE.CENTER},
-  main: {flex: 1, justifyContent: 'space-around'},
+  main: {flex: 1, justifyContent: 'space-around', marginLeft: THEME.MARGIN.LOW},
   price: {fontSize: THEME.FONTS.SIZE.SMALL, color: THEME.COLORS.white},
   smallText: {
-    fontSize: THEME.FONTS.SIZE.XXSMALL,
+    fontSize: THEME.FONTS.SIZE.XXXSMALL,
     color: THEME.COLORS.textLight,
   },
   right: {height: '100%', justifyContent: 'space-around'},
+  rightText: {
+    fontSize: THEME.FONTS.SIZE.XSMALL,
+    fontFamily: THEME.FONTS.TYPE.MEDIUM,
+    color: THEME.COLORS.white,
+  },
 });

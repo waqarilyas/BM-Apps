@@ -54,10 +54,20 @@ const styles = StyleSheet.create({
     width: WP(80),
     height: HP(7),
     alignSelf: 'center',
-    borderRadius: RF(30),
+    borderRadius: THEME.RADIUS.SMALLBOX,
     ...GLOBAL_STYLE.CENTER,
     marginBottom: THEME.MARGIN.NORMAL,
     flexDirection: 'row',
+    shadowColor: THEME.COLORS.tintBlue,
+
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 16.0,
+
+    elevation: 24,
   },
   icon: {
     fontSize: 20,

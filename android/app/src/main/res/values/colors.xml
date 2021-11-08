@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Insert your background color for the splash screen -->
-    <color name="background">#130A35</color>
-    <color name="primary_dark">#130A35</color>
+    <color name="background">#1B232E</color>
+    <color name="primary_dark">#1B232E</color>
 </resources>

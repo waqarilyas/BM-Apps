@@ -97,7 +97,7 @@ const WalletMain = (props: Props) => {
     await initSocket(`${dogeAddress}`);
 
     socket.on('connect', () => {
-      socket.on(`coin-data`, async (data: any) => {
+      socket.on('coin-data', async (data: any) => {
         updateCoinRates(wallet, defaultCurrency);
       });
       socket.on(`${erc20Andbep20Address}`, async (data: any) => {
@@ -249,7 +249,7 @@ const WalletMain = (props: Props) => {
           <AuthModal visible={true} onClose={() => setAuthOpen(false)} />
         )}
       </View>
-      <AppLoader isVisible={walletLoading} />
+      {/* <AppLoader isVisible={walletLoading} /> */}
     </>
   );
 };

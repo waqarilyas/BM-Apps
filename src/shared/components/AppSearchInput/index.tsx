@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     height: HP(6),
-    backgroundColor: THEME.COLORS.secondaryBackground,
+    backgroundColor: THEME.COLORS.darkGrey,
     borderRadius: RF(5),
     paddingHorizontal: RF(16),
     marginVertical: THEME.MARGIN.LOW,

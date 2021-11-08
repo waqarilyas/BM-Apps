@@ -31,23 +31,23 @@ const ChooseCoinModal = (props: Props) => {
   const {contacts} = useSelector((state: RootState) => state.pos);
 
   const RenderCoin = ({data}: {data: any}) => {
-    let image = COINS.BTC;
+    // let image = COINS.BTC;
 
-    if (data.coin_symbol == 'eth') {
-      image = COINS.ETH;
-    } else if (data.coin_symbol == 'weenus') {
-      image = COINS.WEENUS;
-    } else if (data.coin_symbol == 'btc') {
-      image = COINS.BTC;
-    } else if (data.coin_symbol == 'bnb') {
-      image = COINS.BNB;
-    } else if (data.coin_symbol == 'usdt') {
-      image = COINS.USDT;
-    } else if (data.coin_symbol == 'doge') {
-      image = COINS.DOGE;
-    } else if (data.coin_symbol == 'busd') {
-      image = COINS.BUSD;
-    }
+    // if (data.coin_symbol == 'eth') {
+    //   image = COINS.ETH;
+    // } else if (data.coin_symbol == 'weenus') {
+    //   image = COINS.WEENUS;
+    // } else if (data.coin_symbol == 'btc') {
+    //   image = COINS.BTC;
+    // } else if (data.coin_symbol == 'bnb') {
+    //   image = COINS.BNB;
+    // } else if (data.coin_symbol == 'usdt') {
+    //   image = COINS.USDT;
+    // } else if (data.coin_symbol == 'doge') {
+    //   image = COINS.DOGE;
+    // } else if (data.coin_symbol == 'busd') {
+    //   image = COINS.BUSD;
+    // }
 
     return (
       <TouchableOpacity
@@ -58,7 +58,7 @@ const ChooseCoinModal = (props: Props) => {
         }}
         style={styles.coinContainer}>
         <FastImage
-          source={image}
+          source={{uri: data?.icon?.url}}
           resizeMode={FastImage.resizeMode.contain}
           style={styles.coinImage}
         />
@@ -154,7 +154,7 @@ const ChooseCoinModal = (props: Props) => {
         />
 
         {/* <ScrollView showsVerticalScrollIndicator={false}>
-          
+
         </ScrollView> */}
       </View>
     </Modal>
