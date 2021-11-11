@@ -3,7 +3,6 @@ import {RefreshControl, ScrollView, Text, View} from 'react-native';
 import {PieChart} from 'react-native-svg-charts';
 import {useDispatch, useSelector} from 'react-redux';
 import AppHeader from '../../../shared/components/AppHeader';
-import AppLoader from '../../../shared/components/AppLoader';
 import AppSearchInput from '../../../shared/components/AppSearchInput';
 import AuthModal from '../../../shared/components/AuthModal';
 import CoinListItem from '../../../shared/components/CoinListItem';

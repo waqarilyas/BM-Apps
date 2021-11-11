@@ -12,29 +12,6 @@ import defaultConfig from '../../../block.config';
 import {Coin} from '../models/types';
 const BIP84 = require('bip84');
 
-export const createBTCWallet = (mnemonic: string) => {
-  var root = new BIP84.fromSeed(mnemonic);
-  var child0 = root.deriveAccount(0);
-
-  console.log('mnemonic:', mnemonic);
-  console.log('rootpriv:', root.getRootPrivateKey());
-  console.log('rootpub:', root.getRootPublicKey());
-  console.log('\n');
-
-  var account0 = new BIP84.fromZPrv(child0);
-
-  console.log("Account 0, root = m/84'/0'/0'");
-  console.log('Account 0 xprv:', account0.getAccountPrivateKey());
-  console.log('Account 0 xpub:', account0.getAccountPublicKey());
-  console.log('\n');
-
-  console.log("Account 0, first receiving address = m/84'/0'/0'/0/0");
-  console.log('Prvkey:', account0.getPrivateKey(0));
-  console.log('Pubkey:', account0.getPublicKey(0));
-  console.log('Address:', account0.getAddress(0));
-  console.log('\n');
-};
-
 export const hdPath = (symbol: string, account_index = 0): string => {
   const coinType = bip44Constants.findIndex(
     (item: string[]) => item[1] === symbol.toUpperCase(),
@@ -135,10 +112,15 @@ export const createECDSA = (
   const masterWallet = generateMasterHdWallet(seed, symbol);
   /** step-3 get derivation path, this path wil return only 1 child */
   let path;
-  if (coin?.testnet) path = hdPath('');
-  else path = hdPath(symbol);
+  if (coin?.testnet) {
+    path = hdPath('');
+  } else {
+    path = hdPath(symbol);
+  }
   /** overwrite the derivation path, use in account discovery */
-  if (hdPathArg) path = hdPathArg;
+  if (hdPathArg) {
+    path = hdPathArg;
+  }
   /** step-4 get child*/
   const child = generateChild(masterWallet, path);
   /** encode private keys wif format
@@ -199,22 +181,7 @@ export const createBech32Wallet = (mnemonic: string) => {
   var root = new BIP84.fromSeed(mnemonic);
   var child0 = root.deriveAccount(0);
 
-  // console.log("mnemonic:", mnemonic);
-  // console.log("rootpriv:", root.getRootPrivateKey());
-  // console.log("rootpub:", root.getRootPublicKey());
-  // console.log("\n");
-
   var account0 = new BIP84.fromZPrv(child0);
-
-  // console.log("Account 0, root = m/84'/0'/0'");
-  // console.log("Account 0 xprv:", account0.getAccountPrivateKey());
-  // console.log("Account 0 xpub:", account0.getAccountPublicKey());
-  // console.log("\n");
-
-  console.log("Account 0, first receiving address = m/84'/0'/0'/0/0");
-  console.log('Prvkey:', account0.getPrivateKey(0));
-  console.log('Pubkey:', account0.getPublicKey(0));
-  console.log('Address:', account0.getAddress(0));
 
   const seed = generateSeed(mnemonic);
 
@@ -235,14 +202,18 @@ export const accountRecovery = async (
   validAddress: any,
   accountIndex = 0,
 ): Promise<any> => {
-  if (iteration <= 0) return validAddress;
+  if (iteration <= 0) {
+    return validAddress;
+  }
 
   const newAddress = await createAddress(coin, mnemonic);
 
   const isValidAddress = await checkValidAddress(coin, newAddress.address);
   if (!isValidAddress) {
     /** valid address is null for first time*/
-    if (!validAddress) validAddress = newAddress;
+    if (!validAddress) {
+      validAddress = newAddress;
+    }
     return await accountRecovery(
       coin,
       mnemonic,
@@ -333,12 +304,19 @@ export const checkValidAddress = async (
 
 export const getCoinBlockchain = async (coin: Coin) => {
   let coinType;
-  if (coin.coin_symbol == 'xlm') coinType = 'xlm';
-  else if (coin.coin_symbol === 'eth') coinType = 'isEth';
-  else if (coin.coin_symbol === 'bnb') coinType = 'isBnb';
-  else if (coin.is_erc20) coinType = 'isERC20';
-  else if (coin.is_bep20) coinType = 'isBEP20';
-  else coinType = 'btcLike';
+  if (coin.coin_symbol == 'xlm') {
+    coinType = 'xlm';
+  } else if (coin.coin_symbol === 'eth') {
+    coinType = 'isEth';
+  } else if (coin.coin_symbol === 'bnb') {
+    coinType = 'isBnb';
+  } else if (coin.is_erc20) {
+    coinType = 'isERC20';
+  } else if (coin.is_bep20) {
+    coinType = 'isBEP20';
+  } else {
+    coinType = 'btcLike';
+  }
   return coinType;
 };
 

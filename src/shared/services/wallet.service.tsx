@@ -1,11 +1,6 @@
 import axios from 'axios';
 import defaultConfig from '../../../block.config';
-import {
-  Coin,
-  GenerateWalletParams,
-  PublicInfoPayload,
-  SendPayload,
-} from '../models/types';
+import {Coin, PublicInfoPayload} from '../models/types';
 import {store} from '../store';
 import {
   setCoin,
@@ -13,7 +8,6 @@ import {
   setCoinRate,
   setIsWalletRendered,
   setMnemonic,
-  setPortfolioAge,
   setWallet,
   setWalletLoading,
 } from '../store/reducers/walletReducer';
@@ -25,8 +19,8 @@ import {Transaction as EthereumTx} from 'ethereumjs-tx';
 import {getFixedAmount} from './helper.service';
 import {accountRecovery, createAddress} from './walletcore';
 import Toast from 'react-native-toast-message';
+import {BTCSegwitLikeTX, convertBTCtoSatoshi} from './bitcoin.service';
 let bip39 = require('bip39');
-const BIP84 = require('bip84');
 
 export const generateMnemonic = async () => {
   try {
@@ -86,16 +80,6 @@ export const setActiveAssets = async () => {
     }
   } catch (error) {
     console.log('Error render active assets:', error);
-  }
-};
-
-export const setAgeOfPortfolio = async () => {
-  const {defaultCurrency} = store.getState().wallet;
-  if (!defaultCurrency) {
-    store.dispatch(setPortfolioAge(Date.now()));
-    return defaultCurrency;
-  } else {
-    return defaultCurrency;
   }
 };
 
@@ -199,52 +183,6 @@ export const checkCoin = async (
   }
 };
 
-// export const generateWallet = async ({
-//   coinSymbol,
-//   recovery,
-//   mnemonics,
-// }: GenerateWalletParams) => {
-//   try {
-//     const response = await axios({
-//       method: 'post',
-//       url: `${defaultConfig.API_URL}/wallet/new`,
-//       data: {
-//         coinSymbol,
-//         mnemonics,
-//         recovery,
-//       },
-//     });
-//     return response.data;
-//   } catch (e) {
-//     console.log('Error generating wallet:', e);
-//     throw e;
-//   }
-// };
-
-// export const generateWallet = async (body: {
-//   coinSymbol: string;
-//   recovery: boolean;
-//   mnemonics: string;
-// }) => {
-//   /** coin info */
-//   const {wallet} = store.getState().wallet;
-//   const coin: Coin = wallet.find(
-//     (c: Coin) => c.coin_symbol === body.coinSymbol,
-//   );
-//   try {
-//     if (!body.recovery) {
-//       const wallet = await createAddress(coin, body.mnemonics);
-//       return {...wallet, isErc20: coin?.is_erc20, isBep20: coin?.is_bep20};
-//     } else {
-//       const wallet = await accountRecovery(coin, body.mnemonics, 2, null);
-//       return {...wallet, isErc20: coin?.is_erc20, isBep20: coin?.is_bep20};
-//     }
-//   } catch (e) {
-//     console.log('error generating wallet: ', e);
-//     throw e;
-//   }
-// };
-
 export const generateWallet = async (body: {
   coinSymbol: string;
   recovery: boolean;
@@ -252,7 +190,7 @@ export const generateWallet = async (body: {
 }) => {
   /* coin info */
   const {wallet} = store.getState().wallet;
-  const coin: Coin = wallet.find(
+  const coin: Coin | undefined = wallet.find(
     (c: Coin) => c.coin_symbol === body.coinSymbol,
   );
   try {
@@ -352,20 +290,6 @@ export const validateMnemonic = async (recovery: string) => {
     throw error;
   }
 };
-
-// export const handleTx = async (txPayload: any) => {
-//   try {
-//     if (!txPayload.is_erc20 && txPayload.symbol !== 'eth') {
-//       await handleBtcLikeTx(txPayload);
-//     } else if (txPayload.is_erc20) {
-//       await handleErc20LikeTx(txPayload);
-//     } else {
-//       await handleEthLikeTx(txPayload);
-//     }
-//   } catch (e) {
-//     throw e;
-//   }
-// };
 
 export const handleTx = async (txPayload: any) => {
   try {
@@ -817,15 +741,6 @@ async function getCurrentGasPrices() {
 
 export const handleBtcLikeTx = async (txPayload: any) => {
   try {
-    const companyTxPayload = {
-      to: txPayload.feeReceivingAccount,
-      amount: txPayload.processingFee,
-      from: txPayload.from,
-      symbol: txPayload.symbol,
-      private_key: txPayload.private_key,
-      public_key: txPayload.public_key,
-      is_erc20: txPayload.is_erc20,
-    };
     const userTxPayload = {
       to: txPayload.to,
       amount: txPayload.amount,
@@ -835,10 +750,13 @@ export const handleBtcLikeTx = async (txPayload: any) => {
       public_key: txPayload.public_key,
       is_erc20: txPayload.is_erc20,
     };
-    // if (Number(txPayload.processingFee) > 0) {
-    //   await BtcLikeTxToCompany(companyTxPayload);
-    // }
-    await BtcLikeTxToUser(userTxPayload);
+    if (txPayload.from.startsWith('bc1')) {
+      console.log('SENDING SEGWIT TX-------');
+      await BTCSegwitLikeTX(txPayload); //PENDING
+    } else {
+      console.log('SENDING LEGACY TX-------');
+      await BtcLikeTxToUser(userTxPayload);
+    }
   } catch (e) {
     throw e;
   }
@@ -869,13 +787,26 @@ export const BtcLikeTxToCompany = async (txPayload: any) => {
 };
 
 const createBtcLikeTx = async (txPayload: any) => {
+  const amount = () => {
+    if (txPayload.max) {
+      return -1;
+    }
+    if (txPayload.symbol === 'btc') {
+      let amount = convertBTCtoSatoshi(+txPayload.amount);
+      return Math.floor(amount);
+    } else if (txPayload.symbol !== 'btc') {
+      let amount = Number(txPayload.amount) * Math.pow(10, 8);
+      return Math.floor(amount);
+    }
+  };
+
   const createdTx = await axios({
     method: 'post',
-    url: `${defaultConfig.API_URL}/transaction/btctest/send`,
+    url: `https://api.blockcypher.com/${defaultConfig.BLOCKCYPHER_API_VERSION}/${txPayload.symbol}/${defaultConfig.BLOCKCYPHER_API_ENV}/txs/new?token=${defaultConfig.BLOCKCYPHER_API_TOKEN}`,
     data: {
       to: txPayload.to,
       from: txPayload.from,
-      amount: parseFloat(txPayload.amount) * 1000000000,
+      amount: amount(),
     },
   })
     .then(response => {
@@ -1013,31 +944,6 @@ export const getWallets = async () => {
 
 export const setCoinsPublicInfo = async (payload: PublicInfoPayload[]) =>
   await axios.post(`${defaultConfig.API_URL}/wallet/publicinfo`, payload);
-
-export const createBTCWallet = (mnemonic: string) => {
-  console.log('--craete btc wallet called--');
-
-  var root = new BIP84.fromSeed(mnemonic);
-  var child0 = root.deriveAccount(0);
-
-  console.log('mnemonic:', mnemonic);
-  console.log('rootpriv:', root.getRootPrivateKey());
-  console.log('rootpub:', root.getRootPublicKey());
-  console.log('\n');
-
-  var account0 = new BIP84.fromZPrv(child0);
-
-  console.log("Account 0, root = m/84'/0'/0'");
-  console.log('Account 0 xprv:', account0.getAccountPrivateKey());
-  console.log('Account 0 xpub:', account0.getAccountPublicKey());
-  console.log('\n');
-
-  console.log("Account 0, first receiving address = m/84'/0'/0'/0/0");
-  console.log('Prvkey:', account0.getPrivateKey(0));
-  console.log('Pubkey:', account0.getPublicKey(0));
-  console.log('Address:', account0.getAddress(0));
-  console.log('\n');
-};
 
 export const getAllCoinsBalances = async (body: {
   currencyCode: string;

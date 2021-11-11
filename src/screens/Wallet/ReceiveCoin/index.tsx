@@ -2,10 +2,10 @@ import Clipboard from '@react-native-clipboard/clipboard';
 import React, {useMemo, useState} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
-import QRCode from 'react-native-qrcode-svg';
 import {useSelector} from 'react-redux';
 import {ICONS} from '../../../assets';
 import AppHeader from '../../../shared/components/AppHeader';
+import {QRcodeGenerator} from '../../../shared/components/QRcodeGenerator';
 import {Coin, GenericNavigation} from '../../../shared/models/types';
 import {AppShowToast} from '../../../shared/services/helper.service';
 import {RootState} from '../../../shared/store';
@@ -36,16 +36,6 @@ const ReceiveCoin = (props: Props) => {
     <View style={styles.mainContainer}>
       <AppHeader title={L('Wallet')} showBack />
       <View style={styles.container}>
-        {/* <FastImage
-          source={GetImageForCoin(coin?.coin_symbol!)}
-          resizeMode={FastImage.resizeMode.contain}
-          style={styles.coinIcon}
-        /> */}
-
-        <View style={styles.qrContainer}>
-          <QRCode size={WP(40)} value={coin?.address} />
-        </View>
-
         {/* <SvgUri width="100%" height="100%" uri={COIN_URL} /> */}
         <QRcodeGenerator value={coin?.address || ''} />
         <Text style={styles.instruction}>

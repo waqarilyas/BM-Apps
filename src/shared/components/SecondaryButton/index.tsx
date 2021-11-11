@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     width: WP(80),
     height: HP(7),
     alignSelf: 'center',
-    borderRadius: RF(30),
+    borderRadius: THEME.RADIUS.SMALLBOX,
     ...GLOBAL_STYLE.CENTER,
     borderWidth: 2,
     borderColor: THEME.COLORS.lightBlue,
