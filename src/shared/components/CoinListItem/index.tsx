@@ -71,9 +71,9 @@ const CoinListItem = (props: Props) => {
         </View>
 
         <View style={styles.main}>
-          <Text style={styles.price}>
+          <Text style={[styles.price]}>
             {/* ${parseFloat(props.item.vs_currency_balance).toFixed(2) || '0.00'} */}
-            ${props.item.vs_currency_balance || '0.00'}
+            ${parseFloat(props.item?.vs_currency_balance).toFixed(2) || '0.00'}
           </Text>
           <Text
             style={[

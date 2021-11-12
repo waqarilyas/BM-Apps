@@ -157,14 +157,7 @@ const AddProduct = (props: Props) => {
           initialValues={initialValues}
           onSubmit={(values, action) => handleData(values, action)}
           validationSchema={addProductVS}>
-          {({
-            values,
-            errors,
-            touched,
-            handleChange,
-            handleSubmit,
-            setFieldValue,
-          }: any) => (
+          {({errors, touched, handleChange, handleSubmit}: any) => (
             <>
               {touched.title && errors.title ? (
                 <Text style={styles.errors}>{errors.title}</Text>
