@@ -154,15 +154,19 @@ const SendCoin = (props: Props) => {
       if (!coinAmount) {
         return AppShowToast(L('Please enter coin amount'));
       }
+
       if (Number(totalAmount) > Number(coin?.balance)) {
         return AppShowToast(L('Insufficient funds'));
       }
+
       if (Number(usdtAmount) > Number(coin?.vs_currency_balance)) {
         return AppShowToast(L('Insufficient funds'));
       }
+
       if (!usdtAmount) {
         return AppShowToast(`Please enter ${defaultCurrency} amount`);
       }
+
       setLoading(true);
       const payload = {
         to: address,
@@ -177,7 +181,12 @@ const SendCoin = (props: Props) => {
         contractAddress: coin?.contractAddress,
         feeReceivingAccount: coin?.feeReceivingAccount,
       };
-      await handleTx(payload);
+
+      console.log('--payment params--', payload);
+
+      const transactionRes = await handleTx(payload);
+      console.log('---transaction response---', transactionRes);
+
       dispatch(refreshCoinsBalances(true));
       setLoading(false);
       setShowModal(true);

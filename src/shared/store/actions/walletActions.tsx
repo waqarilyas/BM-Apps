@@ -118,7 +118,7 @@ export const refreshCoinsBalances =
         console.log('Initial Balance Update');
         dispatch(setBalancesUpdateNeeded(false));
       }
-      dispatch(setWalletLoading(false));
+      // dispatch(setWalletLoading(false));
     } catch (error) {
       console.log('Error refreshing balances:', error);
       dispatch(setWalletRefreshing(false));
