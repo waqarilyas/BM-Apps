@@ -31,6 +31,7 @@ const ICONS = {
   PLUS: require('./icons/plus.png'),
   MAP_LOCATION: require('./icons/mapLocation.png'),
   IMAGE_PICKER: require('./icons/imagePicker.png'),
+  STORE_LOCATION: require('./icons/addStore.png'),
   //Temp Images
   DUMMY_MAP: require('./icons/dummyMap.png'),
   DUMMY_IMAGE: require('./icons/dummyProduct.png'),

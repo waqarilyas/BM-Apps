@@ -190,6 +190,7 @@ const SettingsMain = (props: Props) => {
                 title={L('Add Store Location')}
                 chevron
                 onPress={navToAddPlace}
+                source={ICONS.STORE_LOCATION}
               />
             )}
 

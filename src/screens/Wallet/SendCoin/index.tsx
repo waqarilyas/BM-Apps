@@ -35,7 +35,7 @@ const SendCoin = (props: Props) => {
   const {wallet: walletState} = useSelector((state: RootState) => state);
 
   const [address, setAddress] = useState(
-    __DEV__ ? '0x373F9437e89ecD5f7589C269A990E402E0Cd6894' : '',
+    __DEV__ ? '0x1f921B9A2b840073ceE52936b028acDdE33B24D1' : '',
   );
   const [usdtAmount, setUsdtAmount] = useState('');
   const [coinAmount, setCoinAmount] = useState('');
@@ -137,8 +137,7 @@ const SendCoin = (props: Props) => {
 
   const onSend = async () => {
     try {
-      if (coin?.coin_symbol !== 'weenus') {
-      } else if (coin?.coin_symbol === 'weenus') {
+      if (coin?.coin_symbol === 'weenus') {
         let valid = WAValidator.validate(address, 'eth');
       }
 
@@ -192,6 +191,7 @@ const SendCoin = (props: Props) => {
       setShowModal(true);
       setPaymentError(false);
     } catch (error) {
+      console.log('---error from payment---', error);
       setLoading(false);
       setPaymentError(error ? true : false);
       setShowModal(true);

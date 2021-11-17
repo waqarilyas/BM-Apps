@@ -71,7 +71,7 @@ export const renderWallet =
       AppShowToast('Wallet Imported');
     } catch (error: any) {
       console.log('---error--', error);
-
+      dispatch(setWalletLoading(false));
       if (error.response.message) {
         AppShowToast(error.response.message);
       } else {

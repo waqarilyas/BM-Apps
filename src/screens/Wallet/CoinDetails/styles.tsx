@@ -76,6 +76,10 @@ const styles = StyleSheet.create({
     marginBottom: THEME.MARGIN.NORMAL,
     alignSelf: 'center',
   },
+  noTransactionText: {
+    color: THEME.COLORS.white,
+    textAlign: 'center',
+  },
 });
 
 export default styles;

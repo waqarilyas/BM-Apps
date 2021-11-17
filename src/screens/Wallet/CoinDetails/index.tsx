@@ -1,5 +1,5 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {FlatList, Text, View} from 'react-native';
+import {ActivityIndicator, FlatList, Text, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {useSelector} from 'react-redux';
 import {COINS} from '../../../assets/coins';
@@ -26,6 +26,7 @@ const CoinDetails = (props: Props) => {
   );
   // const [activeIndex, setActiveIndex] = useState(0);
   const [transactions, setTransactions] = useState<Transaction[] | []>([]);
+  const [loading, setLoading] = useState(false);
 
   const coin = useMemo(() => {
     return wallet.find(
@@ -43,10 +44,14 @@ const CoinDetails = (props: Props) => {
           }),
         );
       })
-      .catch(err => console.log('Error getting transaction:', err));
+      .catch(err => console.log('Error getting transaction:', err))
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   useEffect(() => {
+    setLoading(true);
     getTransactions();
   }, []);
 
@@ -57,14 +62,6 @@ const CoinDetails = (props: Props) => {
 
     return unsubscribe;
   }, [props.navigation]);
-
-  // const showBalance = () => setActiveIndex(0);
-  // const showTransactions = () => setActiveIndex(1);
-
-  // const getTabBackground = (index: number) =>
-  //   activeIndex === index
-  //     ? THEME.COLORS.blue
-  //     : THEME.COLORS.secondaryBackground;
 
   const navToSend = () => {
     props.navigation?.navigate('SendCoin', {coinSymbol: coin?.coin_symbol});
@@ -155,10 +152,6 @@ const CoinDetails = (props: Props) => {
           </View>
         </View>
 
-        {/* //-----Balance---// */}
-
-        {/* //-----Transactions---// */}
-
         <View
           style={{
             flex: 0.5,
@@ -170,6 +163,18 @@ const CoinDetails = (props: Props) => {
             data={sortedTransactions}
             keyExtractor={(_, index) => index.toString()}
             contentContainerStyle={{marginTop: THEME.MARGIN.LOW}}
+            ListEmptyComponent={() =>
+              loading ? (
+                <ActivityIndicator
+                  color={THEME.COLORS.accentBlue}
+                  size="large"
+                />
+              ) : (
+                <Text style={styles.noTransactionText}>
+                  No Transactions Found!
+                </Text>
+              )
+            }
             renderItem={({item, index}) => {
               return (
                 <TransactionItem

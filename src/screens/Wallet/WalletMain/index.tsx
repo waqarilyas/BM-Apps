@@ -3,6 +3,7 @@ import {RefreshControl, ScrollView, Text, View} from 'react-native';
 import {PieChart} from 'react-native-svg-charts';
 import {useDispatch, useSelector} from 'react-redux';
 import AppHeader from '../../../shared/components/AppHeader';
+import AppLoader from '../../../shared/components/AppLoader';
 import AppSearchInput from '../../../shared/components/AppSearchInput';
 import AuthModal from '../../../shared/components/AuthModal';
 import CoinListItem from '../../../shared/components/CoinListItem';
@@ -15,6 +16,7 @@ import {
 } from '../../../shared/services/wallet.service';
 import {RootState} from '../../../shared/store';
 import {refreshCoinsBalances} from '../../../shared/store/actions/walletActions';
+import {THEME} from '../../../shared/theme';
 import {EMPTY_CHART_DATA} from '../../../shared/utils/AppConstants';
 import L from '../../../shared/utils/LanguageHandler';
 import {initSocket, socket} from '../../../shared/utils/sockets';
@@ -151,7 +153,6 @@ const WalletMain = (props: Props) => {
     const unsubscribe = props.navigation?.addListener('focus', () => {
       dispatch(refreshCoinsBalances(true));
     });
-
     return unsubscribe;
   }, [props.navigation]);
 
@@ -227,6 +228,7 @@ const WalletMain = (props: Props) => {
               <RefreshControl
                 refreshing={walletRefreshing}
                 onRefresh={onRefreshBalances}
+                tintColor={THEME.COLORS.accentBlue}
               />
             }
             style={styles.listContainer}
@@ -248,7 +250,7 @@ const WalletMain = (props: Props) => {
           <AuthModal visible={true} onClose={() => setAuthOpen(false)} />
         )}
       </View>
-      {/* <AppLoader isVisible={walletLoading} /> */}
+      <AppLoader isVisible={walletLoading} />
     </>
   );
 };

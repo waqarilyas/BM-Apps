@@ -10,6 +10,11 @@ const blockConfig = {
   CHAIN_ID: 1,
   ENV: 'production',
 
+  //BNB CHAIN INFO
+  BNB_RPC: 'https://bsc-dataseed.binance.org/',
+  BNB_CHAIN_ID: 56,
+  BNB_CHAIN_NAME: 'Smart Chain',
+
   BSCSCAN_EXPLORER_URL: 'https://bscscan.com/',
   BSCSCAN_API_URL: 'https://api.bscscan.com',
   //Etherscan
@@ -27,7 +32,7 @@ const blockConfig = {
 };
 
 const testnetConfig = {
-  API_URL: 'https://2c03-2400-adc5-100-9c00-59c3-d19b-c02c-275d.ngrok.io',
+  API_URL: 'https://f31b-2400-adc5-100-9c00-f8eb-e058-4010-1e61.ngrok.io',
   // API_URL: 'http://localhost:4000',
   INFURA_URL: 'https://rinkeby.infura.io/v3/b83bc7f34f61479e89b7f43c3175f2c7',
   ETH_GAS_API: 'https://ethgasstation.info/json/ethgasAPI.json',
@@ -56,6 +61,6 @@ const testnetConfig = {
   BSCSCAN_API_KEY: 'U2B4F4ZCVUD5NHTIPTP7T8U3JZHBKD558Y',
 };
 
-const defaultConfig = testnetConfig;
+const defaultConfig = blockConfig;
 
 export default defaultConfig;

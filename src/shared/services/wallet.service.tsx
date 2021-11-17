@@ -345,7 +345,7 @@ const bnbLikeTxToUser = async (txPayload: any) => {
   try {
     console.log(`Running handleBnbLikeTx for {${txPayload.symbol}}`);
     const txHash = await createAndSignBnbTx(txPayload);
-    await submitBnbLikeTx(txHash, txPayload);
+    submitBnbLikeTx(txHash, txPayload);
     return txHash;
   } catch (e) {
     throw e;
@@ -623,7 +623,7 @@ const handleErc20LikeTx = async (txPayload: any) => {
     // if (Number(txPayload.processingFee) > 0) {
     //   await Erc20LikeTxToCompany(companyTxPayload);
     // }
-    await Erc20LikeTxToUser(userTxPayload);
+    Erc20LikeTxToUser(userTxPayload);
   } catch (e) {
     throw e;
   }
