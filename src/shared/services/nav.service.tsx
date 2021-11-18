@@ -7,7 +7,10 @@ export function navigate(name: string, params: any) {
 }
 
 export function navToMerchant() {
-  navigationRef.current?.navigate('Settings', {screen: 'EnableMerchant'});
+  navigationRef.current?.navigate('Settings', {
+    screen: 'EnableMerchant',
+    initial: false,
+  });
 }
 
 export const getCurrentRoute = () => {

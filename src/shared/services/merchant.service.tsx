@@ -1,4 +1,6 @@
 import axios from 'axios';
+import {Alert} from 'react-native';
+import RNFetchBlob from 'rn-fetch-blob';
 import defaultConfig from '../../../block.config';
 import {store} from '../store';
 import {
@@ -6,16 +8,10 @@ import {
   setMerchantEnabledState,
   setMerchantShop,
 } from '../store/reducers/userReducer';
-import RNFetchBlob from 'rn-fetch-blob';
+import {setMerchantChecked} from '../store/reducers/utilReducer';
 import {setWalletAddress} from '../store/reducers/walletReducer';
-import Toast from 'react-native-toast-message';
-import utilReducer, {
-  setMerchantChecked,
-  setMerchantEnabledFromDB,
-} from '../store/reducers/utilReducer';
-import {Alert} from 'react-native';
 import L from '../utils/LanguageHandler';
-import {navigate, navToMerchant} from './nav.service';
+import {navToMerchant} from './nav.service';
 
 export const createNewMerchant = (params: any) => {
   return axios.post(`${defaultConfig.API_URL}/Merchant/save`, params);

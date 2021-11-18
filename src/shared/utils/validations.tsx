@@ -1,32 +1,67 @@
 import * as Yup from 'yup';
 import L from './LanguageHandler';
 
+// const phoneRegExp =
+//   /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/;
+
 export const createMerchantVS = Yup.object().shape({
-  firstName: Yup.string().required(L('Please enter your first name')),
-  lastName: Yup.string().required(L('Please enter your last name')),
+  firstName: Yup.string()
+    .required(L('Please enter your first name'))
+    .trim()
+    .max(50),
+  lastName: Yup.string()
+    .required(L('Please enter your last name'))
+    .trim()
+    .min(2)
+    .max(50),
   email: Yup.string()
     .email(L('Please provide valid email'))
-    .required(L('Please enter your email address')),
-  phoneNumber: Yup.string().required(L('Please enter your phone number')),
-  address: Yup.string().required(L('Please enter your POS address')),
+    .required(L('Please enter your email address'))
+    .trim(),
+  phoneNumber: Yup.string().required().trim().max(25).min(5),
+  address: Yup.string().required(L('Please enter your POS address')).trim(),
 });
 
 export const createShopVS = Yup.object().shape({
-  name: Yup.string().required(L('Please enter your shop name')),
-  category: Yup.string().required(L('Please enter your shop category')),
-  phone: Yup.string().required(L('Please enter your shop phone number')),
-  website: Yup.string().optional(),
-  address: Yup.string().required(L('Please select a valid address')),
+  name: Yup.string()
+    .required(L('Please enter your shop name'))
+    .trim()
+    .min(2)
+    .max(50),
+  category: Yup.string()
+    .required(L('Please enter your shop category'))
+    .trim()
+    .max(50),
+  phone: Yup.string()
+    .required(L('Please enter your shop phone number'))
+    .trim()
+    .max(25)
+    .min(5),
+  website: Yup.string().optional().trim(),
+  address: Yup.string().required(L('Please select a valid address')).trim(),
 });
 
 export const addProductVS = Yup.object().shape({
-  title: Yup.string().required(L('Please enter your product name')),
-  price: Yup.string().required(L('Please enter your product price')),
-  category: Yup.string().required(L('Please enter your product category')),
-  tax: Yup.string().optional(),
+  title: Yup.string()
+    .required(L('Please enter your product name'))
+    .min(2)
+    .max(50)
+    .trim(),
+  price: Yup.string().required(L('Please enter your product price')).trim(),
+  category: Yup.string()
+    .required(L('Please enter your product category'))
+    .trim(),
+  tax: Yup.string().optional().trim(),
 });
 
 export const addAddressVS = Yup.object().shape({
-  name: Yup.string().required(L('Please enter your contact name')),
-  address: Yup.string().required(L('Please enter your contact address')),
+  name: Yup.string()
+    .required(L('Please enter your contact name'))
+    .min(2)
+    .max(50)
+    .trim(),
+  address: Yup.string()
+    .required(L('Please enter your contact address'))
+    .min(2)
+    .trim(),
 });
