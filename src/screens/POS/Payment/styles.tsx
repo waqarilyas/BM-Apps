@@ -90,8 +90,11 @@ const styles = StyleSheet.create({
   },
 
   qrContainer: {
-    width: '100%',
+    // width: '100%',
     alignItems: 'center',
+    backgroundColor: THEME.COLORS.white,
+    alignSelf: 'center',
+    padding: 4,
   },
 });
 

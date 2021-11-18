@@ -1,3 +1,4 @@
+import Clipboard from '@react-native-clipboard/clipboard';
 import React, {useEffect, useMemo, useState} from 'react';
 import {ActivityIndicator, FlatList, Text, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
@@ -12,6 +13,7 @@ import {
   GenericNavigation,
   Transaction,
 } from '../../../shared/models/types';
+import {AppShowToast} from '../../../shared/services/helper.service';
 import {checkTransactions} from '../../../shared/services/wallet.service';
 import {RootState} from '../../../shared/store';
 import {THEME} from '../../../shared/theme';
@@ -87,6 +89,12 @@ const CoinDetails = (props: Props) => {
     }
   };
 
+  const onCopy = () => {
+    // setCopied(true);
+    AppShowToast(L('Copied'));
+    Clipboard.setString(coin?.address);
+  };
+
   const sortedTransactions = useMemo(
     () => transactions.sort((a, b) => b.epoch! - a.epoch!),
     [transactions],
@@ -144,7 +152,7 @@ const CoinDetails = (props: Props) => {
                 kind="receive"
               />
               <TransactionButton
-                onPress={() => console.log('Copied')}
+                onPress={onCopy}
                 title={L('Copy')}
                 kind="copy"
               />

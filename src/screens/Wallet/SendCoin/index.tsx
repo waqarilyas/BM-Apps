@@ -179,13 +179,11 @@ const SendCoin = (props: Props) => {
         contractAbi: coin?.contractAbi,
         contractAddress: coin?.contractAddress,
         feeReceivingAccount: coin?.feeReceivingAccount,
+        is_bep20: coin?.is_bep20,
       };
-
-      console.log('--payment params--', payload);
 
       const transactionRes = await handleTx(payload);
       console.log('---transaction response---', transactionRes);
-
       dispatch(refreshCoinsBalances(true));
       setLoading(false);
       setShowModal(true);

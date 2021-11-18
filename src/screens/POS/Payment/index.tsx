@@ -194,7 +194,10 @@ const Payment = (props: Props) => {
           style={styles.qr}
         /> */}
         <View style={styles.qrContainer}>
-          <QRCode size={WP(40)} value={selectedCoin?.address} />
+          <QRCode
+            size={WP(40)}
+            value={`${selectedCoin?.address}?value=${totalInvoiceAmount}`}
+          />
         </View>
         <Text style={styles.instruction}>
           {L('Use the address below to receive funds.')}
