@@ -43,13 +43,6 @@ const SendCoin = (props: Props) => {
   const [loading, setLoading] = useState(false);
   const [paymentError, setPaymentError] = useState(false);
   const dispatch = useDispatch();
-  // const [coin, ETH_RATE] = useMemo(() => {
-  //   let selectedCoin = wallet.find(
-  //     (c: Coin) => c?.coin_symbol === props.route?.params?.coinSymbol,
-  //   );
-  //   let eth = wallet.find((c: Coin) => c.coin_name === 'Ethereum');
-  //   return [selectedCoin, eth?.chart_data.rate];
-  // }, [wallet, props.route]);
 
   const onChangeAddress = (text: string) => setAddress(text);
   const toggleModal = () => {

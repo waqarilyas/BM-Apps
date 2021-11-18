@@ -11,6 +11,7 @@ import {RootState} from '../../../shared/store';
 import {setLanguage} from '../../../shared/store/reducers/settingsReducer';
 import {THEME} from '../../../shared/theme';
 import GLOBAL_STYLE from '../../../shared/theme/global';
+import {RF} from '../../../shared/theme/responsive';
 import {Languages} from '../../../shared/utils/AppConstants';
 import L from '../../../shared/utils/LanguageHandler';
 import styles from './styles';
@@ -57,7 +58,10 @@ const LanguageSelection = (props: Props) => {
           activeColor={THEME.COLORS.accentBlue}
           duration={200}
           animationTypes={['pulse']}
-          boxStyle={{marginVertical: THEME.MARGIN.LOW, borderWidth: 0}}
+          boxStyle={{
+            marginVertical: THEME.MARGIN.LOW,
+            borderWidth: 0,
+          }}
           style={{marginVertical: THEME.MARGIN.NORMAL}}
           boxActiveBgColor={THEME.COLORS.secondaryBackground}
           boxDeactiveBgColor={THEME.COLORS.secondaryBackground}
@@ -70,7 +74,7 @@ const LanguageSelection = (props: Props) => {
         <PrimaryButton
           loading={loading}
           title={L('Save')}
-          buttonStyle={{width: '50%'}}
+          buttonStyle={{width: '50%', height: RF(38)}}
           textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
           onPress={changeLanguage}
         />

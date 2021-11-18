@@ -44,6 +44,21 @@ const POSMain = (props: Props) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   };
 
+  const navToDirectInvoice = () => {
+    if (merchantData?.isDisabled) {
+      Alert.alert(
+        L('Failed'),
+        L(
+          'Your account has been disabled by admin! You cannot add direct invoice!',
+        ),
+        [{text: 'OK', onPress: () => console.log('OK Pressed')}],
+      );
+
+      return;
+    }
+    props.navigation?.navigate('Payment', {type: 'invoice'});
+  };
+
   const navToAddProduct = () => {
     if (merchantData?.isDisabled) {
       Alert.alert(
@@ -167,9 +182,7 @@ const POSMain = (props: Props) => {
           <TouchableOpacity
             activeOpacity={0.8}
             style={styles.topAction}
-            onPress={() =>
-              props.navigation?.navigate('Payment', {type: 'invoice'})
-            }>
+            onPress={navToDirectInvoice}>
             <IC
               name="file-invoice"
               color={THEME.COLORS.accentBlue}

@@ -35,6 +35,7 @@ const WalletMain = (props: Props) => {
     },
     util: {balancesUpdateNeeded},
     settings: {thumbEnabled, currency},
+    user: {merchantData},
   } = useSelector((state: RootState) => state);
 
   const [searchText, setSearchText] = useState('');
@@ -144,7 +145,7 @@ const WalletMain = (props: Props) => {
   const onRefreshBalances = () => dispatch(refreshCoinsBalances(true));
 
   useEffect(() => {
-    if (wallet.length > 0) {
+    if (wallet.length > 0 && !merchantData) {
       getInitialMerchantData();
     }
   }, [wallet]);

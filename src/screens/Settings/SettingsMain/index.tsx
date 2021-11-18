@@ -88,6 +88,7 @@ const SettingsMain = (props: Props) => {
     dispatch(resetUser());
     dispatch(resetWallet());
     dispatch(resetSettings());
+    dispatch(setMerchantEnabledState(false));
   };
 
   const navToCurrencySelection = () => {
@@ -170,6 +171,17 @@ const SettingsMain = (props: Props) => {
     );
   };
 
+  const isMerchantEnabled = () => {
+    if (merchantData?.isDisabled) {
+      Alert.alert(L('Failed'), L('Your account has been disabled by admin! '), [
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
+      ]);
+
+      return false;
+    }
+    return true;
+  };
+
   return (
     <>
       <AppHeader title={L('Settings')} />
@@ -189,7 +201,11 @@ const SettingsMain = (props: Props) => {
               <SettingItem
                 title={L('Add Store Location')}
                 chevron
-                onPress={navToAddPlace}
+                onPress={() => {
+                  if (isMerchantEnabled()) {
+                    navToAddPlace();
+                  }
+                }}
                 source={ICONS.STORE_LOCATION}
               />
             )}

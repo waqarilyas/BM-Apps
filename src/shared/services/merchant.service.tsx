@@ -9,6 +9,13 @@ import {
 import RNFetchBlob from 'rn-fetch-blob';
 import {setWalletAddress} from '../store/reducers/walletReducer';
 import Toast from 'react-native-toast-message';
+import utilReducer, {
+  setMerchantChecked,
+  setMerchantEnabledFromDB,
+} from '../store/reducers/utilReducer';
+import {Alert} from 'react-native';
+import L from '../utils/LanguageHandler';
+import {navigate, navToMerchant} from './nav.service';
 
 export const createNewMerchant = (params: any) => {
   return axios.post(`${defaultConfig.API_URL}/Merchant/save`, params);
@@ -43,6 +50,7 @@ export const createNewProduct = (params: any) => {
 };
 
 export const getInitialMerchantData = async () => {
+  const {isMerchantChecked} = store.getState().util;
   try {
     const {wallet} = store.getState().wallet;
 
@@ -62,14 +70,28 @@ export const getInitialMerchantData = async () => {
     if (res.data) {
       store.dispatch(setMerchantData(res.data));
       store.dispatch(setMerchantEnabledState(true));
+      // store.dispatch(setMerchantEnabledFromDB(true));
       const shopData = await axios.get(
         `${defaultConfig.API_URL}/shop/getByMerchant/${res.data._id}`,
       );
+
+      store.dispatch(setMerchantChecked(true));
 
       store.dispatch(setMerchantShop(shopData.data));
     }
   } catch (err) {
     // console.log('--error from get initial merchant data---', err);
+    if (!isMerchantChecked) {
+      Alert.alert(
+        L('Confirm'),
+        L('Your merchant account has not been enabled! Enable now?'),
+        [
+          {text: 'OK', onPress: () => navToMerchant()},
+          {text: 'cancel', onPress: () => console.log('OK Pressed')},
+        ],
+      );
+      store.dispatch(setMerchantChecked(true));
+    }
   }
 };
 
