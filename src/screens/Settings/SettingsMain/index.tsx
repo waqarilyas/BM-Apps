@@ -17,6 +17,7 @@ import {
   resetUser,
   setMerchantEnabledState,
 } from '../../../shared/store/reducers/userReducer';
+import {setIsNewWallet} from '../../../shared/store/reducers/utilReducer';
 import {resetWallet} from '../../../shared/store/reducers/walletReducer';
 import {THEME} from '../../../shared/theme';
 import {RF} from '../../../shared/theme/responsive';
@@ -89,6 +90,7 @@ const SettingsMain = (props: Props) => {
     dispatch(resetWallet());
     dispatch(resetSettings());
     dispatch(setMerchantEnabledState(false));
+    dispatch(setIsNewWallet(false));
   };
 
   const navToCurrencySelection = () => {

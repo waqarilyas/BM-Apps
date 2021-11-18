@@ -177,6 +177,8 @@ const AddPlace = (props: Props) => {
               <AppInput
                 placeholder={L('Contact')}
                 onChangeText={handleChange('phone')}
+                keyboardType="number-pad"
+                returnKeyType="done"
               />
 
               {touched.website && errors.website ? (

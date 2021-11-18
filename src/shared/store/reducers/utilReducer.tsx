@@ -3,6 +3,7 @@ import {createSlice} from '@reduxjs/toolkit';
 const initialState = {
   balancesUpdateNeeded: true,
   isMerchantChecked: false,
+  isNewWallet: false,
 };
 
 export const userSlice = createSlice({
@@ -15,9 +16,14 @@ export const userSlice = createSlice({
     setMerchantChecked: (state, action) => {
       state.isMerchantChecked = action.payload;
     },
+
+    setIsNewWallet: (state, action) => {
+      state.isNewWallet = action.payload;
+    },
   },
 });
 
-export const {setBalancesUpdateNeeded, setMerchantChecked} = userSlice.actions;
+export const {setBalancesUpdateNeeded, setMerchantChecked, setIsNewWallet} =
+  userSlice.actions;
 
 export default userSlice.reducer;

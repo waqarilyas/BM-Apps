@@ -26,6 +26,8 @@ export const renderWallet =
     dispatch(setWalletLoading(true));
     dispatch(setBalancesUpdateNeeded(false));
 
+    const {isNewWallet} = getState().util;
+
     try {
       const walletAssets = await getWallets();
       let publicInfoCollection: PublicInfoPayload[] = [];
@@ -68,7 +70,9 @@ export const renderWallet =
         );
       }
       dispatch(setWalletLoading(false));
-      AppShowToast('Wallet Imported');
+      AppShowToast(
+        isNewWallet ? 'Wallet Created Successfully!' : 'Wallet Imported',
+      );
     } catch (error: any) {
       console.log('---error--', error);
       dispatch(setWalletLoading(false));

@@ -8,6 +8,7 @@ import PrimaryButton from '../../../shared/components/PrimaryButton';
 import SecondaryButton from '../../../shared/components/SecondaryButton';
 import {createBTCWallet} from '../../../shared/services/wallet.service';
 import {renderWallet} from '../../../shared/store/actions/walletActions';
+import {setIsNewWallet} from '../../../shared/store/reducers/utilReducer';
 import {
   setIsWalletRendered,
   setMnemonic,
@@ -29,6 +30,8 @@ const StartScreen = (props: Props) => {
     setLoading(true);
     let mnemonic = bip39.generateMnemonic();
     // createBTCWallet(mnemonic);
+    dispatch(setIsNewWallet(true));
+
     dispatch(
       setMnemonic({
         mnemonic_phrase: mnemonic,
