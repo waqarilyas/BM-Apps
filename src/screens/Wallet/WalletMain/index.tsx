@@ -145,7 +145,7 @@ const WalletMain = (props: Props) => {
   const onRefreshBalances = () => dispatch(refreshCoinsBalances(true));
 
   useEffect(() => {
-    if (wallet.length > 0 && !merchantData) {
+    if (wallet.length > 0) {
       getInitialMerchantData();
     }
   }, [wallet]);

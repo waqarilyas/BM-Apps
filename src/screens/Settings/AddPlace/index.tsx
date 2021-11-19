@@ -34,7 +34,6 @@ const initialValues: any = {
 
 const AddPlace = (props: Props) => {
   const [loading, setLoading] = useState(false);
-  const [photos, setPhotos] = useState([]);
   const [location, setLocation]: any = useState({
     latitude: 37.78825,
     longitude: -122.4324,
@@ -59,33 +58,33 @@ const AddPlace = (props: Props) => {
   };
 
   const handleData = (values: any, action: any) => {
-    // setLoading(true);
+    setLoading(true);
     values.location = {
       latitude: location.latitude,
       longitude: location.longitude,
     };
     values.merchantId = merchantData._id;
 
-    // createNewShop(values)
-    //   .then(res => {
-    //     Toast.show({
-    //       text1: L('Successfull'),
-    //       text2: L('Your shop has been created successfully'),
-    //       type: 'success',
-    //     });
-    //     getMerchantShops();
-    //     props.navigation?.goBack();
-    //   })
-    //   .catch(err => {
-    //     Toast.show({
-    //       text1: L('Request Failed'),
-    //       text2: err?.response?.data?.message,
-    //       type: 'error',
-    //     });
-    //   })
-    //   .finally(() => {
-    //     setLoading(false);
-    //   });
+    createNewShop(values)
+      .then(res => {
+        Toast.show({
+          text1: L('Successfull'),
+          text2: L('Your shop has been created successfully'),
+          type: 'success',
+        });
+        getMerchantShops();
+        props.navigation?.goBack();
+      })
+      .catch(err => {
+        Toast.show({
+          text1: L('Request Failed'),
+          text2: err?.response?.data?.message,
+          type: 'error',
+        });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (

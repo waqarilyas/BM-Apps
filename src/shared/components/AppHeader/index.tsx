@@ -1,19 +1,24 @@
-import React from 'react';
-import {StyleSheet, Text, View, Platform, ViewStyle} from 'react-native';
-import {THEME} from '../../theme';
-import {RF, WP} from '../../theme/responsive';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Feather from 'react-native-vector-icons/Feather';
 import {useNavigation} from '@react-navigation/core';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import React, {ReactChild} from 'react';
+import {
+  Platform,
+  StyleProp,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
+} from 'react-native';
 import FastImage from 'react-native-fast-image';
-import {ICONS} from '../../../assets';
-import GLOBAL_STYLE from '../../theme/global';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {StyleProp} from 'react-native';
-import {RootState} from '../../store';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useDispatch, useSelector} from 'react-redux';
+import {ICONS} from '../../../assets';
+import {RootState} from '../../store';
 import {setShowBalances} from '../../store/reducers/walletReducer';
+import {THEME} from '../../theme';
+import GLOBAL_STYLE from '../../theme/global';
+import {RF} from '../../theme/responsive';
 
 interface Props {
   title?: string;
@@ -24,6 +29,7 @@ interface Props {
   backAction?: () => void;
   headerStyle?: StyleProp<ViewStyle>;
   searchAction?: () => void;
+  customRightView?: ReactChild;
 }
 
 const AppHeader = (props: Props) => {
@@ -39,6 +45,7 @@ const AppHeader = (props: Props) => {
   const showCart = () => {
     navigation.navigate('Cart');
   };
+
   const toggleEye = () => dispatch(setShowBalances(!showBalances));
 
   return (
@@ -101,6 +108,8 @@ const AppHeader = (props: Props) => {
               <Text style={styles.count}>{notificationCount}</Text>
             </View>
           </TouchableOpacity>
+        ) : props.customRightView ? (
+          props.customRightView
         ) : (
           <View />
         )}

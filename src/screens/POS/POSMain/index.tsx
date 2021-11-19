@@ -163,6 +163,7 @@ const POSMain = (props: Props) => {
           title={L('Point of Sale')}
           showSearch
           searchAction={() => setSearchVisible(true)}
+          showBack
         />
       )}
       <View style={styles.container}>
@@ -179,7 +180,7 @@ const POSMain = (props: Props) => {
             <Text style={styles.actionText}>{L('Add Product')}</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
+          {/* <TouchableOpacity
             activeOpacity={0.8}
             style={styles.topAction}
             onPress={navToDirectInvoice}>
@@ -190,7 +191,7 @@ const POSMain = (props: Props) => {
             />
 
             <Text style={styles.actionText}>{L('Direct Invoice')}</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
 
         <Text style={styles.categoryLabel}>{L('Products')}</Text>
@@ -198,7 +199,11 @@ const POSMain = (props: Props) => {
         <FlatList
           data={searchText.length > 0 ? searchResults : products}
           refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            <RefreshControl
+              tintColor={THEME.COLORS.accentBlue}
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />
           }
           numColumns={3}
           columnWrapperStyle={{
