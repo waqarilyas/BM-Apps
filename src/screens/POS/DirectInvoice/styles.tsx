@@ -106,6 +106,21 @@ const styles = StyleSheet.create({
     color: THEME.COLORS.white,
     fontWeight: '600',
   },
+  personalContainer: {marginVertical: THEME.MARGIN.NORMAL},
+  personalTitle: {
+    color: THEME.COLORS.white,
+    fontSize: THEME.FONTS.SIZE.MEDIUM,
+  },
+  nameContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: THEME.MARGIN.NORMAL,
+  },
+  errors: {
+    fontSize: THEME.FONTS.SIZE.XXXSMALL,
+    color: 'red',
+    marginLeft: 10,
+  },
 });
 
 export default styles;

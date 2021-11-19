@@ -163,7 +163,7 @@ const POSMain = (props: Props) => {
           title={L('Point of Sale')}
           showSearch
           searchAction={() => setSearchVisible(true)}
-          showBack
+          // showBack
         />
       )}
       <View style={styles.container}>

@@ -24,8 +24,8 @@ const POSStack = () => {
       })}>
       {merchantEnabled ? (
         <>
-          <Stack.Screen name="DirectInvoice" component={DirectInvoice} />
           <Stack.Screen name="POSMain" component={POSMain} />
+          <Stack.Screen name="DirectInvoice" component={DirectInvoice} />
           <Stack.Screen name="AddProduct" component={AddProduct} />
           <Stack.Screen name="ProductDetails" component={ProductDetails} />
           <Stack.Screen name="Payment" component={Payment} />

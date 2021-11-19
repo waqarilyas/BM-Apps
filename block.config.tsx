@@ -32,7 +32,8 @@ const blockConfig = {
 };
 
 const testnetConfig = {
-  API_URL: 'https://f31b-2400-adc5-100-9c00-f8eb-e058-4010-1e61.ngrok.io',
+  API_URL: 'https://testnet.blockmerchants.com',
+  // API_URL: 'https://1df6-101-53-234-165.ngrok.io',
   // API_URL: 'http://localhost:4000',
   INFURA_URL: 'https://rinkeby.infura.io/v3/b83bc7f34f61479e89b7f43c3175f2c7',
   ETH_GAS_API: 'https://ethgasstation.info/json/ethgasAPI.json',
@@ -61,6 +62,6 @@ const testnetConfig = {
   BSCSCAN_API_KEY: 'U2B4F4ZCVUD5NHTIPTP7T8U3JZHBKD558Y',
 };
 
-const defaultConfig = blockConfig;
+const defaultConfig = testnetConfig;
 
 export default defaultConfig;

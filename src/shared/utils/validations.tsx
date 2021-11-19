@@ -65,3 +65,10 @@ export const addAddressVS = Yup.object().shape({
     .min(2)
     .trim(),
 });
+
+export const CustomerInfoVS = Yup.object().shape({
+  firstName: Yup.string().trim().max(50),
+  lastName: Yup.string().trim().min(2).max(50),
+  email: Yup.string().email(L('Please provide valid email')).trim(),
+  phone: Yup.string().trim().max(25).min(5),
+});

@@ -1,13 +1,9 @@
 import Clipboard from '@react-native-clipboard/clipboard';
+import {Formik} from 'formik';
 import React, {useEffect, useState} from 'react';
-import {
-  Pressable,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Pressable, Text, TouchableOpacity, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import QRCode from 'react-native-qrcode-svg';
 import Toast from 'react-native-toast-message';
 import {useDispatch, useSelector} from 'react-redux';
@@ -28,9 +24,17 @@ import {THEME} from '../../../shared/theme';
 import GLOBAL_STYLE from '../../../shared/theme/global';
 import {RF, WP} from '../../../shared/theme/responsive';
 import L from '../../../shared/utils/LanguageHandler';
+import {CustomerInfoVS} from '../../../shared/utils/validations';
 import styles from './styles';
 
 interface Props extends GenericNavigation {}
+
+const initialValues: any = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  phone: '',
+};
 
 const DirectInvoice = (props: Props) => {
   const [copied, setCopied] = useState(false);
@@ -60,6 +64,8 @@ const DirectInvoice = (props: Props) => {
     AppShowToast(L('Copied'));
     Clipboard.setString(contact ? contact.address : selectedCoin?.address);
   };
+
+  const handleCustomerData = (values: any, action: any) => {};
 
   useEffect(() => {
     setSelectedCoin(wallet[0]);
@@ -100,7 +106,7 @@ const DirectInvoice = (props: Props) => {
           </TouchableOpacity>
         }
       />
-      <ScrollView style={styles.container}>
+      <KeyboardAwareScrollView style={styles.container}>
         <Text style={styles.label}>{L('Select Coin')}:</Text>
         <TouchableOpacity onPress={toggleModal} style={styles.optionContainer}>
           <FastImage
@@ -199,22 +205,77 @@ const DirectInvoice = (props: Props) => {
           buttonStyle={styles.shareButton}
           textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
         />
+        <Formik
+          initialValues={initialValues}
+          onSubmit={(values, action) => handleCustomerData(values, action)}
+          validationSchema={CustomerInfoVS}>
+          {({
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleSubmit,
+            setFieldValue,
+          }: any) => (
+            <View style={styles.personalContainer}>
+              <Text style={styles.personalTitle}>Customer Information</Text>
+              <View style={styles.nameContainer}>
+                {touched.firstName && errors.firstName ? (
+                  <Text style={styles.errors}>{errors.firstName}</Text>
+                ) : null}
 
-        <PrimaryButton
-          title={L('Confirm Payment')}
-          onPress={() => {
-            dispatch(resetCart());
-            Toast.show({
-              text1: L('Success'),
-              text2: L('Payment confirmed'),
-              type: 'success',
-            });
-            props?.navigation?.navigate('POSMain');
-          }}
-          buttonStyle={styles.confirmButton}
-          textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
-        />
-      </ScrollView>
+                <AppInput
+                  placeholder="First Name"
+                  inputStyle={{width: '48%'}}
+                  onChangeText={handleChange('firstName')}
+                />
+
+                {touched.lastName && errors.lastName ? (
+                  <Text style={styles.errors}>{errors.lastName}</Text>
+                ) : null}
+
+                <AppInput
+                  placeholder="Last Name"
+                  inputStyle={{width: '48%'}}
+                  onChangeText={handleChange('lastName')}
+                />
+              </View>
+
+              {touched.phone && errors.phone ? (
+                <Text style={styles.errors}>{errors.phone}</Text>
+              ) : null}
+              <AppInput
+                placeholder="Phone"
+                onChangeText={handleChange('phone')}
+              />
+              {touched.email && errors.email ? (
+                <Text style={styles.errors}>{errors.email}</Text>
+              ) : null}
+
+              <AppInput
+                placeholder="Email"
+                onChangeText={handleChange('email')}
+              />
+
+              <PrimaryButton
+                title={L('Confirm Payment')}
+                onPress={() => {
+                  handleSubmit();
+                  dispatch(resetCart());
+                  Toast.show({
+                    text1: L('Success'),
+                    text2: L('Payment confirmed'),
+                    type: 'success',
+                  });
+                  props?.navigation?.navigate('POSMain');
+                }}
+                buttonStyle={styles.confirmButton}
+                textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
+              />
+            </View>
+          )}
+        </Formik>
+      </KeyboardAwareScrollView>
       <ChooseCoinModal
         isVisible={showCurrencyModal}
         onPressBackdrop={toggleModal}
