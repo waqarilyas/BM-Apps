@@ -11,9 +11,11 @@ import {ICONS} from '../../../assets';
 import {GetImageForCoin} from '../../../assets/coins';
 import AppHeader from '../../../shared/components/AppHeader';
 import AppInput from '../../../shared/components/AppInput';
+import AppLoader from '../../../shared/components/AppLoader';
 import ChooseCoinModal from '../../../shared/components/ChooseCoinModal';
 import PrimaryButton from '../../../shared/components/PrimaryButton';
 import {GenericNavigation} from '../../../shared/models/types';
+import {saveCustomer} from '../../../shared/services/customer.service';
 import {
   AppShareContent,
   AppShowToast,
@@ -29,13 +31,6 @@ import styles from './styles';
 
 interface Props extends GenericNavigation {}
 
-const initialValues: any = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  phone: '',
-};
-
 const DirectInvoice = (props: Props) => {
   const [copied, setCopied] = useState(false);
   const [showCurrencyModal, setShowCurrencyModal] = useState(false);
@@ -46,10 +41,23 @@ const DirectInvoice = (props: Props) => {
   const [customAmount, setCustomAmount] = useState(0);
   const [contact, setContact] = useState(null);
   const [currencyPrice, setcurrencyPrice] = useState(0);
+  const [loading, setLoading] = useState(false);
+
+  let initialValues: any = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+  };
 
   const dispatch = useDispatch();
 
-  const {wallet} = useSelector((state: RootState) => state.wallet);
+  const {wallet, walletAddress} = useSelector(
+    (state: RootState) => state.wallet,
+  );
+  const {
+    merchantData: {_id},
+  } = useSelector((state: RootState) => state.user);
   const {taxEnabled} = useSelector((state: RootState) => state.settings);
   const toggleModal = () => setShowCurrencyModal(!showCurrencyModal);
 
@@ -65,7 +73,41 @@ const DirectInvoice = (props: Props) => {
     Clipboard.setString(contact ? contact.address : selectedCoin?.address);
   };
 
-  const handleCustomerData = (values: any, action: any) => {};
+  const handleCustomerData = (values: any, {resetForm}: any) => {
+    setLoading(true);
+
+    values.merchantId = _id;
+    values.usdAmount = String(totalInvoiceAmount);
+
+    saveCustomer(values)
+      .then(res => {
+        // dispatch(setMerchantData(res?.data));
+        // dispatch(setMerchantEnabledState(true));
+        console.log('---values---', res);
+        Toast.show({
+          text1: L('Successfull'),
+          text2: L('Customer Details saved successfully'),
+          type: 'success',
+        });
+        // console.log('----action----', action);
+
+        resetForm();
+        // resetCustomerValues();
+        // handleSubmit();
+        dispatch(resetCart());
+        // props.navigation?.goBack();
+      })
+      .catch(err => {
+        Toast.show({
+          text1: L('Request Failed'),
+          text2: err?.response?.data?.message,
+          type: 'error',
+        });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
 
   useEffect(() => {
     setSelectedCoin(wallet[0]);
@@ -226,6 +268,7 @@ const DirectInvoice = (props: Props) => {
 
                 <AppInput
                   placeholder="First Name"
+                  value={values.firstName}
                   inputStyle={{width: '48%'}}
                   onChangeText={handleChange('firstName')}
                 />
@@ -236,6 +279,7 @@ const DirectInvoice = (props: Props) => {
 
                 <AppInput
                   placeholder="Last Name"
+                  value={values.lastName}
                   inputStyle={{width: '48%'}}
                   onChangeText={handleChange('lastName')}
                 />
@@ -246,6 +290,7 @@ const DirectInvoice = (props: Props) => {
               ) : null}
               <AppInput
                 placeholder="Phone"
+                value={values.phone}
                 onChangeText={handleChange('phone')}
               />
               {touched.email && errors.email ? (
@@ -254,21 +299,13 @@ const DirectInvoice = (props: Props) => {
 
               <AppInput
                 placeholder="Email"
+                value={values.email}
                 onChangeText={handleChange('email')}
               />
 
               <PrimaryButton
                 title={L('Confirm Payment')}
-                onPress={() => {
-                  handleSubmit();
-                  dispatch(resetCart());
-                  Toast.show({
-                    text1: L('Success'),
-                    text2: L('Payment confirmed'),
-                    type: 'success',
-                  });
-                  props?.navigation?.navigate('POSMain');
-                }}
+                onPress={handleSubmit}
                 buttonStyle={styles.confirmButton}
                 textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
               />
@@ -284,6 +321,7 @@ const DirectInvoice = (props: Props) => {
         onSelectContact={(con: any) => setContact(con)}
         renderContacts
       />
+      <AppLoader isVisible={loading} />
     </View>
   );
 };

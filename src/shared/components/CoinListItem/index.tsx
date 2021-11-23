@@ -28,7 +28,6 @@ interface Props extends TouchableOpacityProps {
 }
 const CoinListItem = (props: Props) => {
   const [loading, setLoading] = useState(false);
-
   const dispatch = useDispatch();
   const {item} = props;
   const {balance, coin_symbol} = props.item;

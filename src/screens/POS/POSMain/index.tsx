@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Toast from 'react-native-toast-message';
-import IC from 'react-native-vector-icons/FontAwesome5';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useSelector} from 'react-redux';
 import {ICONS} from '../../../assets';
@@ -32,7 +31,6 @@ const POSMain = (props: Props) => {
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [products, setProducts]: any = useState([]);
-  const [reload, setReload] = useState(false);
   const [searchVisible, setSearchVisible] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [searchResults, setSearchResults]: any = useState([]);
@@ -163,7 +161,7 @@ const POSMain = (props: Props) => {
           title={L('Point of Sale')}
           showSearch
           searchAction={() => setSearchVisible(true)}
-          // showBack
+          showBack
         />
       )}
       <View style={styles.container}>

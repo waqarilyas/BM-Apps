@@ -33,13 +33,14 @@ const blockConfig = {
 
 const testnetConfig = {
   API_URL: 'https://testnet.blockmerchants.com',
-  // API_URL: 'https://1df6-101-53-234-165.ngrok.io',
-  // API_URL: 'http://localhost:4000',
+  // API_URL: 'https://da17-2400-adc5-100-9c00-f865-fbfc-2deb-be5e.ngrok.io',
   INFURA_URL: 'https://rinkeby.infura.io/v3/b83bc7f34f61479e89b7f43c3175f2c7',
   ETH_GAS_API: 'https://ethgasstation.info/json/ethgasAPI.json',
   CHAIN: 'rinkeby',
   CHAIN_ID: 4,
+
   //BNB CHAIN INFO
+
   BNB_RPC: 'https://data-seed-prebsc-1-s1.binance.org:8545/',
   BNB_CHAIN_ID: 97,
   BNB_CHAIN_NAME: 'SmartChain - Testnet',
