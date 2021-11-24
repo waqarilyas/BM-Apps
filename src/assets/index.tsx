@@ -51,6 +51,8 @@ const ICONS = {
   EYE: require('./icons/eye.png'),
   EYE_OFF: require('./icons/eye-off.png'),
   placeholderCoin: require('./icons/placeholderCoin.png'),
+  historyIcon: require('./icons/history.png'),
+  sendIcon: require('./icons/sentLight.png'),
 };
 
 export {ICONS};

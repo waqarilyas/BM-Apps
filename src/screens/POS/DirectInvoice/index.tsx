@@ -55,9 +55,7 @@ const DirectInvoice = (props: Props) => {
   const {wallet, walletAddress} = useSelector(
     (state: RootState) => state.wallet,
   );
-  const {
-    merchantData: {_id},
-  } = useSelector((state: RootState) => state.user);
+  const {merchantData} = useSelector((state: RootState) => state.user);
   const {taxEnabled} = useSelector((state: RootState) => state.settings);
   const toggleModal = () => setShowCurrencyModal(!showCurrencyModal);
 
@@ -76,7 +74,7 @@ const DirectInvoice = (props: Props) => {
   const handleCustomerData = (values: any, {resetForm}: any) => {
     setLoading(true);
 
-    values.merchantId = _id;
+    values.merchantId = merchantData?._id;
     values.usdAmount = String(totalInvoiceAmount);
 
     saveCustomer(values)
@@ -141,11 +139,24 @@ const DirectInvoice = (props: Props) => {
       <AppHeader
         title={L('Direct Invoice')}
         customRightView={
-          <TouchableOpacity
-            style={styles.rightButton}
-            onPress={() => props?.navigation?.navigate('POSMain')}>
-            <Text style={styles.rightText}>Products</Text>
-          </TouchableOpacity>
+          <View style={styles.headerRight}>
+            <TouchableOpacity
+              style={styles.rightIconContainer}
+              onPress={() => props?.navigation?.navigate('SaleHistory')}>
+              <FastImage
+                source={ICONS.historyIcon}
+                style={styles.historyIcon}
+                resizeMode="contain"
+                tintColor={THEME.COLORS.white}
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.rightButton}
+              onPress={() => props?.navigation?.navigate('POSMain')}>
+              <Text style={styles.rightText}>Products</Text>
+            </TouchableOpacity>
+          </View>
         }
       />
       <KeyboardAwareScrollView style={styles.container}>
@@ -204,49 +215,56 @@ const DirectInvoice = (props: Props) => {
           />
         )}
 
-        <View style={styles.amountContainer}>
-          <Text style={styles.amountBTC}>
-            {currencyPrice} {selectedCoin?.coin_symbol?.toUpperCase()}
-          </Text>
-          <Text style={styles.amountUSD}>${totalInvoiceAmount} USD</Text>
-        </View>
+        <View style={styles.middleContainer}>
+          <View style={styles.middleLeft}>
+            <View style={styles.amountContainer}>
+              <Text style={styles.amountBTC}>
+                {currencyPrice} {selectedCoin?.coin_symbol?.toUpperCase()}
+              </Text>
+              <Text style={styles.amountUSD}>${totalInvoiceAmount} USD</Text>
+            </View>
 
-        <View style={styles.qrContainer}>
-          <QRCode
-            size={WP(40)}
-            value={`${selectedCoin?.address}?value=${totalInvoiceAmount}`}
-          />
-        </View>
-        <Text style={styles.instruction}>
-          {L('Use the address below to receive funds.')}
-        </Text>
-        <Pressable style={styles.keyContainer} onPress={onPressAddress}>
-          <Text numberOfLines={1} style={styles.keyText}>
-            {contact ? contact.address : selectedCoin?.address}
-          </Text>
-        </Pressable>
-        {copied && (
-          <View style={styles.copiedContainer}>
-            <FastImage
-              source={ICONS.TICK}
-              resizeMode={FastImage.resizeMode.contain}
-              style={{width: RF(20), height: RF(20)}}
-            />
-            <Text style={styles.copied}>{L('Copied')}</Text>
+            <View style={styles.qrContainer}>
+              <QRCode
+                size={WP(25)}
+                value={`${selectedCoin?.address}?value=${totalInvoiceAmount}`}
+              />
+            </View>
           </View>
-        )}
-        <PrimaryButton
-          icon="share"
-          title={L('Share')}
-          onPress={() =>
-            AppShareContent(
-              selectedCoin?.address,
-              'Sharing wallet address for receiving funds',
-            )
-          }
-          buttonStyle={styles.shareButton}
-          textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
-        />
+
+          <View style={styles.middleRight}>
+            <Text style={styles.instruction}>
+              {L('Use the address below to receive funds.')}
+            </Text>
+            <Pressable style={styles.keyContainer} onPress={onPressAddress}>
+              <Text numberOfLines={1} style={styles.keyText}>
+                {contact ? contact.address : selectedCoin?.address}
+              </Text>
+            </Pressable>
+            {copied && (
+              <View style={styles.copiedContainer}>
+                <FastImage
+                  source={ICONS.TICK}
+                  resizeMode={FastImage.resizeMode.contain}
+                  style={{width: RF(20), height: RF(20)}}
+                />
+                <Text style={styles.copied}>{L('Copied')}</Text>
+              </View>
+            )}
+            <PrimaryButton
+              icon="share"
+              title={L('Share')}
+              onPress={() =>
+                AppShareContent(
+                  selectedCoin?.address,
+                  'Sharing wallet address for receiving funds',
+                )
+              }
+              buttonStyle={styles.shareButton}
+              textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
+            />
+          </View>
+        </View>
         <Formik
           initialValues={initialValues}
           onSubmit={(values, action) => handleCustomerData(values, action)}

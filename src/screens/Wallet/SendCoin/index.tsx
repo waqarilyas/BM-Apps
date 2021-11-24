@@ -35,7 +35,7 @@ const SendCoin = (props: Props) => {
   const {wallet: walletState} = useSelector((state: RootState) => state);
 
   const [address, setAddress] = useState(
-    __DEV__ ? '0x1f921B9A2b840073ceE52936b028acDdE33B24D1' : '',
+    __DEV__ ? '0xD66020dFcB99e6CCC88c0715da81f8dF9358C601' : '',
   );
   const [usdtAmount, setUsdtAmount] = useState('');
   const [coinAmount, setCoinAmount] = useState('');

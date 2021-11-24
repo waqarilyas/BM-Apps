@@ -100,6 +100,8 @@ const CoinDetails = (props: Props) => {
     [transactions],
   );
 
+  console.log('--coin--', coin);
+
   return (
     <View style={styles.mainContainer}>
       <AppHeader showBack title={L('Wallet')} />
