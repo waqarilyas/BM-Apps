@@ -105,3 +105,8 @@ export const getAllShops = async () => {
 export const getShopProducts = async (shopId: string) => {
   return axios.get(`${defaultConfig.API_URL}/product/getByShop/${shopId}`);
 };
+export const deleteProduct = async (productId: string) => {
+  return axios.delete(
+    `${defaultConfig.API_URL}/product/delete-product/${productId}`,
+  );
+};

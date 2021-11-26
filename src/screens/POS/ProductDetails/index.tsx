@@ -1,14 +1,20 @@
-import React from 'react';
-import {View, Text, ScrollView} from 'react-native';
+import React, {useState} from 'react';
+import {View, Text, ScrollView, Alert} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Toast from 'react-native-toast-message';
 import {useDispatch, useSelector} from 'react-redux';
 import {ICONS} from '../../../assets';
 import AppHeader from '../../../shared/components/AppHeader';
+import AppLoader from '../../../shared/components/AppLoader';
 import PrimaryButton from '../../../shared/components/PrimaryButton';
 import {GenericNavigation} from '../../../shared/models/types';
+import {deleteProduct} from '../../../shared/services/merchant.service';
 import {RootState} from '../../../shared/store';
-import {addProductToCart} from '../../../shared/store/reducers/posReducer';
+import {
+  addProductToCart,
+  decreaseItemCount,
+  removeItemFromCart,
+} from '../../../shared/store/reducers/posReducer';
 
 import {THEME} from '../../../shared/theme';
 import GLOBAL_STYLE from '../../../shared/theme/global';
@@ -19,6 +25,7 @@ interface Props extends GenericNavigation {}
 
 const ProductDetails = (props: Props) => {
   const {data} = props.route?.params;
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const {cart} = useSelector((state: RootState) => state.pos);
 
@@ -33,6 +40,51 @@ const ProductDetails = (props: Props) => {
     });
     // props.navigation?.navigate('Cart', {data});
   };
+
+  const handleProductDelete = async () => {
+    Alert.alert(
+      L('Confirmation!'),
+      L('Are you sure you want delete this product'),
+      [
+        {
+          text: L('Cancel'),
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {
+          text: L('YES'),
+          onPress: async () => {
+            setLoading(true);
+            try {
+              await deleteProduct(data._id);
+              dispatch(decreaseItemCount(data));
+              dispatch(removeItemFromCart(data));
+              setLoading(false);
+
+              Toast.show({
+                text1: 'Success',
+                text2: 'Product deleted successfully',
+                type: 'success',
+              });
+              props.navigation?.goBack();
+            } catch (err) {
+              console.log('---error---', err);
+
+              Toast.show({
+                text1: 'Request Failed',
+                text2: 'Unable to delete product at the moment',
+                type: 'error',
+              });
+
+              setLoading(false);
+            }
+          },
+        },
+      ],
+      {cancelable: false},
+    );
+  };
+
   return (
     <View style={styles.mainContainer}>
       <AppHeader title={L('Product Details')} showBack showCart />
@@ -57,6 +109,7 @@ const ProductDetails = (props: Props) => {
             ${data.price}
           </Text>
         </View>
+
         {/* <View style={styles.details}>
           <View style={styles.detailsRow}>
             <View style={{width: '50%'}}>
@@ -111,8 +164,17 @@ const ProductDetails = (props: Props) => {
         <PrimaryButton
           title={exists ? L('Product added to cart') : L('Add to Cart')}
           onPress={exists ? null : addToCart}
+          buttonStyle={{height: 43}}
           textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
         />
+
+        <PrimaryButton
+          title={L('Delete Product')}
+          onPress={handleProductDelete}
+          buttonStyle={{height: 43}}
+          textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
+        />
+        <AppLoader isVisible={loading} />
       </ScrollView>
     </View>
   );

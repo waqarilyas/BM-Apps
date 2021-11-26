@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
     color: THEME.COLORS.white,
     fontWeight: '800',
     fontSize: RF(14),
+    flex: 1,
   },
   date: {
     fontSize: RF(11),

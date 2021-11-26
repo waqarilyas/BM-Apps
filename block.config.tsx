@@ -20,6 +20,7 @@ const blockConfig = {
   //Etherscan
   ETHERSCAN_EXPLORER_URL: 'https://etherscan.io/',
   ETHERSCAN_API_URL: 'https://api.etherscan.io',
+
   //BlockCypher
   BLOCKCYPHER_URL: 'https://api.blockcypher.com',
   BLOCKCYPHER_API_VERSION: 'v1',
@@ -32,8 +33,8 @@ const blockConfig = {
 };
 
 const testnetConfig = {
-  API_URL: 'https://testnet.blockmerchants.com',
-  // API_URL: 'https://52b8-125-209-76-78.ngrok.io',
+  // API_URL: 'https://testnet.blockmerchants.com',
+  API_URL: 'https://ed43-101-53-234-165.ngrok.io',
   INFURA_URL: 'https://rinkeby.infura.io/v3/b83bc7f34f61479e89b7f43c3175f2c7',
   ETH_GAS_API: 'https://ethgasstation.info/json/ethgasAPI.json',
   CHAIN: 'rinkeby',

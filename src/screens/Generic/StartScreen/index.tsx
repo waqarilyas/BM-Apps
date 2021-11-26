@@ -68,6 +68,7 @@ const StartScreen = (props: Props) => {
             onPress={navToImportWallet}
           />
           <SecondaryButton
+            disabled={loading}
             loading={loading}
             title="Create a new wallet"
             onPress={handleCreateNewWallet}

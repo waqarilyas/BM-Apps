@@ -51,7 +51,11 @@ export const addProductVS = Yup.object().shape({
   category: Yup.string()
     .required(L('Please enter your product category'))
     .trim(),
-  tax: Yup.string().optional().trim(),
+  tax: Yup.number().test(
+    'is-decimal',
+    'Please enter a valid number value',
+    value => value => /^[0-9]*$/.test(value.toString()),
+  ),
 });
 
 export const addAddressVS = Yup.object().shape({

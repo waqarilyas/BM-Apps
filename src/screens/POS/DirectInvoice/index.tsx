@@ -41,6 +41,7 @@ const DirectInvoice = (props: Props) => {
   const [customAmount, setCustomAmount] = useState(0);
   const [contact, setContact] = useState(null);
   const [currencyPrice, setcurrencyPrice] = useState(0);
+  const [currentVisibleInput, setCurrentVisibleInput] = useState(null);
   const [loading, setLoading] = useState(false);
 
   let initialValues: any = {
@@ -52,9 +53,7 @@ const DirectInvoice = (props: Props) => {
 
   const dispatch = useDispatch();
 
-  const {wallet, walletAddress} = useSelector(
-    (state: RootState) => state.wallet,
-  );
+  const {wallet} = useSelector((state: RootState) => state.wallet);
   const {merchantData} = useSelector((state: RootState) => state.user);
   const {taxEnabled} = useSelector((state: RootState) => state.settings);
   const toggleModal = () => setShowCurrencyModal(!showCurrencyModal);
@@ -181,33 +180,39 @@ const DirectInvoice = (props: Props) => {
           onChangeText={text => {
             if (text.length == 0) {
               setCustomAmount(0);
+              setCurrentVisibleInput(null);
               return;
             }
             setCustomAmount(parseFloat(text));
+            setCurrentVisibleInput(2);
           }}
         />
 
-        <AppInput
-          placeholder={`${L('Tax')} %`}
-          keyboardType="decimal-pad"
-          returnKeyType="done"
-          onChangeText={text => {
-            if (text.length == 0) {
-              setInvoiceTax(0);
-              return;
-            }
-            setInvoiceTax(parseFloat(text));
-          }}
-        />
+        {currentVisibleInput >= 2 && (
+          <AppInput
+            placeholder={`${L('Tax')} %`}
+            keyboardType="decimal-pad"
+            returnKeyType="done"
+            onChangeText={text => {
+              if (text.length == 0) {
+                setInvoiceTax(0);
+                return;
+              }
+              setInvoiceTax(parseFloat(text));
+              setCurrentVisibleInput(3);
+            }}
+          />
+        )}
 
-        {taxEnabled && (
+        {currentVisibleInput == '3' && taxEnabled && (
           <AppInput
             placeholder="Algorithmic Protection Fee"
             keyboardType="decimal-pad"
             returnKeyType="done"
             onChangeText={p => {
               if (p.length == 0) {
-                setCustomTax(0);
+                // setCustomTax(0);
+                setCurrentVisibleInput(2);
                 return;
               }
               setCustomTax(parseFloat(p));
@@ -280,27 +285,43 @@ const DirectInvoice = (props: Props) => {
             <View style={styles.personalContainer}>
               <Text style={styles.personalTitle}>Customer Information</Text>
               <View style={styles.nameContainer}>
-                {touched.firstName && errors.firstName ? (
-                  <Text style={styles.errors}>{errors.firstName}</Text>
-                ) : null}
+                <View
+                  style={{
+                    // backgroundColor: 'red',
+                    flex: 1,
+                    alignItems: 'center',
+                    justifyContent: 'flex-end',
+                    paddingRight: 10,
+                  }}>
+                  {touched.firstName && errors.firstName ? (
+                    <Text style={styles.errors}>{errors.firstName}</Text>
+                  ) : null}
 
-                <AppInput
-                  placeholder="First Name"
-                  value={values.firstName}
-                  inputStyle={{width: '48%'}}
-                  onChangeText={handleChange('firstName')}
-                />
+                  <AppInput
+                    placeholder="First Name"
+                    value={values.firstName}
+                    // inputStyle={{width: '48%'}}
+                    onChangeText={handleChange('firstName')}
+                  />
+                </View>
+                <View
+                  style={{
+                    // backgroundColor: 'yellow',
+                    flex: 1,
+                    alignItems: 'center',
+                    justifyContent: 'flex-end',
+                  }}>
+                  {touched.lastName && errors.lastName ? (
+                    <Text style={styles.errors}>{errors.lastName}</Text>
+                  ) : null}
 
-                {touched.lastName && errors.lastName ? (
-                  <Text style={styles.errors}>{errors.lastName}</Text>
-                ) : null}
-
-                <AppInput
-                  placeholder="Last Name"
-                  value={values.lastName}
-                  inputStyle={{width: '48%'}}
-                  onChangeText={handleChange('lastName')}
-                />
+                  <AppInput
+                    placeholder="Last Name"
+                    value={values.lastName}
+                    // inputStyle={{width: '48%'}}
+                    onChangeText={handleChange('lastName')}
+                  />
+                </View>
               </View>
 
               {touched.phone && errors.phone ? (
@@ -308,6 +329,7 @@ const DirectInvoice = (props: Props) => {
               ) : null}
               <AppInput
                 placeholder="Phone"
+                keyboardType="number-pad"
                 value={values.phone}
                 onChangeText={handleChange('phone')}
               />

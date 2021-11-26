@@ -27,7 +27,9 @@ const ShopDetailsModal = ({
           <Text style={styles.storeTitle}>{L('SHOP INFO')}</Text>
           <CardItem title={data.name} icon="person" />
           <CardItem title={data.phone} icon="phone-portrait-outline" />
-          <CardItem title={data.website} icon="md-logo-web-component" />
+          {Boolean(data?.website) && (
+            <CardItem title={data.website} icon="md-logo-web-component" />
+          )}
           <CardItem title={data.address} icon="md-mail" />
 
           {/* <Text style={styles.title}>{data.name}</Text>

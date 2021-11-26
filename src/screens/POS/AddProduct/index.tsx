@@ -36,6 +36,7 @@ const AddProduct = (props: Props) => {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [genericError, setGenericError]: any = useState(null);
+  const [imageError, setImageError] = useState(null);
   const {merchantData} = useSelector((state: RootState) => state.user);
   const {merchantShop} = useSelector((state: RootState) => state.user);
   const scrollRef = useRef();
@@ -43,14 +44,17 @@ const AddProduct = (props: Props) => {
   const openPicker = () => setImageModalOpen(true);
 
   const handleData = (values: any, action: any) => {
+    Keyboard.dismiss();
     if (values.price == 0) {
       action.setFieldError('price', L('Price cannot be 0'));
       return;
     }
 
     if (!image) {
-      setGenericError(L('Please select your product image to continue'));
+      setImageError(L('Please select your product image to continue'));
       return;
+    } else {
+      setImageError(null);
     }
     setLoading(true);
     const params = [
@@ -134,7 +138,10 @@ const AddProduct = (props: Props) => {
   return (
     <View style={styles.mainContainer}>
       <AppHeader showBack title={L('Add Product')} showCart />
-      <KeyboardAwareScrollView style={styles.container} ref={scrollRef}>
+      <KeyboardAwareScrollView
+        style={styles.container}
+        ref={scrollRef}
+        keyboardShouldPersistTaps="always">
         <View style={styles.imageContainer}>
           {image?.path && (
             <FastImage source={{uri: image?.path}} style={styles.image} />
@@ -153,6 +160,8 @@ const AddProduct = (props: Props) => {
             />
           </LinearGradient>
         </View>
+        {imageError && <Text style={styles.errors}>{imageError}</Text>}
+
         <Formik
           initialValues={initialValues}
           onSubmit={(values, action) => handleData(values, action)}
