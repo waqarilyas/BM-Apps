@@ -77,17 +77,17 @@ export const getInitialMerchantData = async () => {
     }
   } catch (err) {
     // console.log('--error from get initial merchant data---', err);
-    if (!isMerchantChecked) {
-      Alert.alert(
-        L('Confirm'),
-        L('Your merchant account has not been enabled! Enable now?'),
-        [
-          {text: 'OK', onPress: () => navToMerchant()},
-          {text: 'cancel', onPress: () => console.log('OK Pressed')},
-        ],
-      );
-      store.dispatch(setMerchantChecked(true));
-    }
+    // if (!isMerchantChecked) {
+    //   Alert.alert(
+    //     L('Confirm'),
+    //     L('Your merchant account has not been enabled! Enable now?'),
+    //     [
+    //       {text: 'OK', onPress: () => navToMerchant()},
+    //       {text: 'cancel', onPress: () => console.log('OK Pressed')},
+    //     ],
+    //   );
+    //   store.dispatch(setMerchantChecked(true));
+    // }
   }
 };
 

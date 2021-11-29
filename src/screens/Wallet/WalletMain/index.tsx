@@ -60,6 +60,9 @@ const WalletMain = (props: Props) => {
             return total;
           })
       : 0;
+
+
+
     if (isNaN(Number(newTotal))) {
       newTotal = '0.00';
     }
@@ -134,9 +137,9 @@ const WalletMain = (props: Props) => {
       realtimeListener();
     }
     return () => {
-      socket.removeListener(dogeAddress);
-      socket.removeListener(erc20Andbep20Address);
-      socket.removeListener(bitcoinAddress);
+      socket.removeListener(String(dogeAddress));
+      socket.removeListener(String(erc20Andbep20Address));
+      socket.removeListener(String(bitcoinAddress));
       socket.removeListener('coin-data');
       socket.removeAllListeners();
     };
@@ -146,16 +149,19 @@ const WalletMain = (props: Props) => {
 
   useEffect(() => {
     // if (wallet.length > 0) {
-    getInitialMerchantData();
+
+    if(!merchantData){
+      getInitialMerchantData();
+    }
     // }
   }, [wallet]);
 
-  useEffect(() => {
-    const unsubscribe = props.navigation?.addListener('focus', () => {
-      dispatch(refreshCoinsBalances(true));
-    });
-    return unsubscribe;
-  }, [props.navigation]);
+  // useEffect(() => {
+  //   const unsubscribe = props.navigation?.addListener('focus', () => {
+  //     dispatch(refreshCoinsBalances(true));
+  //   });
+  //   return unsubscribe;
+  // }, [props.navigation]);
 
   return (
     <>

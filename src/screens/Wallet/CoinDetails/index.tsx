@@ -39,6 +39,7 @@ const CoinDetails = (props: Props) => {
   const getTransactions = () => {
     checkTransactions(coin?.coin_symbol, coin?.address)
       .then((data: Transaction[]) => {
+
         setTransactions(
           data.map(t => {
             t.epoch = new Date(t.timeStamp).getTime();
@@ -100,7 +101,7 @@ const CoinDetails = (props: Props) => {
     [transactions],
   );
 
-  console.log('--coin--', coin);
+
 
   return (
     <View style={styles.mainContainer}>

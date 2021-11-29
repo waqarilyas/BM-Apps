@@ -278,7 +278,7 @@ const SettingsMain = (props: Props) => {
               onPress={() => props?.navigation?.navigate('AddressBook')}
             />
 
-            {merchantEnabled && (
+            {/* {merchantEnabled && (
               <SettingItem
                 source={ICONS.PROTECTION_FEE}
                 title={
@@ -289,7 +289,7 @@ const SettingsMain = (props: Props) => {
                 // chevron
                 onPress={handleTaxEnabled}
               />
-            )}
+            )} */}
 
             <SettingItem
               source={ICONS.THUMB}

@@ -20,7 +20,7 @@ const SaleHistory = () => {
     setLoading(true);
     getCustomersByMerchant(merchantData?._id)
       .then(res => {
-        console.log(res);
+
         setCustomers(res.data);
       })
       .catch(err => {
@@ -46,7 +46,6 @@ const SaleHistory = () => {
             showsVerticalScrollIndicator={false}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({item, index}) => {
-              console.log(item);
               return <HistoryItem data={item} />;
             }}
           />

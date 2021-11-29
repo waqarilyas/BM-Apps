@@ -1,9 +1,6 @@
 const blockConfig = {
-  /**
-    Configuration for Rinkeby
-    */
+  
   API_URL: 'https://api.blockmerchants.com',
-  // API_URL: 'https://9031-125-209-76-78.ngrok.io',
   INFURA_URL: 'https://mainnet.infura.io/v3/b83bc7f34f61479e89b7f43c3175f2c7',
   ETH_GAS_API: 'https://ethgasstation.info/json/ethgasAPI.json',
   CHAIN: 'mainnet',
@@ -33,8 +30,8 @@ const blockConfig = {
 };
 
 const testnetConfig = {
-  // API_URL: 'https://testnet.blockmerchants.com',
-  API_URL: 'https://ed43-101-53-234-165.ngrok.io',
+  API_URL: 'https://testnet.blockmerchants.com',
+  // API_URL: 'https://9ac9-2400-adc5-100-9c00-75d7-f798-3af5-22e7.ngrok.io',
   INFURA_URL: 'https://rinkeby.infura.io/v3/b83bc7f34f61479e89b7f43c3175f2c7',
   ETH_GAS_API: 'https://ethgasstation.info/json/ethgasAPI.json',
   CHAIN: 'rinkeby',
@@ -61,6 +58,6 @@ const testnetConfig = {
   BSCSCAN_API_KEY: 'U2B4F4ZCVUD5NHTIPTP7T8U3JZHBKD558Y',
 };
 
-const defaultConfig = blockConfig;
+const defaultConfig = testnetConfig;
 
 export default defaultConfig;
