@@ -1,6 +1,7 @@
 import WAValidator from 'multicoin-address-validator';
 import React, {useMemo, useState} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useDispatch, useSelector} from 'react-redux';
 import AddressInput from '../../../shared/components/AddressInput';
 import AppHeader from '../../../shared/components/AppHeader';
@@ -35,7 +36,7 @@ const SendCoin = (props: Props) => {
   const {wallet: walletState} = useSelector((state: RootState) => state);
 
   const [address, setAddress] = useState(
-    __DEV__ ? '0xD66020dFcB99e6CCC88c0715da81f8dF9358C601' : '',
+    __DEV__ ? '0x2a0f185b0e58d230d647adb771f294220bdf4228' : '',
   );
   const [usdtAmount, setUsdtAmount] = useState('');
   const [coinAmount, setCoinAmount] = useState('');
@@ -191,7 +192,7 @@ const SendCoin = (props: Props) => {
   };
 
   return (
-    <View style={styles.mainContainer}>
+    <KeyboardAwareScrollView style={styles.mainContainer}>
       <PaymentStatusModal
         toggleModal={toggleModal}
         error={paymentError}
@@ -292,7 +293,7 @@ const SendCoin = (props: Props) => {
           onPress={onSend}
         />
       </View>
-    </View>
+    </KeyboardAwareScrollView>
   );
 };
 

@@ -61,8 +61,6 @@ const WalletMain = (props: Props) => {
           })
       : 0;
 
-
-
     if (isNaN(Number(newTotal))) {
       newTotal = '0.00';
     }
@@ -150,7 +148,7 @@ const WalletMain = (props: Props) => {
   useEffect(() => {
     // if (wallet.length > 0) {
 
-    if(!merchantData){
+    if (!merchantData) {
       getInitialMerchantData();
     }
     // }
@@ -240,17 +238,21 @@ const WalletMain = (props: Props) => {
             }
             style={styles.listContainer}
             showsVerticalScrollIndicator={false}>
-            {filteredWallet.map((item, index) => {
-              if (item.is_active) {
-                return (
-                  <CoinListItem
-                    key={index}
-                    item={item}
-                    onPress={() => navigateToCoinDetail(item.coin_symbol)}
-                  />
-                );
-              }
-            })}
+            {filteredWallet.length > 0 ? (
+              filteredWallet.map((item, index) => {
+                if (item.is_active) {
+                  return (
+                    <CoinListItem
+                      key={index}
+                      item={item}
+                      onPress={() => navigateToCoinDetail(item.coin_symbol)}
+                    />
+                  );
+                }
+              })
+            ) : (
+              <Text style={styles.emptyText}>No coins found</Text>
+            )}
           </ScrollView>
         </View>
         {thumbEnabled && authOpen && (

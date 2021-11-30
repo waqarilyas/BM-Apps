@@ -1,7 +1,14 @@
 import Clipboard from '@react-native-clipboard/clipboard';
 import {Formik} from 'formik';
 import React, {useEffect, useState} from 'react';
-import {Alert, Pressable, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Alert,
+  Pressable,
+  Text,
+  TouchableOpacity,
+  View,
+  Keyboard,
+} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import QRCode from 'react-native-qrcode-svg';
@@ -23,7 +30,7 @@ import {
 } from '../../../shared/services/helper.service';
 import {RootState} from '../../../shared/store';
 import {resetCart} from '../../../shared/store/reducers/posReducer';
-import { setTaxEnabled } from '../../../shared/store/reducers/settingsReducer'
+import {setTaxEnabled} from '../../../shared/store/reducers/settingsReducer';
 import {THEME} from '../../../shared/theme';
 import GLOBAL_STYLE from '../../../shared/theme/global';
 import {RF, WP} from '../../../shared/theme/responsive';
@@ -36,14 +43,14 @@ interface Props extends GenericNavigation {}
 const DirectInvoice = (props: Props) => {
   const [copied, setCopied] = useState(false);
   const [showCurrencyModal, setShowCurrencyModal] = useState(false);
-  const [selectedCoin, setSelectedCoin]:any = useState();
-  const [customTax, setCustomTax] = useState(0);
+  const [selectedCoin, setSelectedCoin]: any = useState();
+  const [customTax, setCustomTax] = useState('');
   const [invoiceTax, setInvoiceTax] = useState(0);
   const [totalInvoiceAmount, setTotalInvoiceAmount] = useState(0);
   const [customAmount, setCustomAmount] = useState(0);
-  const [contact, setContact]:any = useState(null);
+  const [contact, setContact]: any = useState(null);
   const [currencyPrice, setcurrencyPrice] = useState(0);
-  const [currentVisibleInput, setCurrentVisibleInput]:any = useState(null);
+  const [currentVisibleInput, setCurrentVisibleInput]: any = useState(null);
   const [loading, setLoading] = useState(false);
 
   let initialValues: any = {
@@ -73,6 +80,7 @@ const DirectInvoice = (props: Props) => {
   };
 
   const handleCustomerData = (values: any, {resetForm}: any) => {
+    Keyboard.dismiss();
     setLoading(true);
 
     values.merchantId = merchantData?._id;
@@ -108,38 +116,37 @@ const DirectInvoice = (props: Props) => {
       });
   };
 
-const handleTaxEnabled = () => {
-  Alert.alert(
-    L('Confirm'),
-    `${L('Are you sure you want to ')} ${
-      taxEnabled
-        ? 'disable Algorithmic Protection Fee '
-        : 'enable Algorithmic Protection Fee'
-    }?`,
-    [
-      {
-        text: L('Cancel'),
-        onPress: () => console.log('Cancel Pressed'),
-        style: 'cancel',
-      },
-      {
-        text: L('OK'),
-        onPress: () => {
-          dispatch(setTaxEnabled(taxEnabled ? false : true));
-          Toast.show({
-            text1: L('Successfull'),
-            text2: `${L('Successfully')}  ${
-              taxEnabled ? L('Disabled') : L('Enabled')
-            } Algorithmic Protection Fee`,
-            type: 'success',
-          });
+  const handleTaxEnabled = () => {
+    Alert.alert(
+      L('Confirm'),
+      `${L('Are you sure you want to ')} ${
+        taxEnabled
+          ? 'disable Algorithmic Protection Fee '
+          : 'enable Algorithmic Protection Fee'
+      }?`,
+      [
+        {
+          text: L('Cancel'),
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
         },
-      },
-    ],
-  );
-};
-
-
+        {
+          text: L('OK'),
+          onPress: () => {
+            dispatch(setTaxEnabled(taxEnabled ? false : true));
+            setCustomTax('');
+            Toast.show({
+              text1: L('Successfull'),
+              text2: `${L('Successfully')}  ${
+                taxEnabled ? L('Disabled') : L('Enabled')
+              } Algorithmic Protection Fee`,
+              type: 'success',
+            });
+          },
+        },
+      ],
+    );
+  };
 
   useEffect(() => {
     setSelectedCoin(wallet[0]);
@@ -193,7 +200,9 @@ const handleTaxEnabled = () => {
           </View>
         }
       />
-      <KeyboardAwareScrollView style={styles.container}>
+      <KeyboardAwareScrollView
+        style={styles.container}
+        keyboardShouldPersistTaps="always">
         <Text style={styles.label}>{L('Select Coin')}:</Text>
         <TouchableOpacity onPress={toggleModal} style={styles.optionContainer}>
           <FastImage
@@ -240,31 +249,32 @@ const handleTaxEnabled = () => {
         )}
 
         {currentVisibleInput == '3' && (
-        <View style={styles.apfeeContainer}>
-          <AppInput
-            placeholder="Algorithmic Protection Fee"
-            keyboardType="decimal-pad"
-            returnKeyType="done"
-            editable={taxEnabled}
-            inputStyle={[styles.apInput,!taxEnabled &&{opacity:0.5}]}
-            onChangeText={p => {
-              if (p.length == 0) {
-                // setCustomTax(0);
-                // setCurrentVisibleInput(2);
-                return;
-              }
-              setCustomTax(parseFloat(p));
-            }}
-          />
-          <ToggleSwitch
-            isOn={taxEnabled}
-            onColor={THEME.COLORS.accentBlue}
-            offColor={THEME.COLORS.textLight}
-            size="medium"
-            onToggle={handleTaxEnabled}
-          />
-        </View>
-         )}
+          <View style={styles.apfeeContainer}>
+            <AppInput
+              placeholder="Algorithmic Protection Fee"
+              keyboardType="decimal-pad"
+              value={String(customTax)}
+              returnKeyType="done"
+              editable={taxEnabled}
+              inputStyle={[styles.apInput, !taxEnabled && {opacity: 0.5}]}
+              onChangeText={p => {
+                if (p.length == 0) {
+                  // setCustomTax(0);
+                  // setCurrentVisibleInput(2);
+                  return;
+                }
+                setCustomTax(parseFloat(p));
+              }}
+            />
+            <ToggleSwitch
+              isOn={taxEnabled}
+              onColor={THEME.COLORS.accentBlue}
+              offColor={THEME.COLORS.textLight}
+              size="medium"
+              onToggle={handleTaxEnabled}
+            />
+          </View>
+        )}
 
         <View style={styles.middleContainer}>
           <View style={styles.middleLeft}>
@@ -329,7 +339,10 @@ const handleTaxEnabled = () => {
             setFieldValue,
           }: any) => (
             <View style={styles.personalContainer}>
-              <Text style={styles.personalTitle}>Customer Information</Text>
+              <Text style={styles.personalTitle}>
+                Customer Information{' '}
+                <Text style={styles.optionalText}>(Optional)</Text>
+              </Text>
               <View style={styles.nameContainer}>
                 <View
                   style={{

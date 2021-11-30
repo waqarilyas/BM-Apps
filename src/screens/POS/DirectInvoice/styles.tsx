@@ -150,15 +150,19 @@ const styles = StyleSheet.create({
     marginRight: RF(5),
     padding: RF(3.5),
   },
-  apfeeContainer:{
+  apfeeContainer: {
     // backgroundColor:'red',
-    flexDirection:'row',
-    alignItems:'center',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
-  apInput:{
-    flex:1,
-    marginRight:RF(10),
-  }
+  apInput: {
+    flex: 1,
+    marginRight: RF(10),
+  },
+  optionalText: {
+    fontSize: RF(12),
+    color: THEME.COLORS.textLight,
+  },
 });
 
 export default styles;

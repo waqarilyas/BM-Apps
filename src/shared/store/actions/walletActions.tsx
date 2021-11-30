@@ -47,6 +47,8 @@ export const renderWallet =
 
       /* Send Public Code Info */
       const res = await setCoinsPublicInfo(publicInfoCollection);
+      console.log('---public data response----', res);
+
       for (let index = 0; index < walletAssets.length; index++) {
         const asset = walletAssets[index];
         const {balance, vs_currency_balance, chart_data, coinSymbol} =

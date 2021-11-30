@@ -116,12 +116,14 @@ const AddProduct = (props: Props) => {
         props.navigation.navigate('POSMain');
       })
       .catch(err => {
+        console.log('--error ----', err);
+
         setLoading(false);
-        // Toast.show({
-        //   text1: 'Request Failed',
-        //   text2: err?.response?.data?.message,
-        //   type: 'error',
-        // });
+        Toast.show({
+          text1: 'Request Failed',
+          text2: err?.response?.data?.message,
+          type: 'error',
+        });
       });
   };
 
