@@ -15,12 +15,13 @@ import QRCode from 'react-native-qrcode-svg';
 import Toast from 'react-native-toast-message';
 import {useDispatch, useSelector} from 'react-redux';
 import ToggleSwitch from 'toggle-switch-react-native';
-import {ICONS} from '../../../assets';
+import {ANIMATIONS, ICONS} from '../../../assets';
 import {GetImageForCoin} from '../../../assets/coins';
 import AppHeader from '../../../shared/components/AppHeader';
 import AppInput from '../../../shared/components/AppInput';
 import AppLoader from '../../../shared/components/AppLoader';
 import ChooseCoinModal from '../../../shared/components/ChooseCoinModal';
+import CustomAnimations from '../../../shared/components/CustomAnimations';
 import PrimaryButton from '../../../shared/components/PrimaryButton';
 import {GenericNavigation} from '../../../shared/models/types';
 import {saveCustomer} from '../../../shared/services/customer.service';
@@ -52,6 +53,8 @@ const DirectInvoice = (props: Props) => {
   const [currencyPrice, setcurrencyPrice] = useState(0);
   const [currentVisibleInput, setCurrentVisibleInput]: any = useState(null);
   const [loading, setLoading] = useState(false);
+
+  const isLaunched = false;
 
   let initialValues: any = {
     firstName: '',
@@ -175,7 +178,7 @@ const DirectInvoice = (props: Props) => {
     setcurrencyPrice(priceInUSD);
   }, [customAmount, invoiceTax, customTax, selectedCoin]);
 
-  return (
+  return isLaunched ? (
     <View style={styles.mainContainer}>
       <AppHeader
         title={L('Direct Invoice')}
@@ -421,6 +424,10 @@ const DirectInvoice = (props: Props) => {
         renderContacts
       />
       <AppLoader isVisible={loading} />
+    </View>
+  ) : (
+    <View style={styles.mainContainer}>
+      <CustomAnimations visible={true} animation={ANIMATIONS.comingSoon} />
     </View>
   );
 };

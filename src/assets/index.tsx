@@ -55,4 +55,8 @@ const ICONS = {
   sendIcon: require('./icons/sentLight.png'),
 };
 
-export {ICONS};
+const ANIMATIONS = {
+  comingSoon: require('./animations/comingSoon.json'),
+};
+
+export {ICONS, ANIMATIONS};
