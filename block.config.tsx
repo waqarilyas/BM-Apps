@@ -57,6 +57,6 @@ const testnetConfig = {
   BSCSCAN_API_KEY: 'U2B4F4ZCVUD5NHTIPTP7T8U3JZHBKD558Y',
 };
 
-const defaultConfig = testnetConfig;
+const defaultConfig = blockConfig;
 
 export default defaultConfig;

@@ -54,7 +54,7 @@ const DirectInvoice = (props: Props) => {
   const [currentVisibleInput, setCurrentVisibleInput]: any = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const isLaunched = false;
+  const isLaunched = true;
 
   let initialValues: any = {
     firstName: '',
@@ -153,6 +153,7 @@ const DirectInvoice = (props: Props) => {
 
   useEffect(() => {
     setSelectedCoin(wallet[0]);
+    setInvoiceTax(6);
   }, []);
 
   useEffect(() => {
@@ -240,7 +241,10 @@ const DirectInvoice = (props: Props) => {
             placeholder={`${L('Tax')} %`}
             keyboardType="decimal-pad"
             returnKeyType="done"
+            value={`${String(invoiceTax)}`}
             onChangeText={text => {
+              console.log('--inside on change--', text);
+
               if (text.length == 0) {
                 setInvoiceTax(0);
                 return;

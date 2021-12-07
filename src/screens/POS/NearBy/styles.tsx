@@ -37,6 +37,10 @@ const styles = StyleSheet.create({
     borderRadius: RF(4),
     alignItems: 'center',
   },
+  mainContainer: {
+    flex: 1,
+    backgroundColor: THEME.COLORS.primaryBackground,
+  },
 });
 
 export default styles;

@@ -10,9 +10,10 @@ import FastImage from 'react-native-fast-image';
 import Geolocation from 'react-native-geolocation-service';
 import MapView, {Callout, Marker} from 'react-native-maps';
 import Toast from 'react-native-toast-message';
-import {ICONS} from '../../../assets';
+import {ANIMATIONS, ICONS} from '../../../assets';
 import AppHeader from '../../../shared/components/AppHeader';
 import AppLoader from '../../../shared/components/AppLoader';
+import CustomAnimations from '../../../shared/components/CustomAnimations';
 import ShopDetailsModal from '../../../shared/components/ShopDetailsModal';
 import {GenericNavigation} from '../../../shared/models/types';
 import {getAllShops} from '../../../shared/services/merchant.service';
@@ -25,6 +26,9 @@ const NearBy = (props: Props) => {
   const [shops, setShops] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedShop, setSelectedShop] = useState(null);
+
+  const isLaunched = false;
+
   const mapRef = useRef(null);
   useEffect(() => {
     if (Platform.OS == 'android') {
@@ -124,7 +128,7 @@ const NearBy = (props: Props) => {
     }
   };
 
-  return (
+  return isLaunched ? (
     <View style={styles.container}>
       <AppHeader title={L('Stores')} />
       <View style={{flex: 1}}>
@@ -180,6 +184,10 @@ const NearBy = (props: Props) => {
           closeModal={() => setSelectedShop(null)}
         />
       )}
+    </View>
+  ) : (
+    <View style={styles.mainContainer}>
+      <CustomAnimations visible={true} animation={ANIMATIONS.comingSoon} />
     </View>
   );
 };
