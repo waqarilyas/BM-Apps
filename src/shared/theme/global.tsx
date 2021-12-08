@@ -16,7 +16,7 @@ const GLOBAL_STYLE = StyleSheet.create({
     flexDirection: 'row',
   },
   LARGE_BUTTON_TEXT: {
-    fontSize: THEME.FONTS.SIZE.SMALL,
+    fontSize: THEME.FONTS.SIZE.XSMALL,
     textTransform: 'uppercase',
   },
 });

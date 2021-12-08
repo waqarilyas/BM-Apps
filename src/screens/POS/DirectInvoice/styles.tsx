@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   },
   amountBTC: {
     color: THEME.COLORS.white,
-    fontSize: THEME.FONTS.SIZE.MEDIUM,
+    fontSize: THEME.FONTS.SIZE.SMALL,
     textAlign: 'center',
   },
   amountUSD: {
@@ -53,12 +53,13 @@ const styles = StyleSheet.create({
   instruction: {
     color: THEME.COLORS.accentBlue,
     textAlign: 'center',
-    fontSize: THEME.FONTS.SIZE.SMALL,
+    fontSize: THEME.FONTS.SIZE.XSMALL,
     paddingVertical: THEME.PADDING.NORMAL,
+    flex: 1,
   },
   keyContainer: {
     alignSelf: 'center',
-    width: '90%',
+    // width: '90%',
     borderRadius: 2,
     borderWidth: 2,
     paddingHorizontal: THEME.PADDING.NORMAL,
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
     borderColor: THEME.COLORS.secondaryBackground,
     alignItems: 'center',
     justifyContent: 'center',
-    height: RF(50),
+    height: RF(40),
   },
   keyText: {color: THEME.COLORS.white, fontSize: THEME.FONTS.SIZE.SMALL},
   copiedContainer: {
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
   },
   shareButton: {
     width: '55%',
-    height: HP(6),
+    height: HP(4.5),
     marginTop: THEME.MARGIN.LOW,
   },
   confirmButton: {
@@ -95,6 +96,72 @@ const styles = StyleSheet.create({
     backgroundColor: THEME.COLORS.white,
     alignSelf: 'center',
     padding: 4,
+  },
+  rightButton: {
+    backgroundColor: THEME.COLORS.accentBlue,
+    paddingVertical: RF(3),
+    paddingHorizontal: RF(5),
+    borderRadius: RF(3),
+  },
+  rightText: {
+    color: THEME.COLORS.white,
+    fontWeight: '600',
+  },
+  personalContainer: {marginVertical: THEME.MARGIN.NORMAL},
+  personalTitle: {
+    color: THEME.COLORS.white,
+    fontSize: THEME.FONTS.SIZE.MEDIUM,
+  },
+  nameContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: THEME.MARGIN.NORMAL,
+  },
+  errors: {
+    fontSize: THEME.FONTS.SIZE.XXXSMALL,
+    color: 'red',
+    marginLeft: 10,
+  },
+  middleLeft: {
+    // backgroundColor: 'red',
+    flex: 0.5,
+  },
+  middleRight: {
+    // backgroundColor: 'yellow',
+    flex: 1,
+  },
+  middleContainer: {
+    flexDirection: 'row',
+  },
+  headerRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  historyIcon: {
+    height: RF(14),
+    width: RF(14),
+    tintColor: THEME.COLORS.white,
+  },
+  rightIconContainer: {
+    backgroundColor: THEME.COLORS.accentBlue,
+
+    paddingHorizontal: RF(5),
+    borderRadius: RF(3),
+    marginRight: RF(5),
+    padding: RF(3.5),
+  },
+  apfeeContainer: {
+    // backgroundColor:'red',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  apInput: {
+    flex: 1,
+    marginRight: RF(10),
+  },
+  optionalText: {
+    fontSize: RF(12),
+    color: THEME.COLORS.textLight,
   },
 });
 

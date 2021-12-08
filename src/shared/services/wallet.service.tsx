@@ -1,4 +1,9 @@
 import axios from 'axios';
+import {ECPair, script, Transaction} from 'bitcoinjs-lib';
+import Common from 'ethereumjs-common';
+import {Transaction as EthereumTx} from 'ethereumjs-tx';
+import Toast from 'react-native-toast-message';
+import Web3 from 'web3';
 import defaultConfig from '../../../block.config';
 import {Coin, PublicInfoPayload} from '../models/types';
 import {store} from '../store';
@@ -11,15 +16,10 @@ import {
   setWallet,
   setWalletLoading,
 } from '../store/reducers/walletReducer';
-import {ECPair, script, Transaction} from 'bitcoinjs-lib';
-import Common from 'ethereumjs-common';
-var Buffer = require('buffer');
-import Web3 from 'web3';
-import {Transaction as EthereumTx} from 'ethereumjs-tx';
+import {BTCSegwitLikeTX, convertBTCtoSatoshi} from './bitcoin.service';
 import {getFixedAmount} from './helper.service';
 import {accountRecovery, createAddress} from './walletcore';
-import Toast from 'react-native-toast-message';
-import {BTCSegwitLikeTX, convertBTCtoSatoshi} from './bitcoin.service';
+var Buffer = require('buffer');
 let bip39 = require('bip39');
 
 export const generateMnemonic = async () => {
@@ -345,7 +345,8 @@ const bnbLikeTxToUser = async (txPayload: any) => {
   try {
     console.log(`Running handleBnbLikeTx for {${txPayload.symbol}}`);
     const txHash = await createAndSignBnbTx(txPayload);
-    await submitBnbLikeTx(txHash, txPayload);
+    submitBnbLikeTx(txHash, txPayload);
+    return txHash;
   } catch (e) {
     throw e;
   }
@@ -368,7 +369,7 @@ export async function createAndSignBnbTx(txPayload: any) {
         web3.utils.toWei(txPayload.amount?.toString(), 'ether'),
       ),
       gasLimit: web3.utils.toHex(100000),
-      gasPrice: web3.utils.toHex(web3.utils.toWei('5', 'gwei')),
+      gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'gwei')),
     };
     /**
      * sign tx
@@ -622,7 +623,7 @@ const handleErc20LikeTx = async (txPayload: any) => {
     // if (Number(txPayload.processingFee) > 0) {
     //   await Erc20LikeTxToCompany(companyTxPayload);
     // }
-    await Erc20LikeTxToUser(userTxPayload);
+    Erc20LikeTxToUser(userTxPayload);
   } catch (e) {
     throw e;
   }

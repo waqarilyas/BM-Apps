@@ -34,7 +34,6 @@ const initialValues: any = {
 
 const AddPlace = (props: Props) => {
   const [loading, setLoading] = useState(false);
-  const [photos, setPhotos] = useState([]);
   const [location, setLocation]: any = useState({
     latitude: 37.78825,
     longitude: -122.4324,
@@ -177,6 +176,8 @@ const AddPlace = (props: Props) => {
               <AppInput
                 placeholder={L('Contact')}
                 onChangeText={handleChange('phone')}
+                keyboardType="number-pad"
+                returnKeyType="done"
               />
 
               {touched.website && errors.website ? (

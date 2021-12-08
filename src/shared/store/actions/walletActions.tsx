@@ -26,6 +26,8 @@ export const renderWallet =
     dispatch(setWalletLoading(true));
     dispatch(setBalancesUpdateNeeded(false));
 
+    const {isNewWallet} = getState().util;
+
     try {
       const walletAssets = await getWallets();
       let publicInfoCollection: PublicInfoPayload[] = [];
@@ -45,6 +47,7 @@ export const renderWallet =
 
       /* Send Public Code Info */
       const res = await setCoinsPublicInfo(publicInfoCollection);
+
       for (let index = 0; index < walletAssets.length; index++) {
         const asset = walletAssets[index];
         const {balance, vs_currency_balance, chart_data, coinSymbol} =
@@ -68,10 +71,12 @@ export const renderWallet =
         );
       }
       dispatch(setWalletLoading(false));
-      AppShowToast('Wallet Imported');
+      AppShowToast(
+        isNewWallet ? 'Wallet Created Successfully!' : 'Wallet Imported',
+      );
     } catch (error: any) {
       console.log('---error--', error);
-
+      dispatch(setWalletLoading(false));
       if (error.response.message) {
         AppShowToast(error.response.message);
       } else {
@@ -118,7 +123,7 @@ export const refreshCoinsBalances =
         console.log('Initial Balance Update');
         dispatch(setBalancesUpdateNeeded(false));
       }
-      dispatch(setWalletLoading(false));
+      // dispatch(setWalletLoading(false));
     } catch (error) {
       console.log('Error refreshing balances:', error);
       dispatch(setWalletRefreshing(false));

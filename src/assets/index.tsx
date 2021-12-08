@@ -31,6 +31,7 @@ const ICONS = {
   PLUS: require('./icons/plus.png'),
   MAP_LOCATION: require('./icons/mapLocation.png'),
   IMAGE_PICKER: require('./icons/imagePicker.png'),
+  STORE_LOCATION: require('./icons/addStore.png'),
   //Temp Images
   DUMMY_MAP: require('./icons/dummyMap.png'),
   DUMMY_IMAGE: require('./icons/dummyProduct.png'),
@@ -50,6 +51,12 @@ const ICONS = {
   EYE: require('./icons/eye.png'),
   EYE_OFF: require('./icons/eye-off.png'),
   placeholderCoin: require('./icons/placeholderCoin.png'),
+  historyIcon: require('./icons/history.png'),
+  sendIcon: require('./icons/sentLight.png'),
 };
 
-export {ICONS};
+const ANIMATIONS = {
+  comingSoon: require('./animations/comingSoon.json'),
+};
+
+export {ICONS, ANIMATIONS};

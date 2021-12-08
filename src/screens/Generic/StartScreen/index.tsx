@@ -1,19 +1,18 @@
-import {NavigationProp} from '@react-navigation/core';
-import React, {useState} from 'react';
-import {Linking, Text, View, SafeAreaView} from 'react-native';
-import {useDispatch} from 'react-redux';
-import AppLoader from '../../../shared/components/AppLoader';
-import Logo from '../../../shared/components/Logo';
-import PrimaryButton from '../../../shared/components/PrimaryButton';
-import SecondaryButton from '../../../shared/components/SecondaryButton';
-import {createBTCWallet} from '../../../shared/services/wallet.service';
-import {renderWallet} from '../../../shared/store/actions/walletActions';
+import { NavigationProp } from '@react-navigation/core'
+import React from 'react'
+import { Linking, SafeAreaView, Text, View } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
+import Logo from '../../../shared/components/Logo'
+import PrimaryButton from '../../../shared/components/PrimaryButton'
+import SecondaryButton from '../../../shared/components/SecondaryButton'
+import { RootState } from '../../../shared/store'
+import { renderWallet } from '../../../shared/store/actions/walletActions'
+import { setIsNewWallet } from '../../../shared/store/reducers/utilReducer'
 import {
-  setIsWalletRendered,
-  setMnemonic,
-} from '../../../shared/store/reducers/walletReducer';
-import {THEME} from '../../../shared/theme';
-import styles from './styles';
+  setMnemonic
+} from '../../../shared/store/reducers/walletReducer'
+import { THEME } from '../../../shared/theme'
+import styles from './styles'
 let bip39 = require('bip39');
 
 interface Props {
@@ -21,14 +20,18 @@ interface Props {
 }
 
 const StartScreen = (props: Props) => {
-  const [loading, setLoading] = useState(false);
+
   const dispatch = useDispatch();
   const navToImportWallet = () => props.navigation.navigate('ImportWallet');
+const {walletLoading}=useSelector((state:RootState)=>state.wallet)
+
 
   const handleCreateNewWallet = async () => {
-    setLoading(true);
+    // setLoading(true);
     let mnemonic = bip39.generateMnemonic();
     // createBTCWallet(mnemonic);
+    dispatch(setIsNewWallet(true));
+
     dispatch(
       setMnemonic({
         mnemonic_phrase: mnemonic,
@@ -65,7 +68,8 @@ const StartScreen = (props: Props) => {
             onPress={navToImportWallet}
           />
           <SecondaryButton
-            loading={loading}
+            disabled={walletLoading}
+            loading={walletLoading}
             title="Create a new wallet"
             onPress={handleCreateNewWallet}
           />

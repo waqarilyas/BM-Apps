@@ -42,7 +42,7 @@ const ImportWallet = (props: Props) => {
         dispatch(setIsWalletRendered(true));
         AppShowToast('Wallet Import Started');
       } else {
-        AppShowToast('Invalid Pharase, Please enter correct phrase.');
+        AppShowToast('Invalid Phrase, Please enter correct phrase.');
         setLoading(false);
       }
     } catch (error) {
@@ -70,6 +70,10 @@ const ImportWallet = (props: Props) => {
             multiline
             numberOfLines={3}
             autoCapitalize="none"
+            enablesReturnKeyAutomatically
+            blurOnSubmit
+            // returnKeyType="done"
+            // returnKeyLabel="done"
           />
         </View>
         <PrimaryButton

@@ -1,5 +1,6 @@
+import Clipboard from '@react-native-clipboard/clipboard';
 import React, {useEffect, useMemo, useState} from 'react';
-import {FlatList, Text, View} from 'react-native';
+import {ActivityIndicator, FlatList, Text, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {useSelector} from 'react-redux';
 import {COINS} from '../../../assets/coins';
@@ -12,6 +13,7 @@ import {
   GenericNavigation,
   Transaction,
 } from '../../../shared/models/types';
+import {AppShowToast} from '../../../shared/services/helper.service';
 import {checkTransactions} from '../../../shared/services/wallet.service';
 import {RootState} from '../../../shared/store';
 import {THEME} from '../../../shared/theme';
@@ -26,6 +28,7 @@ const CoinDetails = (props: Props) => {
   );
   // const [activeIndex, setActiveIndex] = useState(0);
   const [transactions, setTransactions] = useState<Transaction[] | []>([]);
+  const [loading, setLoading] = useState(false);
 
   const coin = useMemo(() => {
     return wallet.find(
@@ -36,6 +39,7 @@ const CoinDetails = (props: Props) => {
   const getTransactions = () => {
     checkTransactions(coin?.coin_symbol, coin?.address)
       .then((data: Transaction[]) => {
+
         setTransactions(
           data.map(t => {
             t.epoch = new Date(t.timeStamp).getTime();
@@ -43,10 +47,14 @@ const CoinDetails = (props: Props) => {
           }),
         );
       })
-      .catch(err => console.log('Error getting transaction:', err));
+      .catch(err => console.log('Error getting transaction:', err))
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   useEffect(() => {
+    setLoading(true);
     getTransactions();
   }, []);
 
@@ -57,14 +65,6 @@ const CoinDetails = (props: Props) => {
 
     return unsubscribe;
   }, [props.navigation]);
-
-  // const showBalance = () => setActiveIndex(0);
-  // const showTransactions = () => setActiveIndex(1);
-
-  // const getTabBackground = (index: number) =>
-  //   activeIndex === index
-  //     ? THEME.COLORS.blue
-  //     : THEME.COLORS.secondaryBackground;
 
   const navToSend = () => {
     props.navigation?.navigate('SendCoin', {coinSymbol: coin?.coin_symbol});
@@ -90,10 +90,18 @@ const CoinDetails = (props: Props) => {
     }
   };
 
+  const onCopy = () => {
+    // setCopied(true);
+    AppShowToast(L('Copied'));
+    Clipboard.setString(coin?.address);
+  };
+
   const sortedTransactions = useMemo(
     () => transactions.sort((a, b) => b.epoch! - a.epoch!),
     [transactions],
   );
+
+
 
   return (
     <View style={styles.mainContainer}>
@@ -147,17 +155,13 @@ const CoinDetails = (props: Props) => {
                 kind="receive"
               />
               <TransactionButton
-                onPress={() => console.log('Copied')}
+                onPress={onCopy}
                 title={L('Copy')}
                 kind="copy"
               />
             </View>
           </View>
         </View>
-
-        {/* //-----Balance---// */}
-
-        {/* //-----Transactions---// */}
 
         <View
           style={{
@@ -170,6 +174,18 @@ const CoinDetails = (props: Props) => {
             data={sortedTransactions}
             keyExtractor={(_, index) => index.toString()}
             contentContainerStyle={{marginTop: THEME.MARGIN.LOW}}
+            ListEmptyComponent={() =>
+              loading ? (
+                <ActivityIndicator
+                  color={THEME.COLORS.accentBlue}
+                  size="large"
+                />
+              ) : (
+                <Text style={styles.noTransactionText}>
+                  No Transactions Found!
+                </Text>
+              )
+            }
             renderItem={({item, index}) => {
               return (
                 <TransactionItem

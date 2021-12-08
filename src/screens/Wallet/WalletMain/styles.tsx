@@ -42,6 +42,11 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: THEME.MARGIN.LOW,
   },
+  emptyText: {
+    color: THEME.COLORS.white,
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
 });
 
 export default styles;

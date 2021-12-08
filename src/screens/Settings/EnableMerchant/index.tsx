@@ -31,9 +31,6 @@ const initialValues: any = {
 const EnableMerchant = (props: Props) => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  // const walletAddress = useSelector(
-  //   (state: RootStateOrAny) => state.wallet.wallet[0].public_key,
-  // );
 
   const {walletAddress} = useSelector((state: RootStateOrAny) => state.wallet);
 

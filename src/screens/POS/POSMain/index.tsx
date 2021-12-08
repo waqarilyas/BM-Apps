@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Toast from 'react-native-toast-message';
-import IC from 'react-native-vector-icons/FontAwesome5';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useSelector} from 'react-redux';
 import {ICONS} from '../../../assets';
@@ -32,7 +31,6 @@ const POSMain = (props: Props) => {
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [products, setProducts]: any = useState([]);
-  const [reload, setReload] = useState(false);
   const [searchVisible, setSearchVisible] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [searchResults, setSearchResults]: any = useState([]);
@@ -42,6 +40,21 @@ const POSMain = (props: Props) => {
 
   const wait = (timeout: any) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
+  };
+
+  const navToDirectInvoice = () => {
+    if (merchantData?.isDisabled) {
+      Alert.alert(
+        L('Failed'),
+        L(
+          'Your account has been disabled by admin! You cannot add direct invoice!',
+        ),
+        [{text: 'OK', onPress: () => console.log('OK Pressed')}],
+      );
+
+      return;
+    }
+    props.navigation?.navigate('Payment', {type: 'invoice'});
   };
 
   const navToAddProduct = () => {
@@ -148,6 +161,7 @@ const POSMain = (props: Props) => {
           title={L('Point of Sale')}
           showSearch
           searchAction={() => setSearchVisible(true)}
+          showBack
         />
       )}
       <View style={styles.container}>
@@ -164,12 +178,10 @@ const POSMain = (props: Props) => {
             <Text style={styles.actionText}>{L('Add Product')}</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
+          {/* <TouchableOpacity
             activeOpacity={0.8}
             style={styles.topAction}
-            onPress={() =>
-              props.navigation?.navigate('Payment', {type: 'invoice'})
-            }>
+            onPress={navToDirectInvoice}>
             <IC
               name="file-invoice"
               color={THEME.COLORS.accentBlue}
@@ -177,7 +189,7 @@ const POSMain = (props: Props) => {
             />
 
             <Text style={styles.actionText}>{L('Direct Invoice')}</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
 
         <Text style={styles.categoryLabel}>{L('Products')}</Text>
@@ -185,7 +197,11 @@ const POSMain = (props: Props) => {
         <FlatList
           data={searchText.length > 0 ? searchResults : products}
           refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            <RefreshControl
+              tintColor={THEME.COLORS.accentBlue}
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />
           }
           numColumns={3}
           columnWrapperStyle={{

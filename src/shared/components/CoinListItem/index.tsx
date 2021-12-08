@@ -28,7 +28,6 @@ interface Props extends TouchableOpacityProps {
 }
 const CoinListItem = (props: Props) => {
   const [loading, setLoading] = useState(false);
-
   const dispatch = useDispatch();
   const {item} = props;
   const {balance, coin_symbol} = props.item;
@@ -73,7 +72,10 @@ const CoinListItem = (props: Props) => {
         <View style={styles.main}>
           <Text style={[styles.price]}>
             {/* ${parseFloat(props.item.vs_currency_balance).toFixed(2) || '0.00'} */}
-            ${parseFloat(props.item?.vs_currency_balance).toFixed(2) || '0.00'}
+            $
+            {props.item?.vs_currency_balance
+              ? parseFloat(props.item?.vs_currency_balance).toFixed(2)
+              : '0.00'}
           </Text>
           <Text
             style={[

@@ -17,6 +17,7 @@ import {
   resetUser,
   setMerchantEnabledState,
 } from '../../../shared/store/reducers/userReducer';
+import {setIsNewWallet} from '../../../shared/store/reducers/utilReducer';
 import {resetWallet} from '../../../shared/store/reducers/walletReducer';
 import {THEME} from '../../../shared/theme';
 import {RF} from '../../../shared/theme/responsive';
@@ -88,6 +89,8 @@ const SettingsMain = (props: Props) => {
     dispatch(resetUser());
     dispatch(resetWallet());
     dispatch(resetSettings());
+    dispatch(setMerchantEnabledState(false));
+    dispatch(setIsNewWallet(false));
   };
 
   const navToCurrencySelection = () => {
@@ -170,6 +173,17 @@ const SettingsMain = (props: Props) => {
     );
   };
 
+  const isMerchantEnabled = () => {
+    if (merchantData?.isDisabled) {
+      Alert.alert(L('Failed'), L('Your account has been disabled by admin! '), [
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
+      ]);
+
+      return false;
+    }
+    return true;
+  };
+
   return (
     <>
       <AppHeader title={L('Settings')} />
@@ -189,7 +203,12 @@ const SettingsMain = (props: Props) => {
               <SettingItem
                 title={L('Add Store Location')}
                 chevron
-                onPress={navToAddPlace}
+                onPress={() => {
+                  if (isMerchantEnabled()) {
+                    navToAddPlace();
+                  }
+                }}
+                source={ICONS.STORE_LOCATION}
               />
             )}
 
@@ -259,7 +278,7 @@ const SettingsMain = (props: Props) => {
               onPress={() => props?.navigation?.navigate('AddressBook')}
             />
 
-            {merchantEnabled && (
+            {/* {merchantEnabled && (
               <SettingItem
                 source={ICONS.PROTECTION_FEE}
                 title={
@@ -270,7 +289,7 @@ const SettingsMain = (props: Props) => {
                 // chevron
                 onPress={handleTaxEnabled}
               />
-            )}
+            )} */}
 
             <SettingItem
               source={ICONS.THUMB}

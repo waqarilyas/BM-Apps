@@ -1,6 +1,7 @@
 import WAValidator from 'multicoin-address-validator';
 import React, {useMemo, useState} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useDispatch, useSelector} from 'react-redux';
 import AddressInput from '../../../shared/components/AddressInput';
 import AppHeader from '../../../shared/components/AppHeader';
@@ -35,7 +36,7 @@ const SendCoin = (props: Props) => {
   const {wallet: walletState} = useSelector((state: RootState) => state);
 
   const [address, setAddress] = useState(
-    __DEV__ ? '0x373F9437e89ecD5f7589C269A990E402E0Cd6894' : '',
+    __DEV__ ? '0x2a0f185b0e58d230d647adb771f294220bdf4228' : '',
   );
   const [usdtAmount, setUsdtAmount] = useState('');
   const [coinAmount, setCoinAmount] = useState('');
@@ -43,13 +44,6 @@ const SendCoin = (props: Props) => {
   const [loading, setLoading] = useState(false);
   const [paymentError, setPaymentError] = useState(false);
   const dispatch = useDispatch();
-  // const [coin, ETH_RATE] = useMemo(() => {
-  //   let selectedCoin = wallet.find(
-  //     (c: Coin) => c?.coin_symbol === props.route?.params?.coinSymbol,
-  //   );
-  //   let eth = wallet.find((c: Coin) => c.coin_name === 'Ethereum');
-  //   return [selectedCoin, eth?.chart_data.rate];
-  // }, [wallet, props.route]);
 
   const onChangeAddress = (text: string) => setAddress(text);
   const toggleModal = () => {
@@ -137,8 +131,7 @@ const SendCoin = (props: Props) => {
 
   const onSend = async () => {
     try {
-      if (coin?.coin_symbol !== 'weenus') {
-      } else if (coin?.coin_symbol === 'weenus') {
+      if (coin?.coin_symbol === 'weenus') {
         let valid = WAValidator.validate(address, 'eth');
       }
 
@@ -154,15 +147,19 @@ const SendCoin = (props: Props) => {
       if (!coinAmount) {
         return AppShowToast(L('Please enter coin amount'));
       }
+
       if (Number(totalAmount) > Number(coin?.balance)) {
         return AppShowToast(L('Insufficient funds'));
       }
+
       if (Number(usdtAmount) > Number(coin?.vs_currency_balance)) {
         return AppShowToast(L('Insufficient funds'));
       }
+
       if (!usdtAmount) {
         return AppShowToast(`Please enter ${defaultCurrency} amount`);
       }
+
       setLoading(true);
       const payload = {
         to: address,
@@ -176,13 +173,17 @@ const SendCoin = (props: Props) => {
         contractAbi: coin?.contractAbi,
         contractAddress: coin?.contractAddress,
         feeReceivingAccount: coin?.feeReceivingAccount,
+        is_bep20: coin?.is_bep20,
       };
-      await handleTx(payload);
+
+      const transactionRes = await handleTx(payload);
+      console.log('---transaction response---', transactionRes);
       dispatch(refreshCoinsBalances(true));
       setLoading(false);
       setShowModal(true);
       setPaymentError(false);
     } catch (error) {
+      console.log('---error from payment---', error);
       setLoading(false);
       setPaymentError(error ? true : false);
       setShowModal(true);
@@ -191,7 +192,7 @@ const SendCoin = (props: Props) => {
   };
 
   return (
-    <View style={styles.mainContainer}>
+    <KeyboardAwareScrollView style={styles.mainContainer}>
       <PaymentStatusModal
         toggleModal={toggleModal}
         error={paymentError}
@@ -292,7 +293,7 @@ const SendCoin = (props: Props) => {
           onPress={onSend}
         />
       </View>
-    </View>
+    </KeyboardAwareScrollView>
   );
 };
 

@@ -66,16 +66,18 @@ export const posSlice = createSlice({
       let cartData = [...state.cart];
       const ind = cartData.findIndex(item => item._id === action.payload._id);
 
-      if (cartData[ind].count > 1) {
-        cartData[ind].count -= 1;
-        state.totalCartAmount -= parseFloat(action.payload.price);
-        state.totalTax -= parseFloat(action.payload.tax);
-        state.totalTaxAmount -= calculateTax(
-          parseFloat(action.payload.price),
-          parseFloat(action.payload.tax),
-        );
+      if (ind != -1) {
+        if (cartData[ind].count > 1) {
+          cartData[ind].count -= 1;
+          state.totalCartAmount -= parseFloat(action.payload.price);
+          state.totalTax -= parseFloat(action.payload.tax);
+          state.totalTaxAmount -= calculateTax(
+            parseFloat(action.payload.price),
+            parseFloat(action.payload.tax),
+          );
+        }
+        state.cart = cartData;
       }
-      state.cart = cartData;
     },
     setCustomPrice: (state, action) => {
       state.customPrice = action.payload;

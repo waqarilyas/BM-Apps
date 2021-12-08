@@ -3,6 +3,7 @@ import {RefreshControl, ScrollView, Text, View} from 'react-native';
 import {PieChart} from 'react-native-svg-charts';
 import {useDispatch, useSelector} from 'react-redux';
 import AppHeader from '../../../shared/components/AppHeader';
+import AppLoader from '../../../shared/components/AppLoader';
 import AppSearchInput from '../../../shared/components/AppSearchInput';
 import AuthModal from '../../../shared/components/AuthModal';
 import CoinListItem from '../../../shared/components/CoinListItem';
@@ -15,6 +16,7 @@ import {
 } from '../../../shared/services/wallet.service';
 import {RootState} from '../../../shared/store';
 import {refreshCoinsBalances} from '../../../shared/store/actions/walletActions';
+import {THEME} from '../../../shared/theme';
 import {EMPTY_CHART_DATA} from '../../../shared/utils/AppConstants';
 import L from '../../../shared/utils/LanguageHandler';
 import {initSocket, socket} from '../../../shared/utils/sockets';
@@ -33,6 +35,7 @@ const WalletMain = (props: Props) => {
     },
     util: {balancesUpdateNeeded},
     settings: {thumbEnabled, currency},
+    user: {merchantData},
   } = useSelector((state: RootState) => state);
 
   const [searchText, setSearchText] = useState('');
@@ -57,6 +60,7 @@ const WalletMain = (props: Props) => {
             return total;
           })
       : 0;
+
     if (isNaN(Number(newTotal))) {
       newTotal = '0.00';
     }
@@ -131,9 +135,9 @@ const WalletMain = (props: Props) => {
       realtimeListener();
     }
     return () => {
-      socket.removeListener(dogeAddress);
-      socket.removeListener(erc20Andbep20Address);
-      socket.removeListener(bitcoinAddress);
+      socket.removeListener(String(dogeAddress));
+      socket.removeListener(String(erc20Andbep20Address));
+      socket.removeListener(String(bitcoinAddress));
       socket.removeListener('coin-data');
       socket.removeAllListeners();
     };
@@ -142,18 +146,20 @@ const WalletMain = (props: Props) => {
   const onRefreshBalances = () => dispatch(refreshCoinsBalances(true));
 
   useEffect(() => {
-    if (wallet.length > 0) {
+    // if (wallet.length > 0) {
+
+    if (!merchantData) {
       getInitialMerchantData();
     }
+    // }
   }, [wallet]);
 
-  useEffect(() => {
-    const unsubscribe = props.navigation?.addListener('focus', () => {
-      dispatch(refreshCoinsBalances(true));
-    });
-
-    return unsubscribe;
-  }, [props.navigation]);
+  // useEffect(() => {
+  //   const unsubscribe = props.navigation?.addListener('focus', () => {
+  //     dispatch(refreshCoinsBalances(true));
+  //   });
+  //   return unsubscribe;
+  // }, [props.navigation]);
 
   return (
     <>
@@ -227,28 +233,33 @@ const WalletMain = (props: Props) => {
               <RefreshControl
                 refreshing={walletRefreshing}
                 onRefresh={onRefreshBalances}
+                tintColor={THEME.COLORS.accentBlue}
               />
             }
             style={styles.listContainer}
             showsVerticalScrollIndicator={false}>
-            {filteredWallet.map((item, index) => {
-              if (item.is_active) {
-                return (
-                  <CoinListItem
-                    key={index}
-                    item={item}
-                    onPress={() => navigateToCoinDetail(item.coin_symbol)}
-                  />
-                );
-              }
-            })}
+            {filteredWallet.length > 0 ? (
+              filteredWallet.map((item, index) => {
+                if (item.is_active) {
+                  return (
+                    <CoinListItem
+                      key={index}
+                      item={item}
+                      onPress={() => navigateToCoinDetail(item.coin_symbol)}
+                    />
+                  );
+                }
+              })
+            ) : (
+              <Text style={styles.emptyText}>No coins found</Text>
+            )}
           </ScrollView>
         </View>
         {thumbEnabled && authOpen && (
           <AuthModal visible={true} onClose={() => setAuthOpen(false)} />
         )}
       </View>
-      {/* <AppLoader isVisible={walletLoading} /> */}
+      <AppLoader isVisible={walletLoading} />
     </>
   );
 };

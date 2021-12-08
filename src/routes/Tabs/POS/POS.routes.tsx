@@ -10,6 +10,8 @@ import SearchProduct from '../../../screens/POS/SearchProduct';
 import ShopDetails from '../../../screens/POS/ShopDetails';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../shared/store';
+import DirectInvoice from '../../../screens/POS/DirectInvoice';
+import SaleHistory from '../../../screens/POS/SaleHistory';
 
 const Stack = createStackNavigator();
 
@@ -23,11 +25,13 @@ const POSStack = () => {
       })}>
       {merchantEnabled ? (
         <>
+          <Stack.Screen name="DirectInvoice" component={DirectInvoice} />
           <Stack.Screen name="POSMain" component={POSMain} />
           <Stack.Screen name="AddProduct" component={AddProduct} />
           <Stack.Screen name="ProductDetails" component={ProductDetails} />
-          <Stack.Screen name="Cart" component={Cart} />
           <Stack.Screen name="Payment" component={Payment} />
+          <Stack.Screen name="Cart" component={Cart} />
+          <Stack.Screen name="SaleHistory" component={SaleHistory} />
         </>
       ) : (
         <>

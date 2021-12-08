@@ -34,7 +34,7 @@ import styles from './styles';
 interface Props extends GenericNavigation {}
 
 const Payment = (props: Props) => {
-  const {type}: any = props.route?.params;
+  const {type}: any = props?.route?.params;
 
   const [copied, setCopied] = useState(false);
   const [showCurrencyModal, setShowCurrencyModal] = useState(false);
@@ -194,7 +194,10 @@ const Payment = (props: Props) => {
           style={styles.qr}
         /> */}
         <View style={styles.qrContainer}>
-          <QRCode size={WP(40)} value={selectedCoin?.address} />
+          <QRCode
+            size={WP(40)}
+            value={`${selectedCoin?.address}?value=${totalInvoiceAmount}`}
+          />
         </View>
         <Text style={styles.instruction}>
           {L('Use the address below to receive funds.')}
