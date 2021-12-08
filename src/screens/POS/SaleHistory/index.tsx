@@ -66,10 +66,12 @@ const HistoryItem = ({data}: any) => {
       <View style={styles.historyLeft}>
         <FastImage source={ICONS.sendIcon} style={styles.sendIcon} />
         <View style={styles.leftInner}>
-          <Text style={styles.title}>
-            {firstName} {lastName}
-          </Text>
-          <Text style={styles.date}>{email}</Text>
+          {Boolean(firstName || lastName) && (
+            <Text style={styles.title}>
+              {firstName} {lastName}
+            </Text>
+          )}
+          {Boolean(email) && <Text style={styles.date}>{email}</Text>}
 
           <Text style={styles.date}>
             {moment(createdAt).format('MMM DD, YYYY, h:mm:ss a')}

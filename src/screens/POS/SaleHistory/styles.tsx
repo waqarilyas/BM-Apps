@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: RF(10),
     borderRadius: RF(4),
     marginTop: RF(10),
+    height: RF(60),
   },
   sendIcon: {
     height: RF(30),
@@ -31,11 +32,17 @@ const styles = StyleSheet.create({
     color: THEME.COLORS.white,
     fontWeight: '800',
     fontSize: RF(14),
-    flex: 1,
+    // flex: 1,
+  },
+  titleCenter: {
+    color: THEME.COLORS.white,
+    fontWeight: '800',
+    fontSize: RF(14),
+    textAlign: 'center',
   },
   date: {
     fontSize: RF(11),
-    marginTop: RF(4),
+    // marginTop: RF(4),
     color: THEME.COLORS.white,
   },
   amount: {
@@ -46,6 +53,9 @@ const styles = StyleSheet.create({
   empty: {
     flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
+  },
+  leftInner: {
     justifyContent: 'center',
   },
 });
