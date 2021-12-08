@@ -12,6 +12,7 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../../../shared/store';
 import DirectInvoice from '../../../screens/POS/DirectInvoice';
 import SaleHistory from '../../../screens/POS/SaleHistory';
+import CustomerInfo from '../../../screens/POS/CustomerInfo';
 
 const Stack = createStackNavigator();
 
@@ -32,6 +33,7 @@ const POSStack = () => {
           <Stack.Screen name="Payment" component={Payment} />
           <Stack.Screen name="Cart" component={Cart} />
           <Stack.Screen name="SaleHistory" component={SaleHistory} />
+          <Stack.Screen name="CustomerInfo" component={CustomerInfo} />
         </>
       ) : (
         <>
