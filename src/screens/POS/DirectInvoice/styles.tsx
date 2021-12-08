@@ -80,13 +80,13 @@ const styles = StyleSheet.create({
     color: THEME.COLORS.green,
   },
   shareButton: {
-    width: '55%',
+    width: '80%',
     height: HP(4.5),
     marginTop: THEME.MARGIN.LOW,
   },
   confirmButton: {
     width: '80%',
-    height: HP(6),
+    height: HP(4.5),
     marginTop: THEME.MARGIN.LOW,
   },
 
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   middleContainer: {
-    flexDirection: 'row',
+    // flexDirection: 'row',
   },
   headerRight: {
     flexDirection: 'row',

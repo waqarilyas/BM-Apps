@@ -20,7 +20,6 @@ const SaleHistory = () => {
     setLoading(true);
     getCustomersByMerchant(merchantData?._id)
       .then(res => {
-
         setCustomers(res.data);
       })
       .catch(err => {
@@ -42,7 +41,6 @@ const SaleHistory = () => {
         {customers.length > 0 ? (
           <FlatList
             data={customers}
-            inverted
             showsVerticalScrollIndicator={false}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({item, index}) => {

@@ -217,6 +217,7 @@ const Payment = (props: Props) => {
             <Text style={styles.copied}>{L('Copied')}</Text>
           </View>
         )}
+        {/* sdsdsd */}
         <PrimaryButton
           icon="share"
           title={L('Share')}
