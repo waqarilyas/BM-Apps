@@ -568,7 +568,7 @@
 				CODE_SIGN_ENTITLEMENTS = BlockMerchants/BlockMerchants.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_TEAM = 3TB8D2484F;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = BlockMerchants/Info.plist;
@@ -604,7 +604,7 @@
 				CODE_SIGN_ENTITLEMENTS = BlockMerchants/BlockMerchants.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_TEAM = 3TB8D2484F;
 				INFOPLIST_FILE = BlockMerchants/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

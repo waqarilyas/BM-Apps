@@ -41,8 +41,10 @@
 	<string>this app needs to access camera to add photos</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Enabling Face ID allows you quick and secure access to your account.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>App needs location success to show merchant locations on map.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>App needs location success to show merchant locations on map.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>this app needs to have access to photos</string>
 	<key>UIAppFonts</key>
