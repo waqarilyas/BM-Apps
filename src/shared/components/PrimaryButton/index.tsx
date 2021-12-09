@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     marginBottom: THEME.MARGIN.NORMAL,
     flexDirection: 'row',
     shadowColor: THEME.COLORS.tintBlue,
-
+    // marginVertical: 2,
     shadowOffset: {
       width: 0,
       height: 12,

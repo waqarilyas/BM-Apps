@@ -28,7 +28,7 @@ const BottomTabs = () => {
         tabBarOptions={{
           activeTintColor: '#00A8FF',
 
-          inactiveTintColor: '#707070',
+          inactiveTintColor: '#cbcbcb',
 
           tabStyle: {
             backgroundColor: THEME.COLORS.tabColor,

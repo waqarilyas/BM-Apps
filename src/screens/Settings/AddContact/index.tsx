@@ -17,7 +17,8 @@ import {THEME} from '../../../shared/theme';
 import L from '../../../shared/utils/LanguageHandler';
 import {addAddressVS} from '../../../shared/utils/validations';
 import styles from './styles';
-
+import Entypo from 'react-native-vector-icons/Entypo';
+import {RF} from '../../../shared/theme/responsive';
 const initialValues: any = {
   name: '',
   address: '',
@@ -114,6 +115,13 @@ const AddContact = (props: PROPS) => {
                     {selectedCoin?.coin_name}(
                     {selectedCoin?.coin_symbol?.toUpperCase()})
                   </Text>
+                </View>
+                <View>
+                  <Entypo
+                    name="chevron-small-down"
+                    size={RF(25)}
+                    color={THEME.COLORS.white}
+                  />
                 </View>
               </TouchableOpacity>
             </View>

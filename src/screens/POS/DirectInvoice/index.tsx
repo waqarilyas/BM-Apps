@@ -49,6 +49,14 @@ const DirectInvoice = (props: Props) => {
   const {taxEnabled} = useSelector((state: RootState) => state.settings);
   const toggleModal = () => setShowCurrencyModal(!showCurrencyModal);
 
+  const resetValues = () => {
+    setCustomAmount(0);
+    setCurrentVisibleInput(null);
+    setcurrencyPrice(0);
+    setTotalInvoiceAmount(0);
+    setCustomTax('');
+  };
+
   const onSelectCoin = (coin: any) => {
     setShowCurrencyModal(false);
     setSelectedCoin(coin);
@@ -91,6 +99,15 @@ const DirectInvoice = (props: Props) => {
         },
       ],
     );
+  };
+
+  const onConfirmPayment = () => {
+    resetValues();
+    Toast.show({
+      text1: 'Success',
+      text2: 'Payment confirmed successfully!',
+      type: 'success',
+    });
   };
 
   useEffect(() => {
@@ -162,11 +179,12 @@ const DirectInvoice = (props: Props) => {
             </Text>
           </View>
         </TouchableOpacity>
-
         <AppInput
           placeholder={L('Enter Amount USD')}
           keyboardType="decimal-pad"
+          value={String(customAmount)}
           returnKeyType="done"
+          inputStyle={{marginVertical: 0}}
           onChangeText={text => {
             if (text.length == 0) {
               setCustomAmount(0);
@@ -177,13 +195,12 @@ const DirectInvoice = (props: Props) => {
             setCurrentVisibleInput(2);
           }}
         />
-
         {currentVisibleInput >= 2 && (
           <AppInput
             placeholder={`${L('Tax')} %`}
             keyboardType="decimal-pad"
             returnKeyType="done"
-            value={`${String(invoiceTax)}`}
+            value={`${String(invoiceTax)}%`}
             onChangeText={text => {
               console.log('--inside on change--', text);
 
@@ -197,12 +214,12 @@ const DirectInvoice = (props: Props) => {
           />
         )}
 
-        {currentVisibleInput == '3' && (
+        {currentVisibleInput >= 2 && (
           <View style={styles.apfeeContainer}>
             <AppInput
               placeholder="Algorithmic Protection Fee"
               keyboardType="decimal-pad"
-              value={String(customTax)}
+              // value={String(customTax)}
               returnKeyType="done"
               editable={taxEnabled}
               inputStyle={[styles.apInput, !taxEnabled && {opacity: 0.5}]}
@@ -224,7 +241,6 @@ const DirectInvoice = (props: Props) => {
             />
           </View>
         )}
-
         <View style={styles.middleContainer}>
           <View style={styles.middleLeft}>
             <View style={styles.amountContainer}>
@@ -280,6 +296,12 @@ const DirectInvoice = (props: Props) => {
           onPress={() =>
             props.navigation?.navigate('CustomerInfo', {totalInvoiceAmount})
           }
+          buttonStyle={styles.confirmButton}
+          textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
+        />
+        <PrimaryButton
+          title={L('Confirm Payment')}
+          onPress={onConfirmPayment}
           buttonStyle={styles.confirmButton}
           textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
         />

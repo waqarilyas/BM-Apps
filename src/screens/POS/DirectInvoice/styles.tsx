@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   confirmButton: {
     width: '80%',
     height: HP(4.5),
-    marginTop: THEME.MARGIN.LOW,
+    // marginTop: THEME.MARGIN.LOW,
   },
 
   qrContainer: {
