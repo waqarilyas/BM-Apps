@@ -11,7 +11,6 @@ import {ANIMATIONS, ICONS} from '../../../assets';
 import {GetImageForCoin} from '../../../assets/coins';
 import AppHeader from '../../../shared/components/AppHeader';
 import AppInput from '../../../shared/components/AppInput';
-import AppLoader from '../../../shared/components/AppLoader';
 import ChooseCoinModal from '../../../shared/components/ChooseCoinModal';
 import CustomAnimations from '../../../shared/components/CustomAnimations';
 import PrimaryButton from '../../../shared/components/PrimaryButton';
@@ -41,21 +40,12 @@ const DirectInvoice = (props: Props) => {
   const [contact, setContact]: any = useState(null);
   const [currencyPrice, setcurrencyPrice] = useState(0);
   const [currentVisibleInput, setCurrentVisibleInput]: any = useState(null);
-  const [loading, setLoading] = useState(false);
 
   const isLaunched = true;
-
-  let initialValues: any = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-  };
 
   const dispatch = useDispatch();
 
   const {wallet} = useSelector((state: RootState) => state.wallet);
-  const {merchantData} = useSelector((state: RootState) => state.user);
   const {taxEnabled} = useSelector((state: RootState) => state.settings);
   const toggleModal = () => setShowCurrencyModal(!showCurrencyModal);
 
@@ -302,7 +292,6 @@ const DirectInvoice = (props: Props) => {
         onSelectContact={(con: any) => setContact(con)}
         renderContacts
       />
-      <AppLoader isVisible={loading} />
     </View>
   ) : (
     <View style={styles.mainContainer}>

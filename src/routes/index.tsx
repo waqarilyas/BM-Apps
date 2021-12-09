@@ -1,18 +1,19 @@
+import {NavigationContainer} from '@react-navigation/native';
 import React, {useEffect} from 'react';
 import {SafeAreaView} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
-import {THEME} from '../shared/theme';
-import {NavigationContainer} from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
+import {useDispatch, useSelector} from 'react-redux';
 import {navigationRef} from '../shared/services/nav.service';
+import {RootState} from '../shared/store';
+import {renderWallet} from '../shared/store/actions/walletActions';
+import {THEME} from '../shared/theme';
 import AuthStack from './Auth/Auth.routes';
 import BottomTabs from './Tabs/Tabs.routes';
-import {useDispatch, useSelector} from 'react-redux';
-import {RootState} from '../shared/store';
-import Toast from 'react-native-toast-message';
-import {renderWallet} from '../shared/store/actions/walletActions';
 
 const Routes = () => {
   const {isRendered} = useSelector((state: RootState) => state.wallet);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
