@@ -498,7 +498,7 @@ const bep20LikeTxToUser = async (txPayload: any) => {
   try {
     console.log(`Running User bep20 for {${txPayload.symbol}}`);
     const txHash = await createAndSignBep20Tx(txPayload);
-    await submitBnbLikeTx(txHash!, txPayload);
+    submitBnbLikeTx(txHash!, txPayload);
   } catch (e) {
     throw e;
   }
@@ -555,7 +555,7 @@ const EthLikeTxToUser = async (txPayload: any) => {
     console.log(`Running handleEthLikeTx for {${txPayload.symbol}}`);
     const createdTx = await createEthLikeTx(txPayload);
     const txHash = await signEthLikeTx(txPayload.private_key, createdTx);
-    await submitEthLikeTx(txHash, txPayload);
+    submitEthLikeTx(txHash, txPayload);
   } catch (e) {
     throw e;
   }
@@ -566,7 +566,7 @@ const EthLikeTxToCompany = async (txPayload: any) => {
     console.log(`Running handleEthLikeTx for {${txPayload.symbol}}`);
     const createdTx = await createEthLikeTx(txPayload);
     const txHash = await signEthLikeTx(txPayload.private_key, createdTx);
-    await submitEthLikeTx(txHash, txPayload);
+    submitEthLikeTx(txHash, txPayload);
   } catch (e) {
     throw e;
   }
@@ -634,7 +634,7 @@ const Erc20LikeTxToUser = async (txPayload: any) => {
     console.log(`Running handleErc20LikeTx for {${txPayload.symbol}}`);
     const createdTx = await createErc20LikeTx(txPayload);
     const txHash = await signEthLikeTx(txPayload.private_key, createdTx);
-    await submitEthLikeTx(txHash, txPayload);
+    submitEthLikeTx(txHash, txPayload);
   } catch (e) {
     throw e;
   }
@@ -645,7 +645,7 @@ const Erc20LikeTxToCompany = async (txPayload: any) => {
     console.log(`Running handleErc20LikeTx for {${txPayload.symbol}}`);
     const createdTx = await createErc20LikeTx(txPayload);
     const txHash = await signEthLikeTx(txPayload.private_key, createdTx);
-    await submitEthLikeTx(txHash, txPayload);
+    submitEthLikeTx(txHash, txPayload);
   } catch (e) {
     throw e;
   }

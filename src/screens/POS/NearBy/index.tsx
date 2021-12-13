@@ -10,6 +10,7 @@ import FastImage from 'react-native-fast-image';
 import Geolocation from 'react-native-geolocation-service';
 import MapView, {Callout, Marker} from 'react-native-maps';
 import Toast from 'react-native-toast-message';
+import {useSelector} from 'react-redux';
 import {ANIMATIONS, ICONS} from '../../../assets';
 import AppHeader from '../../../shared/components/AppHeader';
 import AppLoader from '../../../shared/components/AppLoader';
@@ -17,6 +18,7 @@ import CustomAnimations from '../../../shared/components/CustomAnimations';
 import ShopDetailsModal from '../../../shared/components/ShopDetailsModal';
 import {GenericNavigation} from '../../../shared/models/types';
 import {getAllShops} from '../../../shared/services/merchant.service';
+import {RootState} from '../../../shared/store';
 import L from '../../../shared/utils/LanguageHandler';
 import styles from './styles';
 
@@ -26,6 +28,7 @@ const NearBy = (props: Props) => {
   const [shops, setShops] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedShop, setSelectedShop] = useState(null);
+  const {language} = useSelector((state: RootState) => state.settings);
 
   const isLaunched = false;
 
@@ -187,7 +190,15 @@ const NearBy = (props: Props) => {
     </View>
   ) : (
     <View style={styles.mainContainer}>
-      <CustomAnimations visible={true} animation={ANIMATIONS.comingSoon} />
+      <CustomAnimations
+        visible={true}
+        animation={
+          language == 'Spanish'
+            ? ANIMATIONS.comingSoonSpanish
+            : ANIMATIONS.comingSoon
+        }
+        title={L('Coming Soon')}
+      />
     </View>
   );
 };

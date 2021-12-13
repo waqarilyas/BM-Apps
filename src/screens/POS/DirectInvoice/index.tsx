@@ -187,8 +187,7 @@ const DirectInvoice = (props: Props) => {
           inputStyle={{marginVertical: 0}}
           onChangeText={text => {
             if (text.length == 0) {
-              setCustomAmount(0);
-              setCurrentVisibleInput(null);
+              resetValues();
               return;
             }
             setCustomAmount(parseFloat(text));
@@ -200,6 +199,7 @@ const DirectInvoice = (props: Props) => {
             placeholder={`${L('Tax')} %`}
             keyboardType="decimal-pad"
             returnKeyType="done"
+            editable={false}
             value={`${String(invoiceTax)}%`}
             onChangeText={text => {
               console.log('--inside on change--', text);

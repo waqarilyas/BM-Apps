@@ -99,9 +99,10 @@ const styles = StyleSheet.create({
   },
   rightButton: {
     backgroundColor: THEME.COLORS.accentBlue,
-    paddingVertical: RF(3),
+    // paddingVertical: RF(3),
     paddingHorizontal: RF(5),
     borderRadius: RF(3),
+    paddingVertical: RF(6),
   },
   rightText: {
     color: THEME.COLORS.white,
@@ -123,16 +124,12 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   middleLeft: {
-    // backgroundColor: 'red',
     flex: 0.5,
   },
   middleRight: {
-    // backgroundColor: 'yellow',
     flex: 1,
   },
-  middleContainer: {
-    // flexDirection: 'row',
-  },
+  middleContainer: {},
   headerRight: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -144,14 +141,12 @@ const styles = StyleSheet.create({
   },
   rightIconContainer: {
     backgroundColor: THEME.COLORS.accentBlue,
-
-    paddingHorizontal: RF(5),
+    paddingHorizontal: RF(10),
     borderRadius: RF(3),
     marginRight: RF(5),
-    padding: RF(3.5),
+    paddingVertical: RF(7.5),
   },
   apfeeContainer: {
-    // backgroundColor:'red',
     flexDirection: 'row',
     alignItems: 'center',
   },

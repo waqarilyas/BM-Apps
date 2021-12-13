@@ -879,6 +879,12 @@ export const language = [
       Spanish: 'SÍ',
     },
   },
+  {
+    label: {
+      English: 'Coming Soon',
+      Spanish: 'Próximamente, en breve, pronto',
+    },
+  },
 ];
 
 const L = (value: any) => {

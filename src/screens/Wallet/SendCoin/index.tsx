@@ -36,13 +36,13 @@ const SendCoin = (props: Props) => {
   const {wallet: walletState} = useSelector((state: RootState) => state);
 
   const [address, setAddress] = useState(
-    __DEV__ ? '0x2a0f185b0e58d230d647adb771f294220bdf4228' : '',
+    __DEV__ ? '0xD66020dFcB99e6CCC88c0715da81f8dF9358C601' : '',
   );
   const [usdtAmount, setUsdtAmount] = useState('');
   const [coinAmount, setCoinAmount] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [paymentError, setPaymentError] = useState(false);
+  const [paymentError, setPaymentError] = useState(undefined);
   const dispatch = useDispatch();
 
   const onChangeAddress = (text: string) => setAddress(text);
@@ -181,89 +181,93 @@ const SendCoin = (props: Props) => {
       dispatch(refreshCoinsBalances(true));
       setLoading(false);
       setShowModal(true);
-      setPaymentError(false);
+      setPaymentError(undefined);
     } catch (error) {
       console.log('---error from payment---', error);
       setLoading(false);
-      setPaymentError(error ? true : false);
+      setPaymentError(error?.message);
       setShowModal(true);
       console.log('Error Sending Coin.', error);
     }
   };
 
   return (
-    <KeyboardAwareScrollView style={styles.mainContainer}>
-      <PaymentStatusModal
-        toggleModal={toggleModal}
-        error={paymentError}
-        isVisible={showModal}
-      />
+    <>
       <AppHeader title={L('Wallet')} showBack />
-      <View style={styles.container}>
-        <AddressInput
-          inputStyle={{
-            borderRadius: THEME.RADIUS.SMALLBOX,
-            marginVertical: THEME.MARGIN.NORMAL,
-            backgroundColor: THEME.COLORS.darkGrey,
-          }}
-          value={address}
-          placeholder={L('Address')}
-          onChangeText={setAddress}
-          onChangeAddress={onChangeAddress}
-        />
-        <View style={styles.labelContainer}>
-          <TouchableOpacity
-            activeOpacity={0.5}
-            style={styles.max}
-            onPress={onPressMax}>
-            <Text style={styles.maxText}>{L('Max')}</Text>
-          </TouchableOpacity>
-        </View>
-        <AppInput
-          inputStyle={{
-            marginTop: THEME.MARGIN.NORMAL,
-            backgroundColor: THEME.COLORS.darkGrey,
-          }}
-          value={coinAmount}
-          keyboardType="numeric"
-          onChangeText={onChangeCoinAmount}
-          returnKeyType="done"
-          placeholder={`${L(
-            'Enter amount in',
-          )} ${coin?.coin_symbol.toUpperCase()}`}
-        />
-        <AppInput
-          inputStyle={{
-            marginTop: THEME.MARGIN.NORMAL,
-            backgroundColor: THEME.COLORS.darkGrey,
-          }}
-          value={usdtAmount}
-          keyboardType="numeric"
-          returnKeyType="done"
-          onChangeText={onChangeUsdtAmount}
-          placeholder={`${L('Enter amount in')} ${defaultCurrency}`}
+      <KeyboardAwareScrollView
+        style={styles.mainContainer}
+        keyboardShouldPersistTaps="always">
+        <PaymentStatusModal
+          toggleModal={toggleModal}
+          error={paymentError}
+          isVisible={showModal}
         />
 
-        <View style={styles.sideInfo}>
-          <Text style={[styles.availBalalnce, {color: THEME.COLORS.white}]}>
-            {L('Fee')}:{' '}
-            {showBalances ? (
-              getFixedAmount(Number(coin?.chart_data.networkFeeMin) * 2) ||
-              '0.00'
-            ) : (
-              <ConfidentialText />
-            )}{' '}
-            {coin?.coin_symbol.toUpperCase()}
-          </Text>
-          <Text style={[styles.availBalalnce, {color: THEME.COLORS.white}]}>
-            {L('You Will Get')}:{' '}
-            {showBalances ? coin?.balance || '0.00' : <ConfidentialText />}{' '}
-            {coin?.coin_symbol.toUpperCase()}
-          </Text>
-        </View>
+        <View style={styles.container}>
+          <AddressInput
+            inputStyle={{
+              borderRadius: THEME.RADIUS.SMALLBOX,
+              marginVertical: THEME.MARGIN.NORMAL,
+              backgroundColor: THEME.COLORS.darkGrey,
+            }}
+            value={address}
+            placeholder={L('Address')}
+            onChangeText={setAddress}
+            onChangeAddress={onChangeAddress}
+          />
+          <View style={styles.labelContainer}>
+            <TouchableOpacity
+              activeOpacity={0.5}
+              style={styles.max}
+              onPress={onPressMax}>
+              <Text style={styles.maxText}>{L('Max')}</Text>
+            </TouchableOpacity>
+          </View>
+          <AppInput
+            inputStyle={{
+              marginTop: THEME.MARGIN.NORMAL,
+              backgroundColor: THEME.COLORS.darkGrey,
+            }}
+            value={coinAmount}
+            keyboardType="numeric"
+            onChangeText={onChangeCoinAmount}
+            returnKeyType="done"
+            placeholder={`${L(
+              'Enter amount in',
+            )} ${coin?.coin_symbol.toUpperCase()}`}
+          />
+          <AppInput
+            inputStyle={{
+              marginTop: THEME.MARGIN.NORMAL,
+              backgroundColor: THEME.COLORS.darkGrey,
+            }}
+            value={usdtAmount}
+            keyboardType="numeric"
+            returnKeyType="done"
+            onChangeText={onChangeUsdtAmount}
+            placeholder={`${L('Enter amount in')} ${defaultCurrency}`}
+          />
 
-        <View style={styles.details}>
-          {/* <Text style={styles.detailsText}>
+          <View style={styles.sideInfo}>
+            <Text style={[styles.availBalalnce, {color: THEME.COLORS.white}]}>
+              {L('Fee')}:{' '}
+              {showBalances ? (
+                getFixedAmount(Number(coin?.chart_data.networkFeeMin) * 2) ||
+                '0.00'
+              ) : (
+                <ConfidentialText />
+              )}{' '}
+              {coin?.coin_symbol.toUpperCase()}
+            </Text>
+            <Text style={[styles.availBalalnce, {color: THEME.COLORS.white}]}>
+              {L('You Will Get')}:{' '}
+              {showBalances ? coin?.balance || '0.00' : <ConfidentialText />}{' '}
+              {coin?.coin_symbol.toUpperCase()}
+            </Text>
+          </View>
+
+          <View style={styles.details}>
+            {/* <Text style={styles.detailsText}>
             {L('Transaction Fee')} :{' '}
             {getFixedAmount(Number(coin?.chart_data.networkFeeMin))}{' '}
             {coin?.coin_symbol.toUpperCase()}
@@ -283,17 +287,18 @@ const SendCoin = (props: Props) => {
               {totalFiat}
             </Text>
           </Text> */}
-        </View>
+          </View>
 
-        <PrimaryButton
-          loading={loading}
-          title={L('Send')}
-          buttonStyle={{width: '100%', height: HP(6)}}
-          textStyle={{fontFamily: THEME.FONTS.TYPE.MEDIUM}}
-          onPress={onSend}
-        />
-      </View>
-    </KeyboardAwareScrollView>
+          <PrimaryButton
+            loading={loading}
+            title={L('Send')}
+            buttonStyle={{width: '100%', height: HP(6)}}
+            textStyle={{fontFamily: THEME.FONTS.TYPE.MEDIUM}}
+            onPress={onSend}
+          />
+        </View>
+      </KeyboardAwareScrollView>
+    </>
   );
 };
 

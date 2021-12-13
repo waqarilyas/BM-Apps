@@ -31,7 +31,7 @@ const PaymentStatusModal = (props: Props) => {
           />
         </TouchableOpacity>
         <Text style={styles.mainText}>
-          {props.error ? props.error : 'Congratulations'}
+          {props.error ? 'Payment Failed' : 'Congratulations'}
         </Text>
         <FastImage
           source={props.error ? ICONS.FAILED : ICONS.SUCCESS}
@@ -39,7 +39,7 @@ const PaymentStatusModal = (props: Props) => {
           style={styles.icon}
         />
         <Text style={styles.subText}>
-          {props.error ? 'Payment Failed' : 'Payment Successfull'}
+          {props.error ? props.error : 'Payment Successfull'}
         </Text>
       </View>
     </Modal>
@@ -70,9 +70,11 @@ const styles = StyleSheet.create({
     fontSize: THEME.FONTS.SIZE.XXLARGE,
     fontFamily: THEME.FONTS.TYPE.SEMIBOLD,
     color: THEME.COLORS.white,
+    textAlign: 'center',
   },
   subText: {
     fontSize: THEME.FONTS.SIZE.LARGE,
     color: THEME.COLORS.white,
+    textAlign: 'center',
   },
 });

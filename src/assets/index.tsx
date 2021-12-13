@@ -57,6 +57,7 @@ const ICONS = {
 
 const ANIMATIONS = {
   comingSoon: require('./animations/comingSoon.json'),
+  comingSoonSpanish: require('./animations/comingSoonSpanish.json'),
 };
 
 export {ICONS, ANIMATIONS};
