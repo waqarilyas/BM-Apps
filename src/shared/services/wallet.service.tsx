@@ -805,9 +805,17 @@ const createBtcLikeTx = async (txPayload: any) => {
     method: 'post',
     url: `https://api.blockcypher.com/${defaultConfig.BLOCKCYPHER_API_VERSION}/${txPayload.symbol}/${defaultConfig.BLOCKCYPHER_API_ENV}/txs/new?token=${defaultConfig.BLOCKCYPHER_API_TOKEN}`,
     data: {
-      to: txPayload.to,
-      from: txPayload.from,
-      amount: amount(),
+      inputs: [
+        {
+          addresses: [txPayload.from],
+        },
+      ],
+      outputs: [
+        {
+          addresses: [txPayload.to],
+          value: amount(),
+        },
+      ],
     },
   })
     .then(response => {

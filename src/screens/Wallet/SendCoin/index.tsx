@@ -215,14 +215,14 @@ const SendCoin = (props: Props) => {
             onChangeText={setAddress}
             onChangeAddress={onChangeAddress}
           />
-          <View style={styles.labelContainer}>
+          {/* <View style={styles.labelContainer}>
             <TouchableOpacity
               activeOpacity={0.5}
               style={styles.max}
               onPress={onPressMax}>
               <Text style={styles.maxText}>{L('Max')}</Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
           <AppInput
             inputStyle={{
               marginTop: THEME.MARGIN.NORMAL,
