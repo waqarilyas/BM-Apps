@@ -27,7 +27,6 @@ export const generateMnemonic = async () => {
     const {mnemonic} = store.getState().wallet;
     if (!mnemonic.mnemonic_phrase) {
       const response = await bip39.generateMnemonic();
-
       let fetchedMnemonic = {mnemonic_phrase: response, is_restore: false};
       store.dispatch(setMnemonic(fetchedMnemonic));
       return response;
