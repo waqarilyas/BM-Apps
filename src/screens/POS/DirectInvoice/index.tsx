@@ -1,6 +1,14 @@
 import Clipboard from '@react-native-clipboard/clipboard';
-import React, {useEffect, useState} from 'react';
-import {Alert, Pressable, Text, TouchableOpacity, View} from 'react-native';
+import {useFocusEffect} from '@react-navigation/core';
+import React, {useCallback, useEffect, useState} from 'react';
+import {
+  Alert,
+  Keyboard,
+  Pressable,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import QRCode from 'react-native-qrcode-svg';
@@ -57,6 +65,12 @@ const DirectInvoice = (props: Props) => {
     setCustomTax('');
   };
 
+  useFocusEffect(
+    React.useCallback(() => {
+      resetValues();
+      return () => {};
+    }, []),
+  );
   const onSelectCoin = (coin: any) => {
     setShowCurrencyModal(false);
     setSelectedCoin(coin);
@@ -102,10 +116,12 @@ const DirectInvoice = (props: Props) => {
   };
 
   const onConfirmPayment = () => {
+    Keyboard.dismiss();
+
     resetValues();
     Toast.show({
-      text1: 'Success',
-      text2: 'Payment confirmed successfully!',
+      text1: L('Success'),
+      text2: L('Payment Confirmed Successfully'),
       type: 'success',
     });
   };
@@ -158,7 +174,7 @@ const DirectInvoice = (props: Props) => {
             <TouchableOpacity
               style={styles.rightButton}
               onPress={() => props?.navigation?.navigate('POSMain')}>
-              <Text style={styles.rightText}>Products</Text>
+              <Text style={styles.rightText}>{L('Products')}</Text>
             </TouchableOpacity>
           </View>
         }
@@ -217,7 +233,7 @@ const DirectInvoice = (props: Props) => {
         {currentVisibleInput >= 2 && (
           <View style={styles.apfeeContainer}>
             <AppInput
-              placeholder="Algorithmic Protection Fee"
+              placeholder={L('Algorithmic Protection Fee')}
               keyboardType="decimal-pad"
               // value={String(customTax)}
               returnKeyType="done"

@@ -13,7 +13,14 @@ export const settingsSlice = createSlice({
   name: 'settings',
   initialState,
   reducers: {
-    resetSettings: () => initialState,
+    resetSettings: state => {
+      (state.currency = 'USD'),
+        (state.defaultTaxRate = '0'),
+        (state.darkMode = false),
+        (state.faceId = false),
+        (state.thumbEnabled = false),
+        (state.taxEnabled = false);
+    },
     setLanguage: (state, action) => {
       state.language = action.payload;
     },

@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: THEME.COLORS.primaryBackground,
-    padding: THEME.PADDING.NORMAL,
+    padding: THEME.PADDING.LOW,
   },
   coinIcon: {
     width: RF(30),

@@ -1,6 +1,6 @@
 import {Formik} from 'formik';
 import React, {useState} from 'react';
-import {Text, View} from 'react-native';
+import {Keyboard, Text, View} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Toast from 'react-native-toast-message';
 import {RootStateOrAny, useDispatch, useSelector} from 'react-redux';
@@ -40,6 +40,8 @@ const EnableMerchant = (props: Props) => {
 
     createNewMerchant(values)
       .then(res => {
+        Keyboard.dismiss();
+
         dispatch(setMerchantData(res?.data));
         dispatch(setMerchantEnabledState(true));
         Toast.show({
@@ -64,10 +66,14 @@ const EnableMerchant = (props: Props) => {
   return (
     <View style={styles.mainContainer}>
       <AppHeader showBack title={L('Enable Merchant')} />
-      <KeyboardAwareScrollView style={styles.container}>
+      <KeyboardAwareScrollView
+        keyboardShouldPersistTaps={'always'}
+        style={styles.container}>
         <Formik
           initialValues={initialValues}
-          onSubmit={(values, action) => handleData(values, action)}
+          onSubmit={(values, action) => {
+            handleData(values, action);
+          }}
           validationSchema={createMerchantVS}>
           {({
             values,
@@ -110,6 +116,7 @@ const EnableMerchant = (props: Props) => {
               <AppInput
                 placeholder={L('Phone Number')}
                 onChangeText={handleChange('phoneNumber')}
+                returnKeyType={'done'}
                 keyboardType="number-pad"
               />
 

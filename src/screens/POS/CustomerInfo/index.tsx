@@ -95,7 +95,7 @@ const CustomerInfo = (props: GenericNavigation) => {
                 ) : null}
 
                 <AppInput
-                  placeholder="First Name"
+                  placeholder={L('First Name')}
                   value={values.firstName}
                   // inputStyle={{width: '48%'}}
                   onChangeText={handleChange('firstName')}
@@ -106,7 +106,7 @@ const CustomerInfo = (props: GenericNavigation) => {
                 ) : null}
 
                 <AppInput
-                  placeholder="Last Name"
+                  placeholder={L('Last Name')}
                   value={values.lastName}
                   // inputStyle={{width: '48%'}}
                   onChangeText={handleChange('lastName')}
@@ -116,8 +116,9 @@ const CustomerInfo = (props: GenericNavigation) => {
                   <Text style={styles.errors}>{errors.phone}</Text>
                 ) : null}
                 <AppInput
-                  placeholder="Phone"
-                  keyboardType="number-pad"
+                  placeholder={L('Phone')}
+                  keyboardType={'number-pad'}
+                  returnKeyType={'done'}
                   value={values.phone}
                   onChangeText={handleChange('phone')}
                 />
@@ -126,8 +127,9 @@ const CustomerInfo = (props: GenericNavigation) => {
                 ) : null}
 
                 <AppInput
-                  placeholder="Email"
+                  placeholder={L('Email')}
                   value={values.email}
+                  keyboardType={'email-address'}
                   onChangeText={handleChange('email')}
                 />
               </View>

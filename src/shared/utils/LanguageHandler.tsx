@@ -299,6 +299,12 @@ export const language = [
   },
   {
     label: {
+      English: 'Your',
+      Spanish: 'Tu',
+    },
+  },
+  {
+    label: {
       English: 'Max',
       Spanish: 'Max',
     },
@@ -845,6 +851,12 @@ export const language = [
   },
   {
     label: {
+      English: 'Algorithmic Protection Fee',
+      Spanish: 'Tarifa de protección algorítmica',
+    },
+  },
+  {
+    label: {
       English: 'Disable Algorithmic Protection Fee',
       Spanish: 'Deshabilitar la tarifa de protección algorítmica',
     },
@@ -883,6 +895,273 @@ export const language = [
     label: {
       English: 'Coming Soon',
       Spanish: 'Próximamente, en breve, pronto',
+    },
+  },
+  {
+    label: {
+      English: 'Paste',
+      Spanish: 'Pegar',
+    },
+  },
+  {
+    label: {
+      English: 'Max',
+      Spanish: 'Maximo',
+    },
+  },
+  {
+    label: {
+      English: 'Fee',
+      Spanish: 'honorario',
+    },
+  },
+  {
+    label: {
+      English: 'Send',
+      Spanish: 'Enviar',
+    },
+  },
+  {
+    label: {
+      English: 'Receive',
+      Spanish: 'Recibir',
+    },
+  },
+  {
+    label: {
+      English: 'Copy',
+      Spanish: 'Copiar',
+    },
+  },
+  {
+    label: {
+      English: 'Address',
+      Spanish: 'direccion',
+    },
+  },
+  {
+    label: {
+      English: 'Wallet',
+      Spanish: 'billetera',
+    },
+  },
+  {
+    label: {
+      English: 'Wallet Setup',
+      Spanish: 'Configuración de billetera',
+    },
+  },
+  {
+    label: {
+      English: 'Localization',
+      Spanish: 'Localización',
+    },
+  },
+  {
+    label: {
+      English: 'Security',
+      Spanish: 'Seguridad',
+    },
+  },
+  {
+    label: {
+      English: 'Success',
+      Spanish: 'Éxito',
+    },
+  },
+  {
+    label: {
+      English: 'Transactions',
+      Spanish: 'actas',
+    },
+  },
+  {
+    label: {
+      English: 'Sale History',
+      Spanish: 'Historial de ventas',
+    },
+  },
+  {
+    label: {
+      English: 'You Will Get',
+      Spanish: 'Conseguirás',
+    },
+  },
+  {
+    label: {
+      English: 'No Coins Found',
+      Spanish: 'No se encontraron monedas',
+    },
+  },
+  {
+    label: {
+      English: 'Payment Confirmed Successfully',
+      Spanish: 'Pago confirmado correctamente',
+    },
+  },
+  {
+    label: {
+      English: 'Authentication Successful',
+      Spanish: 'Autenticación exitosa',
+    },
+  },
+  {
+    label: {
+      English: 'No Transactions Found',
+      Spanish: 'No se encontraron transacciones',
+    },
+  },
+  {
+    label: {
+      English: 'Customer Info',
+      Spanish: 'Información del cliente',
+    },
+  },
+  {
+    label: {
+      English: 'First Name',
+      Spanish: 'Primer nombre',
+    },
+  },
+  {
+    label: {
+      English: 'Last Name',
+      Spanish: 'Apellido',
+    },
+  },
+  {
+    label: {
+      English: 'Phone',
+      Spanish: 'Número de teléfono',
+    },
+  },
+  {
+    label: {
+      English: 'Email',
+      Spanish: 'Correo electrónico',
+    },
+  },
+  {
+    label: {
+      English: 'No Customer Found',
+      Spanish: 'No se encontró ningún cliente',
+    },
+  },
+  {
+    label: {
+      English: 'Products',
+      Spanish: 'Productos',
+    },
+  },
+  {
+    label: {
+      English: 'Algorithmic Fees',
+      Spanish: 'Tarifas algorítmicas',
+    },
+  },
+  {
+    label: {
+      English: 'Add Customer Info',
+      Spanish: 'Agregar información del cliente',
+    },
+  },
+  {
+    label: {
+      English: 'Import using secret recovery phrase',
+      Spanish: 'Importar usando una frase de recuperación secreta',
+    },
+  },
+  {
+    label: {
+      English: 'Import an existing wallet or create a new one',
+      Spanish: 'Importar una billetera existente o crear una nueva',
+    },
+  },
+  {
+    label: {
+      English: 'Terms and Conditions',
+      Spanish: 'Términos y condiciones',
+    },
+  },
+  {
+    label: {
+      English: 'Contacts',
+      Spanish: 'Contactos',
+    },
+  },
+  {
+    label: {
+      English: 'Validation Error',
+      Spanish: 'Error de validacion',
+    },
+  },
+  {
+    label: {
+      English: 'Language',
+      Spanish: 'Idioma',
+    },
+  },
+  {
+    label: {
+      English: 'Import',
+      Spanish: 'Importar',
+    },
+  },
+  {
+    label: {
+      English: 'Import from Seed',
+      Spanish: 'Importar desde semilla',
+    },
+  },
+  {
+    label: {
+      English: 'Email',
+      Spanish: 'Correo electrónico',
+    },
+  },
+
+  {
+    label: {
+      English: 'Send only',
+      Spanish: 'Solamente enviar',
+    },
+  },
+  {
+    label: {
+      English: 'Create a new wallet',
+      Spanish: 'Crea una nueva billetera',
+    },
+  },
+  {
+    label: {
+      English: 'By proceeding, you are agree with our',
+      Spanish: 'Al proceder, está de acuerdo con nuestro',
+    },
+  },
+  {
+    label: {
+      English: 'First Name must be at Least 2 Characters',
+      Spanish: 'El nombre debe tener al menos 2 caracteres',
+    },
+  },
+  {
+    label: {
+      English: 'Last Name must be at Least 2 Characters',
+      Spanish: 'El apellido debe tener al menos 2 caracteres',
+    },
+  },
+  {
+    label: {
+      English: 'Phone must be at least 5 numbers',
+      Spanish: 'El teléfono debe tener al menos 5 números',
+    },
+  },
+  {
+    label: {
+      English:
+        'to this Address. Sending any other coin or token to this address may result in the loss of your recieving',
+      Spanish:
+        'A esta dirección. Enviar cualquier otra moneda o ficha a esta dirección puede resultar en la pérdida de su recepción',
     },
   },
 ];

@@ -191,14 +191,14 @@ const SettingsMain = (props: Props) => {
       <View style={styles.container}>
         {merchantEnabled && merchantData?.isDisabled && (
           <Text style={styles.adminError}>
-            Your account has been disabled by admin
+            {L('Your account has been disabled by admin! ')}
           </Text>
         )}
         <View style={styles.container}>
           {/* <SettingItem title="Address Book" chevron /> */}
           {/* {!merchantShop && ( */}
           <View>
-            <Text style={styles.header}>Wallet</Text>
+            <Text style={styles.header}>{L('Wallet')}</Text>
             {merchantData && !merchantShop && merchantEnabled && (
               <SettingItem
                 title={L('Add Store Location')}
@@ -235,7 +235,7 @@ const SettingsMain = (props: Props) => {
           chevron
         /> */}
           <View>
-            <Text style={styles.header}>Localization</Text>
+            <Text style={styles.header}>{L('Localization')}</Text>
             <SettingItem
               source={ICONS.LANGUAGE}
               title={L('Choose Language')}
@@ -257,7 +257,7 @@ const SettingsMain = (props: Props) => {
           toggleSwitch={toggleDarkMode}
         /> */}
           <View>
-            <Text style={styles.header}>Security</Text>
+            <Text style={styles.header}>{L('Security')}</Text>
             <SettingItem
               source={ICONS.COIN_ACCEPTANCE}
               title={L('Coin Acceptance Settings')}

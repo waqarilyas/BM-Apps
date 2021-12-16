@@ -138,7 +138,7 @@ const ChooseCoinModal = (props: Props) => {
                 <FlatList
                   showsVerticalScrollIndicator={false}
                   ListHeaderComponent={() => (
-                    <Text style={styles.contactsHeader}>Contacts</Text>
+                    <Text style={styles.contactsHeader}>{L('Contacts')}</Text>
                   )}
                   data={contacts}
                   keyExtractor={(item, index) => index.toString()}

@@ -28,7 +28,9 @@ const ReceiveCoin = (props: Props) => {
 
   const onPressAddress = () => {
     setCopied(true);
+
     AppShowToast('Copied');
+    console.log('address check', coin?.address);
     Clipboard.setString(coin?.address!);
   };
 
@@ -39,9 +41,7 @@ const ReceiveCoin = (props: Props) => {
         {/* <SvgUri width="100%" height="100%" uri={COIN_URL} /> */}
         <QRcodeGenerator value={coin?.address || ''} />
         <Text style={styles.instruction}>
-          {L('Your ')}
-          {coin?.coin_symbol?.toUpperCase()}
-          {L(' Address')}
+          {L('Your')} {coin?.coin_symbol?.toUpperCase()} {L('Address')}
         </Text>
 
         <View style={styles.keyContainer}>
@@ -77,14 +77,18 @@ const ReceiveCoin = (props: Props) => {
             {L('Important')}
           </Text>
           <Text style={styles.note}>
-            {L('*Send only ')}
+            {'*'}
+            {L('Send only')}
+            {'  '}
             {coin?.coin_symbol.toUpperCase()}
+            {'  '}
             {L(
-              ' to this Address. Sending any other coin or token to this address may result in the loss of your recieving',
+              'to this Address. Sending any other coin or token to this address may result in the loss of your recieving',
             )}
           </Text>
           <Text style={styles.note}>
-            {L('*Coins will be recieve after 1 network confirmations.')}
+            {'*'}
+            {L('Coins will be recieve after 1 network confirmations.')}
           </Text>
         </View>
         {/* <PrimaryButton

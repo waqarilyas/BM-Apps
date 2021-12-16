@@ -10,6 +10,7 @@ import moment from 'moment';
 import styles from './styles';
 import {ICONS} from '../../../assets';
 import AppLoader from '../../../shared/components/AppLoader';
+import L from '../../../shared/utils/LanguageHandler';
 
 const SaleHistory = () => {
   const [customers, setCustomers] = useState([]);
@@ -24,7 +25,7 @@ const SaleHistory = () => {
       })
       .catch(err => {
         Toast.show({
-          text1: 'Request Failed',
+          text1: L('Request Failed'),
           text2: 'Unable to get customers data',
           type: 'error',
         });
@@ -36,7 +37,7 @@ const SaleHistory = () => {
 
   return (
     <>
-      <AppHeader title="Sale History" showBack />
+      <AppHeader title={L('Sale History')} showBack />
       <View style={styles.container}>
         {customers.length > 0 ? (
           <FlatList
@@ -49,7 +50,7 @@ const SaleHistory = () => {
           />
         ) : (
           <View style={styles.empty}>
-            <Text style={styles.title}>No customers Found!</Text>
+            <Text style={styles.title}>{L('No Customer Found')}</Text>
           </View>
         )}
       </View>

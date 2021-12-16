@@ -91,6 +91,7 @@ const CoinDetails = (props: Props) => {
 
   const onCopy = () => {
     // setCopied(true);
+    console.log('address check', coin?.address);
     AppShowToast(L('Copied'));
     Clipboard.setString(coin?.address);
   };
@@ -166,7 +167,7 @@ const CoinDetails = (props: Props) => {
             borderTopWidth: 0.2,
             borderTopColor: 'white',
           }}>
-          <Text style={styles.secondaryHeader}>Transactions</Text>
+          <Text style={styles.secondaryHeader}>{L('Transactions')}</Text>
           <FlatList
             data={sortedTransactions}
             keyExtractor={(_, index) => index.toString()}
@@ -179,7 +180,7 @@ const CoinDetails = (props: Props) => {
                 />
               ) : (
                 <Text style={styles.noTransactionText}>
-                  No Transactions Found!
+                  {L('No Transactions Found')}
                 </Text>
               )
             }

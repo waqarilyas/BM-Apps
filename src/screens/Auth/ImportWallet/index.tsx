@@ -58,7 +58,7 @@ const ImportWallet = (props: Props) => {
         keyboardDismissMode="on-drag"
         style={styles.container}>
         <Logo />
-        <Text style={styles.heading}>Import from Seed</Text>
+        <Text style={styles.heading}>{L('Import from Seed')}</Text>
         <View style={styles.inputContainer}>
           <AppInput
             textAlignVertical="top"
@@ -78,7 +78,7 @@ const ImportWallet = (props: Props) => {
         </View>
         <PrimaryButton
           loading={loading}
-          title="Import"
+          title={L('Import')}
           onPress={onImportWallet}
         />
       </KeyboardAwareScrollView>

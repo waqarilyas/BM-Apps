@@ -120,7 +120,7 @@ const AddProduct = (props: Props) => {
 
         setLoading(false);
         Toast.show({
-          text1: 'Request Failed',
+          text1: L('Request Failed'),
           text2: err?.response?.data?.message,
           type: 'error',
         });

@@ -90,7 +90,9 @@ const AddPlace = (props: Props) => {
   return (
     <View style={styles.mainContainer}>
       <AppHeader showBack title={L('Add Store')} />
-      <KeyboardAwareScrollView style={styles.container}>
+      <KeyboardAwareScrollView
+        keyboardShouldPersistTaps={'always'}
+        style={styles.container}>
         <Formik
           initialValues={initialValues}
           onSubmit={(values, action) => handleData(values, action)}

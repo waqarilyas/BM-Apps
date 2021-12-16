@@ -251,7 +251,7 @@ const WalletMain = (props: Props) => {
                 }
               })
             ) : (
-              <Text style={styles.emptyText}>No coins found</Text>
+              <Text style={styles.emptyText}>{L('No Coins Found')}</Text>
             )}
           </ScrollView>
         </View>
