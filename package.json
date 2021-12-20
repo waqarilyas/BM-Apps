@@ -82,6 +82,7 @@
     "react-native-randombytes": "^3.6.1",
     "react-native-reanimated": "^2.1.0",
     "react-native-responsive-fontsize": "^0.5.0",
+    "react-native-restart": "^0.0.22",
     "react-native-safe-area-context": "^3.2.0",
     "react-native-screens": "^3.3.0",
     "react-native-share": "^7.0.0",

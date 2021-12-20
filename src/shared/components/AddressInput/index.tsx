@@ -16,6 +16,8 @@ import Clipboard from '@react-native-clipboard/clipboard';
 import {AppShowToast} from '../../services/helper.service';
 import AppQRCodeScanner from '../AppQRCodeScanner';
 import L from '../../utils/LanguageHandler';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../store';
 
 interface Props extends TextInputProps {
   inputStyle?: StyleProp<TextStyle>;
@@ -28,7 +30,9 @@ const AddressInput = (props: Props) => {
     let text = await Clipboard.getString();
     props.onChangeAddress(text);
   };
-
+  const {
+    settings: {language},
+  } = useSelector((state: RootState) => state);
   const [showScanner, setShowScanner] = useState(false);
 
   const scannerCallBack = (address: string) => {
@@ -45,12 +49,21 @@ const AddressInput = (props: Props) => {
         selectionColor={THEME.COLORS.white}
       />
       <TouchableOpacity onPress={onPressPaste}>
-        <FastImage
-          source={ICONS.PASTE_BUTTON}
-          resizeMode={FastImage.resizeMode.contain}
-          style={styles.paste}
-        />
+        {language == 'Spanish' ? (
+          <FastImage
+            source={ICONS.PEGAR}
+            resizeMode={FastImage.resizeMode.contain}
+            style={styles.paste}
+          />
+        ) : (
+          <FastImage
+            source={ICONS.PASTE_BUTTON}
+            resizeMode={FastImage.resizeMode.contain}
+            style={styles.paste}
+          />
+        )}
       </TouchableOpacity>
+
       <TouchableOpacity onPress={() => setShowScanner(true)}>
         <FastImage
           source={ICONS.QR_BUTTON}

@@ -107,14 +107,14 @@ const AddPlace = (props: Props) => {
           }: any) => (
             <>
               {touched.name && errors.name ? (
-                <Text style={styles.errors}>{errors.name}</Text>
+                <Text style={styles.errors}>{L(errors.name)}</Text>
               ) : null}
               <AppInput
                 placeholder={L('Name')}
                 onChangeText={handleChange('name')}
               />
               {touched.category && errors.category ? (
-                <Text style={styles.errors}>{errors.category}</Text>
+                <Text style={styles.errors}>{L(errors.category)}</Text>
               ) : null}
               <AppInput
                 placeholder={L('Category')}
@@ -122,7 +122,7 @@ const AddPlace = (props: Props) => {
                 onChangeText={handleChange('category')}
               />
               {touched.address && errors.address ? (
-                <Text style={styles.errors}>{errors.address}</Text>
+                <Text style={styles.errors}>{L(errors.address)}</Text>
               ) : null}
               <View style={styles.placesContainer}>
                 <GooglePlacesAutocomplete
@@ -151,7 +151,7 @@ const AddPlace = (props: Props) => {
                     );
                   }}
                   query={{
-                    key: 'AIzaSyD4WnAd2vKKEzoDT3kzRRLststulXa1CXw',
+                    key: 'AIzaSyDwPZ3Cw-KIZGu87lx3qTa2_SIYKzZ9QoE',
                     language: 'en',
                   }}
                   styles={{
@@ -173,7 +173,7 @@ const AddPlace = (props: Props) => {
                 </MapView>
               </View>
               {touched.phone && errors.phone ? (
-                <Text style={styles.errors}>{errors.phone}</Text>
+                <Text style={styles.errors}>{L(errors.phone)}</Text>
               ) : null}
               <AppInput
                 placeholder={L('Contact')}
@@ -183,7 +183,7 @@ const AddPlace = (props: Props) => {
               />
 
               {touched.website && errors.website ? (
-                <Text style={styles.errors}>{errors.website}</Text>
+                <Text style={styles.errors}>{L(errors.website)}</Text>
               ) : null}
               <AppInput
                 placeholder={L('Website (optional)')}

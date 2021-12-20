@@ -34,6 +34,9 @@ const SaleHistory = () => {
         setLoading(false);
       });
   }, []);
+  const sortedHistory = customers.sort((a, b) => {
+    return new Date(b.createdAt) - new Date(a.createdAt);
+  });
 
   return (
     <>
@@ -41,7 +44,7 @@ const SaleHistory = () => {
       <View style={styles.container}>
         {customers.length > 0 ? (
           <FlatList
-            data={customers}
+            data={sortedHistory}
             showsVerticalScrollIndicator={false}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({item, index}) => {

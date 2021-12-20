@@ -30,7 +30,7 @@ const NearBy = (props: Props) => {
   const [selectedShop, setSelectedShop] = useState(null);
   const {language} = useSelector((state: RootState) => state.settings);
 
-  const isLaunched = true;
+  const isLaunched = false;
 
   const mapRef = useRef(null);
   useEffect(() => {

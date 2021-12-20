@@ -21,7 +21,7 @@ import GLOBAL_STYLE from '../../theme/global';
 import {RF} from '../../theme/responsive';
 
 interface Props {
-  title?: string;
+  title?: string | undefined;
   showBack?: boolean;
   showCart?: boolean;
   showSearch?: boolean;
@@ -71,7 +71,18 @@ const AppHeader = (props: Props) => {
         ) : (
           <View />
         )}
-        <Text style={styles.header}>{props.title || ''}</Text>
+        <Text
+          style={[
+            styles.header,
+            {
+              fontSize:
+                props.title?.length >= 25
+                  ? THEME.FONTS.SIZE.XXSMALL
+                  : THEME.FONTS.SIZE.MEDIUM,
+            },
+          ]}>
+          {props.title || ''}
+        </Text>
       </View>
       <View style={styles.right}>
         {props.showEye ? (

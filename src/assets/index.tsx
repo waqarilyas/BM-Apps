@@ -53,6 +53,7 @@ const ICONS = {
   placeholderCoin: require('./icons/placeholderCoin.png'),
   historyIcon: require('./icons/history.png'),
   sendIcon: require('./icons/sentLight.png'),
+  PEGAR: require('./icons/Pegar.png'),
 };
 
 const ANIMATIONS = {

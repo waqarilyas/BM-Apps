@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: RF(80),
     paddingVertical: RF(11),
-    marginRight: RF(5),
+    marginRight: RF(10),
     borderRadius: RF(8),
   },
   selectionImage: {
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   filtersRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: RF(5),
+    marginTop: RF(12),
     paddingLeft: RF(10),
   },
   selectionName: {

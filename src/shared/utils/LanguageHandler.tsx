@@ -1164,6 +1164,98 @@ export const language = [
         'A esta dirección. Enviar cualquier otra moneda o ficha a esta dirección puede resultar en la pérdida de su recepción',
     },
   },
+  {
+    label: {
+      English: 'Failed',
+      Spanish: 'Fallido',
+    },
+  },
+  {
+    label: {
+      English: 'Amount cannot be zero',
+      Spanish: 'La cantidad no puede ser cero',
+    },
+  },
+
+  {
+    label: {
+      English: 'Please enter your first name',
+      Spanish: 'Por favor, introduzca su nombre de pila',
+    },
+  },
+
+  {
+    label: {
+      English: 'Please enter your last name',
+      Spanish: 'Por favor ingrese su apellido',
+    },
+  },
+  {
+    label: {
+      English: 'Please enter your phone number',
+      Spanish: 'Por favor, introduzca su número de teléfono',
+    },
+  },
+
+  {
+    label: {
+      English: 'Please enter your shop name',
+      Spanish: 'Por favor ingrese el nombre de su tienda',
+    },
+  },
+
+  {
+    label: {
+      English: 'Please enter your shop category',
+      Spanish: 'Ingrese la categoría de su tienda',
+    },
+  },
+
+  {
+    label: {
+      English: 'Please select a valid address',
+      Spanish: 'Seleccione una dirección válida',
+    },
+  },
+
+  {
+    label: {
+      English: 'Please enter your product name',
+      Spanish: 'Ingrese el nombre de su producto',
+    },
+  },
+
+  {
+    label: {
+      English: 'Please enter your product price',
+      Spanish: 'Ingrese el precio de su producto',
+    },
+  },
+
+  {
+    label: {
+      English: 'Please enter your product category',
+      Spanish: 'Por favor ingrese su categoría de producto',
+    },
+  },
+  {
+    label: {
+      English: 'Please enter a valid number value',
+      Spanish: 'Ingrese un valor numérico válido',
+    },
+  },
+  {
+    label: {
+      English: 'Please enter your contact name',
+      Spanish: 'Por favor ingrese su nombre de contacto',
+    },
+  },
+  {
+    label: {
+      English: 'Please enter your contact address',
+      Spanish: 'Por favor ingrese su dirección de contacto',
+    },
+  },
 ];
 
 const L = (value: any) => {

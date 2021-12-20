@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: THEME.COLORS.primaryBackground,
     paddingHorizontal: RF(10),
+    paddingVertical: RF(5),
   },
   historyContainer: {
     backgroundColor: THEME.COLORS.darkGrey,

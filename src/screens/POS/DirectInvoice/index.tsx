@@ -48,6 +48,7 @@ const DirectInvoice = (props: Props) => {
   const [contact, setContact]: any = useState(null);
   const [currencyPrice, setcurrencyPrice] = useState(0);
   const [currentVisibleInput, setCurrentVisibleInput]: any = useState(null);
+  const [disableConfirmPayment, setDisableConfirmPayment] = useState(false);
 
   const isLaunched = true;
 
@@ -116,14 +117,36 @@ const DirectInvoice = (props: Props) => {
   };
 
   const onConfirmPayment = () => {
-    Keyboard.dismiss();
+    if (customAmount == 0) {
+      Toast.show({
+        text1: L('Failed'),
+        text2: L('Amount cannot be zero'),
+        type: 'error',
+      });
+      if (customTax == 0) {
+        Toast.show({
+          text1: L('Failed'),
+          text2: L('Protection Fee cannot be zero'),
+          type: 'error',
+        });
+      }
+    }
+    if (!customTax) {
+      Toast.show({
+        text1: L('Failed'),
+        text2: L('Enter Protection Fee'),
+        type: 'error',
+      });
+    } else {
+      Keyboard.dismiss();
 
-    resetValues();
-    Toast.show({
-      text1: L('Success'),
-      text2: L('Payment Confirmed Successfully'),
-      type: 'success',
-    });
+      resetValues();
+      Toast.show({
+        text1: L('Success'),
+        text2: L('Payment Confirmed Successfully'),
+        type: 'success',
+      });
+    }
   };
 
   useEffect(() => {
@@ -203,6 +226,7 @@ const DirectInvoice = (props: Props) => {
           inputStyle={{marginVertical: 0}}
           onChangeText={text => {
             if (text.length == 0) {
+              setDisableConfirmPayment(true);
               resetValues();
               return;
             }
@@ -235,7 +259,7 @@ const DirectInvoice = (props: Props) => {
             <AppInput
               placeholder={L('Algorithmic Protection Fee')}
               keyboardType="decimal-pad"
-              // value={String(customTax)}
+              value={String(customTax)}
               returnKeyType="done"
               editable={taxEnabled}
               inputStyle={[styles.apInput, !taxEnabled && {opacity: 0.5}]}

@@ -82,7 +82,7 @@ const AddContact = (props: PROPS) => {
           <>
             <View style={styles.innerContainer}>
               {touched.name && errors.name ? (
-                <Text style={styles.errors}>{errors.name}</Text>
+                <Text style={styles.errors}>{L(errors.name)}</Text>
               ) : null}
 
               <AppInput
@@ -92,7 +92,7 @@ const AddContact = (props: PROPS) => {
               />
 
               {touched.address && errors.address ? (
-                <Text style={styles.errors}>{errors.address}</Text>
+                <Text style={styles.errors}>{L(errors.address)}</Text>
               ) : null}
               <AppInput
                 placeholder={L('Address')}

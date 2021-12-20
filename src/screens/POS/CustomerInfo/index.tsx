@@ -91,7 +91,7 @@ const CustomerInfo = (props: GenericNavigation) => {
             <>
               <View style={styles.personalContainer}>
                 {touched.firstName && errors.firstName ? (
-                  <Text style={styles.errors}>{errors.firstName}</Text>
+                  <Text style={styles.errors}>{L(errors.firstName)}</Text>
                 ) : null}
 
                 <AppInput
@@ -102,7 +102,7 @@ const CustomerInfo = (props: GenericNavigation) => {
                 />
 
                 {touched.lastName && errors.lastName ? (
-                  <Text style={styles.errors}>{errors.lastName}</Text>
+                  <Text style={styles.errors}>{L(errors.lastName)}</Text>
                 ) : null}
 
                 <AppInput
@@ -113,7 +113,7 @@ const CustomerInfo = (props: GenericNavigation) => {
                 />
 
                 {touched.phone && errors.phone ? (
-                  <Text style={styles.errors}>{errors.phone}</Text>
+                  <Text style={styles.errors}>{L(errors.phone)}</Text>
                 ) : null}
                 <AppInput
                   placeholder={L('Phone')}
@@ -123,7 +123,7 @@ const CustomerInfo = (props: GenericNavigation) => {
                   onChangeText={handleChange('phone')}
                 />
                 {touched.email && errors.email ? (
-                  <Text style={styles.errors}>{errors.email}</Text>
+                  <Text style={styles.errors}>{L(errors.email)}</Text>
                 ) : null}
 
                 <AppInput

@@ -25,6 +25,7 @@ const ImportWallet = (props: Props) => {
       ? 'garage night wisdom ribbon broccoli almost future pumpkin fantasy silk fatigue inform'
       : '',
   );
+
   const [loading, setLoading] = useState(false);
   const onImportWallet = async () => {
     try {

@@ -37,7 +37,17 @@ const PrimaryButton = (props: Props) => {
         ) : (
           <>
             {props.icon && <Icon name={props.icon} style={styles.icon} />}
-            <Text style={[styles.buttonText, props.textStyle]}>
+            <Text
+              style={[
+                styles.buttonText,
+                props.textStyle,
+                {
+                  fontSize:
+                    props.title.length >= 25
+                      ? THEME.FONTS.SIZE.XXSMALL
+                      : THEME.FONTS.SIZE.XSMALL,
+                },
+              ]}>
               {props.title}
             </Text>
           </>

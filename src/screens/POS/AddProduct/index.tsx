@@ -113,7 +113,7 @@ const AddProduct = (props: Props) => {
           type: 'success',
         });
         setLoading(false);
-        props.navigation.navigate('POSMain');
+        props.navigation?.navigate('POSMain');
       })
       .catch(err => {
         console.log('--error ----', err);
@@ -171,14 +171,14 @@ const AddProduct = (props: Props) => {
           {({errors, touched, handleChange, handleSubmit}: any) => (
             <>
               {touched.title && errors.title ? (
-                <Text style={styles.errors}>{errors.title}</Text>
+                <Text style={styles.errors}>{L(errors.title)}</Text>
               ) : null}
               <AppInput
                 placeholder={L('Title')}
                 onChangeText={handleChange('title')}
               />
               {touched.price && errors.price ? (
-                <Text style={styles.errors}>{errors.price}</Text>
+                <Text style={styles.errors}>{L(errors.price)}</Text>
               ) : null}
               <AppInput
                 placeholder={L('Enter Amount USD')}
@@ -187,7 +187,7 @@ const AddProduct = (props: Props) => {
                 returnKeyType="done"
               />
               {touched.tax && errors.tax ? (
-                <Text style={styles.errors}>{errors.tax}</Text>
+                <Text style={styles.errors}>{L(errors.tax)}</Text>
               ) : null}
 
               <AppInput
@@ -197,7 +197,7 @@ const AddProduct = (props: Props) => {
                 returnKeyType="done"
               />
               {touched.category && errors.category ? (
-                <Text style={styles.errors}>{errors.category}</Text>
+                <Text style={styles.errors}>{L(errors.category)}</Text>
               ) : null}
               <AppInput
                 placeholder={L('Category')}

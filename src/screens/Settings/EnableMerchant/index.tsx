@@ -85,7 +85,7 @@ const EnableMerchant = (props: Props) => {
           }: any) => (
             <>
               {touched.firstName && errors.firstName ? (
-                <Text style={styles.errors}>{errors.firstName}</Text>
+                <Text style={styles.errors}>{L(errors.firstName)}</Text>
               ) : null}
 
               <AppInput
@@ -94,7 +94,7 @@ const EnableMerchant = (props: Props) => {
               />
 
               {touched.lastName && errors.lastName ? (
-                <Text style={styles.errors}>{errors.lastName}</Text>
+                <Text style={styles.errors}>{L(errors.lastName)}</Text>
               ) : null}
               <AppInput
                 placeholder={L('Last Name')}
@@ -102,7 +102,7 @@ const EnableMerchant = (props: Props) => {
               />
 
               {touched.email && errors.email ? (
-                <Text style={styles.errors}>{errors.email}</Text>
+                <Text style={styles.errors}>{L(errors.email)}</Text>
               ) : null}
               <AppInput
                 placeholder={L('Email')}
@@ -111,7 +111,7 @@ const EnableMerchant = (props: Props) => {
               />
 
               {touched.phoneNumber && errors.phoneNumber ? (
-                <Text style={styles.errors}>{errors.phoneNumber}</Text>
+                <Text style={styles.errors}>{L(errors.phoneNumber)}</Text>
               ) : null}
               <AppInput
                 placeholder={L('Phone Number')}
@@ -121,7 +121,7 @@ const EnableMerchant = (props: Props) => {
               />
 
               {touched.address && errors.address ? (
-                <Text style={styles.errors}>{errors.address}</Text>
+                <Text style={styles.errors}>{L(errors.address)}</Text>
               ) : null}
 
               <AppInput

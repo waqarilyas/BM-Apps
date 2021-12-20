@@ -1,5 +1,6 @@
 import React, {useMemo} from 'react';
-import {Alert, StyleSheet, View, Text} from 'react-native';
+
+import {Alert, StyleSheet, View, Text, NativeModules} from 'react-native';
 import Toast from 'react-native-toast-message';
 import {useDispatch, useSelector} from 'react-redux';
 import {ICONS} from '../../../assets';

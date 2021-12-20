@@ -38,6 +38,7 @@ const LanguageSelection = (props: Props) => {
     }
 
     dispatch(setLanguage(selectedLanguage));
+
     Toast.show({
       text1: L('Successfull'),
       text2: L('Language updated successfully!'),
