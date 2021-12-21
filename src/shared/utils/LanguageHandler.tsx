@@ -1268,6 +1268,30 @@ export const language = [
       Spanish: 'Importante',
     },
   },
+  {
+    label: {
+      English: 'First Name (Optional)',
+      Spanish: 'Nombre (opcional)',
+    },
+  },
+  {
+    label: {
+      English: 'Last Name (Optional)',
+      Spanish: 'Apellido (Opcional)',
+    },
+  },
+  {
+    label: {
+      English: 'Phone (Optional)',
+      Spanish: 'Teléfono (Opcional)',
+    },
+  },
+  {
+    label: {
+      English: 'Email (Optional)',
+      Spanish: 'Email (Opcional)',
+    },
+  },
 ];
 
 const L = (value: any) => {

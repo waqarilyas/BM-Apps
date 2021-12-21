@@ -41,12 +41,14 @@ const DirectInvoice = (props: Props) => {
   const [copied, setCopied] = useState(false);
   const [showCurrencyModal, setShowCurrencyModal] = useState(false);
   const [selectedCoin, setSelectedCoin]: any = useState();
-  const [customTax, setCustomTax]: any = useState(0);
+  const [customTax, setCustomTax]: any = useState();
   const [invoiceTax, setInvoiceTax] = useState(0);
-  const [totalInvoiceAmount, setTotalInvoiceAmount] = useState(0);
-  const [customAmount, setCustomAmount] = useState<any>();
+  const [totalInvoiceAmount, setTotalInvoiceAmount] = useState<number | string>(
+    0,
+  );
+  const [customAmount, setCustomAmount] = useState<any>(0);
   const [contact, setContact]: any = useState(null);
-  const [currencyPrice, setcurrencyPrice] = useState(0);
+  const [currencyPrice, setcurrencyPrice] = useState<number | string>(0);
   const [currentVisibleInput, setCurrentVisibleInput]: any = useState(null);
   const [disableConfirmPayment, setDisableConfirmPayment] = useState(false);
   const [taxEnabled, setTaxEnabled] = useState(false);
@@ -60,7 +62,7 @@ const DirectInvoice = (props: Props) => {
   const toggleModal = () => setShowCurrencyModal(!showCurrencyModal);
 
   const resetValues = () => {
-    setCustomAmount(0);
+    setCustomAmount('');
     setCurrentVisibleInput(null);
     setcurrencyPrice(0);
     setTotalInvoiceAmount(0);
@@ -84,6 +86,32 @@ const DirectInvoice = (props: Props) => {
     setCopied(true);
     AppShowToast(L('Copied'));
     Clipboard.setString(contact ? contact.address : selectedCoin?.address);
+  };
+
+  const onPressAddCustomer = () => {
+    if (customAmount == 0) {
+      Toast.show({
+        text1: L('Failed'),
+        text2: L('Amount cannot be zero'),
+        type: 'error',
+      });
+    } else if (customAmount === '') {
+      Toast.show({
+        text1: L('Failed'),
+        text2: L('Please Enter Amount'),
+        type: 'error',
+      });
+    } else if (taxEnabled && !customTax) {
+      Toast.show({
+        text1: L('Failed'),
+        text2: L('Enter Protection Fee'),
+        type: 'error',
+      });
+    } else {
+      props.navigation?.navigate('CustomerInfo', {
+        totalInvoiceAmount,
+      });
+    }
   };
 
   const handleTaxEnabled = () => {
@@ -120,14 +148,19 @@ const DirectInvoice = (props: Props) => {
 
   const onConfirmPayment = () => {
     Keyboard.dismiss();
-    if (parseFloat(customAmount) == 0) {
+    if (customAmount == 0) {
       Toast.show({
         text1: L('Failed'),
         text2: L('Amount cannot be zero'),
         type: 'error',
       });
-    }
-    if (taxEnabled && !customTax) {
+    } else if (customAmount === '') {
+      Toast.show({
+        text1: L('Failed'),
+        text2: L('Please Enter Amount'),
+        type: 'error',
+      });
+    } else if (taxEnabled && !customTax) {
       Toast.show({
         text1: L('Failed'),
         text2: L('Enter Protection Fee'),
@@ -151,14 +184,14 @@ const DirectInvoice = (props: Props) => {
   useEffect(() => {
     let total;
 
-    total = parseFloat(customAmount);
+    total = customAmount;
 
     if (invoiceTax > 0) {
       const tax = (total * invoiceTax) / 100;
       setTotalInvoiceAmount(total + tax);
       total = total + tax;
     } else {
-      setTotalInvoiceAmount(parseFloat(customAmount));
+      setTotalInvoiceAmount(customAmount);
     }
 
     if (customTax > 0) {
@@ -170,6 +203,8 @@ const DirectInvoice = (props: Props) => {
 
     setcurrencyPrice(priceInUSD);
   }, [customAmount, invoiceTax, customTax, selectedCoin]);
+
+  console.log('Test', currencyPrice, totalInvoiceAmount);
 
   return isLaunched ? (
     <View style={styles.mainContainer}>
@@ -327,13 +362,7 @@ const DirectInvoice = (props: Props) => {
         </View>
         <PrimaryButton
           title={L('Add Customer Info')}
-          onPress={() =>
-            props.navigation?.navigate('CustomerInfo', {
-              totalInvoiceAmount,
-              customTax,
-              taxEnabled,
-            })
-          }
+          onPress={onPressAddCustomer}
           buttonStyle={styles.confirmButton}
           textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
         />

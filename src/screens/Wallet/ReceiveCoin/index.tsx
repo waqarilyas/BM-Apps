@@ -83,12 +83,12 @@ const ReceiveCoin = (props: Props) => {
             {coin?.coin_symbol.toUpperCase()}
             {'  '}
             {L(
-              'to this Address. Sending any other coin or token to this address may result in the loss of your recieving',
+              'to this address. Sending any other coin or token to this address may result in the loss of your receiving',
             )}
           </Text>
           <Text style={styles.note}>
             {'*'}
-            {L('Coins will be recieve after 1 network confirmations.')}
+            {L('Coins will be received after 1 network confirmations.')}
           </Text>
         </View>
         {/* <PrimaryButton

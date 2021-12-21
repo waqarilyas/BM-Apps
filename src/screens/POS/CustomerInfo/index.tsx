@@ -18,7 +18,7 @@ import styles from './styles';
 const CustomerInfo = (props: GenericNavigation) => {
   const [loading, setLoading] = useState(false);
 
-  const {totalInvoiceAmount, customTax, taxEnabled}: any = props.route?.params;
+  const {totalInvoiceAmount}: any = props.route?.params;
 
   const {merchantData} = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
@@ -32,22 +32,22 @@ const CustomerInfo = (props: GenericNavigation) => {
 
   const handleCustomerData = (values: any, {resetForm}: any) => {
     Keyboard.dismiss();
-    if (totalInvoiceAmount == 0) {
-      Toast.show({
-        type: 'error',
-        text1: 'Failed',
-        text2: 'Amount cannot be 0',
-      });
-      return;
-    }
-    if (taxEnabled && customTax == 0) {
-      Toast.show({
-        type: 'error',
-        text1: 'Failed',
-        text2: 'Protection Fee cannot be 0',
-      });
-      return;
-    }
+    // if (totalInvoiceAmount == 0) {
+    //   Toast.show({
+    //     type: 'error',
+    //     text1: 'Failed',
+    //     text2: 'Amount cannot be 0',
+    //   });
+    //   return;
+    // }
+    // if (taxEnabled && customTax == 0) {
+    //   Toast.show({
+    //     type: 'error',
+    //     text1: 'Failed',
+    //     text2: 'Protection Fee cannot be 0',
+    //   });
+    //   return;
+    // }
 
     setLoading(true);
 
@@ -103,7 +103,7 @@ const CustomerInfo = (props: GenericNavigation) => {
                 ) : null}
 
                 <AppInput
-                  placeholder={L('First Name')}
+                  placeholder={L('First Name (Optional)')}
                   value={values.firstName}
                   // inputStyle={{width: '48%'}}
                   onChangeText={handleChange('firstName')}
@@ -114,7 +114,7 @@ const CustomerInfo = (props: GenericNavigation) => {
                 ) : null}
 
                 <AppInput
-                  placeholder={L('Last Name')}
+                  placeholder={L('Last Name (Optional)')}
                   value={values.lastName}
                   // inputStyle={{width: '48%'}}
                   onChangeText={handleChange('lastName')}
@@ -124,7 +124,7 @@ const CustomerInfo = (props: GenericNavigation) => {
                   <Text style={styles.errors}>{L(errors.phone)}</Text>
                 ) : null}
                 <AppInput
-                  placeholder={L('Phone')}
+                  placeholder={L('Phone (Optional)')}
                   keyboardType={'number-pad'}
                   returnKeyType={'done'}
                   value={values.phone}
@@ -135,7 +135,7 @@ const CustomerInfo = (props: GenericNavigation) => {
                 ) : null}
 
                 <AppInput
-                  placeholder={L('Email')}
+                  placeholder={L('Email (Optional)')}
                   value={values.email}
                   keyboardType={'email-address'}
                   onChangeText={handleChange('email')}
