@@ -1256,6 +1256,18 @@ export const language = [
       Spanish: 'Por favor ingrese su dirección de contacto',
     },
   },
+  {
+    label: {
+      English: 'Coins will be recieve after 1 network confirmations.',
+      Spanish: 'Las monedas se recibirán después de 1 confirmaciones de red.',
+    },
+  },
+  {
+    label: {
+      English: 'Important',
+      Spanish: 'Importante',
+    },
+  },
 ];
 
 const L = (value: any) => {

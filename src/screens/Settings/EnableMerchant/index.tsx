@@ -54,7 +54,7 @@ const EnableMerchant = (props: Props) => {
       .catch(err => {
         Toast.show({
           text1: L('Request Failed'),
-          text2: err?.response?.data?.message,
+          text2: err?.response?.data?.message || err.message,
           type: 'error',
         });
       })

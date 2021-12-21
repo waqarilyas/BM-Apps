@@ -18,7 +18,7 @@ import styles from './styles';
 const CustomerInfo = (props: GenericNavigation) => {
   const [loading, setLoading] = useState(false);
 
-  const {totalInvoiceAmount}: any = props.route?.params;
+  const {totalInvoiceAmount, customTax, taxEnabled}: any = props.route?.params;
 
   const {merchantData} = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
@@ -37,6 +37,14 @@ const CustomerInfo = (props: GenericNavigation) => {
         type: 'error',
         text1: 'Failed',
         text2: 'Amount cannot be 0',
+      });
+      return;
+    }
+    if (taxEnabled && customTax == 0) {
+      Toast.show({
+        type: 'error',
+        text1: 'Failed',
+        text2: 'Protection Fee cannot be 0',
       });
       return;
     }
@@ -66,7 +74,7 @@ const CustomerInfo = (props: GenericNavigation) => {
       .catch(err => {
         Toast.show({
           text1: L('Request Failed'),
-          text2: err?.response?.data?.message,
+          text2: err?.response?.data?.message || err.message,
           type: 'error',
         });
       });

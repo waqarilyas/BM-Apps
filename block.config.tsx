@@ -1,4 +1,5 @@
 const blockConfig = {
+  // API_URL: 'https://9776-101-53-234-165.ngrok.io',
   API_URL: 'https://api.blockmerchants.com',
   INFURA_URL: 'https://mainnet.infura.io/v3/b83bc7f34f61479e89b7f43c3175f2c7',
   ETH_GAS_API: 'https://ethgasstation.info/json/ethgasAPI.json',

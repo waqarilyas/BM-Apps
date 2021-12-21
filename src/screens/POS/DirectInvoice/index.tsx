@@ -1,5 +1,6 @@
 import Clipboard from '@react-native-clipboard/clipboard';
 import {useFocusEffect} from '@react-navigation/core';
+import {number} from 'bitcoinjs-lib/types/script';
 import React, {useCallback, useEffect, useState} from 'react';
 import {
   Alert,
@@ -28,7 +29,6 @@ import {
   AppShowToast,
 } from '../../../shared/services/helper.service';
 import {RootState} from '../../../shared/store';
-import {setTaxEnabled} from '../../../shared/store/reducers/settingsReducer';
 import {THEME} from '../../../shared/theme';
 import GLOBAL_STYLE from '../../../shared/theme/global';
 import {RF, WP} from '../../../shared/theme/responsive';
@@ -41,21 +41,22 @@ const DirectInvoice = (props: Props) => {
   const [copied, setCopied] = useState(false);
   const [showCurrencyModal, setShowCurrencyModal] = useState(false);
   const [selectedCoin, setSelectedCoin]: any = useState();
-  const [customTax, setCustomTax]: any = useState('');
+  const [customTax, setCustomTax]: any = useState(0);
   const [invoiceTax, setInvoiceTax] = useState(0);
   const [totalInvoiceAmount, setTotalInvoiceAmount] = useState(0);
-  const [customAmount, setCustomAmount] = useState(0);
+  const [customAmount, setCustomAmount] = useState<any>();
   const [contact, setContact]: any = useState(null);
   const [currencyPrice, setcurrencyPrice] = useState(0);
   const [currentVisibleInput, setCurrentVisibleInput]: any = useState(null);
   const [disableConfirmPayment, setDisableConfirmPayment] = useState(false);
+  const [taxEnabled, setTaxEnabled] = useState(false);
 
   const isLaunched = true;
 
   const dispatch = useDispatch();
 
   const {wallet} = useSelector((state: RootState) => state.wallet);
-  const {taxEnabled} = useSelector((state: RootState) => state.settings);
+  // const {taxEnabled} = useSelector((state: RootState) => state.settings);
   const toggleModal = () => setShowCurrencyModal(!showCurrencyModal);
 
   const resetValues = () => {
@@ -63,11 +64,12 @@ const DirectInvoice = (props: Props) => {
     setCurrentVisibleInput(null);
     setcurrencyPrice(0);
     setTotalInvoiceAmount(0);
-    setCustomTax('');
+    setCustomTax(0);
+    setTaxEnabled(false);
   };
 
   useFocusEffect(
-    React.useCallback(() => {
+    useCallback(() => {
       resetValues();
       return () => {};
     }, []),
@@ -101,7 +103,7 @@ const DirectInvoice = (props: Props) => {
         {
           text: L('OK'),
           onPress: () => {
-            dispatch(setTaxEnabled(taxEnabled ? false : true));
+            setTaxEnabled(taxEnabled ? false : true);
             setCustomTax('');
             Toast.show({
               text1: L('Successfull'),
@@ -117,35 +119,27 @@ const DirectInvoice = (props: Props) => {
   };
 
   const onConfirmPayment = () => {
-    if (customAmount == 0) {
+    Keyboard.dismiss();
+    if (parseFloat(customAmount) == 0) {
       Toast.show({
         text1: L('Failed'),
         text2: L('Amount cannot be zero'),
         type: 'error',
       });
-      if (customTax == 0) {
-        Toast.show({
-          text1: L('Failed'),
-          text2: L('Protection Fee cannot be zero'),
-          type: 'error',
-        });
-      }
     }
-    if (!customTax) {
+    if (taxEnabled && !customTax) {
       Toast.show({
         text1: L('Failed'),
         text2: L('Enter Protection Fee'),
         type: 'error',
       });
     } else {
-      Keyboard.dismiss();
-
-      resetValues();
       Toast.show({
         text1: L('Success'),
         text2: L('Payment Confirmed Successfully'),
         type: 'success',
       });
+      resetValues();
     }
   };
 
@@ -157,14 +151,14 @@ const DirectInvoice = (props: Props) => {
   useEffect(() => {
     let total;
 
-    total = customAmount;
+    total = parseFloat(customAmount);
 
     if (invoiceTax > 0) {
       const tax = (total * invoiceTax) / 100;
       setTotalInvoiceAmount(total + tax);
       total = total + tax;
     } else {
-      setTotalInvoiceAmount(customAmount);
+      setTotalInvoiceAmount(parseFloat(customAmount));
     }
 
     if (customTax > 0) {
@@ -221,7 +215,7 @@ const DirectInvoice = (props: Props) => {
         <AppInput
           placeholder={L('Enter Amount USD')}
           keyboardType="decimal-pad"
-          value={String(customAmount)}
+          value={customAmount?.toString()}
           returnKeyType="done"
           inputStyle={{marginVertical: 0}}
           onChangeText={text => {
@@ -230,7 +224,7 @@ const DirectInvoice = (props: Props) => {
               resetValues();
               return;
             }
-            setCustomAmount(parseFloat(text));
+            setCustomAmount(text);
             setCurrentVisibleInput(2);
           }}
         />
@@ -259,7 +253,7 @@ const DirectInvoice = (props: Props) => {
             <AppInput
               placeholder={L('Algorithmic Protection Fee')}
               keyboardType="decimal-pad"
-              value={String(customTax)}
+              value={customTax}
               returnKeyType="done"
               editable={taxEnabled}
               inputStyle={[styles.apInput, !taxEnabled && {opacity: 0.5}]}
@@ -334,7 +328,11 @@ const DirectInvoice = (props: Props) => {
         <PrimaryButton
           title={L('Add Customer Info')}
           onPress={() =>
-            props.navigation?.navigate('CustomerInfo', {totalInvoiceAmount})
+            props.navigation?.navigate('CustomerInfo', {
+              totalInvoiceAmount,
+              customTax,
+              taxEnabled,
+            })
           }
           buttonStyle={styles.confirmButton}
           textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
