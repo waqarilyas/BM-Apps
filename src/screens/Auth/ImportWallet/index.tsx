@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {ScrollView, View, Text} from 'react-native';
+import {ScrollView, View, Text, TextInput} from 'react-native';
 import {useDispatch} from 'react-redux';
 import AppHeader from '../../../shared/components/AppHeader';
 import AppInput from '../../../shared/components/AppInput';
@@ -15,6 +15,7 @@ import {
 import styles from './styles';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import L from '../../../shared/utils/LanguageHandler';
+import {THEME} from '../../../shared/theme';
 
 interface Props extends GenericNavigation {}
 
@@ -61,13 +62,11 @@ const ImportWallet = (props: Props) => {
         <Logo />
         <Text style={styles.heading}>{L('Import from Seed')}</Text>
         <View style={styles.inputContainer}>
-          <AppInput
-            textAlignVertical="top"
+          <TextInput
             value={phrase}
             onChangeText={setPhrase}
             placeholder={L('Enter your secret recovery phrase')}
-            inputStyle={styles.input}
-            textInputStyle={styles.textInput}
+            style={styles.inputImport}
             multiline
             numberOfLines={3}
             autoCapitalize="none"

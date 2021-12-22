@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  TextInput,
   StyleSheet,
   StyleProp,
   TextStyle,
@@ -11,6 +10,7 @@ import {
 import {THEME} from '../../theme';
 import {HP, RF, WP} from '../../theme/responsive';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {TextInput} from 'react-native-paper';
 
 interface Props extends TextInputProps {
   inputStyle?: StyleProp<ViewStyle>;
@@ -20,12 +20,25 @@ interface Props extends TextInputProps {
 }
 
 const AppInput = (props: Props) => {
+  const {placeholder} = props;
+
   return (
     <View style={[styles.container, props.inputStyle]}>
       <TextInput
         placeholderTextColor={THEME.COLORS.textLight}
         style={[styles.inputContainer, props.textInputStyle]}
-        selectionColor={THEME.COLORS.white}
+        mode="outlined"
+        label={placeholder}
+        theme={{
+          dark: true,
+          colors: {
+            primary: 'red',
+            text: THEME.COLORS.white,
+            placeholder: THEME.COLORS.textLight,
+          },
+        }}
+        outlineColor={THEME.COLORS.secondaryBackground}
+        activeOutlineColor={THEME.COLORS.lightBlue}
         {...props}
       />
       {props.icon ? (
@@ -45,19 +58,20 @@ export default AppInput;
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
+    // width: '100%',
     flexDirection: 'row',
     height: HP(6),
     backgroundColor: THEME.COLORS.secondaryBackground,
     borderRadius: THEME.RADIUS.SMALLBOX,
-    paddingHorizontal: RF(16),
+    // paddingHorizontal: RF(16),
     marginVertical: THEME.MARGIN.LOW,
   },
   inputContainer: {
     flex: 1,
     alignSelf: 'center',
-    height: '100%',
+    height: HP(6),
     color: THEME.COLORS.white,
     paddingHorizontal: THEME.PADDING.LOW,
+    backgroundColor: THEME.COLORS.secondaryBackground,
   },
 });

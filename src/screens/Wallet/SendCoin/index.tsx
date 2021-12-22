@@ -205,11 +205,11 @@ const SendCoin = (props: Props) => {
 
         <View style={styles.container}>
           <AddressInput
-            inputStyle={{
-              borderRadius: THEME.RADIUS.SMALLBOX,
-              marginVertical: THEME.MARGIN.NORMAL,
-              backgroundColor: THEME.COLORS.darkGrey,
-            }}
+            // inputStyle={{
+            //   borderRadius: THEME.RADIUS.SMALLBOX,
+            //   marginVertical: THEME.MARGIN.NORMAL,
+            //   backgroundColor: THEME.COLORS.darkGrey,
+            // }}
             value={address}
             placeholder={L('Address')}
             onChangeText={setAddress}

@@ -24,6 +24,8 @@ interface Props extends TouchableOpacityProps {
 }
 
 const PrimaryButton = (props: Props) => {
+  console.log('Props:', props);
+
   return (
     <TouchableOpacity {...props} disabled={props.loading} activeOpacity={0.7}>
       <LinearGradient

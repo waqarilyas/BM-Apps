@@ -1,6 +1,5 @@
 import Clipboard from '@react-native-clipboard/clipboard';
 import {useFocusEffect} from '@react-navigation/core';
-import {number} from 'bitcoinjs-lib/types/script';
 import React, {useCallback, useEffect, useState} from 'react';
 import {
   Alert,
@@ -175,6 +174,32 @@ const DirectInvoice = (props: Props) => {
       resetValues();
     }
   };
+  const onShare = () => {
+    if (customAmount == 0) {
+      Toast.show({
+        text1: L('Failed'),
+        text2: L('Amount cannot be zero'),
+        type: 'error',
+      });
+    } else if (customAmount === '') {
+      Toast.show({
+        text1: L('Failed'),
+        text2: L('Please Enter Amount'),
+        type: 'error',
+      });
+    } else if (taxEnabled && !customTax) {
+      Toast.show({
+        text1: L('Failed'),
+        text2: L('Enter Protection Fee'),
+        type: 'error',
+      });
+    } else {
+      AppShareContent(
+        selectedCoin?.address,
+        'Sharing wallet address for receiving funds',
+      );
+    }
+  };
 
   useEffect(() => {
     setSelectedCoin(wallet[0]);
@@ -264,23 +289,25 @@ const DirectInvoice = (props: Props) => {
           }}
         />
         {currentVisibleInput >= 2 && (
-          <AppInput
-            placeholder={`${L('Tax')} %`}
-            keyboardType="decimal-pad"
-            returnKeyType="done"
-            editable={false}
-            value={`${String(invoiceTax)}%`}
-            onChangeText={text => {
-              console.log('--inside on change--', text);
+          <View style={{marginVertical: 5}}>
+            <AppInput
+              placeholder={`${L('Tax')} %`}
+              keyboardType="decimal-pad"
+              returnKeyType="done"
+              editable={false}
+              value={`${String(invoiceTax)}%`}
+              onChangeText={text => {
+                console.log('--inside on change--', text);
 
-              if (text.length == 0) {
-                setInvoiceTax(0);
-                return;
-              }
-              setInvoiceTax(parseFloat(text));
-              setCurrentVisibleInput(3);
-            }}
-          />
+                if (text.length == 0) {
+                  setInvoiceTax(0);
+                  return;
+                }
+                setInvoiceTax(parseFloat(text));
+                setCurrentVisibleInput(3);
+              }}
+            />
+          </View>
         )}
 
         {currentVisibleInput >= 2 && (
@@ -349,12 +376,7 @@ const DirectInvoice = (props: Props) => {
             <PrimaryButton
               icon="share"
               title={L('Share')}
-              onPress={() =>
-                AppShareContent(
-                  selectedCoin?.address,
-                  'Sharing wallet address for receiving funds',
-                )
-              }
+              onPress={onShare}
               buttonStyle={styles.shareButton}
               textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
             />
@@ -363,7 +385,7 @@ const DirectInvoice = (props: Props) => {
         <PrimaryButton
           title={L('Add Customer Info')}
           onPress={onPressAddCustomer}
-          buttonStyle={styles.confirmButton}
+          buttonStyle={[styles.confirmButton]}
           textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
         />
         <PrimaryButton

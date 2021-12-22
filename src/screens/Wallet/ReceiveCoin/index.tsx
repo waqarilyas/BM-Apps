@@ -83,7 +83,7 @@ const ReceiveCoin = (props: Props) => {
             {coin?.coin_symbol.toUpperCase()}
             {'  '}
             {L(
-              'to this address. Sending any other coin or token to this address may result in the loss of your receiving',
+              'to this address. Sending any other coin or token to this address may result in the loss of your receiving.',
             )}
           </Text>
           <Text style={styles.note}>

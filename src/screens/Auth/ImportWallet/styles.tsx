@@ -28,6 +28,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: THEME.PADDING.LOW,
     paddingVertical: THEME.PADDING.LOW,
   },
+  inputImport: {
+    backgroundColor: THEME.COLORS.secondaryBackground,
+    // marginVertical: THEME.MARGIN.LOW,
+    color: THEME.COLORS.white,
+    fontSize: THEME.FONTS.SIZE.SMALL,
+    fontFamily: THEME.FONTS.TYPE.REGULAR,
+    borderRadius: THEME.RADIUS.BOX,
+    height: HP(14),
+    paddingHorizontal: THEME.PADDING.LOW,
+    // paddingVertical: THEME.PADDING.LOW,
+  },
   actionsContainer: {
     position: 'absolute',
     bottom: RF(70),
