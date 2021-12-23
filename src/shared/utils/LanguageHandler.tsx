@@ -1159,7 +1159,7 @@ export const language = [
   {
     label: {
       English:
-        'to this Address. Sending any other coin or token to this address may result in the loss of your recieving',
+        'to this address. Sending any other coin or token to this address may result in the loss of your receiving.',
       Spanish:
         'A esta dirección. Enviar cualquier otra moneda o ficha a esta dirección puede resultar en la pérdida de su recepción',
     },
@@ -1258,7 +1258,7 @@ export const language = [
   },
   {
     label: {
-      English: 'Coins will be recieve after 1 network confirmations.',
+      English: 'Coins will be received after 1 network confirmations.',
       Spanish: 'Las monedas se recibirán después de 1 confirmaciones de red.',
     },
   },
@@ -1290,6 +1290,45 @@ export const language = [
     label: {
       English: 'Email (Optional)',
       Spanish: 'Email (Opcional)',
+    },
+  },
+  {
+    label: {
+      English:
+        'Unable to perform the request at the moment. Please try again later',
+      Spanish:
+        'No se puede realizar la solicitud en este momento. Por favor, inténtelo de nuevo más tarde',
+    },
+  },
+  {
+    label: {
+      English: 'Wallet Created Successfully!',
+      Spanish: '¡Cartera creada correctamente!',
+    },
+  },
+  {
+    label: {
+      English: 'Error importing phrase. Please try again!',
+      Spanish: 'Error al importar la frase. ¡Inténtalo de nuevo!',
+    },
+  },
+  {
+    label: {
+      English: 'Invalid Phrase, Please enter correct phrase.',
+      Spanish: 'Frase no válida, ingrese la frase correcta.',
+    },
+  },
+  {
+    label: {
+      English: 'Please enter your 12 words secret phrase',
+      Spanish: 'Por favor ingrese su frase secreta de 12 palabras',
+    },
+  },
+  // Wallet Import Started
+  {
+    label: {
+      English: 'Wallet Import Started',
+      Spanish: 'Importación de billetera iniciada',
     },
   },
 ];

@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   },
   amountContainer: {
     alignSelf: 'center',
-    marginVertical: THEME.MARGIN.LOW,
+    marginVertical: THEME.MARGIN.HIGH,
   },
   amountBTC: {
     color: THEME.COLORS.white,

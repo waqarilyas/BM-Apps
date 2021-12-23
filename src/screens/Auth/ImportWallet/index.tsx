@@ -31,7 +31,7 @@ const ImportWallet = (props: Props) => {
   const onImportWallet = async () => {
     try {
       if (!phrase) {
-        return AppShowToast('Please enter your 12 words secret phrase');
+        return AppShowToast(L('Please enter your 12 words secret phrase'));
       }
       if (phrase.split(' ').length < 12) {
         return AppShowToast('Phrase has less than 12 words');
@@ -42,13 +42,13 @@ const ImportWallet = (props: Props) => {
         //Dispatch action is_restore in mnemonic
         dispatch(setWalletRestore(true));
         dispatch(setIsWalletRendered(true));
-        AppShowToast('Wallet Import Started');
+        AppShowToast(L('Wallet Import Started'));
       } else {
-        AppShowToast('Invalid Phrase, Please enter correct phrase.');
+        AppShowToast(L('Invalid Phrase, Please enter correct phrase.'));
         setLoading(false);
       }
     } catch (error) {
-      AppShowToast('Error importing phrase. Please try again!');
+      AppShowToast(L('Error importing phrase. Please try again!'));
       setLoading(false);
     }
   };
@@ -67,6 +67,7 @@ const ImportWallet = (props: Props) => {
             onChangeText={setPhrase}
             placeholder={L('Enter your secret recovery phrase')}
             style={styles.inputImport}
+            placeholderTextColor={THEME.COLORS.textLight}
             multiline
             numberOfLines={3}
             autoCapitalize="none"

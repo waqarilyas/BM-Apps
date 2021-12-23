@@ -4,6 +4,7 @@ const initialState = {
   balancesUpdateNeeded: true,
   isMerchantChecked: false,
   isNewWallet: false,
+  isCustomerSaved: false,
 };
 
 export const userSlice = createSlice({
@@ -20,10 +21,17 @@ export const userSlice = createSlice({
     setIsNewWallet: (state, action) => {
       state.isNewWallet = action.payload;
     },
+    setIsCustomerSaved: (state, action) => {
+      state.isCustomerSaved = action.payload;
+    },
   },
 });
 
-export const {setBalancesUpdateNeeded, setMerchantChecked, setIsNewWallet} =
-  userSlice.actions;
+export const {
+  setBalancesUpdateNeeded,
+  setMerchantChecked,
+  setIsNewWallet,
+  setIsCustomerSaved,
+} = userSlice.actions;
 
 export default userSlice.reducer;

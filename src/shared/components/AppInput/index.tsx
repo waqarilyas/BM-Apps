@@ -60,8 +60,8 @@ const styles = StyleSheet.create({
   container: {
     // width: '100%',
     flexDirection: 'row',
-    height: HP(6),
-    backgroundColor: THEME.COLORS.secondaryBackground,
+    // height: HP(6),
+    // backgroundColor: THEME.COLORS.secondaryBackground,
     borderRadius: THEME.RADIUS.SMALLBOX,
     // paddingHorizontal: RF(16),
     marginVertical: THEME.MARGIN.LOW,
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     flex: 1,
     alignSelf: 'center',
-    height: HP(6),
+    // height: HP(7),
     color: THEME.COLORS.white,
     paddingHorizontal: THEME.PADDING.LOW,
     backgroundColor: THEME.COLORS.secondaryBackground,

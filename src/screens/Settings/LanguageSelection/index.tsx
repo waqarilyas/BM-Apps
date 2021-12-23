@@ -4,9 +4,12 @@ import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
 import Toast from 'react-native-toast-message';
 import {useDispatch, useSelector} from 'react-redux';
+import RNRestart from 'react-native-restart'; // Import package from node modules
+
 import AppHeader from '../../../shared/components/AppHeader';
 import PrimaryButton from '../../../shared/components/PrimaryButton';
 import {GenericNavigation} from '../../../shared/models/types';
+import SplashScreen from 'react-native-splash-screen';
 import {RootState} from '../../../shared/store';
 import {setLanguage} from '../../../shared/store/reducers/settingsReducer';
 import {THEME} from '../../../shared/theme';
@@ -44,7 +47,12 @@ const LanguageSelection = (props: Props) => {
       text2: L('Language updated successfully!'),
       type: 'success',
     });
-    props?.navigation?.goBack();
+
+    setTimeout(() => {
+      SplashScreen.show();
+      RNRestart.Restart();
+    }, 1000);
+    // props?.navigation?.goBack();
   };
 
   useEffect(() => {

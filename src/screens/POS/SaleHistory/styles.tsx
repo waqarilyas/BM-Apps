@@ -15,10 +15,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: RF(13),
+    paddingHorizontal: RF(10),
     borderRadius: RF(4),
     marginTop: RF(10),
-    height: RF(60),
+    flex: 1,
   },
   sendIcon: {
     height: RF(30),
@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
   historyLeft: {
     flexDirection: 'row',
     alignItems: 'center',
+    flex: 1,
   },
   title: {
     color: THEME.COLORS.white,
@@ -58,6 +59,7 @@ const styles = StyleSheet.create({
   },
   leftInner: {
     justifyContent: 'center',
+    flex: 1,
   },
 });
 

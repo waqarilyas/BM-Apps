@@ -16,6 +16,7 @@ import {
   setWallet,
   setWalletLoading,
 } from '../store/reducers/walletReducer';
+import L from '../utils/LanguageHandler';
 import {BTCSegwitLikeTX, convertBTCtoSatoshi} from './bitcoin.service';
 import {getFixedAmount} from './helper.service';
 import {accountRecovery, createAddress} from './walletcore';
@@ -941,8 +942,9 @@ export const getWallets = async () => {
     store.dispatch(setWalletLoading(false));
     Toast.show({
       text1: 'Error',
-      text2:
+      text2: L(
         'Unable to perform the request at the moment. Please try again later',
+      ),
       type: 'error',
     });
     console.log('Error render active assets:', error);

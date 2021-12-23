@@ -1,6 +1,7 @@
 import {Formik} from 'formik';
 import React, {useState} from 'react';
-import {Keyboard, Text, View} from 'react-native';
+import {Keyboard, Text, View, EventEmitter} from 'react-native';
+// import EventEmitter from 'EventEmitter'
 import Toast from 'react-native-toast-message';
 import {useDispatch, useSelector} from 'react-redux';
 import AppHeader from '../../../shared/components/AppHeader';
@@ -10,6 +11,7 @@ import {GenericNavigation} from '../../../shared/models/types';
 import {saveCustomer} from '../../../shared/services/customer.service';
 import {RootState} from '../../../shared/store';
 import {resetCart} from '../../../shared/store/reducers/posReducer';
+import {setIsCustomerSaved} from '../../../shared/store/reducers/utilReducer';
 import GLOBAL_STYLE from '../../../shared/theme/global';
 import L from '../../../shared/utils/LanguageHandler';
 import {CustomerInfoVS} from '../../../shared/utils/validations';
@@ -69,6 +71,8 @@ const CustomerInfo = (props: GenericNavigation) => {
         resetForm();
         setLoading(false);
         dispatch(resetCart());
+        dispatch(setIsCustomerSaved(true));
+
         props.navigation?.goBack();
       })
       .catch(err => {

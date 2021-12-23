@@ -8,6 +8,7 @@ import {
   renderIsRenderedState,
   setCoinsPublicInfo,
 } from '../../services/wallet.service';
+import L from '../../utils/LanguageHandler';
 import {setBalancesUpdateNeeded} from '../reducers/utilReducer';
 import {
   setBep20Fee,
@@ -72,7 +73,7 @@ export const renderWallet =
       }
       dispatch(setWalletLoading(false));
       AppShowToast(
-        isNewWallet ? 'Wallet Created Successfully!' : 'Wallet Imported',
+        isNewWallet ? L('Wallet Created Successfully!') : L('Wallet Imported'),
       );
     } catch (error: any) {
       console.log('---error--', error);

@@ -1,5 +1,6 @@
 import Clipboard from '@react-native-clipboard/clipboard';
 import {useFocusEffect} from '@react-navigation/core';
+import EventEmitter from 'events';
 import React, {useCallback, useEffect, useState} from 'react';
 import {
   Alert,
@@ -28,6 +29,7 @@ import {
   AppShowToast,
 } from '../../../shared/services/helper.service';
 import {RootState} from '../../../shared/store';
+import {setIsCustomerSaved} from '../../../shared/store/reducers/utilReducer';
 import {THEME} from '../../../shared/theme';
 import GLOBAL_STYLE from '../../../shared/theme/global';
 import {RF, WP} from '../../../shared/theme/responsive';
@@ -57,8 +59,12 @@ const DirectInvoice = (props: Props) => {
   const dispatch = useDispatch();
 
   const {wallet} = useSelector((state: RootState) => state.wallet);
+  const {isCustomerSaved} = useSelector((state: RootState) => state.util);
   // const {taxEnabled} = useSelector((state: RootState) => state.settings);
-  const toggleModal = () => setShowCurrencyModal(!showCurrencyModal);
+  const toggleModal = () => {
+    setShowCurrencyModal(!showCurrencyModal);
+    // resetValues();
+  };
 
   const resetValues = () => {
     setCustomAmount('');
@@ -69,12 +75,6 @@ const DirectInvoice = (props: Props) => {
     setTaxEnabled(false);
   };
 
-  useFocusEffect(
-    useCallback(() => {
-      resetValues();
-      return () => {};
-    }, []),
-  );
   const onSelectCoin = (coin: any) => {
     setShowCurrencyModal(false);
     setSelectedCoin(coin);
@@ -87,14 +87,16 @@ const DirectInvoice = (props: Props) => {
     Clipboard.setString(contact ? contact.address : selectedCoin?.address);
   };
 
+  console.log('---ahskjga---', customAmount);
+
   const onPressAddCustomer = () => {
-    if (customAmount == 0) {
+    if (customAmount === '0') {
       Toast.show({
         text1: L('Failed'),
         text2: L('Amount cannot be zero'),
         type: 'error',
       });
-    } else if (customAmount === '') {
+    } else if (customAmount == '') {
       Toast.show({
         text1: L('Failed'),
         text2: L('Please Enter Amount'),
@@ -147,13 +149,13 @@ const DirectInvoice = (props: Props) => {
 
   const onConfirmPayment = () => {
     Keyboard.dismiss();
-    if (customAmount == 0) {
+    if (customAmount === '0') {
       Toast.show({
         text1: L('Failed'),
         text2: L('Amount cannot be zero'),
         type: 'error',
       });
-    } else if (customAmount === '') {
+    } else if (customAmount == '') {
       Toast.show({
         text1: L('Failed'),
         text2: L('Please Enter Amount'),
@@ -175,30 +177,10 @@ const DirectInvoice = (props: Props) => {
     }
   };
   const onShare = () => {
-    if (customAmount == 0) {
-      Toast.show({
-        text1: L('Failed'),
-        text2: L('Amount cannot be zero'),
-        type: 'error',
-      });
-    } else if (customAmount === '') {
-      Toast.show({
-        text1: L('Failed'),
-        text2: L('Please Enter Amount'),
-        type: 'error',
-      });
-    } else if (taxEnabled && !customTax) {
-      Toast.show({
-        text1: L('Failed'),
-        text2: L('Enter Protection Fee'),
-        type: 'error',
-      });
-    } else {
-      AppShareContent(
-        selectedCoin?.address,
-        'Sharing wallet address for receiving funds',
-      );
-    }
+    AppShareContent(
+      selectedCoin?.address,
+      'Sharing wallet address for receiving funds',
+    );
   };
 
   useEffect(() => {
@@ -207,9 +189,16 @@ const DirectInvoice = (props: Props) => {
   }, []);
 
   useEffect(() => {
+    if (isCustomerSaved) {
+      resetValues();
+      dispatch(setIsCustomerSaved(false));
+    }
+  }, [isCustomerSaved]);
+
+  useEffect(() => {
     let total;
 
-    total = customAmount;
+    total = Number(customAmount);
 
     if (invoiceTax > 0) {
       const tax = (total * invoiceTax) / 100;
@@ -228,8 +217,6 @@ const DirectInvoice = (props: Props) => {
 
     setcurrencyPrice(priceInUSD);
   }, [customAmount, invoiceTax, customTax, selectedCoin]);
-
-  console.log('Test', currencyPrice, totalInvoiceAmount);
 
   return isLaunched ? (
     <View style={styles.mainContainer}>
@@ -321,7 +308,7 @@ const DirectInvoice = (props: Props) => {
               inputStyle={[styles.apInput, !taxEnabled && {opacity: 0.5}]}
               onChangeText={p => {
                 if (p.length == 0) {
-                  // setCustomTax(0);
+                  setCustomTax(0);
                   // setCurrentVisibleInput(2);
                   return;
                 }

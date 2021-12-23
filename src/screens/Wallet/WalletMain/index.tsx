@@ -34,12 +34,13 @@ const WalletMain = (props: Props) => {
       walletLoading,
     },
     util: {balancesUpdateNeeded},
-    settings: {thumbEnabled, currency},
+    settings: {thumbEnabled, currency, language},
     user: {merchantData},
   } = useSelector((state: RootState) => state);
 
   const [searchText, setSearchText] = useState('');
   const [authOpen, setAuthOpen] = useState(thumbEnabled);
+  const [reload, setReload] = useState(false);
   const dispatch = useDispatch();
 
   const navigateToCoinDetail = (name: string) =>
@@ -152,7 +153,11 @@ const WalletMain = (props: Props) => {
       getInitialMerchantData();
     }
     // }
-  }, [wallet]);
+  }, [wallet, language]);
+
+  useEffect(() => {
+    setReload(!reload);
+  }, [language]);
 
   // useEffect(() => {
   //   const unsubscribe = props.navigation?.addListener('focus', () => {
