@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     // width: '100%',
     flexDirection: 'row',
     // height: HP(6),
-    // backgroundColor: THEME.COLORS.secondaryBackground,
+    backgroundColor: THEME.COLORS.primaryBackground,
     borderRadius: THEME.RADIUS.SMALLBOX,
     // paddingHorizontal: RF(16),
     marginVertical: THEME.MARGIN.LOW,

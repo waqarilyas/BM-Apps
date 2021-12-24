@@ -1324,6 +1324,12 @@ export const language = [
       Spanish: 'Por favor ingrese su frase secreta de 12 palabras',
     },
   },
+  {
+    label: {
+      English: 'Delete Product',
+      Spanish: 'Eliminar producto',
+    },
+  },
   // Wallet Import Started
   {
     label: {

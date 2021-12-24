@@ -1,6 +1,7 @@
 import {Formik} from 'formik';
 import React, {useState} from 'react';
 import {Keyboard, Text, View, EventEmitter} from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 // import EventEmitter from 'EventEmitter'
 import Toast from 'react-native-toast-message';
 import {useDispatch, useSelector} from 'react-redux';
@@ -87,7 +88,9 @@ const CustomerInfo = (props: GenericNavigation) => {
   return (
     <>
       <AppHeader title={L('Customer Info')} showBack />
-      <View style={styles.container}>
+      <KeyboardAwareScrollView
+        style={styles.container}
+        keyboardShouldPersistTaps="always">
         <Formik
           initialValues={initialValues}
           onSubmit={(values, action) => handleCustomerData(values, action)}
@@ -154,7 +157,7 @@ const CustomerInfo = (props: GenericNavigation) => {
             </>
           )}
         </Formik>
-      </View>
+      </KeyboardAwareScrollView>
     </>
   );
 };

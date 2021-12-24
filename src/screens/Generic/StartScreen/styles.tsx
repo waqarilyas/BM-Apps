@@ -26,7 +26,11 @@ const styles = StyleSheet.create({
     backgroundColor: THEME.COLORS.primaryBackground,
     alignItems: 'center',
   },
-  text: {color: 'white', fontSize: THEME.FONTS.SIZE.XXSMALL},
+  text: {
+    color: 'white',
+    fontSize: THEME.FONTS.SIZE.XXSMALL,
+    textAlign: 'center',
+  },
   linkText: {
     color: THEME.COLORS.accentBlue,
     textDecorationLine: 'underline',

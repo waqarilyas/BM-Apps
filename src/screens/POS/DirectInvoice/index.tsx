@@ -1,12 +1,13 @@
 import Clipboard from '@react-native-clipboard/clipboard';
 import {useFocusEffect} from '@react-navigation/core';
 import EventEmitter from 'events';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   Alert,
   Keyboard,
   Pressable,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -62,9 +63,13 @@ const DirectInvoice = (props: Props) => {
   const {isCustomerSaved} = useSelector((state: RootState) => state.util);
   // const {taxEnabled} = useSelector((state: RootState) => state.settings);
   const toggleModal = () => {
+    Keyboard.dismiss();
     setShowCurrencyModal(!showCurrencyModal);
     // resetValues();
   };
+  const ref_input2 = useRef();
+  const ref_input3 = useRef();
+  const lastNameRef = useRef();
 
   const resetValues = () => {
     setCustomAmount('');
@@ -86,8 +91,6 @@ const DirectInvoice = (props: Props) => {
     AppShowToast(L('Copied'));
     Clipboard.setString(contact ? contact.address : selectedCoin?.address);
   };
-
-  console.log('---ahskjga---', customAmount);
 
   const onPressAddCustomer = () => {
     if (customAmount === '0') {
@@ -247,7 +250,7 @@ const DirectInvoice = (props: Props) => {
         style={styles.container}
         keyboardShouldPersistTaps="always">
         <Text style={styles.label}>{L('Select Coin')}:</Text>
-        <TouchableOpacity onPress={toggleModal} style={styles.optionContainer}>
+        <Pressable onPress={toggleModal} style={styles.optionContainer}>
           <FastImage
             source={GetImageForCoin(selectedCoin?.coin_symbol)}
             resizeMode={FastImage.resizeMode.contain}
@@ -258,11 +261,11 @@ const DirectInvoice = (props: Props) => {
               {contact ? contact.name : selectedCoin?.coin_name}
             </Text>
           </View>
-        </TouchableOpacity>
+        </Pressable>
         <AppInput
           placeholder={L('Enter Amount USD')}
           keyboardType="decimal-pad"
-          value={customAmount?.toString()}
+          value={customAmount}
           returnKeyType="done"
           inputStyle={{marginVertical: 0}}
           onChangeText={text => {
@@ -302,7 +305,7 @@ const DirectInvoice = (props: Props) => {
             <AppInput
               placeholder={L('Algorithmic Protection Fee')}
               keyboardType="decimal-pad"
-              value={customTax}
+              // value={customTax ? String(customTax) : ''}
               returnKeyType="done"
               editable={taxEnabled}
               inputStyle={[styles.apInput, !taxEnabled && {opacity: 0.5}]}
@@ -314,6 +317,7 @@ const DirectInvoice = (props: Props) => {
                 }
                 setCustomTax(parseFloat(p));
               }}
+              onSubmitEditing={() => setCustomTax(customTax)}
             />
             <ToggleSwitch
               isOn={taxEnabled}
@@ -381,15 +385,16 @@ const DirectInvoice = (props: Props) => {
           buttonStyle={styles.confirmButton}
           textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
         />
+
+        <ChooseCoinModal
+          isVisible={showCurrencyModal}
+          onPressBackdrop={toggleModal}
+          onPressCoin={onSelectCoin}
+          data={wallet}
+          onSelectContact={(con: any) => setContact(con)}
+          renderContacts
+        />
       </KeyboardAwareScrollView>
-      <ChooseCoinModal
-        isVisible={showCurrencyModal}
-        onPressBackdrop={toggleModal}
-        onPressCoin={onSelectCoin}
-        data={wallet}
-        onSelectContact={(con: any) => setContact(con)}
-        renderContacts
-      />
     </View>
   ) : (
     <View style={styles.mainContainer}>

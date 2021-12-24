@@ -226,7 +226,6 @@ const SendCoin = (props: Props) => {
           <AppInput
             inputStyle={{
               marginTop: THEME.MARGIN.NORMAL,
-              backgroundColor: THEME.COLORS.darkGrey,
             }}
             value={coinAmount}
             keyboardType="numeric"
@@ -239,7 +238,6 @@ const SendCoin = (props: Props) => {
           <AppInput
             inputStyle={{
               marginTop: THEME.MARGIN.NORMAL,
-              backgroundColor: THEME.COLORS.darkGrey,
             }}
             value={usdtAmount}
             keyboardType="numeric"

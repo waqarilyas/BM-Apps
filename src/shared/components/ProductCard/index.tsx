@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   TouchableOpacityProps,
   ActivityIndicator,
+  Platform,
 } from 'react-native';
 import {THEME} from '../../theme';
 import {HP, RF, WP} from '../../theme/responsive';
@@ -25,7 +26,9 @@ const ProductCard = (props: Props) => {
 
   return (
     <>
-      <TouchableOpacity {...props} style={styles.container}>
+      <TouchableOpacity
+        {...props}
+        style={[styles.container, Platform.OS == 'android']}>
         <>
           <FastImage
             style={styles.image}
@@ -58,7 +61,7 @@ const styles = StyleSheet.create({
     padding: THEME.PADDING.LOW,
     // flex: 1,
     marginHorizontal: THEME.MARGIN.VERYLOW,
-    height: RF(130),
+    // height: RF(130),
     width: '30%',
     marginTop: THEME.MARGIN.NORMAL,
   },

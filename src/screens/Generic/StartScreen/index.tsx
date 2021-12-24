@@ -1,6 +1,7 @@
 import {NavigationProp} from '@react-navigation/core';
+
 import React from 'react';
-import {Linking, SafeAreaView, Text, View} from 'react-native';
+import {Linking, SafeAreaView, Text, View, Platform} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import Logo from '../../../shared/components/Logo';
 import PrimaryButton from '../../../shared/components/PrimaryButton';
@@ -10,6 +11,7 @@ import {renderWallet} from '../../../shared/store/actions/walletActions';
 import {setIsNewWallet} from '../../../shared/store/reducers/utilReducer';
 import {setMnemonic} from '../../../shared/store/reducers/walletReducer';
 import {THEME} from '../../../shared/theme';
+import {RF} from '../../../shared/theme/responsive';
 import L from '../../../shared/utils/LanguageHandler';
 import styles from './styles';
 let bip39 = require('bip39');
@@ -65,6 +67,9 @@ const StartScreen = (props: Props) => {
           <PrimaryButton
             title={L('Import using secret recovery phrase')}
             onPress={navToImportWallet}
+            buttonStyle={[
+              Platform.OS == 'android' && {paddingHorizontal: RF(5)},
+            ]}
           />
           <SecondaryButton
             disabled={walletLoading}

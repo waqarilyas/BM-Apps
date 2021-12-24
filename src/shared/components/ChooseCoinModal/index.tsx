@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   FlatList,
+  Pressable,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Modal from 'react-native-modal';
@@ -31,27 +32,9 @@ const ChooseCoinModal = (props: Props) => {
   const {contacts} = useSelector((state: RootState) => state.pos);
 
   const RenderCoin = ({data}: {data: any}) => {
-    // let image = COINS.BTC;
-
-    // if (data.coin_symbol == 'eth') {
-    //   image = COINS.ETH;
-    // } else if (data.coin_symbol == 'weenus') {
-    //   image = COINS.WEENUS;
-    // } else if (data.coin_symbol == 'btc') {
-    //   image = COINS.BTC;
-    // } else if (data.coin_symbol == 'bnb') {
-    //   image = COINS.BNB;
-    // } else if (data.coin_symbol == 'usdt') {
-    //   image = COINS.USDT;
-    // } else if (data.coin_symbol == 'doge') {
-    //   image = COINS.DOGE;
-    // } else if (data.coin_symbol == 'busd') {
-    //   image = COINS.BUSD;
-    // }
-
     return (
-      <TouchableOpacity
-        activeOpacity={0.9}
+      <Pressable
+        // activeOpacity={0.9}
         onPress={() => {
           onPressCoin(data);
           renderContacts && onSelectContact(null);
@@ -65,7 +48,7 @@ const ChooseCoinModal = (props: Props) => {
         <Text style={styles.coinText}>
           {data.coin_name}({data.coin_symbol?.toUpperCase()})
         </Text>
-      </TouchableOpacity>
+      </Pressable>
     );
   };
 

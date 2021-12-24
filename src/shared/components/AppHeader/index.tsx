@@ -116,7 +116,15 @@ const AppHeader = (props: Props) => {
               style={styles.cart}
             />
             <View style={styles.countView}>
-              <Text style={styles.count}>{notificationCount}</Text>
+              <Text
+                style={[
+                  styles.count,
+                  Platform.OS == 'android' && {
+                    lineHeight: 16,
+                  },
+                ]}>
+                {notificationCount}
+              </Text>
             </View>
           </TouchableOpacity>
         ) : props.customRightView ? (
@@ -175,6 +183,7 @@ const styles = StyleSheet.create({
   },
   count: {
     color: THEME.COLORS.white,
+    // backgroundColor: 'yellow',
   },
   countView: {
     position: 'absolute',
@@ -184,6 +193,10 @@ const styles = StyleSheet.create({
     height: RF(18),
     width: RF(18),
     borderRadius: RF(9),
-    ...GLOBAL_STYLE.CENTER,
+    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+
+    // ...GLOBAL_STYLE.CENTER,
   },
 });
