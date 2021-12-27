@@ -37,7 +37,7 @@ const Routes = () => {
         }}>
         <NavigationContainer ref={navigationRef}>
           {isRendered ? <BottomTabs /> : <AuthStack />}
-          <Toast ref={ref => Toast.setRef(ref)} position="bottom" />
+          <Toast ref={ref => Toast.setRef(ref)} position="top" />
         </NavigationContainer>
       </SafeAreaView>
     </>

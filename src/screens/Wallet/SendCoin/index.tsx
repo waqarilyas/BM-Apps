@@ -257,11 +257,11 @@ const SendCoin = (props: Props) => {
               )}{' '}
               {coin?.coin_symbol.toUpperCase()}
             </Text>
-            <Text style={[styles.availBalalnce, {color: THEME.COLORS.white}]}>
+            {/* <Text style={[styles.availBalalnce, {color: THEME.COLORS.white}]}>
               {L('You Will Get')}:{' '}
               {showBalances ? coin?.balance || '0.00' : <ConfidentialText />}{' '}
               {coin?.coin_symbol.toUpperCase()}
-            </Text>
+            </Text> */}
           </View>
 
           <View style={styles.details}>
