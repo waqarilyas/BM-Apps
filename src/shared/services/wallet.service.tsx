@@ -335,7 +335,7 @@ const handleBnbLikeTx = async (txPayload: any) => {
       is_bep20: txPayload.is_bep20,
     };
     // await bnbLikeTx
-    await bnbLikeTxToUser(userTxPayload);
+    return await bnbLikeTxToUser(userTxPayload);
   } catch (e) {
     throw e;
   }

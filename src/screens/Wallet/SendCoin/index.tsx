@@ -103,14 +103,15 @@ const SendCoin = (props: Props) => {
   }, [wallet, props.route]);
 
   const networkFee = useMemo(() => {
-    if (nativeCoin?.coin.blockchain === blockchainsEnum.ETHEREUM)
+    if (nativeCoin?.coin.blockchain === blockchainsEnum.ETHEREUM) {
       return Number(walletState.erc20_fee) * 1.05;
-    else if (nativeCoin?.coin.blockchain === blockchainsEnum.BINANCE)
+    } else if (nativeCoin?.coin.blockchain === blockchainsEnum.BINANCE) {
       return Number(walletState.bep20_fee) * 2;
-    else if (nativeCoin?.coin.blockchain === blockchainsEnum.BITCOIN)
+    } else if (nativeCoin?.coin.blockchain === blockchainsEnum.BITCOIN) {
       return Number(walletState.btc_fee) * 1.05;
-    else if (nativeCoin?.coin.blockchain === blockchainsEnum.DOGECOIN)
+    } else if (nativeCoin?.coin.blockchain === blockchainsEnum.DOGECOIN) {
       return Number(walletState.doge_fee) * 1.05;
+    }
   }, [wallet, coin, nativeCoin]);
 
   const [totalFiat, totalAmount] = useMemo(() => {
@@ -176,6 +177,7 @@ const SendCoin = (props: Props) => {
         is_bep20: coin?.is_bep20,
       };
 
+      console.log('--payload--', payload);
       const transactionRes = await handleTx(payload);
       console.log('---transaction response---', transactionRes);
       dispatch(refreshCoinsBalances(true));
@@ -185,7 +187,9 @@ const SendCoin = (props: Props) => {
     } catch (error) {
       console.log('---error from payment---', error);
       setLoading(false);
-      setPaymentError(error?.message);
+      setPaymentError(
+        error?.message ? error?.message : error ? error : 'Transaction Failed',
+      );
       setShowModal(true);
       console.log('Error Sending Coin.', error);
     }

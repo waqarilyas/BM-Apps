@@ -218,6 +218,8 @@ const DirectInvoice = (props: Props) => {
 
     let priceInUSD = total / selectedCoin?.chart_data?.rate;
 
+    console.log('--usd price---', selectedCoin?.chart_data?.rate);
+
     setcurrencyPrice(priceInUSD);
   }, [customAmount, invoiceTax, customTax, selectedCoin]);
 
@@ -332,9 +334,12 @@ const DirectInvoice = (props: Props) => {
           <View style={styles.middleLeft}>
             <View style={styles.amountContainer}>
               <Text style={styles.amountBTC}>
-                {currencyPrice} {selectedCoin?.coin_symbol?.toUpperCase()}
+                {parseFloat(String(currencyPrice)).toFixed(6)}{' '}
+                {selectedCoin?.coin_symbol?.toUpperCase()}
               </Text>
-              <Text style={styles.amountUSD}>${totalInvoiceAmount} USD</Text>
+              <Text style={styles.amountUSD}>
+                ${parseFloat(String(totalInvoiceAmount)).toFixed(6)} USD
+              </Text>
             </View>
 
             <View style={styles.qrContainer}>

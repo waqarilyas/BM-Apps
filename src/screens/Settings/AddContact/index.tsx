@@ -1,6 +1,13 @@
 import {Formik} from 'formik';
 import React, {useEffect, useState} from 'react';
-import {Text, TouchableOpacity, View, Keyboard} from 'react-native';
+import {
+  Text,
+  TouchableOpacity,
+  View,
+  Keyboard,
+  KeyboardAvoidingView,
+  ScrollView,
+} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Toast from 'react-native-toast-message';
 import {useDispatch, useSelector} from 'react-redux';
@@ -65,7 +72,7 @@ const AddContact = (props: PROPS) => {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container}>
       <AppHeader showBack title={L('Add Contact')} />
       <Formik
         initialValues={initialValues}
@@ -80,7 +87,7 @@ const AddContact = (props: PROPS) => {
           setFieldValue,
         }: any) => (
           <>
-            <View style={styles.innerContainer}>
+            <ScrollView style={styles.innerContainer}>
               {touched.name && errors.name ? (
                 <Text style={styles.errors}>{L(errors.name)}</Text>
               ) : null}
@@ -124,7 +131,7 @@ const AddContact = (props: PROPS) => {
                   />
                 </View>
               </TouchableOpacity>
-            </View>
+            </ScrollView>
             <PrimaryButton
               title={L('Add')}
               buttonStyle={styles.button}
@@ -146,7 +153,7 @@ const AddContact = (props: PROPS) => {
         onPressCoin={onSelectCoin}
         data={wallet}
       />
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

@@ -8,6 +8,7 @@ import {navigationRef} from '../shared/services/nav.service';
 import {RootState} from '../shared/store';
 import {renderWallet} from '../shared/store/actions/walletActions';
 import {THEME} from '../shared/theme';
+import {RF} from '../shared/theme/responsive';
 import AuthStack from './Auth/Auth.routes';
 import BottomTabs from './Tabs/Tabs.routes';
 
@@ -37,7 +38,11 @@ const Routes = () => {
         }}>
         <NavigationContainer ref={navigationRef}>
           {isRendered ? <BottomTabs /> : <AuthStack />}
-          <Toast ref={ref => Toast.setRef(ref)} position="top" />
+          <Toast
+            ref={ref => Toast.setRef(ref)}
+            position="top"
+            topOffset={RF(50)}
+          />
         </NavigationContainer>
       </SafeAreaView>
     </>
