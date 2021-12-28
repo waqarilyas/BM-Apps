@@ -1,11 +1,13 @@
 import Modal from 'react-native-modal';
-import React from 'react';
+import React, {useState} from 'react';
 import {Platform, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {ICONS} from '../../../assets';
 import {THEME} from '../../theme';
 import {RF} from '../../theme/responsive';
 import GLOBAL_STYLE from '../../theme/global';
+import {AppShowToast} from '../../services/helper.service';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 interface Props {
   isVisible: boolean;
@@ -14,6 +16,15 @@ interface Props {
 }
 
 const PaymentStatusModal = (props: Props) => {
+  const [copied, setCopied] = useState(false);
+
+  const onPressHash = () => {
+    setCopied(true);
+
+    AppShowToast('Copied');
+    // console.log('address check', coin?.address);
+    Clipboard.setString(props.error);
+  };
   return (
     <Modal
       animationIn="fadeIn"
@@ -38,9 +49,13 @@ const PaymentStatusModal = (props: Props) => {
           resizeMode={FastImage.resizeMode.contain}
           style={styles.icon}
         />
-        <Text style={styles.subText}>
-          {props.error ? props.error : 'Payment Successfull'}
-        </Text>
+        <TouchableOpacity onPress={onPressHash}>
+          <Text style={styles.subText}>
+            {/* {props.error ? props.error : 'Payment Successfull'} */}
+            {props.error}
+          </Text>
+        </TouchableOpacity>
+        <Text style={styles.subText1}>Copy Hash for Validation</Text>
       </View>
     </Modal>
   );
@@ -73,7 +88,20 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   subText: {
-    fontSize: THEME.FONTS.SIZE.LARGE,
+    borderWidth: 1,
+    borderColor: THEME.COLORS.white,
+    padding: THEME.PADDING.LOW,
+    fontSize: THEME.FONTS.SIZE.SMALL,
+    color: THEME.COLORS.white,
+    fontFamily: THEME.FONTS.TYPE.MEDIUM,
+
+    textAlign: 'center',
+  },
+  subText1: {
+    padding: THEME.PADDING.LOW,
+    fontFamily: THEME.FONTS.TYPE.MEDIUM,
+
+    fontSize: THEME.FONTS.SIZE.SMALL,
     color: THEME.COLORS.white,
     textAlign: 'center',
   },
