@@ -184,12 +184,15 @@ const SendCoin = (props: Props) => {
       setLoading(false);
       setShowModal(true);
       setPaymentError(undefined);
-    } catch (error) {
+    } catch (error: any) {
       console.log('---error from payment---', error);
       setLoading(false);
       setPaymentError(
-        // error?.message ? error?.message : error ? error : 'Transaction Failed',
-        error.substring(52, 116),
+        error?.message
+          ? error?.message
+          : error.substring(52, 116)
+          ? error.substring(52, 116)
+          : 'Transaction Failed',
       );
       setShowModal(true);
       console.log('Error Sending Coin.', error.substring(52, 116));
