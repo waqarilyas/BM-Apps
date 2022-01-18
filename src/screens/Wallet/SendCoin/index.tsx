@@ -36,7 +36,7 @@ const SendCoin = (props: Props) => {
   const {wallet: walletState} = useSelector((state: RootState) => state);
 
   const [address, setAddress] = useState(
-    __DEV__ ? '0xD66020dFcB99e6CCC88c0715da81f8dF9358C601' : '',
+    __DEV__ ? 'bc1q2hfys5dm8fe5rypxwvmkkwelp2aejmlnvlp9tm' : '',
   );
   const [usdtAmount, setUsdtAmount] = useState('');
   const [coinAmount, setCoinAmount] = useState('');
@@ -103,14 +103,15 @@ const SendCoin = (props: Props) => {
   }, [wallet, props.route]);
 
   const networkFee = useMemo(() => {
-    if (nativeCoin?.coin.blockchain === blockchainsEnum.ETHEREUM)
+    if (nativeCoin?.coin.blockchain === blockchainsEnum.ETHEREUM) {
       return Number(walletState.erc20_fee) * 1.05;
-    else if (nativeCoin?.coin.blockchain === blockchainsEnum.BINANCE)
+    } else if (nativeCoin?.coin.blockchain === blockchainsEnum.BINANCE) {
       return Number(walletState.bep20_fee) * 2;
-    else if (nativeCoin?.coin.blockchain === blockchainsEnum.BITCOIN)
+    } else if (nativeCoin?.coin.blockchain === blockchainsEnum.BITCOIN) {
       return Number(walletState.btc_fee) * 1.05;
-    else if (nativeCoin?.coin.blockchain === blockchainsEnum.DOGECOIN)
+    } else if (nativeCoin?.coin.blockchain === blockchainsEnum.DOGECOIN) {
       return Number(walletState.doge_fee) * 1.05;
+    }
   }, [wallet, coin, nativeCoin]);
 
   const [totalFiat, totalAmount] = useMemo(() => {
