@@ -19,6 +19,7 @@ import {
 import {BTCSegwitLikeTX, convertBTCtoSatoshi} from './bitcoin.service';
 import {getFixedAmount} from './helper.service';
 import {accountRecovery, createAddress} from './walletcore';
+import {getBTCNetworkFees} from './fee.service';
 var Buffer = require('buffer');
 let bip39 = require('bip39');
 
@@ -289,7 +290,7 @@ export const validateMnemonic = async (recovery: string) => {
   }
 };
 
-export const handleTx = async (txPayload: any) => {
+export const handleTx = async (coin: Coin, txPayload: any) => {
   try {
     if (
       !txPayload.is_erc20 &&
@@ -297,7 +298,7 @@ export const handleTx = async (txPayload: any) => {
       !txPayload.is_bep20 &&
       txPayload.symbol !== 'bnb'
     ) {
-      await handleBtcLikeTx(txPayload);
+      await handleBtcLikeTx(coin, txPayload);
     } else if (txPayload.symbol === 'bnb') {
       await handleBnbLikeTx(txPayload);
     } else if (txPayload.is_erc20) {
@@ -738,7 +739,7 @@ async function getCurrentGasPrices() {
   }
 }
 
-export const handleBtcLikeTx = async (txPayload: any) => {
+export const handleBtcLikeTx = async (coin: Coin, txPayload: any) => {
   try {
     const userTxPayload = {
       to: txPayload.to,
@@ -750,8 +751,16 @@ export const handleBtcLikeTx = async (txPayload: any) => {
       is_erc20: txPayload.is_erc20,
     };
     if (txPayload.from.startsWith('bc1')) {
+      const networkFee = await getBTCNetworkFees(coin, txPayload);
+
       console.log('SENDING SEGWIT TX-------');
-      await BTCSegwitLikeTX(txPayload); //PENDING
+      // Calculate fees
+      let segwitPayload = {
+        ...txPayload,
+        networkFeeObject: networkFee,
+      };
+
+      await BTCSegwitLikeTX(segwitPayload); //PENDING
     } else {
       console.log('SENDING LEGACY TX-------');
       await BtcLikeTxToUser(userTxPayload);

@@ -177,14 +177,13 @@ const SendCoin = (props: Props) => {
         is_bep20: coin?.is_bep20,
       };
 
-      const transactionRes = await handleTx(payload);
+      const transactionRes = await handleTx(coin, payload);
       console.log('---transaction response---', transactionRes);
       dispatch(refreshCoinsBalances(true));
       setLoading(false);
       setShowModal(true);
       setPaymentError(undefined);
     } catch (error) {
-      console.log('---error from payment---', error);
       setLoading(false);
       setPaymentError(error?.message);
       setShowModal(true);
@@ -253,7 +252,7 @@ const SendCoin = (props: Props) => {
             <Text style={[styles.availBalalnce, {color: THEME.COLORS.white}]}>
               {L('Fee')}:{' '}
               {showBalances ? (
-                getFixedAmount(Number(coin?.chart_data.networkFeeMin) * 2) ||
+                getFixedAmount(Number(coin?.chart_data.networkFeeMin * 1.05)) ||
                 '0.00'
               ) : (
                 <ConfidentialText />

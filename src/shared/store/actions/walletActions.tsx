@@ -53,7 +53,7 @@ export const renderWallet =
         const {balance, vs_currency_balance, chart_data, coinSymbol} =
           res.data?.find((c: any) => c.coinSymbol === asset.coin_symbol);
         if (coinSymbol === 'btc') {
-          dispatch(setBTCFee(chart_data.networkFeeAvg));
+          dispatch(setBTCFee(chart_data.networkFeeMin));
         } else if (coinSymbol === 'bnb' || coinSymbol === 'bsc') {
           dispatch(setBep20Fee(chart_data.networkFeeMax));
         } else if (coinSymbol === 'eth') {

@@ -1,7 +1,7 @@
 /* eslint-disable radix */
 import axios from 'axios';
 import blockConfig from '../../../block.config';
-import {Coin} from '../models/types';
+import {Coin, NetworkFeeEntity} from '../models/types';
 import {store} from '../store';
 var sb = require('satoshi-bitcoin');
 // import bitcoin from "bitcoinjs-lib";
@@ -103,9 +103,11 @@ const BTCSegwitLikeTX = async (txPayload: any) => {
       'main',
       txPayload.from,
     );
+    let networkFeeObject: NetworkFeeEntity = txPayload.networkFeeObject;
+
     if (utxos) {
       let minerFee = parseInt(
-        String(convertBTCtoSatoshi(Number(store.getState().wallet.btc_fee))),
+        String(convertBTCtoSatoshi(Number(networkFeeObject.networkFee))),
       );
       let amount = convertBTCtoSatoshi(+txPayload.amount);
 
@@ -166,10 +168,17 @@ const BTCSegwitLikeTX = async (txPayload: any) => {
         console.log('\nrawTx =>', rawTx);
         const broadcastTxRes = await broadcastTx(rawTx);
         console.log('\nbroadcast tx response =>', broadcastTxRes);
-        await submitBech32Tx({
+
+        if (!broadcastTxRes?.tx?.hash) {
+          throw new Error('Transaction failed');
+        }
+
+        submitBech32Tx({
           address: txPayload.to,
           decodedTx: broadcastTxRes.tx,
         });
+
+        return broadcastTxRes.tx.hash;
       } else {
         throw new Error('Transaction failed due to Dust amount');
       }
