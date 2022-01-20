@@ -14,7 +14,7 @@ interface Props {
 
 const ForwardAddCard = (props: Props) => {
   return (
-    <TouchableOpacity onPress={props.onPress} style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.topView}>
         <View style={styles.itemView}>
           <FastImage
@@ -32,7 +32,7 @@ const ForwardAddCard = (props: Props) => {
       <View style={styles.addressContainer}>
         <Text style={styles.addressText}>{props.address}</Text>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 

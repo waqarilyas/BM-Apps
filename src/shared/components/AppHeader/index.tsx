@@ -26,9 +26,11 @@ interface Props {
   showCart?: boolean;
   showSearch?: boolean;
   showEye?: boolean;
+  showForwardAdd?: boolean;
   backAction?: () => void;
   headerStyle?: StyleProp<ViewStyle>;
   searchAction?: () => void;
+  addAction?: () => void;
   customRightView?: ReactChild;
 }
 
@@ -94,6 +96,20 @@ const AppHeader = (props: Props) => {
               source={showBalances ? ICONS.EYE_OFF : ICONS.EYE}
               resizeMode={FastImage.resizeMode.contain}
               style={{width: RF(25), height: RF(25)}}
+            />
+          </TouchableOpacity>
+        ) : (
+          <View />
+        )}
+        {props.showForwardAdd ? (
+          <TouchableOpacity
+            activeOpacity={1}
+            onPress={props.addAction}
+            style={styles.rightButton}>
+            <FastImage
+              source={ICONS.ADD_FORWARD_ADDRESS}
+              resizeMode={FastImage.resizeMode.contain}
+              style={{width: RF(35), height: RF(35)}}
             />
           </TouchableOpacity>
         ) : (

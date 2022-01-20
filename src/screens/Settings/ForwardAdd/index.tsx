@@ -38,30 +38,32 @@ const data = [
 ];
 
 const ForwardAdd = (props: GenericNavigation) => {
-  const onPressCard = () => {
+  const onPressAdd = () => {
     props.navigation?.navigate('ForwardAddDetails');
   };
   return (
     <View style={styles.mainContainer}>
-      <AppHeader title={L(`Forward Add`)} showBack />
+      <AppHeader
+        title={L(`Forward Add`)}
+        showBack
+        showForwardAdd
+        addAction={onPressAdd}
+      />
       <ScrollView style={styles.container}>
         <ForwardAddCard
           coinName={'Bitcoin'}
           coinImage={COINS.BTC}
           address={'i.address'}
-          onPress={onPressCard}
         />
         <ForwardAddCard
           coinName={'Bitcoin'}
           coinImage={COINS.BTC}
           address={'i.address'}
-          onPress={onPressCard}
         />
         <ForwardAddCard
           coinName={'Bitcoin'}
           coinImage={COINS.BTC}
           address={'i.address'}
-          onPress={onPressCard}
         />
       </ScrollView>
     </View>

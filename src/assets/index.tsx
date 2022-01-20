@@ -1,5 +1,6 @@
 const ICONS = {
   LOGO: require('./icons/logoTransparent.png'),
+  ADD_FORWARD_ADDRESS: require('./icons/forwardAddPlus.png'),
   DELETE_RED: require('./icons/delete-red.png'),
   CHEVRON_DOWN: require('./icons/chevron-down.png'),
   FORWARD_ADD: require('./icons/Forward-add.png'),
