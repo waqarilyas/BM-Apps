@@ -13,44 +13,17 @@ import FastImage from 'react-native-fast-image';
 import {RF} from '../../../shared/theme/responsive';
 import SelectCoinModal from '../../../shared/components/SelectCoinModal';
 import Icon from 'react-native-vector-icons/Feather';
-
-const data = [
-  {
-    index: 1,
-    coinName: 'Bitcoin',
-    icon: COINS.BTC,
-    address: '142362514521457882615185625',
-  },
-  {
-    index: 2,
-    coinName: 'Bitcoin',
-    icon: COINS.BTC,
-    address: '142362514521457882615185625',
-  },
-  {
-    index: 3,
-    coinName: 'Bitcoin',
-    icon: COINS.BTC,
-    address: '142362514521457882615185625',
-  },
-  {
-    index: 4,
-    coinName: 'Bitcoin',
-    icon: COINS.BTC,
-    address: '142362514521457882615185625',
-  },
-];
+import PrimaryButton from '../../../shared/components/PrimaryButton';
 
 const ForwardAddDetails = (props: GenericNavigation) => {
   const [showModal, setShowModal] = useState(false);
   const [coin, setCoin] = useState('Bitcoin');
-  const [coinImage, setCoinImage] = useState();
   const [coins, setCoins] = useState([
     {label: 'Bitcoin', value: 'Bitcoin', image: COINS.BTC},
     {label: 'Ethereum', value: 'Ethereum', image: COINS.ETH},
     {label: 'DOGE', value: 'DOGE', image: COINS.DOGE},
   ]);
-  const RenderGender = () => {
+  const RenderCoins = () => {
     return (
       <>
         <Text style={styles.modalHeading}>Select Coin</Text>
@@ -62,7 +35,6 @@ const ForwardAddDetails = (props: GenericNavigation) => {
                 <TouchableOpacity
                   onPress={() => {
                     setCoin(item.label);
-                    setCoinImage(item.label);
                     setShowModal(false);
                   }}
                   style={styles.buttonView}>
@@ -84,6 +56,9 @@ const ForwardAddDetails = (props: GenericNavigation) => {
   const onPressPicker = () => {
     setShowModal(true);
   };
+  const onPressAddAddress = () => {
+    props.navigation?.navigate('ForwardAdd');
+  };
   return (
     <View style={styles.mainContainer}>
       <AppHeader title={L(`Forward Add`)} showBack />
@@ -92,7 +67,7 @@ const ForwardAddDetails = (props: GenericNavigation) => {
         toggleModal={() => {
           setShowModal(false);
         }}
-        RenderOptions={<RenderGender />}
+        RenderOptions={<RenderCoins />}
       />
 
       <View style={styles.container}>
@@ -113,6 +88,7 @@ const ForwardAddDetails = (props: GenericNavigation) => {
             1423625145214578826151856251423625145214578
           </Text>
         </View>
+        <PrimaryButton title={L('Add')} onPress={onPressAddAddress} />
       </View>
     </View>
   );
