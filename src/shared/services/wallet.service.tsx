@@ -261,7 +261,6 @@ export const checkBalance = async (
 export const restoreWalletWithPhrase = async (recovery: any) => {
   try {
     const isValidated = await validateMnemonic(recovery);
-    console.log('isValidated from restoreWalletWithPhrase', isValidated);
     let fetchedMnemonic = {mnemonic_phrase: recovery, is_restore: true};
     if (isValidated) {
       store.dispatch(setMnemonic(fetchedMnemonic));

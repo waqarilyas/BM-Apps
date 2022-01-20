@@ -140,3 +140,10 @@ export interface CoinBalancesResEntity {
   coinSymbol: string;
   vs_currency_balance: number;
 }
+
+export interface NetworkFeeEntity {
+  networkFee: string | number;
+  networkFeeFiat: string | number;
+  gasLimit?: number;
+  gasPrice?: any;
+}

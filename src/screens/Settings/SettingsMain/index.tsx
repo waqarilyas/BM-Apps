@@ -109,6 +109,9 @@ const SettingsMain = (props: Props) => {
   const navToBackupPhrase = () => {
     props.navigation?.navigate('BackupPhrase');
   };
+  const navToForwardAdd = () => {
+    props.navigation?.navigate('ForwardAdd');
+  };
 
   const handleNavigate = (screen: string) => {
     props.navigation?.navigate(screen);
@@ -223,6 +226,12 @@ const SettingsMain = (props: Props) => {
               />
             )}
           </View>
+          <SettingItem
+            source={ICONS.FORWARD_ADD}
+            title="Manage Forward Address"
+            chevron
+            onPress={navToForwardAdd}
+          />
           {/* <SettingItem title="Change PIN" chevron onPress={navToChangePIN} /> */}
           {/* <SettingItem
           title="Sales History"

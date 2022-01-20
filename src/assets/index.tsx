@@ -1,5 +1,8 @@
 const ICONS = {
   LOGO: require('./icons/logoTransparent.png'),
+  DELETE_RED: require('./icons/delete-red.png'),
+  CHEVRON_DOWN: require('./icons/chevron-down.png'),
+  FORWARD_ADD: require('./icons/Forward-add.png'),
   QRCODE: require('./icons/qrcode.png'),
   QRFRAME: require('./icons/qrframe.png'),
   QR_BUTTON: require('./icons/scanBtn.png'),

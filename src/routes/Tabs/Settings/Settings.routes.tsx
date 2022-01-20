@@ -12,6 +12,8 @@ import EnableMerchant from '../../../screens/Settings/EnableMerchant';
 import AddressBook from '../../../screens/Settings/AddressBook';
 import AddContact from '../../../screens/Settings/AddContact';
 import LanguageSelection from '../../../screens/Settings/LanguageSelection';
+import ForwardAdd from '../../../screens/Settings/ForwardAdd';
+import ForwardAddDetails from '../../../screens/Settings/ForwardAddDetails';
 
 const Stack = createStackNavigator();
 
@@ -30,6 +32,8 @@ const SettingsStack = () => {
       <Stack.Screen name="AddressBook" component={AddressBook} />
       <Stack.Screen name="AddContact" component={AddContact} />
       <Stack.Screen name="LanguageSelection" component={LanguageSelection} />
+      <Stack.Screen name="ForwardAdd" component={ForwardAdd} />
+      <Stack.Screen name="ForwardAddDetails" component={ForwardAddDetails} />
     </Stack.Navigator>
   );
 };
