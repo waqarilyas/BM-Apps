@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flexDirection: 'row',
   },
+  chevronDown: {height: RF(10), width: RF(10), alignSelf: 'center'},
   itemText: {
     color: THEME.COLORS.white,
     fontSize: THEME.FONTS.SIZE.SMALL,

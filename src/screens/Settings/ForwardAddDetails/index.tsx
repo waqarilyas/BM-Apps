@@ -77,10 +77,7 @@ const ForwardAddDetails = (props: GenericNavigation) => {
             <FastImage source={COINS.BTC} style={styles.coinImage} />
             <Text style={styles.coinName}>{coin}</Text>
           </View>
-          <FastImage
-            source={ICONS.CHEVRON_DOWN}
-            style={{height: RF(10), width: RF(10), alignSelf: 'center'}}
-          />
+          <FastImage source={ICONS.CHEVRON_DOWN} style={styles.chevronDown} />
         </TouchableOpacity>
 
         <View style={styles.addressContainer}>
@@ -88,6 +85,7 @@ const ForwardAddDetails = (props: GenericNavigation) => {
             1423625145214578826151856251423625145214578
           </Text>
         </View>
+        <View style={{flex: 1}} />
         <PrimaryButton title={L('Add')} onPress={onPressAddAddress} />
       </View>
     </View>

@@ -109,7 +109,10 @@ const AppHeader = (props: Props) => {
             <FastImage
               source={ICONS.ADD_FORWARD_ADDRESS}
               resizeMode={FastImage.resizeMode.contain}
-              style={{width: RF(35), height: RF(35)}}
+              style={{
+                width: Platform.OS == 'android' ? RF(40) : RF(30),
+                height: Platform.OS == 'android' ? RF(40) : RF(30),
+              }}
             />
           </TouchableOpacity>
         ) : (
