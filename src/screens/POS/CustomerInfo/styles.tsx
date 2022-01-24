@@ -1,6 +1,9 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
 import {THEME} from '../../../shared/theme';
+import GLOBAL_STYLE from '../../../shared/theme/global';
 import {HP, RF} from '../../../shared/theme/responsive';
+
+const {width} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
@@ -72,6 +75,35 @@ const styles = StyleSheet.create({
     width: '80%',
     height: HP(5),
     marginTop: THEME.MARGIN.LOW,
+  },
+  imageContainer: {
+    width: width - RF(32),
+    height: width - RF(100),
+    backgroundColor: THEME.COLORS.secondaryBackground,
+    borderRadius: THEME.RADIUS.BOX,
+    // marginTop: THEME.MARGIN.NORMAL,
+    alignSelf: 'center',
+  },
+  image: {
+    flex: 1,
+    borderRadius: THEME.RADIUS.BOX,
+  },
+  cameraIcon: {color: THEME.COLORS.white},
+  cameraContainer: {
+    width: RF(40),
+    height: RF(40),
+    zIndex: 3,
+    borderRadius: RF(20),
+    position: 'absolute',
+    bottom: RF(5),
+    right: RF(5),
+    ...GLOBAL_STYLE.CENTER,
+  },
+  liscenceText: {
+    color: THEME.COLORS.white,
+    fontFamily: THEME.FONTS.TYPE.MEDIUM,
+    marginTop: RF(10),
+    marginBottom: RF(10),
   },
 });
 
