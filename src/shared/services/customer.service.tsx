@@ -25,3 +25,7 @@ export const getCustomersByMerchant = (merchantId: any) => {
     `${defaultConfig.API_URL}/customer/getCustomersByMerchantId/${merchantId}`,
   );
 };
+
+export const sendReceipt = async (params: any) => {
+  return axios.post(`${defaultConfig.API_URL}/customer/sendReceipt`, params);
+};

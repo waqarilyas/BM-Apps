@@ -1,12 +1,11 @@
 import React from 'react';
 import {
-  View,
-  StyleSheet,
-  Text,
-  ScrollView,
-  TouchableOpacity,
   FlatList,
   Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Modal from 'react-native-modal';
@@ -14,8 +13,7 @@ import {useSelector} from 'react-redux';
 import {COINS} from '../../../assets/coins';
 import {RootState} from '../../store';
 import {THEME} from '../../theme';
-import GLOBAL_STYLE from '../../theme/global';
-import {HP, WP, RF} from '../../theme/responsive';
+import {HP, RF, WP} from '../../theme/responsive';
 import L from '../../utils/LanguageHandler';
 
 interface Props {

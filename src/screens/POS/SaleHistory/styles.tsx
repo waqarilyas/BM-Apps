@@ -11,14 +11,15 @@ const styles = StyleSheet.create({
   },
   historyContainer: {
     backgroundColor: THEME.COLORS.darkGrey,
-    paddingVertical: RF(10),
+    // paddingVertical: RF(10),
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: RF(10),
+    // paddingHorizontal: RF(10),
     borderRadius: RF(4),
     marginTop: RF(10),
     flex: 1,
+    minHeight: RF(60),
   },
   sendIcon: {
     height: RF(30),
@@ -29,6 +30,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     flex: 1,
+    paddingVertical: RF(10),
+    paddingLeft: RF(10),
   },
   title: {
     color: THEME.COLORS.white,
@@ -60,6 +63,14 @@ const styles = StyleSheet.create({
   leftInner: {
     justifyContent: 'center',
     flex: 1,
+  },
+  shareContainer: {
+    backgroundColor: THEME.COLORS.gold,
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: RF(10),
+    marginLeft: RF(5),
   },
 });
 
