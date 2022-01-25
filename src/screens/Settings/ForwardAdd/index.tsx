@@ -8,8 +8,7 @@ import styles from './styles';
 import ForwardAddCard from '../../../shared/components/ForwardAddCard';
 import {COINS} from '../../../assets/coins';
 import {GenericNavigation} from '../../../shared/models/types';
-import {ICONS} from '../../../assets';
-import {THEME} from '../../../shared/theme';
+
 const data = [
   {
     index: 1,

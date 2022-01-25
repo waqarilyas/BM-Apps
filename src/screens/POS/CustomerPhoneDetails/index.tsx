@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import Toast from 'react-native-toast-message';
 import {useSelector} from 'react-redux';
 import AppHeader from '../../../shared/components/AppHeader';
