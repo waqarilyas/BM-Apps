@@ -274,18 +274,14 @@ export const restoreWalletWithPhrase = async (recovery: any) => {
   }
 };
 
+  
+     
 export const validateMnemonic = async (recovery: string) => {
   try {
-    const isValidated = await axios({
-      method: 'post',
-      url: `${defaultConfig.API_URL}/wallet/validate/mnemonic`,
-      data: {
-        mnemonic: recovery,
-      },
-    });
-    return isValidated.data;
+    const isValidated = bip39.validateMnemonic(recovery);
+    return isValidated;
   } catch (error) {
-    console.log('Error validating mnemonic:', error);
+    console.log("Error validating mnemonic:", error);
     throw error;
   }
 };
