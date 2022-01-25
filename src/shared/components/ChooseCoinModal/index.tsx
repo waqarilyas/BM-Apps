@@ -11,6 +11,7 @@ import FastImage from 'react-native-fast-image';
 import Modal from 'react-native-modal';
 import {useSelector} from 'react-redux';
 import {COINS} from '../../../assets/coins';
+import {Coin} from '../../models/types';
 import {RootState} from '../../store';
 import {THEME} from '../../theme';
 import {HP, RF, WP} from '../../theme/responsive';
@@ -23,11 +24,20 @@ interface Props {
   data: any;
   onSelectContact?: (val: any) => void;
   renderContacts?: boolean;
+  renderForwardAddressBook?: boolean;
+  forwardAddressBook?: [];
 }
 
 const ChooseCoinModal = (props: Props) => {
-  const {data, onPressCoin, onSelectContact, renderContacts} = props;
+  const {
+    data,
+    onPressCoin,
+    onSelectContact,
+    renderContacts,
+    renderForwardAddressBook,
+  } = props;
   const {contacts} = useSelector((state: RootState) => state.pos);
+  const {wallet} = useSelector((state: RootState) => state.wallet);
 
   const RenderCoin = ({data}: {data: any}) => {
     return (
@@ -94,6 +104,36 @@ const ChooseCoinModal = (props: Props) => {
     );
   };
 
+  const RenderForwardAddress = ({data}: {data: any}) => {
+    const coin = wallet.find(
+      (wall: Coin) =>
+        wall.coin_symbol?.toUpperCase() ==
+        data?.coin?.coinSymbol?.toUpperCase(),
+    );
+
+    return (
+      <Pressable
+        onPress={() => {
+          onSelectContact({...data, name: data.walletName});
+          onPressCoin(coin);
+        }}
+        style={styles.coinContainer}>
+        <FastImage
+          source={{uri: data?.coin?.icon?.url}}
+          resizeMode={FastImage.resizeMode.contain}
+          style={styles.coinImage}
+        />
+
+        <View style={{width: '90%'}}>
+          <Text style={styles.coinText}>{data.walletName}</Text>
+          <Text style={[styles.coinText, {fontSize: THEME.FONTS.SIZE.XXSMALL}]}>
+            {data.address}
+          </Text>
+        </View>
+      </Pressable>
+    );
+  };
+
   return (
     <Modal
       isVisible={props.isVisible}
@@ -103,36 +143,55 @@ const ChooseCoinModal = (props: Props) => {
       animationInTiming={400}
       animationOutTiming={400}>
       <View style={styles.container}>
+        {/* {renderForwardAddressBook ? ( */}
         <FlatList
           showsVerticalScrollIndicator={false}
-          data={data}
-          keyExtractor={(item, index) => index.toString()}
           ListHeaderComponent={() => (
-            <Text style={styles.contactsHeader}>{L('Wallet')}</Text>
+            <Text style={styles.contactsHeader}>{L('Forward Addresses')}</Text>
           )}
+          data={props.forwardAddressBook}
+          keyExtractor={(item, index) => index.toString()}
           renderItem={({item, index}) => {
-            return <RenderCoin data={item} />;
+            return <RenderForwardAddress data={item} />;
           }}
           ListFooterComponent={() => {
-            if (renderContacts) {
-              return (
-                <FlatList
-                  showsVerticalScrollIndicator={false}
-                  ListHeaderComponent={() => (
-                    <Text style={styles.contactsHeader}>{L('Contacts')}</Text>
-                  )}
-                  data={contacts}
-                  keyExtractor={(item, index) => index.toString()}
-                  renderItem={({item, index}) => {
-                    return <RenderContacts data={item} />;
-                  }}
-                />
-              );
-            } else {
-              return null;
-            }
+            return (
+              <FlatList
+                showsVerticalScrollIndicator={false}
+                data={data}
+                keyExtractor={(item, index) => index.toString()}
+                ListHeaderComponent={() => (
+                  <Text style={styles.contactsHeader}>{L('Wallet')}</Text>
+                )}
+                renderItem={({item, index}) => {
+                  return <RenderCoin data={item} />;
+                }}
+                ListFooterComponent={() => {
+                  if (renderContacts) {
+                    return (
+                      <FlatList
+                        showsVerticalScrollIndicator={false}
+                        ListHeaderComponent={() => (
+                          <Text style={styles.contactsHeader}>
+                            {L('Contacts')}
+                          </Text>
+                        )}
+                        data={contacts}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={({item, index}) => {
+                          return <RenderContacts data={item} />;
+                        }}
+                      />
+                    );
+                  } else {
+                    return null;
+                  }
+                }}
+              />
+            );
           }}
         />
+        {/* ) : null} */}
 
         {/* <ScrollView showsVerticalScrollIndicator={false}>
 

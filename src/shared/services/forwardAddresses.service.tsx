@@ -8,6 +8,8 @@ export const saveForwardAddress = async (params: any) => {
   );
 };
 
-export const getForwardAddresBook = async (userId:string) => {
-  return axios.get(`${defaultConfig.API_URL}/forward-address-book/get-address-book/${userId}`)
-}
+export const getForwardAddresBook = async (userId: string) => {
+  return axios.get(
+    `${defaultConfig.API_URL}/forward-address-book/get-address-book/${userId}`,
+  );
+};

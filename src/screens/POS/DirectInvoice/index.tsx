@@ -25,6 +25,7 @@ import ChooseCoinModal from '../../../shared/components/ChooseCoinModal';
 import CustomAnimations from '../../../shared/components/CustomAnimations';
 import PrimaryButton from '../../../shared/components/PrimaryButton';
 import {GenericNavigation} from '../../../shared/models/types';
+import {getForwardAddresBook} from '../../../shared/services/forwardAddresses.service';
 import {
   AppShareContent,
   AppShowToast,
@@ -54,12 +55,16 @@ const DirectInvoice = (props: Props) => {
   const [currentVisibleInput, setCurrentVisibleInput]: any = useState(null);
   const [disableConfirmPayment, setDisableConfirmPayment] = useState(false);
   const [taxEnabled, setTaxEnabled] = useState(false);
+  const [forwardAddressBook, setForwardAddressBook] = useState([]);
 
   const isLaunched = true;
 
   const dispatch = useDispatch();
 
-  const {wallet} = useSelector((state: RootState) => state.wallet);
+  const {
+    wallet: {wallet},
+    user: {merchantData},
+  } = useSelector((state: RootState) => state);
   const {isCustomerSaved} = useSelector((state: RootState) => state.util);
   // const {taxEnabled} = useSelector((state: RootState) => state.settings);
   const toggleModal = () => {
@@ -81,6 +86,7 @@ const DirectInvoice = (props: Props) => {
   };
 
   const onSelectCoin = (coin: any) => {
+    console.log('bnshbavjhsVDSHG', coin);
     setShowCurrencyModal(false);
     setSelectedCoin(coin);
     setCopied(false);
@@ -186,7 +192,18 @@ const DirectInvoice = (props: Props) => {
     );
   };
 
+  const getAllForwardAddresses = async () => {
+    try {
+      let res = await getForwardAddresBook(merchantData._id);
+      console.log(res.data);
+      setForwardAddressBook(res.data);
+    } catch (error) {
+      console.log('Error getting forward address book.');
+    }
+  };
+
   useEffect(() => {
+    getAllForwardAddresses();
     setSelectedCoin(wallet[0]);
     setInvoiceTax(6);
   }, []);
@@ -398,6 +415,8 @@ const DirectInvoice = (props: Props) => {
           data={wallet}
           onSelectContact={(con: any) => setContact(con)}
           renderContacts
+          renderForwardAddressBook={true}
+          forwardAddressBook={forwardAddressBook}
         />
       </KeyboardAwareScrollView>
     </View>
