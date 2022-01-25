@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: THEME.COLORS.primaryBackground,
     paddingHorizontal: THEME.PADDING.MID_LOW,
-    paddingTop: THEME.PADDING.SUPERHIGH,
+    paddingTop: THEME.PADDING.MID_LOW,
   },
   label: {
     color: 'grey',
