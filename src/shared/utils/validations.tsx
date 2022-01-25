@@ -76,7 +76,8 @@ export const CustomerInfoVS = Yup.object().shape({
   firstName: Yup.string()
     .trim()
     .min(2, 'First Name must be at Least 2 Characters')
-    .max(50),
+    .max(50)
+    .required('Firstname is required'),
   lastName: Yup.string()
     .trim()
     .min(2, 'Last Name must be at Least 2 Characters')

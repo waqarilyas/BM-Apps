@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Text, View, FlatList} from 'react-native';
+import {Text, View, FlatList, TouchableOpacity} from 'react-native';
 import Toast from 'react-native-toast-message';
 import {useSelector} from 'react-redux';
 import AppHeader from '../../../shared/components/AppHeader';
@@ -11,11 +11,18 @@ import styles from './styles';
 import {ICONS} from '../../../assets';
 import AppLoader from '../../../shared/components/AppLoader';
 import L from '../../../shared/utils/LanguageHandler';
+import Icon from 'react-native-vector-icons/EvilIcons';
+import {THEME} from '../../../shared/theme';
+import {RF} from '../../../shared/theme/responsive';
+import ShareModal from '../../../shared/components/ShareModal';
+import {baseProps} from 'react-native-gesture-handler/lib/typescript/handlers/gestureHandlers';
+import {GenericNavigation} from '../../../shared/models/types';
 
-const SaleHistory = () => {
+const SaleHistory = (props: GenericNavigation) => {
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(false);
   const {merchantData} = useSelector((state: RootState) => state.user);
+  const [selectedItem, setSelectedItem] = useState(null);
 
   useEffect(() => {
     setLoading(true);
@@ -48,7 +55,12 @@ const SaleHistory = () => {
             showsVerticalScrollIndicator={false}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({item, index}) => {
-              return <HistoryItem data={item} />;
+              return (
+                <HistoryItem
+                  data={item}
+                  onPress={() => setSelectedItem(item)}
+                />
+              );
             }}
           />
         ) : (
@@ -58,15 +70,25 @@ const SaleHistory = () => {
         )}
       </View>
       <AppLoader isVisible={loading} />
+      <ShareModal
+        isVisible={Boolean(selectedItem)}
+        onPressBackdrop={() => setSelectedItem(null)}
+        onPressPhone={() => {
+          props.navigation?.navigate('CustomerPhoneDetails', {
+            data: selectedItem,
+          });
+          setSelectedItem(null);
+        }}
+      />
     </>
   );
 };
 
-const HistoryItem = ({data}: any) => {
+const HistoryItem = ({data, onPress}: any) => {
   const {firstName, lastName, email, phone, usdAmount, createdAt} = data;
 
   return (
-    <View style={styles.historyContainer}>
+    <TouchableOpacity style={styles.historyContainer} onPress={onPress}>
       <View style={styles.historyLeft}>
         <FastImage source={ICONS.sendIcon} style={styles.sendIcon} />
         <View style={styles.leftInner}>
@@ -86,7 +108,10 @@ const HistoryItem = ({data}: any) => {
       <View style={styles.historyRight}>
         <Text style={styles.amount}>$ {parseFloat(usdAmount).toFixed(1)}</Text>
       </View>
-    </View>
+      <View style={styles.shareContainer}>
+        <Icon name="share-apple" color={THEME.COLORS.white} size={RF(30)} />
+      </View>
+    </TouchableOpacity>
   );
 };
 
