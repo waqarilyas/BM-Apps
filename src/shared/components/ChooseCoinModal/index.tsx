@@ -26,6 +26,7 @@ interface Props {
   renderContacts?: boolean;
   renderForwardAddressBook?: boolean;
   forwardAddressBook?: [];
+  noForwardAddress?: boolean;
 }
 
 const ChooseCoinModal = (props: Props) => {
@@ -147,7 +148,9 @@ const ChooseCoinModal = (props: Props) => {
         <FlatList
           showsVerticalScrollIndicator={false}
           ListHeaderComponent={() => (
-            <Text style={styles.contactsHeader}>{L('Forward Addresses')}</Text>
+            <Text style={styles.contactsHeader}>
+              {props.noForwardAddress ? '' : L('Forward Addresses')}
+            </Text>
           )}
           data={props.forwardAddressBook}
           keyExtractor={(item, index) => index.toString()}

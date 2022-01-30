@@ -110,11 +110,11 @@ const ForwardAddDetails = (props: GenericNavigation) => {
   return (
     <>
       <View style={styles.mainContainer}>
-        <AppHeader title={L(`Forward Add`)} showBack />
+        <AppHeader title={L('Forward Add')} showBack />
 
         <View style={styles.container}>
           <AppInput
-            placeholder="Contact name"
+            placeholder="Forward Address name"
             onChangeText={setContactName}
             value={contactName}
           />
@@ -149,6 +149,7 @@ const ForwardAddDetails = (props: GenericNavigation) => {
         onPressBackdrop={toggleModal}
         onPressCoin={onSelectCoin}
         data={wallet}
+        noForwardAddress={true}
       />
     </>
   );

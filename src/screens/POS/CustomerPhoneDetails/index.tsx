@@ -65,7 +65,9 @@ const CustomerPhoneDetails = (props: GenericNavigation) => {
     <>
       <AppHeader title={L('Phone details')} showBack />
       <View style={styles.container}>
-        <Text style={styles.title}>Enter the customer's phone details </Text>
+        <Text style={styles.title}>
+          {L("Enter the customer's phone details")}
+        </Text>
 
         <AppInput
           placeholder="Phone Number"

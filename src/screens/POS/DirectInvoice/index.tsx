@@ -1,4 +1,5 @@
 import Clipboard from '@react-native-clipboard/clipboard';
+import {useFocusEffect} from '@react-navigation/native';
 import React, {useEffect, useRef, useState} from 'react';
 import {
   Alert,
@@ -194,8 +195,13 @@ const DirectInvoice = (props: Props) => {
     }
   };
 
+  useFocusEffect(
+    React.useCallback(() => {
+      getAllForwardAddresses();
+    }, []),
+  );
+
   useEffect(() => {
-    getAllForwardAddresses();
     setSelectedCoin(wallet[0]);
     setInvoiceTax(6);
   }, []);

@@ -81,7 +81,15 @@ export const CustomerInfoVS = Yup.object().shape({
   lastName: Yup.string()
     .trim()
     .min(2, 'Last Name must be at Least 2 Characters')
-    .max(50),
-  email: Yup.string().email('Please provide valid email').trim(),
-  phone: Yup.string().trim().max(25).min(5, 'Phone must be at least 5 numbers'),
+    .max(50)
+    .required('Firstname is required'),
+  email: Yup.string()
+    .email('Please provide valid email')
+    .trim()
+    .required('Firstname is required'),
+  phone: Yup.string()
+    .trim()
+    .max(25)
+    .min(5, 'Phone must be at least 9 numbers')
+    .required('Firstname is required'),
 });

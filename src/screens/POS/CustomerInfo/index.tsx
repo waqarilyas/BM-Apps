@@ -39,7 +39,7 @@ const CustomerInfo = (props: GenericNavigation) => {
   const dispatch = useDispatch();
 
   let initialValues: any = {
-    firstName: '',
+    firstName: __DEV__ ? 'John' : '',
     lastName: '',
     email: '',
     phone: '',
@@ -71,7 +71,6 @@ const CustomerInfo = (props: GenericNavigation) => {
     // }
 
     setLoading(true);
-
     const params = [
       image && {
         name: 'photo',
@@ -107,48 +106,55 @@ const CustomerInfo = (props: GenericNavigation) => {
       },
     ];
 
-    saveCustomer(params)
-      .uploadProgress((written, total) => {
-        console.log('uploaded', written / total);
-      })
-      .then(response => {
-        if (response.info().status === 413) {
+    try {
+      saveCustomer(params)
+        .uploadProgress((written, total) => {
+          console.log('uploaded', written / total);
+        })
+        .then(response => {
+          if (response.info().status === 413) {
+            Toast.show({
+              text1: L('Request Failed'),
+              text2: L('Image is too large. Please select another one'),
+              type: 'error',
+            });
+          }
+
+          response.json();
+        })
+        .then(res => {
+          console.log('--customer save response--', res);
+
+          // dispatch(setMerchantData(res?.data));
+          // dispatch(setMerchantEnabledState(true));
+
+          Toast.show({
+            text1: L('Successfull'),
+            text2: L('Customer Details saved successfully'),
+            type: 'success',
+          });
+          // console.log('----action----', action);
+
+          resetForm();
+          setLoading(false);
+          dispatch(resetCart());
+          dispatch(setIsCustomerSaved(true));
+
+          props.navigation?.goBack();
+        })
+        .catch(err => {
+          setLoading(false);
+          console.log('Saving Customer Error', err);
           Toast.show({
             text1: L('Request Failed'),
-            text2: L('Image is too large. Please select another one'),
+            text2: err?.response?.data?.message || err.message,
             type: 'error',
           });
-        }
-
-        response.json();
-      })
-      .then(res => {
-        console.log('--customer save response--', res);
-
-        // dispatch(setMerchantData(res?.data));
-        // dispatch(setMerchantEnabledState(true));
-
-        Toast.show({
-          text1: L('Successfull'),
-          text2: L('Customer Details saved successfully'),
-          type: 'success',
         });
-        // console.log('----action----', action);
-
-        resetForm();
-        setLoading(false);
-        dispatch(resetCart());
-        dispatch(setIsCustomerSaved(true));
-
-        props.navigation?.goBack();
-      })
-      .catch(err => {
-        Toast.show({
-          text1: L('Request Failed'),
-          text2: err?.response?.data?.message || err.message,
-          type: 'error',
-        });
-      });
+    } catch (error) {
+      setLoading(false);
+      console.log('Saving Customer Error', error);
+    }
   };
 
   const openPicker = () => setImageModalOpen(true);
@@ -199,7 +205,7 @@ const CustomerInfo = (props: GenericNavigation) => {
                 ) : null}
 
                 <AppInput
-                  placeholder={L('First Name (Optional)')}
+                  placeholder={L('First Name')}
                   value={values.firstName}
                   // inputStyle={{width: '48%'}}
                   onChangeText={handleChange('firstName')}
@@ -210,7 +216,7 @@ const CustomerInfo = (props: GenericNavigation) => {
                 ) : null}
 
                 <AppInput
-                  placeholder={L('Last Name (Optional)')}
+                  placeholder={L('Last Name')}
                   value={values.lastName}
                   // inputStyle={{width: '48%'}}
                   onChangeText={handleChange('lastName')}
@@ -220,7 +226,7 @@ const CustomerInfo = (props: GenericNavigation) => {
                   <Text style={styles.errors}>{L(errors.phone)}</Text>
                 ) : null}
                 <AppInput
-                  placeholder={L('Phone (Optional)')}
+                  placeholder={L('Phone')}
                   keyboardType={'number-pad'}
                   returnKeyType={'done'}
                   value={values.phone}
@@ -231,7 +237,7 @@ const CustomerInfo = (props: GenericNavigation) => {
                 ) : null}
 
                 <AppInput
-                  placeholder={L('Email (Optional)')}
+                  placeholder={L('Email')}
                   value={values.email}
                   keyboardType={'email-address'}
                   onChangeText={handleChange('email')}
@@ -242,6 +248,7 @@ const CustomerInfo = (props: GenericNavigation) => {
                 onPress={handleSubmit}
                 buttonStyle={styles.confirmButton}
                 textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
+                loading={loading}
               />
             </>
           )}
