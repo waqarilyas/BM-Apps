@@ -1,13 +1,10 @@
 import Clipboard from '@react-native-clipboard/clipboard';
-import {useFocusEffect} from '@react-navigation/core';
-import EventEmitter from 'events';
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   Alert,
   Keyboard,
   Pressable,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -53,7 +50,7 @@ const DirectInvoice = (props: Props) => {
   const [contact, setContact]: any = useState(null);
   const [currencyPrice, setcurrencyPrice] = useState<number | string>(0);
   const [currentVisibleInput, setCurrentVisibleInput]: any = useState(null);
-  const [disableConfirmPayment, setDisableConfirmPayment] = useState(false);
+
   const [taxEnabled, setTaxEnabled] = useState(false);
   const [forwardAddressBook, setForwardAddressBook] = useState([]);
 
@@ -66,15 +63,11 @@ const DirectInvoice = (props: Props) => {
     user: {merchantData},
   } = useSelector((state: RootState) => state);
   const {isCustomerSaved} = useSelector((state: RootState) => state.util);
-  // const {taxEnabled} = useSelector((state: RootState) => state.settings);
   const toggleModal = () => {
     Keyboard.dismiss();
     setShowCurrencyModal(!showCurrencyModal);
     // resetValues();
   };
-  const ref_input2 = useRef();
-  const ref_input3 = useRef();
-  const lastNameRef = useRef();
 
   const resetValues = () => {
     setCustomAmount('');
@@ -86,7 +79,6 @@ const DirectInvoice = (props: Props) => {
   };
 
   const onSelectCoin = (coin: any) => {
-    console.log('bnshbavjhsVDSHG', coin);
     setShowCurrencyModal(false);
     setSelectedCoin(coin);
     setCopied(false);
@@ -195,7 +187,7 @@ const DirectInvoice = (props: Props) => {
   const getAllForwardAddresses = async () => {
     try {
       let res = await getForwardAddresBook(merchantData._id);
-      console.log(res.data);
+
       setForwardAddressBook(res.data);
     } catch (error) {
       console.log('Error getting forward address book.');
@@ -234,8 +226,6 @@ const DirectInvoice = (props: Props) => {
     }
 
     let priceInUSD = total / selectedCoin?.chart_data?.rate;
-
-    console.log('--usd price---', selectedCoin?.chart_data?.rate);
 
     setcurrencyPrice(priceInUSD);
   }, [customAmount, invoiceTax, customTax, selectedCoin]);
@@ -289,7 +279,7 @@ const DirectInvoice = (props: Props) => {
           inputStyle={{marginVertical: 0}}
           onChangeText={text => {
             if (text.length == 0) {
-              setDisableConfirmPayment(true);
+              // setDisableConfirmPayment(true);
               resetValues();
               return;
             }
@@ -306,8 +296,6 @@ const DirectInvoice = (props: Props) => {
               editable={false}
               value={`${String(invoiceTax)}%`}
               onChangeText={text => {
-                console.log('--inside on change--', text);
-
                 if (text.length == 0) {
                   setInvoiceTax(0);
                   return;

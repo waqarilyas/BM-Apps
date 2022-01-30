@@ -10,6 +10,7 @@ interface Props {
   address: String | undefined;
   coinImage: Source;
   onPress?: () => void;
+  onDelete: () => any;
 }
 
 const ForwardAddCard = (props: Props) => {
@@ -24,7 +25,7 @@ const ForwardAddCard = (props: Props) => {
           />
           <Text style={styles.coinName}>{props.coinName}</Text>
         </View>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => props.onDelete()}>
           <FastImage source={ICONS.DELETE_RED} style={styles.delete} />
         </TouchableOpacity>
       </View>

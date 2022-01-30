@@ -304,9 +304,7 @@ const SettingsMain = (props: Props) => {
             <SettingItem
               source={ICONS.THUMB}
               title={
-                thumbEnabled
-                  ? L('Disable Thumb Impression')
-                  : L('Enable Thumb Impression')
+                thumbEnabled ? L('Disable Biometry') : L('Enable Biometry')
               }
               onPress={() => {
                 thumbEnabled
@@ -314,7 +312,7 @@ const SettingsMain = (props: Props) => {
                   : dispatch(setThumbEnabled(true));
                 Toast.show({
                   text1: L('Success'),
-                  text2: `${L('Thumb Impression')} ${
+                  text2: `${L('Biometry')} ${
                     thumbEnabled ? 'disabled' : 'enabled'
                   } ${L('successfully')}`,
                   type: 'success',

@@ -13,3 +13,9 @@ export const getForwardAddresBook = async (userId: string) => {
     `${defaultConfig.API_URL}/forward-address-book/get-address-book/${userId}`,
   );
 };
+
+export const deleteAddress = async (userId: string) => {
+  return axios.delete(
+    `${defaultConfig.API_URL}/forward-address-book/delete-address/${userId}`,
+  );
+};

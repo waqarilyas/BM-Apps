@@ -36,56 +36,26 @@ const ForwardAddDetails = (props: GenericNavigation) => {
   const [address, setAddress] = useState('');
   const [contactName, setContactName] = useState('');
 
-  const [error, setError]: any = useState(null);
-
-  const [coins, setCoins] = useState([
-    {label: 'Bitcoin', value: 'Bitcoin', image: COINS.BTC},
-    {label: 'Ethereum', value: 'Ethereum', image: COINS.ETH},
-    {label: 'DOGE', value: 'DOGE', image: COINS.DOGE},
-  ]);
   const {wallet} = useSelector((state: RootState) => state.wallet);
   const {merchantData} = useSelector((state: RootState) => state.user);
-
-  const RenderCoins = () => {
-    return (
-      <>
-        <Text style={styles.modalHeading}>Select Coin</Text>
-        <FlatList
-          data={coins}
-          renderItem={({item}) => {
-            return (
-              <>
-                <TouchableOpacity
-                  onPress={() => {
-                    setCoin(item.label);
-                    setShowModal(false);
-                  }}
-                  style={styles.buttonView}>
-                  <View style={{flexDirection: 'row'}}>
-                    <FastImage source={item.image} style={styles.cross} />
-                    <Text style={styles.labelItem}>{item.label}</Text>
-                  </View>
-                  {item.label == coin ? (
-                    <Icon name="check" size={20} color={THEME.COLORS.green} />
-                  ) : null}
-                </TouchableOpacity>
-              </>
-            );
-          }}
-        />
-      </>
-    );
-  };
   const onPressPicker = () => {
     setShowCurrencyModal(true);
   };
 
   const validate = () => {
     if (address.length == 0) {
-      setError('Please enter address to continue');
+      Toast.show({
+        text1: 'Request Failed',
+        text2: 'Please enter address to continue',
+        type: 'error',
+      });
       return false;
     } else if (contactName.length == 0) {
-      setError('Please enter contact name to continue');
+      Toast.show({
+        text1: 'Request Failed',
+        text2: 'Please enter contact name to continue',
+        type: 'error',
+      });
       return false;
     }
 
@@ -166,14 +136,12 @@ const ForwardAddDetails = (props: GenericNavigation) => {
             </View>
             <FastImage source={ICONS.CHEVRON_DOWN} style={styles.chevronDown} />
           </TouchableOpacity>
-
-          {/* <View style={styles.addressContainer}>
-            <Text style={styles.addressText}>
-              1423625145214578826151856251423625145214578
-            </Text>
-          </View> */}
           <View style={{flex: 1}} />
-          <PrimaryButton title={L('Add')} onPress={handleSubmit} />
+          <PrimaryButton
+            loading={loading}
+            title={L('Add')}
+            onPress={handleSubmit}
+          />
         </View>
       </View>
       <ChooseCoinModal

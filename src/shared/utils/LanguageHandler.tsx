@@ -81,7 +81,7 @@ export const language = [
   },
   {
     label: {
-      English: 'Enable Thumb Impression',
+      English: 'Enable Biometry',
       Spanish: 'Habilitar la impresión de pulgar',
     },
   },
@@ -209,7 +209,7 @@ export const language = [
   },
   {
     label: {
-      English: 'Disable Thumb Impression',
+      English: 'Disable Biometry',
       Spanish: 'Desactivar la impresión del pulgar',
     },
   },
@@ -785,7 +785,7 @@ export const language = [
   },
   {
     label: {
-      English: 'Thumb Impression',
+      English: 'Biometry',
       Spanish: 'Impresión del pulgar',
     },
   },
