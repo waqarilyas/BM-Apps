@@ -33,7 +33,7 @@ const ShareModal = (props: Props) => {
       animationInTiming={400}
       animationOutTiming={400}>
       <View style={styles.container}>
-        <Text style={styles.heading}>Share</Text>
+        <Text style={styles.heading}>{L('Share')}</Text>
         <ShareItem
           title={L('Share Via SMS')}
           iconName="md-share-outline"

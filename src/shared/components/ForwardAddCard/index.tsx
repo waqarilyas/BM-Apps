@@ -4,6 +4,7 @@ import {THEME} from '../../theme';
 import {HP, RF, WP} from '../../theme/responsive';
 import FastImage, {Source} from 'react-native-fast-image';
 import {ICONS} from '../../../assets';
+import L from '../../utils/LanguageHandler';
 
 interface Props {
   coinName: String | undefined;
@@ -29,7 +30,7 @@ const ForwardAddCard = (props: Props) => {
           <FastImage source={ICONS.DELETE_RED} style={styles.delete} />
         </TouchableOpacity>
       </View>
-      <Text style={styles.addressTitle}>Address</Text>
+      <Text style={styles.addressTitle}>{L('Address')}</Text>
       <View style={styles.addressContainer}>
         <Text style={styles.addressText}>{props.address}</Text>
       </View>

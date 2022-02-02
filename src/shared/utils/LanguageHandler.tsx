@@ -1343,6 +1343,84 @@ export const language = [
       Spanish: 'Administrar dirección de reenvío',
     },
   },
+  {
+    label: {
+      English: 'Phone Details',
+      Spanish: 'Detalles del teléfono',
+    },
+  },
+  {
+    label: {
+      English: "Enter the customer's phone details",
+      Spanish: 'Introduce los datos del teléfono del cliente',
+    },
+  },
+  {
+    label: {
+      English: 'Submit',
+      Spanish: 'Entregar',
+    },
+  },
+  {
+    label: {
+      English: 'Forward Add',
+      Spanish: 'Dirección de reenvío',
+    },
+  },
+  {
+    label: {
+      English: 'Phone number cannot be empty',
+      Spanish: 'El número de teléfono no puede estar vacío',
+    },
+  },
+  {
+    label: {
+      English: 'Share Via SMS',
+      Spanish: 'Compartir vía SMS',
+    },
+  },
+  {
+    label: {
+      English: 'Share',
+      Spanish: 'Compartir',
+    },
+  },
+  {
+    label: {
+      English: 'Select licence photo',
+      Spanish: 'Seleccionar foto de licencia',
+    },
+  },
+  {
+    label: {
+      English: 'Please upload your liscence image to continue',
+      Spanish: 'Cargue la imagen de su licencia para continuar',
+    },
+  },
+  {
+    label: {
+      English: 'Edit Photo',
+      Spanish: 'Editar foto',
+    },
+  },
+  {
+    label: {
+      English: 'Scale',
+      Spanish: 'Escala',
+    },
+  },
+  {
+    label: {
+      English: 'Successfull',
+      Spanish: 'Exitoso',
+    },
+  },
+  {
+    label: {
+      English: 'Address deleted successfully',
+      Spanish: 'Dirección eliminada con éxito',
+    },
+  },
 ];
 
 const L = (value: any) => {
