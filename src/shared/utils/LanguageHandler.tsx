@@ -155,6 +155,12 @@ export const language = [
   },
   {
     label: {
+      English: 'Address',
+      Spanish: 'Habla a',
+    },
+  },
+  {
+    label: {
       English: 'Your Addresses',
       Spanish: 'Sus direcciones',
     },
@@ -1341,6 +1347,72 @@ export const language = [
     label: {
       English: 'Manage Forward Address',
       Spanish: 'Administrar dirección de reenvío',
+    },
+  },
+  {
+    label: {
+      English: 'Customer Details saved successfully',
+      Spanish: 'Detalles del cliente guardados con éxito',
+    },
+  },
+  {
+    label: {
+      English: 'Firstname is required',
+      Spanish: 'Se requiere el primer nombre',
+    },
+  },
+  {
+    label: {
+      English: 'First Name must be at Least 2 Characters',
+      Spanish: 'El nombre debe tener al menos 2 caracteres',
+    },
+  },
+  {
+    label: {
+      English: 'Last Name must be at Least 2 Characters',
+      Spanish: 'El apellido debe tener al menos 2 caracteres',
+    },
+  },
+  {
+    label: {
+      English: 'Last Name must be at Least 2 Characters',
+      Spanish: 'El apellido debe tener al menos 2 caracteres',
+    },
+  },
+  {
+    label: {
+      English: 'LastName is required',
+      Spanish: 'Se requiere apellido',
+    },
+  },
+  {
+    label: {
+      English: 'Please provide valid email',
+      Spanish: 'Proporcione un correo electrónico válido',
+    },
+  },
+  {
+    label: {
+      English: 'Email is required',
+      Spanish: 'correo electronico es requerido',
+    },
+  },
+  {
+    label: {
+      English: 'Phone must be at least 9 numbers',
+      Spanish: 'El teléfono debe tener al menos 9 números',
+    },
+  },
+  {
+    label: {
+      English: 'Phone is required',
+      Spanish: 'Se requiere teléfono',
+    },
+  },
+  {
+    label: {
+      English: 'Forward Add',
+      Spanish: 'Reenviar Agregar',
     },
   },
 ];

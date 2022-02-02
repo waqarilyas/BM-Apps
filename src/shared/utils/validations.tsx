@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import L from './LanguageHandler';
 
 // const phoneRegExp =
 //   /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/;
@@ -75,21 +76,21 @@ export const addAddressVS = Yup.object().shape({
 export const CustomerInfoVS = Yup.object().shape({
   firstName: Yup.string()
     .trim()
-    .min(2, 'First Name must be at Least 2 Characters')
+    .min(2, L('First Name must be at Least 2 Characters'))
     .max(50)
-    .required('Firstname is required'),
+    .required(L('Firstname is required')),
   lastName: Yup.string()
     .trim()
-    .min(2, 'Last Name must be at Least 2 Characters')
+    .min(2, L('Last Name must be at Least 2 Characters'))
     .max(50)
-    .required('Firstname is required'),
+    .required(L('LastName is required')),
   email: Yup.string()
-    .email('Please provide valid email')
+    .email(L('Please provide valid email'))
     .trim()
-    .required('Firstname is required'),
+    .required(L('Email is required')),
   phone: Yup.string()
     .trim()
     .max(25)
-    .min(5, 'Phone must be at least 9 numbers')
-    .required('Firstname is required'),
+    .min(5, L('Phone must be at least 9 numbers'))
+    .required(L('Phone is required')),
 });

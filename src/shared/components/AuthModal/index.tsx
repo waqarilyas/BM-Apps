@@ -1,5 +1,13 @@
+import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
-import {Modal, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  BackHandler,
+  Modal,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Toast from 'react-native-toast-message';
 import TouchID from 'react-native-touch-id';
 import {THEME} from '../../theme';
@@ -14,7 +22,7 @@ const AuthModal = ({
   onClose: () => void;
 }) => {
   const [error, setError] = useState(false);
-
+  const navigation = useNavigation();
   const authenticate = () => {
     TouchID.authenticate('to unlock your wallet', {
       title: 'Authentication Required',
@@ -52,8 +60,15 @@ const AuthModal = ({
     authenticate();
   }, []);
 
+  const handleClose = () => {
+    onClose();
+    setTimeout(() => {
+      BackHandler.exitApp();
+    }, 0);
+  };
+
   return (
-    <Modal visible={visible} transparent onRequestClose={onClose}>
+    <Modal visible={visible} transparent onRequestClose={handleClose}>
       <View style={styles.container}>
         <View style={styles.textContainer}>
           <Text style={styles.header}>Authentication Failed</Text>
