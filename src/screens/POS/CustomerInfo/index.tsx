@@ -175,7 +175,9 @@ const CustomerInfo = (props: GenericNavigation) => {
             setFieldValue,
           }: any) => (
             <>
-              <Text style={styles.liscenceText}>Select liscence photo</Text>
+              <Text style={styles.liscenceText}>
+                {L('Select licence photo')}
+              </Text>
               <View style={styles.imageContainer}>
                 {image?.path && (
                   <FastImage source={{uri: image?.path}} style={styles.image} />

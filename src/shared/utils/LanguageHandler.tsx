@@ -1357,8 +1357,20 @@ export const language = [
   },
   {
     label: {
+      English: 'Phone Details',
+      Spanish: 'Detalles del teléfono',
+    },
+  },
+  {
+    label: {
       English: 'Firstname is required',
       Spanish: 'Se requiere el primer nombre',
+    },
+  },
+  {
+    label: {
+      English: "Enter the customer's phone details",
+      Spanish: 'Introduce los datos del teléfono del cliente',
     },
   },
   {
@@ -1369,14 +1381,32 @@ export const language = [
   },
   {
     label: {
-      English: 'Last Name must be at Least 2 Characters',
-      Spanish: 'El apellido debe tener al menos 2 caracteres',
+      English: 'Submit',
+      Spanish: 'Entregar',
     },
   },
   {
     label: {
       English: 'Last Name must be at Least 2 Characters',
       Spanish: 'El apellido debe tener al menos 2 caracteres',
+    },
+  },
+  {
+    label: {
+      English: 'Forward Add',
+      Spanish: 'Dirección de reenvío',
+    },
+  },
+  {
+    label: {
+      English: 'Last Name must be at Least 2 Characters',
+      Spanish: 'El apellido debe tener al menos 2 caracteres',
+    },
+  },
+  {
+    label: {
+      English: 'Phone number cannot be empty',
+      Spanish: 'El número de teléfono no puede estar vacío',
     },
   },
   {
@@ -1387,14 +1417,38 @@ export const language = [
   },
   {
     label: {
+      English: 'Share Via SMS',
+      Spanish: 'Compartir vía SMS',
+    },
+  },
+  {
+    label: {
       English: 'Please provide valid email',
       Spanish: 'Proporcione un correo electrónico válido',
     },
   },
   {
     label: {
+      English: 'Share',
+      Spanish: 'Compartir',
+    },
+  },
+  {
+    label: {
       English: 'Email is required',
       Spanish: 'correo electronico es requerido',
+    },
+  },
+  {
+    label: {
+      English: 'Select licence photo',
+      Spanish: 'Seleccionar foto de licencia',
+    },
+  },
+  {
+    label: {
+      English: 'Please upload your liscence image to continue',
+      Spanish: 'Cargue la imagen de su licencia para continuar',
     },
   },
   {
@@ -1411,8 +1465,38 @@ export const language = [
   },
   {
     label: {
+      English: 'Edit Photo',
+      Spanish: 'Editar foto',
+    },
+  },
+  {
+    label: {
+      English: 'Scale',
+      Spanish: 'Escala',
+    },
+  },
+  {
+    label: {
+      English: 'Successfull',
+      Spanish: 'Exitoso',
+    },
+  },
+  {
+    label: {
       English: 'Forward Add',
       Spanish: 'Reenviar Agregar',
+    },
+  },
+  {
+    label: {
+      English: 'Scale',
+      Spanish: 'Escala',
+    },
+  },
+  {
+    label: {
+      English: 'Address deleted successfully',
+      Spanish: 'Dirección eliminada con éxito',
     },
   },
 ];
