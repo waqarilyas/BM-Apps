@@ -25,7 +25,7 @@ const CustomerPhoneDetails = (props: GenericNavigation) => {
   const {firstName, lastName, usdAmount} = data;
   const validate = () => {
     if (phone.length == 0) {
-      setError('Phone number cannot be empty');
+      setError(L('Phone number cannot be empty'));
       return false;
     }
     return true;
@@ -44,18 +44,19 @@ const CustomerPhoneDetails = (props: GenericNavigation) => {
         to: phone,
       });
       Toast.show({
-        text1: 'Successfull',
-        text2: 'Receipt sent successfully',
-        type: 'success',
+        text1: L('Successfull'),
+        text2: L('Receipt sent successfully'),
+        type: L('success'),
       });
       setLoading(false);
       props.navigation?.goBack();
     } catch (err) {
       Toast.show({
-        text1: 'Request Failed',
-        text2:
+        text1: L('Request Failed'),
+        text2: L(
           'Unable to send receipt to user at the moment. Please try again later',
-        type: 'error',
+        ),
+        type: L('error'),
       });
       setLoading(false);
     }
@@ -70,8 +71,10 @@ const CustomerPhoneDetails = (props: GenericNavigation) => {
         </Text>
 
         <AppInput
-          placeholder="Phone Number"
+          placeholder={L('Phone Number')}
           value={phone}
+          keyboardType="phone-pad"
+          returnKeyType="done"
           onChangeText={(val: string) => setPhone(val)}
         />
 

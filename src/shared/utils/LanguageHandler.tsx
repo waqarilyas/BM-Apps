@@ -1337,6 +1337,12 @@ export const language = [
       Spanish: 'Importación de billetera iniciada',
     },
   },
+  {
+    label: {
+      English: 'Manage Forward Address',
+      Spanish: 'Administrar dirección de reenvío',
+    },
+  },
 ];
 
 const L = (value: any) => {

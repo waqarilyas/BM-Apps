@@ -114,7 +114,7 @@ const ForwardAddDetails = (props: GenericNavigation) => {
 
         <View style={styles.container}>
           <AppInput
-            placeholder="Forward Address name"
+            placeholder={L('Forward Address name')}
             onChangeText={setContactName}
             value={contactName}
           />

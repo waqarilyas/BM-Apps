@@ -1,6 +1,13 @@
 import React, {useMemo} from 'react';
 
-import {Alert, StyleSheet, View, Text, NativeModules} from 'react-native';
+import {
+  Alert,
+  StyleSheet,
+  View,
+  Text,
+  NativeModules,
+  ScrollView,
+} from 'react-native';
 import Toast from 'react-native-toast-message';
 import {useDispatch, useSelector} from 'react-redux';
 import {ICONS} from '../../../assets';
@@ -192,7 +199,7 @@ const SettingsMain = (props: Props) => {
     <>
       <AppHeader title={L('Settings')} />
 
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         {merchantEnabled && merchantData?.isDisabled && (
           <Text style={styles.adminError}>
             {L('Your account has been disabled by admin! ')}
@@ -228,7 +235,7 @@ const SettingsMain = (props: Props) => {
           </View>
           <SettingItem
             source={ICONS.FORWARD_ADD}
-            title="Manage Forward Address"
+            title={L('Manage Forward Address')}
             chevron
             onPress={navToForwardAdd}
           />
@@ -341,7 +348,7 @@ const SettingsMain = (props: Props) => {
             />
           </View>
         </View>
-      </View>
+      </ScrollView>
     </>
   );
 };

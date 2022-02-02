@@ -35,7 +35,7 @@ const ShareModal = (props: Props) => {
       <View style={styles.container}>
         <Text style={styles.heading}>Share</Text>
         <ShareItem
-          title="Share Via Phone"
+          title={L('Share Via SMS')}
           iconName="md-share-outline"
           onPress={props.onPressPhone}
         />

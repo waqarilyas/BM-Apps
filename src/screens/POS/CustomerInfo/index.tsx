@@ -1,8 +1,7 @@
 import {Formik} from 'formik';
 import React, {useState} from 'react';
-import {Keyboard, Text, View, EventEmitter} from 'react-native';
+import {Keyboard, Text, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
-import {openPicker} from 'react-native-image-crop-picker';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import LinearGradient from 'react-native-linear-gradient';
 // import EventEmitter from 'EventEmitter'
@@ -116,22 +115,20 @@ const CustomerInfo = (props: GenericNavigation) => {
             Toast.show({
               text1: L('Request Failed'),
               text2: L('Image is too large. Please select another one'),
-              type: 'error',
+              type: L('error'),
             });
           }
 
           response.json();
         })
         .then(res => {
-          console.log('--customer save response--', res);
-
           // dispatch(setMerchantData(res?.data));
           // dispatch(setMerchantEnabledState(true));
 
           Toast.show({
             text1: L('Successfull'),
             text2: L('Customer Details saved successfully'),
-            type: 'success',
+            type: L('Success'),
           });
           // console.log('----action----', action);
 

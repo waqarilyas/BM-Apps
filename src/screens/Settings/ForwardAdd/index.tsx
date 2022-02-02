@@ -1,5 +1,5 @@
 import {useFocusEffect} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {FlatList, View} from 'react-native';
 import Toast from 'react-native-toast-message';
 import {useSelector} from 'react-redux';
@@ -40,9 +40,11 @@ const ForwardAdd = (props: GenericNavigation) => {
       setReload(!reload);
     } catch (err) {
       Toast.show({
-        text1: 'Request Failed',
-        text2: 'Unable to delete address at the moment. Please try again later',
-        type: 'error',
+        text1: L('Request Failed'),
+        text2: L(
+          'Unable to delete address at the moment. Please try again later',
+        ),
+        type: L('error'),
       });
       setLoading(false);
     }
@@ -54,9 +56,9 @@ const ForwardAdd = (props: GenericNavigation) => {
       setAddressBook(recRes.data);
     } catch (err) {
       Toast.show({
-        text1: 'Request Failed',
-        text2: 'Unable to get address book. Please try again later',
-        type: 'error',
+        text1: L('Request Failed'),
+        text2: L('Unable to get address book. Please try again later'),
+        type: L('error'),
       });
     }
   };
@@ -70,7 +72,7 @@ const ForwardAdd = (props: GenericNavigation) => {
   return (
     <View style={styles.mainContainer}>
       <AppHeader
-        title={L(`Forward Add`)}
+        title={L('Forward Add')}
         showBack
         showForwardAdd
         addAction={onPressAdd}
@@ -92,7 +94,7 @@ const ForwardAdd = (props: GenericNavigation) => {
       />
       <AppLoader isVisible={loading} />
       {/* <ScrollView style={styles.container}>
-       
+
       </ScrollView> */}
     </View>
   );
