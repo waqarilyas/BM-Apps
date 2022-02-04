@@ -45,16 +45,30 @@ const ForwardAddDetails = (props: GenericNavigation) => {
   const validate = () => {
     if (address.length == 0) {
       Toast.show({
-        text1: 'Request Failed',
-        text2: 'Please enter address to continue',
-        type: 'error',
+        text1: L('Request Failed'),
+        text2: L('Please enter address to continue'),
+        type: L('error'),
       });
       return false;
     } else if (contactName.length == 0) {
       Toast.show({
-        text1: 'Request Failed',
-        text2: 'Please enter contact name to continue',
-        type: 'error',
+        text1: L('Request Failed'),
+        text2: L('Please enter forward address name to continue'),
+        type: L('error'),
+      });
+      return false;
+    } else if (contactName.trim().length === 0) {
+      Toast.show({
+        text1: L('Request Failed'),
+        text2: L('Please enter forward address name to continue'),
+        type: L('error'),
+      });
+      return false;
+    } else if (address.trim().length === 0) {
+      Toast.show({
+        text1: L('Request Failed'),
+        text2: L('Please enter forward address to continue'),
+        type: L('error'),
       });
       return false;
     }
@@ -75,19 +89,15 @@ const ForwardAddDetails = (props: GenericNavigation) => {
         address,
         blockchain: coin.coin_symbol,
       });
-      Toast.show({
-        text1: 'Successfull',
-        text2: 'Receipt sent successfully',
-        type: 'success',
-      });
       setLoading(false);
       props.navigation?.goBack();
     } catch (err) {
       Toast.show({
-        text1: 'Request Failed',
-        text2:
-          'Unable to send receipt to user at the moment. Please try again later',
-        type: 'error',
+        text1: L('Request Failed'),
+        text2: L(
+          'Unable to perform the request at the moment. Please try again later',
+        ),
+        type: L('error'),
       });
       setLoading(false);
     }
@@ -120,12 +130,12 @@ const ForwardAddDetails = (props: GenericNavigation) => {
           />
 
           <AppInput
-            placeholder="Address"
+            placeholder={L('Address')}
             onChangeText={setAddress}
             value={address}
           />
 
-          <Text style={styles.label}>Select Coin</Text>
+          <Text style={styles.label}>{L('Select Coin')}</Text>
           <TouchableOpacity onPress={onPressPicker} style={styles.pickerButton}>
             <View style={{flexDirection: 'row'}}>
               <FastImage

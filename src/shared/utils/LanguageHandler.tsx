@@ -1499,6 +1499,86 @@ export const language = [
       Spanish: 'Dirección eliminada con éxito',
     },
   },
+  {
+    label: {
+      English: 'Are you sure you want to ',
+      Spanish: 'Estás seguro que quieres ',
+    },
+  },
+  {
+    label: {
+      English: 'disable Algorithmic Protection Fee ',
+      Spanish: 'deshabilitar la tarifa de protección algorítmica',
+    },
+  },
+  {
+    label: {
+      English: 'enable Algorithmic Protection Fee ',
+      Spanish: 'habilitar tarifa de protección algorítmica',
+    },
+  },
+  {
+    label: {
+      English: 'Please Enter Amount',
+      Spanish: 'Ingrese la cantidad',
+    },
+  },
+  {
+    label: {
+      English:
+        'Unable to send receipt to user at the moment. Please try again later',
+      Spanish:
+        'No se puede enviar el recibo al usuario en este momento. Por favor, inténtelo de nuevo más tarde',
+    },
+  },
+  {
+    label: {
+      English: 'Please enter forward address name to continue',
+      Spanish: 'Ingrese el nombre de la dirección de reenvío para continuar',
+    },
+  },
+  {
+    label: {
+      English: 'Are you sure to you want to delete this address?',
+      Spanish: '¿Está seguro de que desea eliminar esta dirección?',
+    },
+  },
+  {
+    label: {
+      English: 'Please enter address to continue',
+      Spanish: 'Por favor ingrese la dirección para continuar',
+    },
+  },
+  {
+    label: {
+      English: 'Please enter forward address name to continue',
+      Spanish: 'Por favor ingrese la dirección para continuar',
+    },
+  },
+  {
+    label: {
+      English: 'Delete',
+      Spanish: 'Borrar',
+    },
+  },
+  {
+    label: {
+      English: 'Forward Address name',
+      Spanish: 'Nombre de la dirección de reenvío',
+    },
+  },
+  {
+    label: {
+      English: 'Address',
+      Spanish: 'Habla a',
+    },
+  },
+  {
+    label: {
+      English: 'Select Coin',
+      Spanish: 'Seleccionar moneda',
+    },
+  },
 ];
 
 const L = (value: any) => {

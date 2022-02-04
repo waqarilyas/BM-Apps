@@ -1,6 +1,6 @@
 import {useFocusEffect} from '@react-navigation/native';
 import React, {useState} from 'react';
-import {FlatList, View} from 'react-native';
+import {Alert, FlatList, View} from 'react-native';
 import Toast from 'react-native-toast-message';
 import {useSelector} from 'react-redux';
 import AppHeader from '../../../shared/components/AppHeader';
@@ -26,28 +26,43 @@ const ForwardAdd = (props: GenericNavigation) => {
   };
 
   const handleDelete = async (addressId: string) => {
-    try {
-      setLoading(true);
+    Alert.alert(
+      L('Delete'),
+      L('Are you sure to you want to delete this address?'),
+      [
+        {
+          text: 'OK',
+          onPress: async () => {
+            try {
+              setLoading(true);
+              const recRes = await deleteAddress(addressId);
 
-      const recRes = await deleteAddress(addressId);
-
-      Toast.show({
-        text1: 'Successfull',
-        text2: 'Address deleted successfully',
-        type: 'success',
-      });
-      setLoading(false);
-      setReload(!reload);
-    } catch (err) {
-      Toast.show({
-        text1: L('Request Failed'),
-        text2: L(
-          'Unable to delete address at the moment. Please try again later',
-        ),
-        type: L('error'),
-      });
-      setLoading(false);
-    }
+              Toast.show({
+                text1: 'Successfull',
+                text2: 'Address deleted successfully',
+                type: 'success',
+              });
+              setLoading(false);
+              setReload(!reload);
+            } catch (err) {
+              Toast.show({
+                text1: L('Request Failed'),
+                text2: L(
+                  'Unable to delete address at the moment. Please try again later',
+                ),
+                type: L('error'),
+              });
+              setLoading(false);
+            }
+          },
+        },
+        {
+          text: L('Cancel'),
+          onPress: () => setLoading(false),
+          style: 'cancel',
+        },
+      ],
+    );
   };
 
   const getInitialData = async () => {
