@@ -28,6 +28,7 @@ import {
   AppShareContent,
   AppShowToast,
 } from '../../../shared/services/helper.service';
+import {getMerchantAPFee} from '../../../shared/services/merchant.service';
 import {RootState} from '../../../shared/store';
 import {setIsCustomerSaved} from '../../../shared/store/reducers/utilReducer';
 import {THEME} from '../../../shared/theme';
@@ -43,6 +44,7 @@ const DirectInvoice = (props: Props) => {
   const [showCurrencyModal, setShowCurrencyModal] = useState(false);
   const [selectedCoin, setSelectedCoin]: any = useState();
   const [customTax, setCustomTax]: any = useState();
+  const [apFee, setApFee] = useState('');
   const [invoiceTax, setInvoiceTax] = useState(0);
   const [totalInvoiceAmount, setTotalInvoiceAmount] = useState<number | string>(
     0,
@@ -201,7 +203,23 @@ const DirectInvoice = (props: Props) => {
     }, []),
   );
 
+  const getAPFee = async () => {
+    try {
+      let res = await getMerchantAPFee();
+      setApFee(res.data.apFee);
+    } catch (error) {
+      console.log('Error getting APFee.', error);
+      Toast.show({
+        text1: L('Failed'),
+        text2: L('Error getting Algorithmic Protection Fee'),
+        type: 'error',
+      });
+    }
+  };
+
   useEffect(() => {
+    //Get APPFee
+    getAPFee();
     setSelectedCoin(wallet[0]);
     setInvoiceTax(6);
   }, []);
@@ -320,17 +338,19 @@ const DirectInvoice = (props: Props) => {
               keyboardType="decimal-pad"
               // value={customTax ? String(customTax) : ''}
               returnKeyType="done"
-              editable={taxEnabled}
+              // editable={taxEnabled}
               inputStyle={[styles.apInput, !taxEnabled && {opacity: 0.5}]}
-              onChangeText={p => {
-                if (p.length == 0) {
-                  setCustomTax(0);
-                  // setCurrentVisibleInput(2);
-                  return;
-                }
-                setCustomTax(parseFloat(p));
-              }}
-              onSubmitEditing={() => setCustomTax(customTax)}
+              // onChangeText={p => {
+              //   if (p.length == 0) {
+              //     setCustomTax(0);
+              //     // setCurrentVisibleInput(2);
+              //     return;
+              //   }
+              //   setCustomTax(parseFloat(p));
+              // }}
+              // onSubmitEditing={() => setCustomTax(customTax)}
+              editable={false}
+              value={apFee + '%'}
             />
             <ToggleSwitch
               isOn={taxEnabled}

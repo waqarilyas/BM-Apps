@@ -1579,6 +1579,12 @@ export const language = [
       Spanish: 'Seleccionar moneda',
     },
   },
+  {
+    label: {
+      English: 'Error getting Algorithmic Protection Fee',
+      Spanish: 'Error al obtener la tarifa de protección algorítmica',
+    },
+  },
 ];
 
 const L = (value: any) => {

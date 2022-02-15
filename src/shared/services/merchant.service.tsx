@@ -110,3 +110,7 @@ export const deleteProduct = async (productId: string) => {
     `${defaultConfig.API_URL}/product/delete-product/${productId}`,
   );
 };
+
+export const getMerchantAPFee = async () => {
+  return axios.get(`${defaultConfig.API_URL}/admin/merchant-settings`);
+};
