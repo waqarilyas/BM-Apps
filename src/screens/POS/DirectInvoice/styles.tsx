@@ -158,6 +158,12 @@ const styles = StyleSheet.create({
     fontSize: RF(12),
     color: THEME.COLORS.textLight,
   },
+  customerInfoMessage: {
+    marginVertical: THEME.MARGIN.VERYLOW,
+    fontSize: RF(12),
+    color: THEME.COLORS.green,
+    alignSelf: 'center',
+  },
 });
 
 export default styles;

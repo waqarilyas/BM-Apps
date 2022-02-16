@@ -10,6 +10,7 @@ const initialState = {
   contacts: [],
   APFee: 0,
   totalTaxAmount: 0,
+  customerInfo: null,
 };
 
 export const posSlice = createSlice({
@@ -96,6 +97,12 @@ export const posSlice = createSlice({
     setAPFee: (state, action) => {
       state.APFee = action.payload;
     },
+    setCustomerInfo: (state, action) => {
+      state.customerInfo = action.payload;
+    },
+    resetCustomerInfo: state => {
+      state.customerInfo = null;
+    },
   },
 });
 
@@ -109,6 +116,8 @@ export const {
   resetCart,
   addContact,
   setAPFee,
+  setCustomerInfo,
+  resetCustomerInfo,
 } = posSlice.actions;
 
 export default posSlice.reducer;

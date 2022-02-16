@@ -1,3 +1,5 @@
+import {database} from 'faker';
+import moment from 'moment';
 import React from 'react';
 import {
   FlatList,
@@ -16,14 +18,18 @@ import {RootState} from '../../store';
 import {THEME} from '../../theme';
 import {HP, RF, WP} from '../../theme/responsive';
 import L from '../../utils/LanguageHandler';
+import PrimaryButton from '../PrimaryButton';
 
 interface Props {
   isVisible: boolean;
   onPressBackdrop: () => void;
   onPressPhone?: () => void;
+  data?: any | object;
 }
 
 const ShareModal = (props: Props) => {
+  console.log('data', props.data?.licenseImage);
+
   return (
     <Modal
       isVisible={props.isVisible}
@@ -33,10 +39,65 @@ const ShareModal = (props: Props) => {
       animationInTiming={400}
       animationOutTiming={400}>
       <View style={styles.container}>
-        <Text style={styles.heading}>{L('Share')}</Text>
-        <ShareItem
+        <Text style={[styles.heading]}>{L('Share')}</Text>
+        <View style={styles.imageView}>
+          <FastImage
+            source={{uri: props.data?.licenseImage}}
+            resizeMode={FastImage.resizeMode.contain}
+            style={{width: RF(120), height: RF(120), alignSelf: 'center'}}
+          />
+        </View>
+        <View style={styles.itemView}>
+          <Text style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
+            Name:
+          </Text>
+          <Text style={styles.itemText}>
+            {props.data?.firstName + props.data?.lastName}
+          </Text>
+        </View>
+
+        <View style={styles.itemView}>
+          <Text style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
+            Phone:
+          </Text>
+
+          <Text style={styles.itemText}>{props.data?.phone}</Text>
+        </View>
+
+        <View style={styles.itemView}>
+          <Text style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
+            Email:
+          </Text>
+
+          <Text style={styles.itemText}>{props.data?.email}</Text>
+        </View>
+        <View style={styles.itemView}>
+          <Text style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
+            Amount:
+          </Text>
+
+          <Text style={styles.itemText}>{props.data?.usdAmount}$</Text>
+        </View>
+        <View
+          style={[styles.itemView, {borderBottomWidth: 0, marginBottom: 0}]}>
+          <Text style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
+            Created at:
+          </Text>
+
+          <Text style={styles.itemText}>{props.data?.createdAt}</Text>
+        </View>
+        {/* <ShareItem
           title={L('Share Via SMS')}
           iconName="md-share-outline"
+          onPress={props.onPressPhone}
+        /> */}
+        {/* <View style={styles.divider} /> */}
+
+        <PrimaryButton
+          title={'Share Via SMS'}
+          // textStyle={}
+          buttonStyle={styles.buttonStyle}
+          icon={'share-alternative'}
           onPress={props.onPressPhone}
         />
       </View>
@@ -63,7 +124,7 @@ export default ShareModal;
 const styles = StyleSheet.create({
   container: {
     width: WP(100),
-    height: HP(30),
+    // height: HP(30),
     borderTopRightRadius: WP(5),
     borderTopLeftRadius: WP(5),
     backgroundColor: THEME.COLORS.secondaryBackground,
@@ -77,17 +138,57 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     paddingVertical: RF(10),
   },
+  buttonStyle: {
+    marginHorizontal: RF(100),
+
+    width: RF(150),
+    height: RF(40),
+    // marginBottom: RF(100),
+    marginVertical: THEME.MARGIN.NORMAL,
+  },
   icon: {
     marginRight: RF(10),
   },
   heading: {
     color: THEME.COLORS.white,
     fontSize: RF(15),
-    fontFamily: THEME.FONTS.TYPE.MEDIUM,
+    fontFamily: THEME.FONTS.TYPE.BOLD,
+    alignSelf: 'center',
   },
   shareTitle: {
     color: THEME.COLORS.white,
     fontSize: RF(14),
     fontFamily: THEME.FONTS.TYPE.MEDIUM,
+  },
+  itemText: {
+    color: THEME.COLORS.white,
+    fontSize: RF(14),
+    fontFamily: THEME.FONTS.TYPE.MEDIUM,
+  },
+  imageView: {
+    marginVertical: THEME.MARGIN.NORMAL,
+
+    borderRadius: THEME.RADIUS.SMALLBOX,
+
+    height: RF(122),
+    width: RF(123),
+    alignItems: 'center',
+    alignSelf: 'center',
+  },
+  itemView: {
+    borderBottomWidth: 1,
+    borderColor: 'grey',
+    marginBottom: THEME.MARGIN.LOW,
+    paddingBottom: THEME.MARGIN.VERYLOW,
+
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  divider: {
+    borderWidth: 0.2,
+    borderColor: THEME.COLORS.white,
+    width: '90%',
+    marginVertical: THEME.MARGIN.LOW,
+    alignSelf: 'center',
   },
 });

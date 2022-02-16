@@ -14,6 +14,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import QRCode from 'react-native-qrcode-svg';
 import Toast from 'react-native-toast-message';
 import {useDispatch, useSelector} from 'react-redux';
+import RNFetchBlob from 'rn-fetch-blob';
 import ToggleSwitch from 'toggle-switch-react-native';
 import {ANIMATIONS, ICONS} from '../../../assets';
 import {GetImageForCoin} from '../../../assets/coins';
@@ -23,6 +24,7 @@ import ChooseCoinModal from '../../../shared/components/ChooseCoinModal';
 import CustomAnimations from '../../../shared/components/CustomAnimations';
 import PrimaryButton from '../../../shared/components/PrimaryButton';
 import {GenericNavigation} from '../../../shared/models/types';
+import {saveCustomer} from '../../../shared/services/customer.service';
 import {getForwardAddresBook} from '../../../shared/services/forwardAddresses.service';
 import {
   AppShareContent,
@@ -30,6 +32,10 @@ import {
 } from '../../../shared/services/helper.service';
 import {getMerchantAPFee} from '../../../shared/services/merchant.service';
 import {RootState} from '../../../shared/store';
+import {
+  resetCart,
+  resetCustomerInfo,
+} from '../../../shared/store/reducers/posReducer';
 import {setIsCustomerSaved} from '../../../shared/store/reducers/utilReducer';
 import {THEME} from '../../../shared/theme';
 import GLOBAL_STYLE from '../../../shared/theme/global';
@@ -40,8 +46,11 @@ import styles from './styles';
 interface Props extends GenericNavigation {}
 
 const DirectInvoice = (props: Props) => {
+  const [loading, setLoading] = useState(false);
+
   const [copied, setCopied] = useState(false);
   const [showCurrencyModal, setShowCurrencyModal] = useState(false);
+  const [showCustomerInfoModal, setShowCustomerInfoModal] = useState(false);
   const [selectedCoin, setSelectedCoin]: any = useState();
   const [customTax, setCustomTax]: any = useState();
   const [apFee, setApFee] = useState('');
@@ -64,6 +73,7 @@ const DirectInvoice = (props: Props) => {
   const {
     wallet: {wallet},
     user: {merchantData},
+    pos: {customerInfo},
   } = useSelector((state: RootState) => state);
   const {isCustomerSaved} = useSelector((state: RootState) => state.util);
   const toggleModal = () => {
@@ -71,6 +81,8 @@ const DirectInvoice = (props: Props) => {
     setShowCurrencyModal(!showCurrencyModal);
     // resetValues();
   };
+  const toggleCustomerInfo = () =>
+    setShowCustomerInfoModal(!showCustomerInfoModal);
 
   const resetValues = () => {
     setCustomAmount('');
@@ -150,34 +162,140 @@ const DirectInvoice = (props: Props) => {
       ],
     );
   };
+  const addCustomerInfo = () => {
+    try {
+      const params = [
+        customerInfo?.photo && {
+          name: 'photo',
+          filename: 'vid.mp4',
+          data: RNFetchBlob.wrap(
+            decodeURIComponent(customerInfo?.photo?.replace('file://', '')),
+          ),
+        },
+        {
+          name: 'merchantId',
+          data: merchantData?._id,
+        },
+        {
+          name: 'usdAmount',
+          data: String(totalInvoiceAmount),
+        },
 
+        {
+          name: 'firstName',
+          data: customerInfo?.firstName,
+        },
+        {
+          name: 'lastName',
+          data: customerInfo?.lastName,
+        },
+        {
+          name: 'email',
+          data: customerInfo?.email,
+        },
+        {
+          name: 'phone',
+          data: customerInfo?.phone,
+        },
+      ];
+      saveCustomer(params)
+        .uploadProgress((written, total) => {
+          console.log('uploaded', written / total);
+        })
+        .then(response => {
+          if (response.info().status === 413) {
+            Toast.show({
+              text1: L('Request Failed'),
+              text2: L('Image is too large. Please select another one'),
+              type: L('error'),
+            });
+          } else {
+            Toast.show({
+              text1: L('Success'),
+              text2: L('Payment Confirmed Successfully'),
+              type: 'success',
+            });
+          }
+
+          response.json();
+        })
+        .then((res: any) => {
+          // dispatch(setMerchantData(res?.data));
+          // dispatch(setMerchantEnabledState(true));
+
+          Toast.show({
+            text1: L('Successfull'),
+            text2: L('Customer Details saved successfully'),
+            type: L('success'),
+          });
+          // console.log('----action----', action);
+
+          resetValues();
+
+          setLoading(false);
+          dispatch(resetCart());
+          dispatch(resetCustomerInfo());
+        })
+        .catch(err => {
+          setLoading(false);
+          console.log('Saving Customer Error', err);
+          Toast.show({
+            text1: L('Request Failed'),
+            text2: err?.response?.data?.message || err.message,
+            type: 'error',
+          });
+        });
+    } catch (e) {
+      console.log('Add Customer Info Error', e);
+    }
+  };
   const onConfirmPayment = () => {
-    Keyboard.dismiss();
-    if (customAmount === '0') {
-      Toast.show({
-        text1: L('Failed'),
-        text2: L('Amount cannot be zero'),
-        type: 'error',
-      });
-    } else if (customAmount == '') {
-      Toast.show({
-        text1: L('Failed'),
-        text2: L('Please Enter Amount'),
-        type: 'error',
-      });
-    } else if (taxEnabled && !customTax) {
-      Toast.show({
-        text1: L('Failed'),
-        text2: L('Enter Protection Fee'),
-        type: 'error',
-      });
-    } else {
-      Toast.show({
-        text1: L('Success'),
-        text2: L('Payment Confirmed Successfully'),
-        type: 'success',
-      });
-      resetValues();
+    try {
+      Keyboard.dismiss();
+      if (customAmount === '0') {
+        Toast.show({
+          text1: L('Failed'),
+          text2: L('Amount cannot be zero'),
+          type: 'error',
+        });
+      } else if (customAmount == '') {
+        Toast.show({
+          text1: L('Failed'),
+          text2: L('Please Enter Amount'),
+          type: 'error',
+        });
+      } else if (taxEnabled && !customTax) {
+        Toast.show({
+          text1: L('Failed'),
+          text2: L('Enter Protection Fee'),
+          type: 'error',
+        });
+      } else if (!customerInfo) {
+        Alert.alert(
+          L('Confirmation!'),
+          L('Do You Want to Add Customer Information for this Sale?'),
+          [
+            {
+              text: L('Cancel'),
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            {
+              text: L('YES'),
+              onPress: () => {
+                props.navigation?.navigate('CustomerInfo', {
+                  totalInvoiceAmount,
+                });
+              },
+            },
+          ],
+          {cancelable: false},
+        );
+      } else {
+        addCustomerInfo();
+      }
+    } catch (e) {
+      console.log('onConfirmPayment error', e);
     }
   };
   const onShare = () => {
@@ -400,10 +518,17 @@ const DirectInvoice = (props: Props) => {
                 <Text style={styles.copied}>{L('Copied')}</Text>
               </View>
             )}
+            {Boolean(customerInfo) && (
+              <View>
+                <Text style={styles.customerInfoMessage}>
+                  Customer Info Added Successfully!
+                </Text>
+              </View>
+            )}
+
             <PrimaryButton
               icon="share"
               title={L('Share')}
-              onPress={onShare}
               buttonStyle={styles.shareButton}
               textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
             />

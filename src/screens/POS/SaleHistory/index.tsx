@@ -71,6 +71,7 @@ const SaleHistory = (props: GenericNavigation) => {
       </View>
       <AppLoader isVisible={loading} />
       <ShareModal
+        data={selectedItem}
         isVisible={Boolean(selectedItem)}
         onPressBackdrop={() => setSelectedItem(null)}
         onPressPhone={() => {
@@ -107,9 +108,6 @@ const HistoryItem = ({data, onPress}: any) => {
 
       <View style={styles.historyRight}>
         <Text style={styles.amount}>$ {parseFloat(usdAmount).toFixed(1)}</Text>
-      </View>
-      <View style={styles.shareContainer}>
-        <Icon name="share-apple" color={THEME.COLORS.white} size={RF(30)} />
       </View>
     </TouchableOpacity>
   );
