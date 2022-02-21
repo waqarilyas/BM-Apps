@@ -22,6 +22,7 @@ const BottomTabs = () => {
   return (
     <>
       <Tab.Navigator
+        initialRouteName="Wallet"
         sceneContainerStyle={{
           backgroundColor: THEME.COLORS.tabColor,
         }}

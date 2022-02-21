@@ -4,6 +4,7 @@ import {Keyboard, Text, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import LinearGradient from 'react-native-linear-gradient';
+import Toast from 'react-native-toast-message';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useDispatch, useSelector} from 'react-redux';
 import AppHeader from '../../../shared/components/AppHeader';
@@ -66,6 +67,11 @@ const CustomerInfo = (props: GenericNavigation) => {
 
     setLoading(false);
     props.navigation?.goBack();
+    Toast.show({
+      text1: L('Success'),
+      text2: L('Customer Details Added Successfully'),
+      type: 'success',
+    });
   };
 
   const openPicker = () => setImageModalOpen(true);

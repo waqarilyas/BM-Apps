@@ -164,6 +164,8 @@ const DirectInvoice = (props: Props) => {
   };
   const addCustomerInfo = () => {
     try {
+      console.log('==================');
+      setLoading(true);
       const params = [
         customerInfo?.photo && {
           name: 'photo',
@@ -198,11 +200,14 @@ const DirectInvoice = (props: Props) => {
           data: customerInfo?.phone,
         },
       ];
+
       saveCustomer(params)
         .uploadProgress((written, total) => {
           console.log('uploaded', written / total);
         })
         .then(response => {
+          console.log('---response---', response);
+
           if (response.info().status === 413) {
             Toast.show({
               text1: L('Request Failed'),
@@ -225,7 +230,7 @@ const DirectInvoice = (props: Props) => {
 
           Toast.show({
             text1: L('Successfull'),
-            text2: L('Customer Details saved successfully'),
+            text2: L('Payment Confirmed successfully'),
             type: L('success'),
           });
           // console.log('----action----', action);
@@ -251,7 +256,7 @@ const DirectInvoice = (props: Props) => {
   };
   const onConfirmPayment = () => {
     try {
-      Keyboard.dismiss();
+      // Keyboard.dismiss();
       if (customAmount === '0') {
         Toast.show({
           text1: L('Failed'),
@@ -264,20 +269,22 @@ const DirectInvoice = (props: Props) => {
           text2: L('Please Enter Amount'),
           type: 'error',
         });
-      } else if (taxEnabled && !customTax) {
-        Toast.show({
-          text1: L('Failed'),
-          text2: L('Enter Protection Fee'),
-          type: 'error',
-        });
       } else if (!customerInfo) {
         Alert.alert(
           L('Confirmation!'),
           L('Do You Want to Add Customer Information for this Sale?'),
           [
             {
-              text: L('Cancel'),
-              onPress: () => console.log('Cancel Pressed'),
+              text: L('NO'),
+              onPress: () => {
+                resetValues();
+                dispatch(resetCart());
+                Toast.show({
+                  text1: L('Successfull'),
+                  text2: L('Payment Confirmed successfully'),
+                  type: L('success'),
+                });
+              },
               style: 'cancel',
             },
             {
@@ -545,6 +552,7 @@ const DirectInvoice = (props: Props) => {
           onPress={onConfirmPayment}
           buttonStyle={styles.confirmButton}
           textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
+          loading={loading}
         />
 
         <ChooseCoinModal

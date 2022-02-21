@@ -88,6 +88,8 @@ const SettingsMain = (props: Props) => {
   };
 
   const logOutUser = () => {
+    props.navigation?.navigate('Wallet');
+
     socket.removeListener(erc20Address!);
     socket.removeListener(nonErc20Address!);
     socket.removeListener(bitcoinAddress!);
