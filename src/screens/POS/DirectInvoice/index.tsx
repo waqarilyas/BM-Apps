@@ -30,6 +30,8 @@ import {
   AppShareContent,
   AppShowToast,
 } from '../../../shared/services/helper.service';
+import Entypo from 'react-native-vector-icons/Entypo';
+
 import {getMerchantAPFee} from '../../../shared/services/merchant.service';
 import {RootState} from '../../../shared/store';
 import {
@@ -419,6 +421,12 @@ const DirectInvoice = (props: Props) => {
               {contact ? contact.name : selectedCoin?.coin_name}
             </Text>
           </View>
+
+          <Entypo
+            name="chevron-small-down"
+            size={RF(25)}
+            color={THEME.COLORS.white}
+          />
         </Pressable>
         <AppInput
           placeholder={L('Enter Amount USD')}
@@ -538,6 +546,7 @@ const DirectInvoice = (props: Props) => {
               title={L('Share')}
               buttonStyle={styles.shareButton}
               textStyle={GLOBAL_STYLE.LARGE_BUTTON_TEXT}
+              onPress={onShare}
             />
           </View>
         </View>
