@@ -151,7 +151,7 @@ const AddPlace = (props: Props) => {
                     );
                   }}
                   query={{
-                    key: 'AIzaSyDwPZ3Cw-KIZGu87lx3qTa2_SIYKzZ9QoE',
+                    key: 'AIzaSyAeMZC49ZdsYYAi9zw_Rb-txHTpMsajLSM',
                     language: 'en',
                   }}
                   styles={{
