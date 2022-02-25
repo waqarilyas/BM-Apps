@@ -29,6 +29,7 @@ const CoinDetails = (props: Props) => {
   // const [activeIndex, setActiveIndex] = useState(0);
   const [transactions, setTransactions] = useState<Transaction[] | []>([]);
   const [loading, setLoading] = useState(false);
+  console.log('coin details params', props.route?.params);
 
   const coin = useMemo(() => {
     return wallet.find(

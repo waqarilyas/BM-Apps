@@ -274,14 +274,12 @@ export const restoreWalletWithPhrase = async (recovery: any) => {
   }
 };
 
-  
-     
 export const validateMnemonic = async (recovery: string) => {
   try {
     const isValidated = bip39.validateMnemonic(recovery);
     return isValidated;
   } catch (error) {
-    console.log("Error validating mnemonic:", error);
+    console.log('Error validating mnemonic:', error);
     throw error;
   }
 };
@@ -296,7 +294,8 @@ export const handleTx = async (txPayload: any) => {
     ) {
       await handleBtcLikeTx(txPayload);
     } else if (txPayload.symbol === 'bnb') {
-      await handleBnbLikeTx(txPayload);
+      // await handleBnbLikeTx(txPayload);
+      return await handleBnbLikeTx(txPayload);
     } else if (txPayload.is_erc20) {
       await handleErc20LikeTx(txPayload);
     } else if (txPayload.is_bep20) {
@@ -340,6 +339,8 @@ const bnbLikeTxToUser = async (txPayload: any) => {
   try {
     console.log(`Running handleBnbLikeTx for {${txPayload.symbol}}`);
     const txHash = await createAndSignBnbTx(txPayload);
+    console.log(' txhash bnbLikeTxToUser', txHash);
+
     submitBnbLikeTx(txHash, txPayload);
     return txHash;
   } catch (e) {

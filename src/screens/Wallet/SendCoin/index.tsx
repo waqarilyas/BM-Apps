@@ -36,13 +36,14 @@ const SendCoin = (props: Props) => {
   const {wallet: walletState} = useSelector((state: RootState) => state);
 
   const [address, setAddress] = useState(
-    __DEV__ ? 'bc1q2hfys5dm8fe5rypxwvmkkwelp2aejmlnvlp9tm' : '',
+    __DEV__ ? '0xD66020dFcB99e6CCC88c0715da81f8dF9358C601' : '',
   );
   const [usdtAmount, setUsdtAmount] = useState('');
   const [coinAmount, setCoinAmount] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [isPaymentSuccess, setIsPaymentSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [paymentError, setPaymentError] = useState(undefined);
+  const [paymentError, setPaymentError] = useState();
   const dispatch = useDispatch();
 
   const onChangeAddress = (text: string) => setAddress(text);
@@ -178,15 +179,19 @@ const SendCoin = (props: Props) => {
       };
 
       console.log('--payload--', payload);
-      const transactionRes = await handleTx(payload);
+
+      const transactionRes: any = await handleTx(payload);
       console.log('---transaction response---', transactionRes);
       dispatch(refreshCoinsBalances(true));
       setLoading(false);
       setShowModal(true);
-      setPaymentError(undefined);
+      // setPaymentError(undefined);
+      setPaymentError(transactionRes);
+      setIsPaymentSuccess(Boolean(transactionRes));
     } catch (error: any) {
       console.log('---error from payment---', error);
       setLoading(false);
+      setIsPaymentSuccess(false);
       setPaymentError(
         error?.message
           ? error?.message
@@ -209,6 +214,7 @@ const SendCoin = (props: Props) => {
           toggleModal={toggleModal}
           error={paymentError}
           isVisible={showModal}
+          isPaymentSuccess={isPaymentSuccess}
         />
 
         <View style={styles.container}>

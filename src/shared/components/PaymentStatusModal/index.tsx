@@ -11,8 +11,9 @@ import Clipboard from '@react-native-clipboard/clipboard';
 
 interface Props {
   isVisible: boolean;
-  error: boolean;
+  error?: boolean;
   toggleModal: () => void;
+  isPaymentSuccess: boolean;
 }
 
 const PaymentStatusModal = (props: Props) => {
@@ -42,10 +43,10 @@ const PaymentStatusModal = (props: Props) => {
           />
         </TouchableOpacity>
         <Text style={styles.mainText}>
-          {props.error ? 'Payment Failed' : 'Congratulations'}
+          {props.isPaymentSuccess ? 'Congratulations' : 'Payment Failed'}
         </Text>
         <FastImage
-          source={props.error ? ICONS.FAILED : ICONS.SUCCESS}
+          source={props.isPaymentSuccess ? ICONS.SUCCESS : ICONS.FAILED}
           resizeMode={FastImage.resizeMode.contain}
           style={styles.icon}
         />
@@ -55,7 +56,6 @@ const PaymentStatusModal = (props: Props) => {
             {props.error}
           </Text>
         </TouchableOpacity>
-        <Text style={styles.subText1}>Copy Hash for Validation</Text>
       </View>
     </Modal>
   );
@@ -88,8 +88,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   subText: {
-    borderWidth: 1,
-    borderColor: THEME.COLORS.white,
+    // borderWidth: 1,
+    // borderColor: THEME.COLORS.white,
     padding: THEME.PADDING.LOW,
     fontSize: THEME.FONTS.SIZE.SMALL,
     color: THEME.COLORS.white,
