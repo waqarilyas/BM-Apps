@@ -120,13 +120,15 @@ const DirectInvoice = (props: Props) => {
         text2: L('Please Enter Amount'),
         type: 'error',
       });
-    } else if (taxEnabled && !customTax) {
-      Toast.show({
-        text1: L('Failed'),
-        text2: L('Enter Protection Fee'),
-        type: 'error',
-      });
-    } else {
+    }
+    //  else if (taxEnabled && !customTax) {
+    //   Toast.show({
+    //     text1: L('Failed'),
+    //     text2: L('Enter Protection Fee'),
+    //     type: 'error',
+    //   });
+    // }
+    else {
       props.navigation?.navigate('CustomerInfo', {
         totalInvoiceAmount,
       });
