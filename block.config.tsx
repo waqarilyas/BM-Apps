@@ -1,7 +1,7 @@
 const blockConfig = {
   API_URL: 'https://main.blockmerchants.app',
   // API_URL: 'http://192.168.50.80:4000',
-  INFURA_URL: 'https://mainnet.infura.io/v3/b83bc7f34f61479e89b7f43c3175f2c7',
+  INFURA_URL: 'https://mainnet.infura.io/v3/af3827c7ecc34ef98816eb305d969b6f',
   ETH_GAS_API: 'https://ethgasstation.info/json/ethgasAPI.json',
   CHAIN: 'mainnet',
   CHAIN_ID: 1,
@@ -24,7 +24,7 @@ const blockConfig = {
   BLOCKCYPHER_API_TOKEN: '0d1634301dfa419dbe54def19dbf11a6',
 
   ENC_SECRET: 'KM_KEY',
-  ETHERSCAN_API_KEY: 'HZRT7R3NQVR5QN2QP3DDFA7KZ98J9FH1X6',
+  ETHERSCAN_API_KEY: 'T6CKHRNTEB57IV3M6VIZU3GDJDM2EI8VWX',
   BSCSCAN_API_KEY: 'BBCFZJ8Y7T5VIBC7WSI75QJDETQWCWFA9A',
   BLOCKCYPHER_API_ENV: 'main',
 };
