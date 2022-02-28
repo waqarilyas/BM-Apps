@@ -49,7 +49,8 @@ const SendCoin = (props: Props) => {
   const onChangeAddress = (text: string) => setAddress(text);
   const toggleModal = () => {
     setShowModal(!showModal);
-    if (!paymentError) {
+    //!paymentError
+    if (paymentError) {
       setAddress('');
       setCoinAmount('');
       setUsdtAmount('');

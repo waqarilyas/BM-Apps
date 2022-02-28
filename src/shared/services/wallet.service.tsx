@@ -292,16 +292,16 @@ export const handleTx = async (txPayload: any) => {
       !txPayload.is_bep20 &&
       txPayload.symbol !== 'bnb'
     ) {
-      await handleBtcLikeTx(txPayload);
+      return await handleBtcLikeTx(txPayload);
     } else if (txPayload.symbol === 'bnb') {
       // await handleBnbLikeTx(txPayload);
       return await handleBnbLikeTx(txPayload);
     } else if (txPayload.is_erc20) {
-      await handleErc20LikeTx(txPayload);
+      return await handleErc20LikeTx(txPayload);
     } else if (txPayload.is_bep20) {
-      await handleBEP20LikeTx(txPayload);
+      return await handleBEP20LikeTx(txPayload);
     } else {
-      await handleEthLikeTx(txPayload);
+      return await handleEthLikeTx(txPayload);
     }
   } catch (e) {
     throw e;
