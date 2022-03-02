@@ -98,9 +98,13 @@ const CoinDetails = (props: Props) => {
   };
 
   const sortedTransactions = useMemo(
-    () => transactions.sort((a, b) => b.epoch! - a.epoch!),
+    () =>
+      transactions.sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+      ),
     [transactions],
   );
+  console.log('transactions======>', sortedTransactions);
 
   return (
     <View style={styles.mainContainer}>
@@ -170,6 +174,7 @@ const CoinDetails = (props: Props) => {
           }}>
           <Text style={styles.secondaryHeader}>{L('Transactions')}</Text>
           <FlatList
+            // data={transactions}
             data={sortedTransactions}
             keyExtractor={(_, index) => index.toString()}
             contentContainerStyle={{marginTop: THEME.MARGIN.LOW}}

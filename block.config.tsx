@@ -1,6 +1,6 @@
 const blockConfig = {
   API_URL: 'https://main.blockmerchants.app',
-  // API_URL: 'http://192.168.50.80:4000',
+
   INFURA_URL: 'https://mainnet.infura.io/v3/af3827c7ecc34ef98816eb305d969b6f',
   ETH_GAS_API: 'https://ethgasstation.info/json/ethgasAPI.json',
   CHAIN: 'mainnet',

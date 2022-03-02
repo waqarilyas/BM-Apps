@@ -18,7 +18,7 @@ interface Props {
 const TransactionItem = (props: Props) => {
   const TRANSACTION_ICON = props.kind === 'sent' ? ICONS.SEND : ICONS.RECEIVEDT;
   const TRANSACTION_TEXT = props.kind === 'sent' ? L('Sent') : L('Received');
-  let transactionTime = new Date(props.item.timeStamp);
+  let transactionTime = new Date(props.item.createdAt);
 
   const openExplorer = async () => {
     try {

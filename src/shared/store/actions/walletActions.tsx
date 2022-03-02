@@ -101,6 +101,11 @@ export const refreshCoinsBalances =
       return {
         address: w.address,
         coinSymbol: w.coin_symbol,
+        isERC20: Boolean(w.is_erc20),
+        isBEP20: Boolean(w.is_bep20),
+        rate: w.chart_data?.rate,
+        contractAddress: w.contractAddress,
+        decimal: 18,
       };
     });
     try {
@@ -108,6 +113,7 @@ export const refreshCoinsBalances =
         currencyCode: defaultCurrency,
         walletsInfo,
       });
+      console.log('result=====', balancesRes);
       balancesRes.data.forEach((b: CoinBalancesResEntity) => {
         let relevantWallet = wallet.find(w => w.coin_symbol === b.coinSymbol);
         dispatch(
