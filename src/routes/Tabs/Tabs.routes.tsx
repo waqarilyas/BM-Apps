@@ -8,6 +8,7 @@ import {RootState} from '../../shared/store';
 import {THEME} from '../../shared/theme';
 import {RF} from '../../shared/theme/responsive';
 import L from '../../shared/utils/LanguageHandler';
+import MAPStack from './MAP/MAP.routes';
 import POSStack from './POS/POS.routes';
 import SettingsStack from './Settings/Settings.routes';
 import WalletStack from './Wallet/Wallet.routes';
@@ -15,7 +16,10 @@ import WalletStack from './Wallet/Wallet.routes';
 const Tab = createBottomTabNavigator();
 
 const BottomTabs = () => {
-  const {language} = useSelector((state: RootState) => state.settings);
+  const {
+    settings: {language},
+    user: {merchantEnabled},
+  } = useSelector((state: RootState) => state);
 
   // const insets = useSafeAreaInsets();
   useEffect(() => {}, [language]);
@@ -47,6 +51,8 @@ const BottomTabs = () => {
               imageName = ICONS.WALLET;
             } else if (route.name === L('POS')) {
               imageName = ICONS.POS;
+            } else if (route.name === L('MAP')) {
+              imageName = ICONS.LOCATION;
             } else if (route.name === L('Settings')) {
               imageName = ICONS.SETTINGS;
             }
@@ -98,7 +104,11 @@ const BottomTabs = () => {
           },
         })}>
         <Tab.Screen name={L('Wallet')} component={WalletStack} />
-        <Tab.Screen name={L('POS')} component={POSStack} />
+        {merchantEnabled ? (
+          <Tab.Screen name={L('POS')} component={POSStack} />
+        ) : (
+          <Tab.Screen name={L('MAP')} component={MAPStack} />
+        )}
         <Tab.Screen name={L('Settings')} component={SettingsStack} />
       </Tab.Navigator>
     </>

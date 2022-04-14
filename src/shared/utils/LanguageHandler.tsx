@@ -15,6 +15,12 @@ export const language = [
   },
   {
     label: {
+      English: 'MAP',
+      Spanish: 'MAPA',
+    },
+  },
+  {
+    label: {
       English: 'Settings',
       Spanish: 'Ajustes',
     },
