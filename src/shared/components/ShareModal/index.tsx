@@ -1,22 +1,10 @@
-import {database} from 'faker';
-import moment from 'moment';
 import React from 'react';
-import {
-  FlatList,
-  Pressable,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {useSelector} from 'react-redux';
-import {COINS} from '../../../assets/coins';
-import {RootState} from '../../store';
 import {THEME} from '../../theme';
-import {HP, RF, WP} from '../../theme/responsive';
+import {RF, WP} from '../../theme/responsive';
 import L from '../../utils/LanguageHandler';
 import PrimaryButton from '../PrimaryButton';
 
@@ -39,7 +27,7 @@ const ShareModal = (props: Props) => {
       animationInTiming={400}
       animationOutTiming={400}>
       <View style={styles.container}>
-        <Text style={[styles.heading]}>{L('Share')}</Text>
+        <Text style={[styles.heading]}>{L('Invoice Details')}</Text>
         <View style={styles.imageView}>
           <FastImage
             source={{uri: props.data?.licenseImage}}

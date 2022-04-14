@@ -1591,6 +1591,12 @@ export const language = [
       Spanish: 'Error al obtener la tarifa de protección algorítmica',
     },
   },
+  {
+    label: {
+      English: 'Invoice Details',
+      Spanish: 'Detalles de la factura',
+    },
+  },
 ];
 
 const L = (value: any) => {
