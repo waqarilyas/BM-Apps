@@ -279,7 +279,7 @@ const DirectInvoice = (props: Props) => {
           L('Do You Want to Add Customer Information for this Sale?'),
           [
             {
-              text: L('NO'),
+              text: L('PROCEED WITHOUT CUSTOMER INFO'),
               onPress: () => {
                 resetValues();
                 dispatch(resetCart());
@@ -289,10 +289,10 @@ const DirectInvoice = (props: Props) => {
                   type: L('success'),
                 });
               },
-              style: 'cancel',
+              style: 'destructive',
             },
             {
-              text: L('YES'),
+              text: L('ADD INFORMATION'),
               onPress: () => {
                 props.navigation?.navigate('CustomerInfo', {
                   totalInvoiceAmount,
