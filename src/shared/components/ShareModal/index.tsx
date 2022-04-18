@@ -12,6 +12,7 @@ interface Props {
   isVisible: boolean;
   onPressBackdrop: () => void;
   onPressPhone?: () => void;
+  onPressEmail?: () => void;
   data?: any | object;
 }
 
@@ -74,20 +75,21 @@ const ShareModal = (props: Props) => {
 
           <Text style={styles.itemText}>{props.data?.createdAt}</Text>
         </View>
-        {/* <ShareItem
-          title={L('Share Via SMS')}
-          iconName="md-share-outline"
-          onPress={props.onPressPhone}
-        /> */}
-        {/* <View style={styles.divider} /> */}
 
-        <PrimaryButton
-          title={'Share Via SMS'}
-          // textStyle={}
-          buttonStyle={styles.buttonStyle}
-          icon={'share-alternative'}
-          onPress={props.onPressPhone}
-        />
+        <View style={styles.row}>
+          <PrimaryButton
+            title={'Share Via SMS'}
+            buttonStyle={styles.buttonStyle}
+            icon={'share-alternative'}
+            onPress={props.onPressPhone}
+          />
+          <PrimaryButton
+            title={'Share Via Email'}
+            buttonStyle={styles.buttonStyle}
+            icon={'mail'}
+            onPress={props.onPressEmail}
+          />
+        </View>
       </View>
     </Modal>
   );
@@ -112,7 +114,6 @@ export default ShareModal;
 const styles = StyleSheet.create({
   container: {
     width: WP(100),
-    // height: HP(30),
     borderTopRightRadius: WP(5),
     borderTopLeftRadius: WP(5),
     backgroundColor: THEME.COLORS.secondaryBackground,
@@ -127,11 +128,8 @@ const styles = StyleSheet.create({
     paddingVertical: RF(10),
   },
   buttonStyle: {
-    marginHorizontal: RF(100),
-
     width: RF(150),
     height: RF(40),
-    // marginBottom: RF(100),
     marginVertical: THEME.MARGIN.NORMAL,
   },
   icon: {
@@ -178,5 +176,9 @@ const styles = StyleSheet.create({
     width: '90%',
     marginVertical: THEME.MARGIN.LOW,
     alignSelf: 'center',
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });

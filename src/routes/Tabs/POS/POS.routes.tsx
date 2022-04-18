@@ -10,6 +10,7 @@ import DirectInvoice from '../../../screens/POS/DirectInvoice';
 import SaleHistory from '../../../screens/POS/SaleHistory';
 import CustomerInfo from '../../../screens/POS/CustomerInfo';
 import CustomerPhoneDetails from '../../../screens/POS/CustomerPhoneDetails';
+import CustomerEmailDetails from '../../../screens/POS/CustomerEmailDetails';
 
 const Stack = createStackNavigator();
 
@@ -30,6 +31,10 @@ const POSStack = () => {
       <Stack.Screen
         name="CustomerPhoneDetails"
         component={CustomerPhoneDetails}
+      />
+      <Stack.Screen
+        name="CustomerEmailDetails"
+        component={CustomerEmailDetails}
       />
       <Stack.Screen name="SearchProduct" component={SearchProduct} />
     </Stack.Navigator>

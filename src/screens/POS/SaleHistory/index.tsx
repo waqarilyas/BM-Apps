@@ -11,11 +11,7 @@ import styles from './styles';
 import {ICONS} from '../../../assets';
 import AppLoader from '../../../shared/components/AppLoader';
 import L from '../../../shared/utils/LanguageHandler';
-import Icon from 'react-native-vector-icons/EvilIcons';
-import {THEME} from '../../../shared/theme';
-import {RF} from '../../../shared/theme/responsive';
 import ShareModal from '../../../shared/components/ShareModal';
-import {baseProps} from 'react-native-gesture-handler/lib/typescript/handlers/gestureHandlers';
 import {GenericNavigation} from '../../../shared/models/types';
 
 const SaleHistory = (props: GenericNavigation) => {
@@ -76,6 +72,12 @@ const SaleHistory = (props: GenericNavigation) => {
         onPressBackdrop={() => setSelectedItem(null)}
         onPressPhone={() => {
           props.navigation?.navigate('CustomerPhoneDetails', {
+            data: selectedItem,
+          });
+          setSelectedItem(null);
+        }}
+        onPressEmail={() => {
+          props.navigation?.navigate('CustomerEmailDetails', {
             data: selectedItem,
           });
           setSelectedItem(null);

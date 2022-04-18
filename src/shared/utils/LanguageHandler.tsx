@@ -1381,6 +1381,18 @@ export const language = [
   },
   {
     label: {
+      English: 'Email Details',
+      Spanish: 'Detalles del correo electrónico',
+    },
+  },
+  {
+    label: {
+      English: "Enter the customer's email details",
+      Spanish: 'Ingrese los detalles del correo electrónico del cliente',
+    },
+  },
+  {
+    label: {
       English: 'First Name must be at Least 2 Characters',
       Spanish: 'El nombre debe tener al menos 2 caracteres',
     },
@@ -1443,6 +1455,12 @@ export const language = [
     label: {
       English: 'Email is required',
       Spanish: 'correo electronico es requerido',
+    },
+  },
+  {
+    label: {
+      English: 'Invalid email',
+      Spanish: 'Email inválido',
     },
   },
   {
