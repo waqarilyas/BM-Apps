@@ -285,7 +285,7 @@ const styles = StyleSheet.create({
     paddingVertical: RF(10),
   },
   buttonStyle: {
-    width: RF(150),
+    width: WP(45),
     height: RF(40),
     marginVertical: THEME.MARGIN.NORMAL,
   },
