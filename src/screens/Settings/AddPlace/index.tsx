@@ -68,7 +68,7 @@ const AddPlace = (props: Props) => {
     createNewShop(values)
       .then(res => {
         Toast.show({
-          text1: L('Successfull'),
+          text1: L('Successful'),
           text2: L('Your shop has been created successfully'),
           type: 'success',
         });

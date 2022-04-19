@@ -44,7 +44,7 @@ const CustomerPhoneDetails = (props: GenericNavigation) => {
         to: phone,
       });
       Toast.show({
-        text1: L('Successfull'),
+        text1: L('Successful'),
         text2: L('Receipt sent successfully'),
         type: L('success'),
       });

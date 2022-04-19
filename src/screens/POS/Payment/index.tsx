@@ -228,7 +228,7 @@ const Payment = (props: Props) => {
           // dispatch(setMerchantEnabledState(true));
 
           Toast.show({
-            text1: L('Successfull'),
+            text1: L('Successful'),
             text2: L('Payment Confirmed successfully'),
             type: L('success'),
           });
@@ -264,7 +264,7 @@ const Payment = (props: Props) => {
             onPress: () => {
               dispatch(resetCart());
               Toast.show({
-                text1: L('Successfull'),
+                text1: L('Successful'),
                 text2: L('Payment Confirmed successfully'),
                 type: L('success'),
               });

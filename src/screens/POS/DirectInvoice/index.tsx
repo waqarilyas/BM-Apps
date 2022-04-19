@@ -155,7 +155,7 @@ const DirectInvoice = (props: Props) => {
             setTaxEnabled(taxEnabled ? false : true);
             setCustomTax('');
             Toast.show({
-              text1: L('Successfull'),
+              text1: L('Successful'),
               text2: `${L('Successfully')}  ${
                 taxEnabled ? L('Disabled') : L('Enabled')
               } Algorithmic Protection Fee`,
@@ -245,7 +245,7 @@ const DirectInvoice = (props: Props) => {
           // dispatch(setMerchantEnabledState(true));
 
           Toast.show({
-            text1: L('Successfull'),
+            text1: L('Successful'),
             text2: L('Payment Confirmed successfully'),
             type: L('success'),
           });
@@ -296,7 +296,7 @@ const DirectInvoice = (props: Props) => {
                 resetValues();
                 dispatch(resetCart());
                 Toast.show({
-                  text1: L('Successfull'),
+                  text1: L('Successful'),
                   text2: L('Payment Confirmed successfully'),
                   type: L('success'),
                 });

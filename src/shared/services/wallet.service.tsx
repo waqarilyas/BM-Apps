@@ -701,7 +701,7 @@ const signEthLikeTx = async (privateKey: string, trx: any) => {
     console.log('\x1b[32m', 'Transaction signed:', signedTx.transactionHash);
     return signedTx.transactionHash;
   } catch (error) {
-    throw 'Insuffient funds';
+    throw 'Insufficient funds';
   }
 };
 

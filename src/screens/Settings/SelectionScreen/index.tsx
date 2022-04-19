@@ -39,7 +39,7 @@ const SelectionScreen = (props: Props) => {
   const changeLanguage = (language: string) => {
     dispatch(setLanguage(language));
     Toast.show({
-      text1: L('Successfull'),
+      text1: L('Successful'),
       text2: L('Language updated successfully!'),
       type: 'success',
     });
@@ -49,7 +49,7 @@ const SelectionScreen = (props: Props) => {
   const changeCurrency = (currency: string) => {
     dispatch(setCurrency(currency));
     Toast.show({
-      text1: L('Successfull'),
+      text1: L('Successful'),
       text2: L('Currency updated successfully!'),
       type: 'success',
     });

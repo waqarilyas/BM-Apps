@@ -52,7 +52,7 @@ const PaymentStatusModal = (props: Props) => {
         />
         <TouchableOpacity onPress={onPressHash}>
           <Text style={styles.subText}>
-            {/* {props.error ? props.error : 'Payment Successfull'} */}
+            {/* {props.error ? props.error : 'Payment Successful'} */}
             {props.error}
           </Text>
         </TouchableOpacity>

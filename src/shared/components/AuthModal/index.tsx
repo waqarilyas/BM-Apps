@@ -37,8 +37,8 @@ const AuthModal = ({
     })
       .then((success: any) => {
         Toast.show({
-          text1: L('Successfull'),
-          text2: L('Authentication successfull'),
+          text1: L('Successful'),
+          text2: L('Authentication Successful'),
           type: 'success',
         });
         onClose();

@@ -671,7 +671,7 @@ export const language = [
   },
   {
     label: {
-      English: 'Successfull',
+      English: 'Successful',
       Spanish: 'Exitoso',
     },
   },
@@ -1477,13 +1477,13 @@ export const language = [
   },
   {
     label: {
-      English: 'Select licence photo',
+      English: 'Select license photo',
       Spanish: 'Seleccionar foto de licencia',
     },
   },
   {
     label: {
-      English: 'Please upload your liscence image to continue',
+      English: 'Please upload your license image to continue',
       Spanish: 'Cargue la imagen de su licencia para continuar',
     },
   },
@@ -1513,7 +1513,7 @@ export const language = [
   },
   {
     label: {
-      English: 'Successfull',
+      English: 'Successful',
       Spanish: 'Exitoso',
     },
   },

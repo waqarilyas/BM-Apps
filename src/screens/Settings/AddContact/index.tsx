@@ -60,7 +60,7 @@ const AddContact = (props: PROPS) => {
     );
 
     Toast.show({
-      text1: L('Successfull'),
+      text1: L('Successful'),
       text2: L('Contact added successfully!'),
       type: 'success',
     });
