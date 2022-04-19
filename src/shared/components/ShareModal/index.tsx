@@ -1,5 +1,11 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -7,6 +13,7 @@ import {THEME} from '../../theme';
 import {RF, WP} from '../../theme/responsive';
 import L from '../../utils/LanguageHandler';
 import PrimaryButton from '../PrimaryButton';
+import SecondaryButton from '../SecondaryButton';
 
 interface Props {
   isVisible: boolean;
@@ -17,25 +24,37 @@ interface Props {
 }
 
 const ShareModal = (props: Props) => {
-  console.log('data', props.data?.licenseImage);
+  const products = props?.data?.products || [];
+  const merchant = props?.data?.merchantId || null;
+  const assetUsed = props?.data?.assetUsed || null;
+  const assetPrice = props?.data?.assetPrice || null;
 
   return (
     <Modal
       isVisible={props.isVisible}
       onBackdropPress={props.onPressBackdrop}
       onBackButtonPress={props.onPressBackdrop}
-      style={{position: 'absolute', bottom: WP(-5), left: WP(-5)}}
+      style={{left: WP(-5)}}
       animationInTiming={400}
       animationOutTiming={400}>
-      <View style={styles.container}>
+      <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
+        <View style={{height: RF(25)}} />
+
         <Text style={[styles.heading]}>{L('Invoice Details')}</Text>
-        <View style={styles.imageView}>
-          <FastImage
-            source={{uri: props.data?.licenseImage}}
-            resizeMode={FastImage.resizeMode.contain}
-            style={{width: RF(120), height: RF(120), alignSelf: 'center'}}
-          />
+
+        {props.data?.licenseImage && (
+          <View style={styles.imageView}>
+            <FastImage
+              source={{uri: props.data?.licenseImage}}
+              resizeMode={FastImage.resizeMode.contain}
+              style={{width: RF(120), height: RF(120), alignSelf: 'center'}}
+            />
+          </View>
+        )}
+        <View style={{marginVertical: RF(20)}}>
+          <Text style={[styles.heading]}>{L('Customer')}</Text>
         </View>
+
         <View style={styles.itemView}>
           <Text style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
             Name:
@@ -44,7 +63,6 @@ const ShareModal = (props: Props) => {
             {props.data?.firstName + props.data?.lastName}
           </Text>
         </View>
-
         <View style={styles.itemView}>
           <Text style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
             Phone:
@@ -52,7 +70,6 @@ const ShareModal = (props: Props) => {
 
           <Text style={styles.itemText}>{props.data?.phone}</Text>
         </View>
-
         <View style={styles.itemView}>
           <Text style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
             Email:
@@ -62,19 +79,113 @@ const ShareModal = (props: Props) => {
         </View>
         <View style={styles.itemView}>
           <Text style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
-            Amount:
-          </Text>
-
-          <Text style={styles.itemText}>{props.data?.usdAmount}$</Text>
-        </View>
-        <View
-          style={[styles.itemView, {borderBottomWidth: 0, marginBottom: 0}]}>
-          <Text style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
             Created at:
           </Text>
 
           <Text style={styles.itemText}>{props.data?.createdAt}</Text>
         </View>
+        <View style={styles.itemView}>
+          <Text style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
+            Sale Type:
+          </Text>
+
+          <Text style={styles.itemText}>Cart Checkout</Text>
+        </View>
+
+        {products && products.length > 0 && (
+          <>
+            <View style={{marginVertical: RF(20)}}>
+              <Text style={[styles.heading]}>{L('Products')}</Text>
+            </View>
+
+            {products.map((product: any) => {
+              return (
+                <View style={styles.itemView}>
+                  <Text
+                    style={[
+                      styles.itemText,
+                      {fontFamily: THEME.FONTS.TYPE.BOLD},
+                    ]}>
+                    {product?.title}
+                  </Text>
+
+                  <Text style={styles.itemText}>{product?.price}$</Text>
+                </View>
+              );
+            })}
+          </>
+        )}
+
+        <View style={styles.itemView}>
+          <Text style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
+            Amount (Incl Tax):
+          </Text>
+
+          <Text style={styles.itemText}>{props.data?.usdAmount}$</Text>
+        </View>
+
+        {merchant && (
+          <>
+            <View style={{marginVertical: RF(20)}}>
+              <Text style={[styles.heading]}>{L('Merchant')}</Text>
+            </View>
+
+            <View style={styles.itemView}>
+              <Text
+                style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
+                Name:
+              </Text>
+
+              <Text style={styles.itemText}>
+                {merchant?.firstName + ' ' + merchant?.lastName}
+              </Text>
+            </View>
+
+            <View style={styles.itemView}>
+              <Text
+                style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
+                Phone:
+              </Text>
+
+              <Text style={styles.itemText}>{merchant?.phoneNumber}</Text>
+            </View>
+
+            <View style={styles.itemView}>
+              <Text
+                style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
+                Email:
+              </Text>
+
+              <Text style={styles.itemText}>{merchant?.email}</Text>
+            </View>
+          </>
+        )}
+
+        {assetPrice && assetUsed && (
+          <>
+            <View style={{marginVertical: RF(20)}}>
+              <Text style={[styles.heading]}>{L('Coin')}</Text>
+            </View>
+
+            <View style={styles.itemView}>
+              <Text
+                style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
+                Asset Used:
+              </Text>
+
+              <Text style={styles.itemText}>{assetUsed}</Text>
+            </View>
+
+            <View style={styles.itemView}>
+              <Text
+                style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
+                Asset Price:
+              </Text>
+
+              <Text style={styles.itemText}>{assetPrice}</Text>
+            </View>
+          </>
+        )}
 
         <View style={styles.row}>
           <PrimaryButton
@@ -90,7 +201,14 @@ const ShareModal = (props: Props) => {
             onPress={props.onPressEmail}
           />
         </View>
-      </View>
+
+        <SecondaryButton
+          title={'Close'}
+          buttonStyle={styles.buttonStyle}
+          onPress={props.onPressBackdrop}
+        />
+        <View style={{height: RF(50)}} />
+      </ScrollView>
     </Modal>
   );
 };

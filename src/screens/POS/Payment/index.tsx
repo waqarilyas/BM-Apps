@@ -47,6 +47,7 @@ const Payment = (props: Props) => {
   const [copied, setCopied] = useState(false);
   const [showCurrencyModal, setShowCurrencyModal] = useState(false);
   const [selectedCoin, setSelectedCoin] = useState();
+
   const [customTax, setCustomTax] = useState(0);
   const [invoiceTax, setInvoiceTax] = useState(0);
   const [totalInvoiceAmount, setTotalInvoiceAmount] = useState(0);
@@ -62,7 +63,14 @@ const Payment = (props: Props) => {
     settings: {taxEnabled},
     user: {merchantData},
     wallet: {wallet},
-    pos: {customerInfo, totalCartAmount, customPrice, APFee, totalTaxAmount},
+    pos: {
+      customerInfo,
+      totalCartAmount,
+      customPrice,
+      APFee,
+      totalTaxAmount,
+      cart,
+    },
   } = useSelector((state: RootState) => state);
 
   const toggleModal = () => setShowCurrencyModal(!showCurrencyModal);
@@ -169,6 +177,18 @@ const Payment = (props: Props) => {
         {
           name: 'phone',
           data: customerInfo?.phone,
+        },
+        {
+          name: 'productIds',
+          data: cart.map((p: any) => p._id).join(),
+        },
+        {
+          name: 'assetUsed',
+          data: selectedCoin?.coin_symbol?.toUpperCase(),
+        },
+        {
+          name: 'assetPrice',
+          data: String(currencyPrice),
         },
       ];
 

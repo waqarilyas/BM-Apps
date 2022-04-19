@@ -203,6 +203,14 @@ const DirectInvoice = (props: Props) => {
           name: 'phone',
           data: customerInfo?.phone,
         },
+        {
+          name: 'assetUsed',
+          data: selectedCoin?.coin_symbol?.toUpperCase(),
+        },
+        {
+          name: 'assetPrice',
+          data: String(currencyPrice),
+        },
       ];
 
       saveCustomer(params)

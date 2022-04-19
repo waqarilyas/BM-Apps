@@ -395,6 +395,12 @@ export const language = [
   },
   {
     label: {
+      English: 'Merchant',
+      Spanish: 'Comerciante',
+    },
+  },
+  {
+    label: {
       English: 'Enable Merchant',
       Spanish: 'Habilitar comerciante',
     },
@@ -1031,6 +1037,12 @@ export const language = [
   },
   {
     label: {
+      English: 'Customer',
+      Spanish: 'Cliente',
+    },
+  },
+  {
+    label: {
       English: 'First Name',
       Spanish: 'Primer nombre',
     },
@@ -1613,6 +1625,12 @@ export const language = [
     label: {
       English: 'Invoice Details',
       Spanish: 'Detalles de la factura',
+    },
+  },
+  {
+    label: {
+      English: 'Coin',
+      Spanish: 'Moneda',
     },
   },
 ];
