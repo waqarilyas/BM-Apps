@@ -159,7 +159,11 @@ const Payment = (props: Props) => {
         },
         {
           name: 'usdAmount',
-          data: String(currencyPrice),
+          data: String(
+            type == 'invoice' || customPrice
+              ? totalInvoiceAmount
+              : totalCartAmount + totalTaxAmount,
+          ),
         },
 
         {
@@ -189,6 +193,10 @@ const Payment = (props: Props) => {
         {
           name: 'assetPrice',
           data: String(currencyPrice),
+        },
+        {
+          name: 'fiatPrice',
+          data: String(selectedCoin?.chart_data?.rate),
         },
       ];
 

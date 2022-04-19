@@ -9,6 +9,8 @@ import {
 import FastImage from 'react-native-fast-image';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../store';
 import {THEME} from '../../theme';
 import {RF, WP} from '../../theme/responsive';
 import L from '../../utils/LanguageHandler';
@@ -24,10 +26,26 @@ interface Props {
 }
 
 const ShareModal = (props: Props) => {
+  const {
+    wallet: {wallet},
+  } = useSelector((state: RootState) => state);
+
   const products = props?.data?.products || [];
   const merchant = props?.data?.merchantId || null;
   const assetUsed = props?.data?.assetUsed || null;
   const assetPrice = props?.data?.assetPrice || null;
+  const saleFiatPrice = props?.data?.fiatPrice || null;
+
+  const coin = wallet.find(
+    (w: any) => w.coin_symbol?.toUpperCase() === assetUsed?.toUpperCase(),
+  );
+
+  const currentFiatPrice = (coin && coin?.chart_data?.rate) || null;
+
+  let profitLossPercent =
+    saleFiatPrice && currentFiatPrice
+      ? ((currentFiatPrice - saleFiatPrice) / saleFiatPrice) * 100
+      : '';
 
   return (
     <Modal
@@ -60,7 +78,7 @@ const ShareModal = (props: Props) => {
             Name:
           </Text>
           <Text style={styles.itemText}>
-            {props.data?.firstName + props.data?.lastName}
+            {props.data?.firstName + ' ' + props.data?.lastName}
           </Text>
         </View>
         <View style={styles.itemView}>
@@ -83,13 +101,6 @@ const ShareModal = (props: Props) => {
           </Text>
 
           <Text style={styles.itemText}>{props.data?.createdAt}</Text>
-        </View>
-        <View style={styles.itemView}>
-          <Text style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
-            Sale Type:
-          </Text>
-
-          <Text style={styles.itemText}>Cart Checkout</Text>
         </View>
 
         {products && products.length > 0 && (
@@ -185,6 +196,34 @@ const ShareModal = (props: Props) => {
               <Text style={styles.itemText}>{assetPrice}</Text>
             </View>
           </>
+        )}
+
+        <View style={{marginVertical: RF(20)}}>
+          <Text style={[styles.heading]}>{L('Sale Info')}</Text>
+        </View>
+
+        <View style={styles.itemView}>
+          <Text style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
+            Sale Type:
+          </Text>
+
+          <Text style={styles.itemText}>
+            {products.length > 0 ? 'Cart Checkout' : 'Direct Invoice'}
+          </Text>
+        </View>
+
+        {Boolean(profitLossPercent) && (
+          <View style={styles.itemView}>
+            <Text
+              style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
+              Live {profitLossPercent > 0 ? 'Gain ' : 'Loss'}:
+            </Text>
+
+            <Text style={styles.itemText}>
+              {profitLossPercent > 0 ? '+' : ''}
+              {Number(profitLossPercent).toFixed(2)} %
+            </Text>
+          </View>
         )}
 
         <View style={styles.row}>
@@ -296,6 +335,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   row: {
+    marginTop: THEME.MARGIN.NORMAL,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },

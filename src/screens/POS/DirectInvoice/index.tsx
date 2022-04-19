@@ -211,6 +211,10 @@ const DirectInvoice = (props: Props) => {
           name: 'assetPrice',
           data: String(currencyPrice),
         },
+        {
+          name: 'fiatPrice',
+          data: String(selectedCoin?.chart_data?.rate),
+        },
       ];
 
       saveCustomer(params)

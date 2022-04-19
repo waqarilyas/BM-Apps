@@ -1633,6 +1633,12 @@ export const language = [
       Spanish: 'Moneda',
     },
   },
+  {
+    label: {
+      English: 'Sale Info',
+      Spanish: 'Información de venta',
+    },
+  },
 ];
 
 const L = (value: any) => {
