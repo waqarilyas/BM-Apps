@@ -212,7 +212,7 @@ const ShareModal = (props: Props) => {
           </Text>
         </View>
 
-        {Boolean(profitLossPercent) && (
+        {(Boolean(profitLossPercent) || profitLossPercent === 0) && (
           <View style={styles.itemView}>
             <Text
               style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
