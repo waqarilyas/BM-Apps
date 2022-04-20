@@ -32,6 +32,7 @@ const ShareModal = (props: Props) => {
 
   const products = props?.data?.products || [];
   const merchant = props?.data?.merchantId || null;
+  const shop = (merchant && props?.data?.merchantId?.shopId) || null;
   const assetUsed = props?.data?.assetUsed || null;
   const assetPrice = props?.data?.assetPrice || null;
   const saleFiatPrice = props?.data?.fiatPrice || null;
@@ -168,6 +169,50 @@ const ShareModal = (props: Props) => {
               </Text>
 
               <Text style={styles.itemText}>{merchant?.email}</Text>
+            </View>
+          </>
+        )}
+
+        {shop && (
+          <>
+            <View style={{marginVertical: RF(20)}}>
+              <Text style={[styles.heading]}>{L('Store')}</Text>
+            </View>
+
+            <View style={styles.itemView}>
+              <Text
+                style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
+                Name:
+              </Text>
+
+              <Text style={styles.itemText}>{shop?.name}</Text>
+            </View>
+
+            <View style={styles.itemView}>
+              <Text
+                style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
+                Category:
+              </Text>
+
+              <Text style={styles.itemText}>{shop?.category}</Text>
+            </View>
+
+            <View style={styles.itemView}>
+              <Text
+                style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
+                Address:
+              </Text>
+
+              <Text style={styles.itemText}>{shop?.address}</Text>
+            </View>
+
+            <View style={styles.itemView}>
+              <Text
+                style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
+                Website:
+              </Text>
+
+              <Text style={styles.itemText}>{shop?.website}</Text>
             </View>
           </>
         )}
