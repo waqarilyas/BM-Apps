@@ -26,11 +26,15 @@ const ShopDetailsModal = ({
           </TouchableOpacity> */}
           <Text style={styles.storeTitle}>{L('SHOP INFO')}</Text>
           <CardItem title={data.name} icon="person" />
+          {Boolean(data?.category) && (
+            <CardItem title={data.category} icon="reader" />
+          )}
           <CardItem title={data.phone} icon="phone-portrait-outline" />
           {Boolean(data?.website) && (
             <CardItem title={data.website} icon="md-logo-web-component" />
           )}
-          <CardItem title={data.address} icon="md-mail" />
+          {Boolean(data?.hours) && <CardItem title={data.hours} icon="time" />}
+          <CardItem title={data.address} icon="location" />
 
           {/* <Text style={styles.title}>{data.name}</Text>
           <Text style={styles.title}>{data.phone}</Text>

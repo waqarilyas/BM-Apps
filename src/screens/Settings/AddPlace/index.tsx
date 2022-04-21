@@ -1,6 +1,6 @@
 import {Formik} from 'formik';
 import React, {useState, useRef, useEffect} from 'react';
-import {Text, View} from 'react-native';
+import {FlatList, Text, TouchableOpacity, View} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import MapView, {Marker} from 'react-native-maps';
 import Toast from 'react-native-toast-message';
@@ -20,16 +20,20 @@ import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete'
 import styles from './styles';
 import {THEME} from '../../../shared/theme';
 import L from '../../../shared/utils/LanguageHandler';
+import {getStoreCategories} from '../../../shared/services/customer.service';
+import {Provider, Portal, Modal} from 'react-native-paper';
+import {HP, RF} from '../../../shared/theme/responsive';
+import {AppShowToast} from '../../../shared/services/helper.service';
 
 interface Props extends GenericNavigation {}
 
 const initialValues: any = {
   name: '',
-  category: '',
   phone: '',
   website: '',
   address: '',
   location: '',
+  hours: '',
 };
 
 const AddPlace = (props: Props) => {
@@ -40,6 +44,22 @@ const AddPlace = (props: Props) => {
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
+
+  const [categories, setCategories] = useState([]);
+  const [category, setCategory] = useState('');
+  const [visible, setVisible] = React.useState(false);
+
+  const openDropdown = () => setVisible(true);
+
+  const closeDropdown = () => setVisible(false);
+
+  useEffect(() => {
+    getStoreCategories().then(response => {
+      if (response && response.data && response.data.length > 0) {
+        setCategories(response.data);
+      }
+    });
+  }, []);
 
   const mapRef = useRef(null);
 
@@ -58,12 +78,19 @@ const AddPlace = (props: Props) => {
   };
 
   const handleData = (values: any, action: any) => {
+    if (category.length < 1) {
+      AppShowToast('Category is required.');
+      console.log('Category is required.');
+      return;
+    }
+
     setLoading(true);
     values.location = {
       latitude: location.latitude,
       longitude: location.longitude,
     };
     values.merchantId = merchantData._id;
+    values.category = category;
 
     createNewShop(values)
       .then(res => {
@@ -116,11 +143,30 @@ const AddPlace = (props: Props) => {
               {touched.category && errors.category ? (
                 <Text style={styles.errors}>{L(errors.category)}</Text>
               ) : null}
-              <AppInput
-                placeholder={L('Category')}
-                // icon="keyboard-arrow-down"
-                onChangeText={handleChange('category')}
-              />
+              <TouchableOpacity
+                style={{
+                  alignSelf: 'center',
+                  width: '100%',
+                  borderRadius: 5,
+                  height: HP(7),
+                  paddingHorizontal: THEME.PADDING.LOW,
+                  marginVertical: 10,
+                  backgroundColor: THEME.COLORS.secondaryBackground,
+                  justifyContent: 'center',
+                }}
+                onPress={openDropdown}>
+                <Text
+                  style={{
+                    color: category
+                      ? THEME.COLORS.white
+                      : THEME.COLORS.textLight,
+                    fontSize: RF(14),
+                    paddingLeft: RF(14),
+                  }}>
+                  {category || 'Select Category'}
+                </Text>
+              </TouchableOpacity>
+
               {touched.address && errors.address ? (
                 <Text style={styles.errors}>{L(errors.address)}</Text>
               ) : null}
@@ -189,6 +235,14 @@ const AddPlace = (props: Props) => {
                 placeholder={L('Website (optional)')}
                 onChangeText={handleChange('website')}
               />
+
+              {touched.hours && errors.hours ? (
+                <Text style={styles.errors}>{L(errors.hours)}</Text>
+              ) : null}
+              <AppInput
+                placeholder={L('Store Hours')}
+                onChangeText={handleChange('hours')}
+              />
               {/* <Text style={styles.label}>Add Photos</Text>
         <ScrollView
           horizontal
@@ -205,6 +259,59 @@ const AddPlace = (props: Props) => {
             </>
           )}
         </Formik>
+
+        <Provider>
+          <Portal>
+            <Modal
+              visible={visible}
+              onDismiss={closeDropdown}
+              contentContainerStyle={{
+                flex: 1,
+                backgroundColor: THEME.COLORS.secondaryBackground,
+              }}>
+              <Text
+                style={{
+                  alignSelf: 'center',
+                  paddingVertical: RF(20),
+                  fontFamily: THEME.FONTS.TYPE.SEMIBOLD,
+                  fontSize: THEME.FONTS.SIZE.SMALL,
+                  color: THEME.COLORS.white,
+                }}>
+                Select Category:
+              </Text>
+              <FlatList
+                showsVerticalScrollIndicator={false}
+                data={categories}
+                renderItem={({item}: any) => {
+                  return (
+                    <TouchableOpacity
+                      style={{paddingTop: RF(20)}}
+                      onPress={() => {
+                        setCategory(item.name);
+                        closeDropdown();
+                      }}>
+                      <Text
+                        style={{
+                          paddingHorizontal: RF(20),
+                          paddingBottom: RF(20),
+                          color: THEME.COLORS.white,
+                        }}>
+                        {item.name}
+                      </Text>
+                      <View
+                        style={{
+                          height: 1,
+                          opacity: 0.2,
+                          backgroundColor: THEME.COLORS.white,
+                        }}
+                      />
+                    </TouchableOpacity>
+                  );
+                }}
+              />
+            </Modal>
+          </Portal>
+        </Provider>
         <AppLoader isVisible={loading} />
       </KeyboardAwareScrollView>
     </View>

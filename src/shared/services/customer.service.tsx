@@ -31,6 +31,10 @@ export const sendReceiptViaEmail = async (params: any) => {
   );
 };
 
+export const getStoreCategories = async () => {
+  return axios.get(`${defaultConfig.API_URL}/shop-category/get-all`);
+};
+
 export const downloadExcelFile = async (merchantId: any) => {
   return RNFetchBlob.fetch(
     'POST',
