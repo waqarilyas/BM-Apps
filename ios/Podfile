@@ -29,6 +29,8 @@ target 'BlockMerchants' do
 
   pod 'react-native-randombytes', :path => '../node_modules/react-native-randombytes'
 
+  pod 'RNFS', :path => '../node_modules/react-native-fs'
+
   target 'BlockMerchantsTests' do
     inherit! :complete
     # Pods for testing

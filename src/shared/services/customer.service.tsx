@@ -30,3 +30,10 @@ export const sendReceiptViaEmail = async (params: any) => {
     params,
   );
 };
+
+export const downloadExcelFile = async (merchantId: any) => {
+  return RNFetchBlob.fetch(
+    'POST',
+    `${defaultConfig.API_URL}/customer/export/${merchantId}`,
+  );
+};

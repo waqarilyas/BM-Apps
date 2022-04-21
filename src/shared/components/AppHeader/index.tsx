@@ -27,6 +27,7 @@ interface Props {
   showSearch?: boolean;
   showEye?: boolean;
   showForwardAdd?: boolean;
+  showDownload?: boolean;
   backAction?: () => void;
   headerStyle?: StyleProp<ViewStyle>;
   searchAction?: () => void;
@@ -108,6 +109,22 @@ const AppHeader = (props: Props) => {
             style={styles.rightButton}>
             <FastImage
               source={ICONS.ADD_FORWARD_ADDRESS}
+              resizeMode={FastImage.resizeMode.contain}
+              style={{
+                width: Platform.OS == 'android' ? RF(40) : RF(30),
+                height: Platform.OS == 'android' ? RF(40) : RF(30),
+              }}
+            />
+          </TouchableOpacity>
+        ) : (
+          <View />
+        )}
+        {props.showDownload ? (
+          <TouchableOpacity
+            onPress={props.addAction}
+            style={styles.rightButton}>
+            <FastImage
+              source={ICONS.EXCEL_DOWNLOAD}
               resizeMode={FastImage.resizeMode.contain}
               style={{
                 width: Platform.OS == 'android' ? RF(40) : RF(30),
