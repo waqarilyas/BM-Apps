@@ -39,7 +39,6 @@ export const createShopVS = Yup.object().shape({
     .max(25)
     .min(5),
   website: Yup.string().optional().trim(),
-  hours: Yup.string().required('Please enter your shop hours manually').trim(),
   address: Yup.string().required('Please select a valid address').trim(),
 });
 

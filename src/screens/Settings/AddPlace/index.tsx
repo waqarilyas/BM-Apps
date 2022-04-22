@@ -1,6 +1,6 @@
 import {Formik} from 'formik';
 import React, {useState, useRef, useEffect} from 'react';
-import {FlatList, Text, TouchableOpacity, View} from 'react-native';
+import {Appearance, FlatList, Text, TouchableOpacity, View} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import MapView, {Marker} from 'react-native-maps';
 import Toast from 'react-native-toast-message';
@@ -24,6 +24,7 @@ import {getStoreCategories} from '../../../shared/services/customer.service';
 import {Provider, Portal, Modal} from 'react-native-paper';
 import {HP, RF} from '../../../shared/theme/responsive';
 import {AppShowToast} from '../../../shared/services/helper.service';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 interface Props extends GenericNavigation {}
 
@@ -33,10 +34,11 @@ const initialValues: any = {
   website: '',
   address: '',
   location: '',
-  hours: '',
 };
 
 const AddPlace = (props: Props) => {
+  const colorScheme = Appearance.getColorScheme();
+
   const [loading, setLoading] = useState(false);
   const [location, setLocation]: any = useState({
     latitude: 37.78825,
@@ -47,7 +49,11 @@ const AddPlace = (props: Props) => {
 
   const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState('');
-  const [visible, setVisible] = React.useState(false);
+  const [visible, setVisible] = useState(false);
+  const [fromVisible, setFromVisible] = useState(false);
+  const [toVisible, setToVisible] = useState(false);
+  const [fromTime, setFromTime] = useState('');
+  const [toTime, setToTime] = useState('');
 
   const openDropdown = () => setVisible(true);
 
@@ -80,7 +86,16 @@ const AddPlace = (props: Props) => {
   const handleData = (values: any, action: any) => {
     if (category.length < 1) {
       AppShowToast('Category is required.');
-      console.log('Category is required.');
+      return;
+    }
+
+    if (fromTime.length < 1) {
+      AppShowToast('Store Open Time required.');
+      return;
+    }
+
+    if (toTime.length < 1) {
+      AppShowToast('Store Close Time required.');
       return;
     }
 
@@ -91,6 +106,7 @@ const AddPlace = (props: Props) => {
     };
     values.merchantId = merchantData._id;
     values.category = category;
+    values.hours = fromTime + ' to ' + toTime;
 
     createNewShop(values)
       .then(res => {
@@ -218,6 +234,53 @@ const AddPlace = (props: Props) => {
                   <Marker coordinate={location} draggable={true} />
                 </MapView>
               </View>
+
+              <TouchableOpacity
+                style={{
+                  alignSelf: 'center',
+                  width: '100%',
+                  borderRadius: 5,
+                  height: HP(7),
+                  paddingHorizontal: THEME.PADDING.LOW,
+                  marginVertical: 10,
+                  backgroundColor: THEME.COLORS.secondaryBackground,
+                  justifyContent: 'center',
+                }}
+                onPress={() => setFromVisible(true)}>
+                <Text
+                  style={{
+                    color: fromTime
+                      ? THEME.COLORS.white
+                      : THEME.COLORS.textLight,
+                    fontSize: RF(14),
+                    paddingLeft: RF(14),
+                  }}>
+                  {fromTime || 'Select Store Open Time'}
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={{
+                  alignSelf: 'center',
+                  width: '100%',
+                  borderRadius: 5,
+                  height: HP(7),
+                  paddingHorizontal: THEME.PADDING.LOW,
+                  marginVertical: 10,
+                  backgroundColor: THEME.COLORS.secondaryBackground,
+                  justifyContent: 'center',
+                }}
+                onPress={() => setToVisible(true)}>
+                <Text
+                  style={{
+                    color: toTime ? THEME.COLORS.white : THEME.COLORS.textLight,
+                    fontSize: RF(14),
+                    paddingLeft: RF(14),
+                  }}>
+                  {toTime || 'Select Store Close Time'}
+                </Text>
+              </TouchableOpacity>
+
               {touched.phone && errors.phone ? (
                 <Text style={styles.errors}>{L(errors.phone)}</Text>
               ) : null}
@@ -236,13 +299,32 @@ const AddPlace = (props: Props) => {
                 onChangeText={handleChange('website')}
               />
 
-              {touched.hours && errors.hours ? (
-                <Text style={styles.errors}>{L(errors.hours)}</Text>
-              ) : null}
-              <AppInput
-                placeholder={L('Store Hours')}
-                onChangeText={handleChange('hours')}
+              <DateTimePickerModal
+                is24Hour
+                isVisible={fromVisible}
+                mode="time"
+                locale="en_GB"
+                isDarkModeEnabled={colorScheme === 'dark'}
+                onConfirm={(time: Date) => {
+                  setFromTime(time.toLocaleTimeString().substring(0, 5));
+                  setFromVisible(false);
+                }}
+                onCancel={() => setFromVisible(false)}
               />
+
+              <DateTimePickerModal
+                is24Hour
+                isVisible={toVisible}
+                mode="time"
+                locale="en_GB"
+                isDarkModeEnabled={colorScheme === 'dark'}
+                onConfirm={(time: Date) => {
+                  setToTime(time.toLocaleTimeString().substring(0, 5));
+                  setToVisible(false);
+                }}
+                onCancel={() => setToVisible(false)}
+              />
+
               {/* <Text style={styles.label}>Add Photos</Text>
         <ScrollView
           horizontal
