@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Linking,
   ScrollView,
   StyleSheet,
   Text,
@@ -104,7 +105,7 @@ const ShareModal = (props: Props) => {
           <Text style={styles.itemText}>{props.data?.createdAt}</Text>
         </View>
 
-        {products && products.length > 0 && (
+        {products && products.length > 0 && typeof products[0] !== 'string' && (
           <>
             <View style={{marginVertical: RF(20)}}>
               <Text style={[styles.heading]}>{L('Products')}</Text>
@@ -136,7 +137,7 @@ const ShareModal = (props: Props) => {
           <Text style={styles.itemText}>{props.data?.usdAmount}$</Text>
         </View>
 
-        {merchant && (
+        {merchant && typeof merchant !== 'string' && (
           <>
             <View style={{marginVertical: RF(20)}}>
               <Text style={[styles.heading]}>{L('Merchant')}</Text>
@@ -286,11 +287,23 @@ const ShareModal = (props: Props) => {
           />
         </View>
 
-        <SecondaryButton
-          title={'Close'}
-          buttonStyle={styles.buttonStyle}
-          onPress={props.onPressBackdrop}
-        />
+        <View style={styles.row}>
+          <PrimaryButton
+            title={'More details'}
+            buttonStyle={styles.buttonStyle}
+            onPress={() => {
+              Linking.openURL(
+                `https://admin.blockmerchants.app/invoice-details/${props?.data?._id}`,
+              );
+            }}
+          />
+          <SecondaryButton
+            title={'Close'}
+            buttonStyle={styles.buttonStyle}
+            onPress={props.onPressBackdrop}
+          />
+        </View>
+
         <View style={{height: RF(50)}} />
       </ScrollView>
     </Modal>
@@ -332,7 +345,6 @@ const styles = StyleSheet.create({
   buttonStyle: {
     width: WP(45),
     height: RF(40),
-    marginVertical: THEME.MARGIN.NORMAL,
   },
   icon: {
     marginRight: RF(10),
