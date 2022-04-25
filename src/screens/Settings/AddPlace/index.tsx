@@ -99,6 +99,11 @@ const AddPlace = (props: Props) => {
       return;
     }
 
+    if (fromTime === toTime) {
+      AppShowToast('Store Open Time and Close time can not be the same.');
+      return;
+    }
+
     setLoading(true);
     values.location = {
       latitude: location.latitude,
@@ -365,6 +370,8 @@ const AddPlace = (props: Props) => {
                 showsVerticalScrollIndicator={false}
                 data={categories}
                 renderItem={({item}: any) => {
+                  let selected = item.name === category;
+
                   return (
                     <TouchableOpacity
                       style={{paddingTop: RF(20)}}
@@ -378,7 +385,7 @@ const AddPlace = (props: Props) => {
                           paddingBottom: RF(20),
                           color: THEME.COLORS.white,
                         }}>
-                        {item.name}
+                        {selected && '◉'} {item.name}
                       </Text>
                       <View
                         style={{

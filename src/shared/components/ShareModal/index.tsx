@@ -364,6 +364,7 @@ const styles = StyleSheet.create({
     color: THEME.COLORS.white,
     fontSize: RF(14),
     fontFamily: THEME.FONTS.TYPE.MEDIUM,
+    width: '50%',
   },
   imageView: {
     marginVertical: THEME.MARGIN.NORMAL,
