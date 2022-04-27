@@ -50,7 +50,7 @@ const SendCoin = (props: Props) => {
   const toggleModal = () => {
     setShowModal(!showModal);
     //!paymentError
-    if (paymentError) {
+    if (paymentError || isPaymentSuccess) {
       setAddress('');
       setCoinAmount('');
       setUsdtAmount('');
@@ -185,10 +185,8 @@ const SendCoin = (props: Props) => {
       console.log('---transaction response---', transactionRes);
       dispatch(refreshCoinsBalances(true));
       setLoading(false);
+      setIsPaymentSuccess(true);
       setShowModal(true);
-      // setPaymentError(undefined);
-      setPaymentError(transactionRes);
-      setIsPaymentSuccess(Boolean(transactionRes));
     } catch (error: any) {
       console.log('---error from payment---', error);
       setLoading(false);
