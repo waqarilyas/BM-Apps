@@ -65,7 +65,7 @@ const SaleHistory = (props: GenericNavigation) => {
       RNFetchBlob.fs.writeFile(downloadDest, excel.data, 'base64').then(rst => {
         Alert.alert(
           'Success',
-          'Excel file downloaded.',
+          `Excel file downloaded to path \n${downloadDest}`,
           [
             {
               text: 'Open',
