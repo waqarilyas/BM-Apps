@@ -437,11 +437,12 @@ export async function createAndSignBep20Tx(txPayload: any) {
     /** add contract abi */
     let abi = txPayload.contractAbi.map((method: any) => ({...method}));
     const contract = new web3.eth.Contract(abi, txPayload.contractAddress);
-    const tokenDecimal = await contract.methods.decimals().call();
+    // const tokenDecimal = await contract.methods.decimals().call();
 
     const privateKey = txPayload.private_key;
     const amount = parseFloat(txPayload.amount);
-    const amountInWei = String(amount * Math.pow(10, Number(tokenDecimal)));
+    // const amountInWei = String(amount * Math.pow(10, Number(tokenDecimal)));
+    const amountInWei = web3.utils.toWei(String(amount));
     const currentBalance = await contract.methods
       .balanceOf(txPayload.from)
       .call();
