@@ -44,6 +44,7 @@ const SendCoin = (props: Props) => {
   const [isPaymentSuccess, setIsPaymentSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [paymentError, setPaymentError] = useState();
+  const [paymentHash, setPaymentHash] = useState();
   const dispatch = useDispatch();
 
   const onChangeAddress = (text: string) => setAddress(text);
@@ -182,6 +183,7 @@ const SendCoin = (props: Props) => {
       console.log('--payload--', payload);
 
       const transactionRes: any = await handleTx(payload);
+      setPaymentHash(transactionRes);
       console.log('---transaction response---', transactionRes);
       dispatch(refreshCoinsBalances(true));
       setLoading(false);
@@ -214,6 +216,7 @@ const SendCoin = (props: Props) => {
           error={paymentError}
           isVisible={showModal}
           isPaymentSuccess={isPaymentSuccess}
+          paymentHash={paymentHash}
         />
 
         <View style={styles.container}>
