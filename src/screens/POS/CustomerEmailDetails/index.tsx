@@ -38,9 +38,9 @@ const CustomerEmailDetails = (props: GenericNavigation) => {
         return;
       }
       setLoading(true);
-      const message = `Hi, ${firstName?.toUpperCase()} ${lastName?.toUpperCase()}, you did shopping for total sum of ${usdAmount}$ from  ${merchantData.firstName?.toUpperCase()} ${merchantData.lastName?.toUpperCase()} via BLOCKMERCHANTS.`;
+      const message = `Hi, ${firstName?.toUpperCase()} ${lastName?.toUpperCase()}, you did shopping for total sum of ${usdAmount}$ from ${merchantData.firstName?.toUpperCase()} ${merchantData.lastName?.toUpperCase()} via BLOCK MERCHANTS.`;
       const recRes = await sendReceiptViaEmail({
-        message,
+        text: message,
         to: email,
       });
       Toast.show({
