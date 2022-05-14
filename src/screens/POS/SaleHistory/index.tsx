@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Platform,
   Alert,
+  Linking,
 } from 'react-native';
 import Toast from 'react-native-toast-message';
 import {useSelector} from 'react-redux';
@@ -54,46 +55,50 @@ const SaleHistory = (props: GenericNavigation) => {
   });
 
   const onDownloadExcel = async () => {
-    try {
-      const excel = await downloadExcelFile(merchantData?._id);
-      const dirs =
-        Platform.OS === 'ios'
-          ? RNFS.LibraryDirectoryPath
-          : RNFS.DownloadDirectoryPath; // android
-      const downloadDest = `${dirs}/Sale-History.xlsx`;
+    console.log(`https://admin.blockmerchants.app/export/${merchantData?._id}`);
+    Linking.openURL(
+      `https://admin.blockmerchants.app/export/${merchantData?._id}`,
+    );
+    // try {
+    //   const excel = await downloadExcelFile(merchantData?._id);
+    //   const dirs =
+    //     Platform.OS === 'ios'
+    //       ? RNFS.LibraryDirectoryPath
+    //       : RNFS.DownloadDirectoryPath; // android
+    //   const downloadDest = `${dirs}/Sale-History.xlsx`;
 
-      RNFetchBlob.fs.writeFile(downloadDest, excel.data, 'base64').then(rst => {
-        Alert.alert(
-          'Success',
-          `Excel file downloaded to path \n${downloadDest}`,
-          [
-            {
-              text: 'Open',
-              onPress: () => {
-                if (Platform.OS === 'android') {
-                  const android = RNFetchBlob.android;
-                  android.actionViewIntent(
-                    `${downloadDest}`,
-                    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                  );
-                } else {
-                  RNFetchBlob.ios.openDocument(downloadDest);
-                }
-              },
-              style: 'default',
-            },
-          ],
-          {
-            cancelable: true,
-            onDismiss: () => {},
-          },
-        );
-      });
-    } catch (error) {
-      console.log('🚀 ~ file: index.tsx ~ line 59 ~ onDownloadExcel ~ error', {
-        error,
-      });
-    }
+    //   RNFetchBlob.fs.writeFile(downloadDest, excel.data, 'base64').then(rst => {
+    //     Alert.alert(
+    //       'Success',
+    //       `Excel file downloaded to path \n${downloadDest}`,
+    //       [
+    //         {
+    //           text: 'Open',
+    //           onPress: () => {
+    //             if (Platform.OS === 'android') {
+    //               const android = RNFetchBlob.android;
+    //               android.actionViewIntent(
+    //                 `${downloadDest}`,
+    //                 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    //               );
+    //             } else {
+    //               RNFetchBlob.ios.openDocument(downloadDest);
+    //             }
+    //           },
+    //           style: 'default',
+    //         },
+    //       ],
+    //       {
+    //         cancelable: true,
+    //         onDismiss: () => {},
+    //       },
+    //     );
+    //   });
+    // } catch (error) {
+    //   console.log('🚀 ~ file: index.tsx ~ line 59 ~ onDownloadExcel ~ error', {
+    //     error,
+    //   });
+    // }
   };
 
   return (
