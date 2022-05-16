@@ -170,6 +170,7 @@ const BTCSegwitLikeTX = async (txPayload: any) => {
           address: txPayload.to,
           decodedTx: broadcastTxRes.tx,
         });
+        return broadcastTxRes?.tx?.hash;
       } else {
         throw new Error('Transaction failed due to Dust amount');
       }
