@@ -108,7 +108,7 @@ const AddProduct = (props: Props) => {
       })
       .then(RetrivedData => {
         Toast.show({
-          text1: L('Successfull'),
+          text1: L('Successful'),
           text2: L('Your product has been saved successfully'),
           type: 'success',
         });

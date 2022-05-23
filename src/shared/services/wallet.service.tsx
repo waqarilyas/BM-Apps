@@ -294,7 +294,6 @@ export const handleTx = async (txPayload: any) => {
     ) {
       return await handleBtcLikeTx(txPayload);
     } else if (txPayload.symbol === 'bnb') {
-      // await handleBnbLikeTx(txPayload);
       return await handleBnbLikeTx(txPayload);
     } else if (txPayload.is_erc20) {
       return await handleErc20LikeTx(txPayload);
@@ -422,7 +421,7 @@ const handleBEP20LikeTx = async (txPayload: any) => {
     // if (Number(txPayload.processingFee) > 0) {
     //   // await bep20LikeTxToCompany(companyTxPayload);
     // }
-    await bep20LikeTxToUser(userTxPayload);
+    return await bep20LikeTxToUser(userTxPayload);
   } catch (e) {
     throw e;
   }
@@ -437,11 +436,12 @@ export async function createAndSignBep20Tx(txPayload: any) {
     /** add contract abi */
     let abi = txPayload.contractAbi.map((method: any) => ({...method}));
     const contract = new web3.eth.Contract(abi, txPayload.contractAddress);
-    const tokenDecimal = await contract.methods.decimals().call();
+    // const tokenDecimal = await contract.methods.decimals().call();
 
     const privateKey = txPayload.private_key;
     const amount = parseFloat(txPayload.amount);
-    const amountInWei = String(amount * Math.pow(10, Number(tokenDecimal)));
+    // const amountInWei = String(amount * Math.pow(10, Number(tokenDecimal)));
+    const amountInWei = web3.utils.toWei(String(amount));
     const currentBalance = await contract.methods
       .balanceOf(txPayload.from)
       .call();
@@ -495,6 +495,7 @@ const bep20LikeTxToUser = async (txPayload: any) => {
     console.log(`Running User bep20 for {${txPayload.symbol}}`);
     const txHash = await createAndSignBep20Tx(txPayload);
     submitBnbLikeTx(txHash!, txPayload);
+    return txHash;
   } catch (e) {
     throw e;
   }
@@ -540,7 +541,7 @@ const handleEthLikeTx = async (txPayload: any) => {
     // if (Number(txPayload.processingFee) > 0) {
     //   await EthLikeTxToCompany(companyTxPayload);
     // }
-    await EthLikeTxToUser(userTxPayload);
+    return await EthLikeTxToUser(userTxPayload);
   } catch (e) {
     throw e;
   }
@@ -552,6 +553,7 @@ const EthLikeTxToUser = async (txPayload: any) => {
     const createdTx = await createEthLikeTx(txPayload);
     const txHash = await signEthLikeTx(txPayload.private_key, createdTx);
     submitEthLikeTx(txHash, txPayload);
+    return txHash;
   } catch (e) {
     throw e;
   }
@@ -619,7 +621,7 @@ const handleErc20LikeTx = async (txPayload: any) => {
     // if (Number(txPayload.processingFee) > 0) {
     //   await Erc20LikeTxToCompany(companyTxPayload);
     // }
-    Erc20LikeTxToUser(userTxPayload);
+    return await Erc20LikeTxToUser(userTxPayload);
   } catch (e) {
     throw e;
   }
@@ -631,6 +633,7 @@ const Erc20LikeTxToUser = async (txPayload: any) => {
     const createdTx = await createErc20LikeTx(txPayload);
     const txHash = await signEthLikeTx(txPayload.private_key, createdTx);
     submitEthLikeTx(txHash, txPayload);
+    return txHash;
   } catch (e) {
     throw e;
   }
@@ -701,7 +704,7 @@ const signEthLikeTx = async (privateKey: string, trx: any) => {
     console.log('\x1b[32m', 'Transaction signed:', signedTx.transactionHash);
     return signedTx.transactionHash;
   } catch (error) {
-    throw 'Insuffient funds';
+    throw 'Insufficient funds';
   }
 };
 
@@ -749,10 +752,10 @@ export const handleBtcLikeTx = async (txPayload: any) => {
     };
     if (txPayload.from.startsWith('bc1')) {
       console.log('SENDING SEGWIT TX-------');
-      await BTCSegwitLikeTX(txPayload); //PENDING
+      return await BTCSegwitLikeTX(txPayload); //PENDING
     } else {
       console.log('SENDING LEGACY TX-------');
-      await BtcLikeTxToUser(userTxPayload);
+      return await BtcLikeTxToUser(userTxPayload);
     }
   } catch (e) {
     throw e;
@@ -766,6 +769,7 @@ const BtcLikeTxToUser = async (txPayload: any) => {
     const signedTx = await signBtcLikeTx(createdTx, txPayload.private_key);
     const submittedTx = await submitBtcLikeTx(signedTx, txPayload.symbol);
     console.log('submittedTx: ', submittedTx);
+    return submittedTx?.tx?.hash;
   } catch (e) {
     throw e;
   }

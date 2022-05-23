@@ -14,6 +14,7 @@ interface Props {
   error?: boolean;
   toggleModal: () => void;
   isPaymentSuccess: boolean;
+  paymentHash?: string;
 }
 
 const PaymentStatusModal = (props: Props) => {
@@ -24,7 +25,7 @@ const PaymentStatusModal = (props: Props) => {
 
     AppShowToast('Copied');
     // console.log('address check', coin?.address);
-    Clipboard.setString(props.error);
+    Clipboard.setString(props?.paymentHash || '');
   };
   return (
     <Modal
@@ -52,8 +53,7 @@ const PaymentStatusModal = (props: Props) => {
         />
         <TouchableOpacity onPress={onPressHash}>
           <Text style={styles.subText}>
-            {/* {props.error ? props.error : 'Payment Successfull'} */}
-            {props.error}
+            {props?.paymentHash || props.error}
           </Text>
         </TouchableOpacity>
       </View>

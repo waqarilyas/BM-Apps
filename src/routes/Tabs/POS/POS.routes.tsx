@@ -1,52 +1,41 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import POSMain from '../../../screens/POS/POSMain';
-import NearBy from '../../../screens/POS/NearBy';
 import ProductDetails from '../../../screens/POS/ProductDetails';
 import Cart from '../../../screens/POS/Cart';
 import AddProduct from '../../../screens/POS/AddProduct';
 import Payment from '../../../screens/POS/Payment';
 import SearchProduct from '../../../screens/POS/SearchProduct';
-import ShopDetails from '../../../screens/POS/ShopDetails';
-import {useSelector} from 'react-redux';
-import {RootState} from '../../../shared/store';
 import DirectInvoice from '../../../screens/POS/DirectInvoice';
 import SaleHistory from '../../../screens/POS/SaleHistory';
 import CustomerInfo from '../../../screens/POS/CustomerInfo';
 import CustomerPhoneDetails from '../../../screens/POS/CustomerPhoneDetails';
+import CustomerEmailDetails from '../../../screens/POS/CustomerEmailDetails';
 
 const Stack = createStackNavigator();
 
 const POSStack = () => {
-  const {merchantEnabled} = useSelector((state: RootState) => state.user);
-
   return (
     <Stack.Navigator
-      screenOptions={({navigation}) => ({
+      screenOptions={({}) => ({
         headerShown: false,
       })}>
-      {merchantEnabled ? (
-        <>
-          <Stack.Screen name="DirectInvoice" component={DirectInvoice} />
-          <Stack.Screen name="POSMain" component={POSMain} />
-          <Stack.Screen name="AddProduct" component={AddProduct} />
-          <Stack.Screen name="ProductDetails" component={ProductDetails} />
-          <Stack.Screen name="Payment" component={Payment} />
-          <Stack.Screen name="Cart" component={Cart} />
-          <Stack.Screen name="SaleHistory" component={SaleHistory} />
-          <Stack.Screen name="CustomerInfo" component={CustomerInfo} />
-          <Stack.Screen
-            name="CustomerPhoneDetails"
-            component={CustomerPhoneDetails}
-          />
-        </>
-      ) : (
-        <>
-          <Stack.Screen name="NearBy" component={NearBy} />
-          <Stack.Screen name="ShopDetails" component={ShopDetails} />
-        </>
-      )}
-
+      <Stack.Screen name="DirectInvoice" component={DirectInvoice} />
+      <Stack.Screen name="POSMain" component={POSMain} />
+      <Stack.Screen name="AddProduct" component={AddProduct} />
+      <Stack.Screen name="ProductDetails" component={ProductDetails} />
+      <Stack.Screen name="Payment" component={Payment} />
+      <Stack.Screen name="Cart" component={Cart} />
+      <Stack.Screen name="SaleHistory" component={SaleHistory} />
+      <Stack.Screen name="CustomerInfo" component={CustomerInfo} />
+      <Stack.Screen
+        name="CustomerPhoneDetails"
+        component={CustomerPhoneDetails}
+      />
+      <Stack.Screen
+        name="CustomerEmailDetails"
+        component={CustomerEmailDetails}
+      />
       <Stack.Screen name="SearchProduct" component={SearchProduct} />
     </Stack.Navigator>
   );

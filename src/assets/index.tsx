@@ -58,6 +58,7 @@ const ICONS = {
   historyIcon: require('./icons/history.png'),
   sendIcon: require('./icons/sentLight.png'),
   PEGAR: require('./icons/Pegar.png'),
+  EXCEL_DOWNLOAD: require('./icons/excel-download.png'),
 };
 
 const ANIMATIONS = {

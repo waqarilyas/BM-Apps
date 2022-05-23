@@ -1,6 +1,6 @@
 import {Formik} from 'formik';
 import React, {useState, useRef, useEffect} from 'react';
-import {Text, View} from 'react-native';
+import {Appearance, FlatList, Text, TouchableOpacity, View} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import MapView, {Marker} from 'react-native-maps';
 import Toast from 'react-native-toast-message';
@@ -20,12 +20,16 @@ import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete'
 import styles from './styles';
 import {THEME} from '../../../shared/theme';
 import L from '../../../shared/utils/LanguageHandler';
+import {getStoreCategories} from '../../../shared/services/customer.service';
+import {Provider, Portal, Modal} from 'react-native-paper';
+import {HP, RF} from '../../../shared/theme/responsive';
+import {AppShowToast} from '../../../shared/services/helper.service';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 interface Props extends GenericNavigation {}
 
 const initialValues: any = {
   name: '',
-  category: '',
   phone: '',
   website: '',
   address: '',
@@ -33,6 +37,8 @@ const initialValues: any = {
 };
 
 const AddPlace = (props: Props) => {
+  const colorScheme = Appearance.getColorScheme();
+
   const [loading, setLoading] = useState(false);
   const [location, setLocation]: any = useState({
     latitude: 37.78825,
@@ -40,6 +46,26 @@ const AddPlace = (props: Props) => {
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
+
+  const [categories, setCategories] = useState([]);
+  const [category, setCategory] = useState('');
+  const [visible, setVisible] = useState(false);
+  const [fromVisible, setFromVisible] = useState(false);
+  const [toVisible, setToVisible] = useState(false);
+  const [fromTime, setFromTime] = useState('');
+  const [toTime, setToTime] = useState('');
+
+  const openDropdown = () => setVisible(true);
+
+  const closeDropdown = () => setVisible(false);
+
+  useEffect(() => {
+    getStoreCategories().then(response => {
+      if (response && response.data && response.data.length > 0) {
+        setCategories(response.data);
+      }
+    });
+  }, []);
 
   const mapRef = useRef(null);
 
@@ -58,17 +84,39 @@ const AddPlace = (props: Props) => {
   };
 
   const handleData = (values: any, action: any) => {
+    if (category.length < 1) {
+      AppShowToast('Category is required.');
+      return;
+    }
+
+    if (fromTime.length < 1) {
+      AppShowToast('Store Open Time required.');
+      return;
+    }
+
+    if (toTime.length < 1) {
+      AppShowToast('Store Close Time required.');
+      return;
+    }
+
+    if (fromTime === toTime) {
+      AppShowToast('Store Open Time and Close time can not be the same.');
+      return;
+    }
+
     setLoading(true);
     values.location = {
       latitude: location.latitude,
       longitude: location.longitude,
     };
     values.merchantId = merchantData._id;
+    values.category = category;
+    values.hours = fromTime + ' to ' + toTime;
 
     createNewShop(values)
       .then(res => {
         Toast.show({
-          text1: L('Successfull'),
+          text1: L('Successful'),
           text2: L('Your shop has been created successfully'),
           type: 'success',
         });
@@ -116,11 +164,30 @@ const AddPlace = (props: Props) => {
               {touched.category && errors.category ? (
                 <Text style={styles.errors}>{L(errors.category)}</Text>
               ) : null}
-              <AppInput
-                placeholder={L('Category')}
-                // icon="keyboard-arrow-down"
-                onChangeText={handleChange('category')}
-              />
+              <TouchableOpacity
+                style={{
+                  alignSelf: 'center',
+                  width: '100%',
+                  borderRadius: 5,
+                  height: HP(7),
+                  paddingHorizontal: THEME.PADDING.LOW,
+                  marginVertical: 10,
+                  backgroundColor: THEME.COLORS.secondaryBackground,
+                  justifyContent: 'center',
+                }}
+                onPress={openDropdown}>
+                <Text
+                  style={{
+                    color: category
+                      ? THEME.COLORS.white
+                      : THEME.COLORS.textLight,
+                    fontSize: RF(14),
+                    paddingLeft: RF(14),
+                  }}>
+                  {category || 'Select Category'}
+                </Text>
+              </TouchableOpacity>
+
               {touched.address && errors.address ? (
                 <Text style={styles.errors}>{L(errors.address)}</Text>
               ) : null}
@@ -172,6 +239,53 @@ const AddPlace = (props: Props) => {
                   <Marker coordinate={location} draggable={true} />
                 </MapView>
               </View>
+
+              <TouchableOpacity
+                style={{
+                  alignSelf: 'center',
+                  width: '100%',
+                  borderRadius: 5,
+                  height: HP(7),
+                  paddingHorizontal: THEME.PADDING.LOW,
+                  marginVertical: 10,
+                  backgroundColor: THEME.COLORS.secondaryBackground,
+                  justifyContent: 'center',
+                }}
+                onPress={() => setFromVisible(true)}>
+                <Text
+                  style={{
+                    color: fromTime
+                      ? THEME.COLORS.white
+                      : THEME.COLORS.textLight,
+                    fontSize: RF(14),
+                    paddingLeft: RF(14),
+                  }}>
+                  {fromTime || 'Select Store Open Time'}
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={{
+                  alignSelf: 'center',
+                  width: '100%',
+                  borderRadius: 5,
+                  height: HP(7),
+                  paddingHorizontal: THEME.PADDING.LOW,
+                  marginVertical: 10,
+                  backgroundColor: THEME.COLORS.secondaryBackground,
+                  justifyContent: 'center',
+                }}
+                onPress={() => setToVisible(true)}>
+                <Text
+                  style={{
+                    color: toTime ? THEME.COLORS.white : THEME.COLORS.textLight,
+                    fontSize: RF(14),
+                    paddingLeft: RF(14),
+                  }}>
+                  {toTime || 'Select Store Close Time'}
+                </Text>
+              </TouchableOpacity>
+
               {touched.phone && errors.phone ? (
                 <Text style={styles.errors}>{L(errors.phone)}</Text>
               ) : null}
@@ -189,6 +303,33 @@ const AddPlace = (props: Props) => {
                 placeholder={L('Website (optional)')}
                 onChangeText={handleChange('website')}
               />
+
+              <DateTimePickerModal
+                is24Hour
+                isVisible={fromVisible}
+                mode="time"
+                locale="en_GB"
+                isDarkModeEnabled={colorScheme === 'dark'}
+                onConfirm={(time: Date) => {
+                  setFromTime(time.toLocaleTimeString().substring(0, 5));
+                  setFromVisible(false);
+                }}
+                onCancel={() => setFromVisible(false)}
+              />
+
+              <DateTimePickerModal
+                is24Hour
+                isVisible={toVisible}
+                mode="time"
+                locale="en_GB"
+                isDarkModeEnabled={colorScheme === 'dark'}
+                onConfirm={(time: Date) => {
+                  setToTime(time.toLocaleTimeString().substring(0, 5));
+                  setToVisible(false);
+                }}
+                onCancel={() => setToVisible(false)}
+              />
+
               {/* <Text style={styles.label}>Add Photos</Text>
         <ScrollView
           horizontal
@@ -205,6 +346,61 @@ const AddPlace = (props: Props) => {
             </>
           )}
         </Formik>
+
+        <Provider>
+          <Portal>
+            <Modal
+              visible={visible}
+              onDismiss={closeDropdown}
+              contentContainerStyle={{
+                flex: 1,
+                backgroundColor: THEME.COLORS.secondaryBackground,
+              }}>
+              <Text
+                style={{
+                  alignSelf: 'center',
+                  paddingVertical: RF(20),
+                  fontFamily: THEME.FONTS.TYPE.SEMIBOLD,
+                  fontSize: THEME.FONTS.SIZE.SMALL,
+                  color: THEME.COLORS.white,
+                }}>
+                Select Category:
+              </Text>
+              <FlatList
+                showsVerticalScrollIndicator={false}
+                data={categories}
+                renderItem={({item}: any) => {
+                  let selected = item.name === category;
+
+                  return (
+                    <TouchableOpacity
+                      style={{paddingTop: RF(20)}}
+                      onPress={() => {
+                        setCategory(item.name);
+                        closeDropdown();
+                      }}>
+                      <Text
+                        style={{
+                          paddingHorizontal: RF(20),
+                          paddingBottom: RF(20),
+                          color: THEME.COLORS.white,
+                        }}>
+                        {selected && '◉'} {item.name}
+                      </Text>
+                      <View
+                        style={{
+                          height: 1,
+                          opacity: 0.2,
+                          backgroundColor: THEME.COLORS.white,
+                        }}
+                      />
+                    </TouchableOpacity>
+                  );
+                }}
+              />
+            </Modal>
+          </Portal>
+        </Provider>
         <AppLoader isVisible={loading} />
       </KeyboardAwareScrollView>
     </View>

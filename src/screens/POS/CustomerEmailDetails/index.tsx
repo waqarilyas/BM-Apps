@@ -7,41 +7,41 @@ import AppInput from '../../../shared/components/AppInput';
 import AppLoader from '../../../shared/components/AppLoader';
 import PrimaryButton from '../../../shared/components/PrimaryButton';
 import {GenericNavigation} from '../../../shared/models/types';
-import {sendReceipt} from '../../../shared/services/customer.service';
+import {sendReceiptViaEmail} from '../../../shared/services/customer.service';
+import {AppShowToast} from '../../../shared/services/helper.service';
 import {RootState} from '../../../shared/store';
 import {THEME} from '../../../shared/theme';
 import GLOBAL_STYLE from '../../../shared/theme/global';
 import {RF} from '../../../shared/theme/responsive';
 import L from '../../../shared/utils/LanguageHandler';
 
-const CustomerPhoneDetails = (props: GenericNavigation) => {
+const CustomerEmailDetails = (props: GenericNavigation) => {
   const {data} = props.route.params;
 
-  const [phone, setPhone] = useState(__DEV__ ? '+923223333272' : '');
+  const [email, setEmail] = useState(data?.email || '');
   const [error, setError]: any = useState(null);
   const [loading, setLoading] = useState(false);
   const {merchantData} = useSelector((state: RootState) => state.user);
 
   const {firstName, lastName, usdAmount} = data;
   const validate = () => {
-    if (phone.length == 0) {
-      setError(L('Phone number cannot be empty'));
-      return false;
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+      return true;
     }
-    return true;
+    return false;
   };
 
   const handleSubmit = async () => {
     try {
       if (!validate()) {
+        AppShowToast(L('Invalid email'));
         return;
       }
       setLoading(true);
-      const message = `Hi, ${firstName?.toUpperCase()} ${lastName?.toUpperCase()}, you did shopping for total sum of ${usdAmount}$ from  ${merchantData.firstName?.toUpperCase()} ${merchantData.lastName?.toUpperCase()} via BLOCK MERCHANTS.`;
-
-      const recRes = await sendReceipt({
-        message,
-        to: phone,
+      const message = `Hi, ${firstName?.toUpperCase()} ${lastName?.toUpperCase()}, you did shopping for total sum of ${usdAmount}$ from ${merchantData.firstName?.toUpperCase()} ${merchantData.lastName?.toUpperCase()} via BLOCK MERCHANTS.`;
+      const recRes = await sendReceiptViaEmail({
+        text: message,
+        to: email,
       });
       Toast.show({
         text1: L('Successful'),
@@ -64,18 +64,18 @@ const CustomerPhoneDetails = (props: GenericNavigation) => {
 
   return (
     <>
-      <AppHeader title={L('Phone Details')} showBack />
+      <AppHeader title={L('Email Details')} showBack />
       <View style={styles.container}>
         <Text style={styles.title}>
-          {L("Enter the customer's phone details")}
+          {L("Enter the customer's email details")}
         </Text>
 
         <AppInput
-          placeholder={L('Phone Number')}
-          value={phone}
-          keyboardType="phone-pad"
+          placeholder={L('Email')}
+          value={email}
+          keyboardType="email-address"
           returnKeyType="done"
-          onChangeText={(val: string) => setPhone(val)}
+          onChangeText={(val: string) => setEmail(val)}
         />
 
         {error && <Text style={styles.error}>{error}</Text>}
@@ -109,8 +109,7 @@ const styles = StyleSheet.create({
   error: {
     color: THEME.COLORS.red,
     fontFamily: THEME.FONTS.TYPE.MEDIUM,
-    // marginTop: RF(20),
   },
 });
 
-export default CustomerPhoneDetails;
+export default CustomerEmailDetails;

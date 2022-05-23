@@ -33,10 +33,6 @@ export const createShopVS = Yup.object().shape({
     .trim()
     .min(2)
     .max(50),
-  category: Yup.string()
-    .required('Please enter your shop category')
-    .trim()
-    .max(50),
   phone: Yup.string()
     .required('Please enter your shop phone number')
     .trim()

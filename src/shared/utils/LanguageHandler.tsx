@@ -15,6 +15,12 @@ export const language = [
   },
   {
     label: {
+      English: 'MAP',
+      Spanish: 'MAPA',
+    },
+  },
+  {
+    label: {
       English: 'Settings',
       Spanish: 'Ajustes',
     },
@@ -389,6 +395,12 @@ export const language = [
   },
   {
     label: {
+      English: 'Merchant',
+      Spanish: 'Comerciante',
+    },
+  },
+  {
+    label: {
       English: 'Enable Merchant',
       Spanish: 'Habilitar comerciante',
     },
@@ -659,7 +671,7 @@ export const language = [
   },
   {
     label: {
-      English: 'Successfull',
+      English: 'Successful',
       Spanish: 'Exitoso',
     },
   },
@@ -1025,6 +1037,12 @@ export const language = [
   },
   {
     label: {
+      English: 'Customer',
+      Spanish: 'Cliente',
+    },
+  },
+  {
+    label: {
       English: 'First Name',
       Spanish: 'Primer nombre',
     },
@@ -1375,6 +1393,18 @@ export const language = [
   },
   {
     label: {
+      English: 'Email Details',
+      Spanish: 'Detalles del correo electrónico',
+    },
+  },
+  {
+    label: {
+      English: "Enter the customer's email details",
+      Spanish: 'Ingrese los detalles del correo electrónico del cliente',
+    },
+  },
+  {
+    label: {
       English: 'First Name must be at Least 2 Characters',
       Spanish: 'El nombre debe tener al menos 2 caracteres',
     },
@@ -1441,13 +1471,19 @@ export const language = [
   },
   {
     label: {
-      English: 'Select licence photo',
+      English: 'Invalid email',
+      Spanish: 'Email inválido',
+    },
+  },
+  {
+    label: {
+      English: 'Select license photo',
       Spanish: 'Seleccionar foto de licencia',
     },
   },
   {
     label: {
-      English: 'Please upload your liscence image to continue',
+      English: 'Please upload your license image to continue',
       Spanish: 'Cargue la imagen de su licencia para continuar',
     },
   },
@@ -1477,7 +1513,7 @@ export const language = [
   },
   {
     label: {
-      English: 'Successfull',
+      English: 'Successful',
       Spanish: 'Exitoso',
     },
   },
@@ -1583,6 +1619,30 @@ export const language = [
     label: {
       English: 'Error getting Algorithmic Protection Fee',
       Spanish: 'Error al obtener la tarifa de protección algorítmica',
+    },
+  },
+  {
+    label: {
+      English: 'Invoice Details',
+      Spanish: 'Detalles de la factura',
+    },
+  },
+  {
+    label: {
+      English: 'Coin',
+      Spanish: 'Moneda',
+    },
+  },
+  {
+    label: {
+      English: 'Sale Info',
+      Spanish: 'Información de venta',
+    },
+  },
+  {
+    label: {
+      English: 'Store',
+      Spanish: 'Tienda',
     },
   },
 ];

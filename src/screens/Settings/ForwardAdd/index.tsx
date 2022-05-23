@@ -38,7 +38,7 @@ const ForwardAdd = (props: GenericNavigation) => {
               const recRes = await deleteAddress(addressId);
 
               Toast.show({
-                text1: 'Successfull',
+                text1: 'Successful',
                 text2: 'Address deleted successfully',
                 type: 'success',
               });

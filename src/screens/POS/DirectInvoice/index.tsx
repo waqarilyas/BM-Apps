@@ -155,7 +155,7 @@ const DirectInvoice = (props: Props) => {
             setTaxEnabled(taxEnabled ? false : true);
             setCustomTax('');
             Toast.show({
-              text1: L('Successfull'),
+              text1: L('Successful'),
               text2: `${L('Successfully')}  ${
                 taxEnabled ? L('Disabled') : L('Enabled')
               } Algorithmic Protection Fee`,
@@ -203,6 +203,18 @@ const DirectInvoice = (props: Props) => {
           name: 'phone',
           data: customerInfo?.phone,
         },
+        {
+          name: 'assetUsed',
+          data: selectedCoin?.coin_symbol?.toUpperCase(),
+        },
+        {
+          name: 'assetPrice',
+          data: String(currencyPrice),
+        },
+        {
+          name: 'fiatPrice',
+          data: String(selectedCoin?.chart_data?.rate),
+        },
       ];
 
       saveCustomer(params)
@@ -233,7 +245,7 @@ const DirectInvoice = (props: Props) => {
           // dispatch(setMerchantEnabledState(true));
 
           Toast.show({
-            text1: L('Successfull'),
+            text1: L('Successful'),
             text2: L('Payment Confirmed successfully'),
             type: L('success'),
           });
@@ -279,20 +291,20 @@ const DirectInvoice = (props: Props) => {
           L('Do You Want to Add Customer Information for this Sale?'),
           [
             {
-              text: L('NO'),
+              text: L('PROCEED WITHOUT CUSTOMER INFO'),
               onPress: () => {
                 resetValues();
                 dispatch(resetCart());
                 Toast.show({
-                  text1: L('Successfull'),
+                  text1: L('Successful'),
                   text2: L('Payment Confirmed successfully'),
                   type: L('success'),
                 });
               },
-              style: 'cancel',
+              style: 'destructive',
             },
             {
-              text: L('YES'),
+              text: L('ADD INFORMATION'),
               onPress: () => {
                 props.navigation?.navigate('CustomerInfo', {
                   totalInvoiceAmount,

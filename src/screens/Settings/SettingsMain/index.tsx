@@ -143,7 +143,7 @@ const SettingsMain = (props: Props) => {
           onPress: () => {
             dispatch(setMerchantEnabledState(merchantEnabled ? false : true));
             Toast.show({
-              text1: L('Successfull'),
+              text1: L('Successful'),
               text2: `${L('Successfully switched to')} ${
                 merchantEnabled ? 'Buyer' : 'Merchant'
               } ${L('mode')}`,
@@ -174,7 +174,7 @@ const SettingsMain = (props: Props) => {
           onPress: () => {
             dispatch(setTaxEnabled(taxEnabled ? false : true));
             Toast.show({
-              text1: L('Successfull'),
+              text1: L('Successful'),
               text2: `${L('Successfully')}  ${
                 taxEnabled ? L('Disabled') : L('Enabled')
               } Algorithmic Protection Fee`,

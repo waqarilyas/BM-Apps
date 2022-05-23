@@ -91,7 +91,7 @@ PODS:
     - libwebp/demux
   - libwebp/webp (1.2.1)
   - OpenSSL-Universal (1.1.180)
-  - Permission-Camera (3.0.5):
+  - Permission-Camera (3.3.1):
     - RNPermissions
   - RCT-Folly (2020.01.13.00):
     - boost-for-react-native
@@ -294,33 +294,33 @@ PODS:
     - React-Core
   - react-native-camera/RN (3.44.3):
     - React-Core
-  - react-native-config (1.4.4):
-    - react-native-config/App (= 1.4.4)
-  - react-native-config/App (1.4.4):
+  - react-native-config (1.4.5):
+    - react-native-config/App (= 1.4.5)
+  - react-native-config/App (1.4.5):
     - React-Core
-  - react-native-geolocation (2.0.2):
-    - React
+  - react-native-geolocation (2.1.0):
+    - React-Core
   - react-native-google-maps (0.28.0):
     - Google-Maps-iOS-Utils (= 2.1.0)
     - GoogleMaps (= 3.5.0)
     - React-Core
-  - react-native-image-picker (4.0.6):
+  - react-native-image-picker (4.8.3):
     - React-Core
   - react-native-maps (0.28.0):
     - React-Core
-  - react-native-netinfo (6.0.2):
+  - react-native-netinfo (6.2.1):
     - React-Core
   - react-native-randombytes (3.6.1):
     - React-Core
   - react-native-restart (0.0.22):
     - React-Core
-  - react-native-safe-area-context (3.3.2):
+  - react-native-safe-area-context (3.4.1):
     - React-Core
   - react-native-simple-toast (1.1.3):
     - React-Core
     - Toast (~> 4.0.0)
-  - react-native-splash-screen (3.2.0):
-    - React
+  - react-native-splash-screen (3.3.0):
+    - React-Core
   - react-native-udp (2.7.0):
     - React
   - React-perflogger (0.64.1)
@@ -387,38 +387,42 @@ PODS:
     - React-cxxreact (= 0.64.1)
     - React-jsi (= 0.64.1)
     - React-perflogger (= 0.64.1)
-  - ReactNativeLocalization (2.1.7):
+  - ReactNativeLocalization (2.3.1):
     - React-Core
   - rn-fetch-blob (0.12.0):
     - React-Core
-  - RNCAsyncStorage (1.15.8):
+  - RNCAsyncStorage (1.17.4):
     - React-Core
-  - RNCCheckbox (0.5.8):
+  - RNCCheckbox (0.5.12):
     - React-Core
-  - RNCClipboard (1.8.4):
+  - RNCClipboard (1.10.0):
     - React-Core
   - RNCMaskedView (0.1.11):
     - React
-  - RNFastImage (8.5.8):
+  - RNDateTimePicker (6.1.3):
+    - React-Core
+  - RNFastImage (8.5.11):
     - React-Core
     - SDWebImage (~> 5.11.1)
     - SDWebImageWebPCoder (~> 0.8.4)
+  - RNFS (2.20.0):
+    - React-Core
   - RNGestureHandler (1.10.3):
     - React-Core
-  - RNImageCropPicker (0.36.3):
+  - RNImageCropPicker (0.36.4):
     - React-Core
     - React-RCTImage
-    - RNImageCropPicker/QBImagePickerController (= 0.36.3)
+    - RNImageCropPicker/QBImagePickerController (= 0.36.4)
     - TOCropViewController
-  - RNImageCropPicker/QBImagePickerController (0.36.3):
+  - RNImageCropPicker/QBImagePickerController (0.36.4):
     - React-Core
     - React-RCTImage
     - TOCropViewController
   - RNOS (1.2.6):
     - React
-  - RNPermissions (3.0.5):
+  - RNPermissions (3.3.1):
     - React-Core
-  - RNReanimated (2.2.2):
+  - RNReanimated (2.8.0):
     - DoubleConversion
     - FBLazyVector
     - FBReactNativeSpec
@@ -426,7 +430,6 @@ PODS:
     - RCT-Folly
     - RCTRequired
     - RCTTypeSafety
-    - React
     - React-callinvoker
     - React-Core
     - React-Core/DevSupport
@@ -444,16 +447,15 @@ PODS:
     - React-RCTNetwork
     - React-RCTSettings
     - React-RCTText
-    - React-RCTVibration
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNScreens (3.7.2):
+  - RNScreens (3.13.1):
     - React-Core
     - React-RCTImage
-  - RNShare (7.1.0):
+  - RNShare (7.4.1):
     - React-Core
-  - RNSVG (12.1.1):
-    - React
+  - RNSVG (12.3.0):
+    - React-Core
   - RNVectorIcons (8.1.0):
     - React-Core
   - SDWebImage (5.11.1):
@@ -544,7 +546,9 @@ DEPENDENCIES:
   - "RNCCheckbox (from `../node_modules/@react-native-community/checkbox`)"
   - "RNCClipboard (from `../node_modules/@react-native-clipboard/clipboard`)"
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
+  - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - RNFastImage (from `../node_modules/react-native-fast-image`)
+  - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNOS (from `../node_modules/react-native-os`)
@@ -677,8 +681,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-clipboard/clipboard"
   RNCMaskedView:
     :path: "../node_modules/@react-native-community/masked-view"
+  RNDateTimePicker:
+    :path: "../node_modules/@react-native-community/datetimepicker"
   RNFastImage:
     :path: "../node_modules/react-native-fast-image"
+  RNFS:
+    :path: "../node_modules/react-native-fs"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNImageCropPicker:
@@ -710,7 +718,7 @@ SPEC CHECKSUMS:
   CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
   DoubleConversion: cf9b38bf0b2d048436d9a82ad2abe1404f11e7de
   FBLazyVector: 7b423f9e248eae65987838148c36eec1dbfe0b53
-  FBReactNativeSpec: c4422a608ba4a3dad1e631543d66dfafde5c3733
+  FBReactNativeSpec: d5a28a4106c61172826bc333ab0d8d71454e912d
   Flipper: d3da1aa199aad94455ae725e9f3aa43f3ec17021
   Flipper-DoubleConversion: 38631e41ef4f9b12861c67d17cb5518d06badc41
   Flipper-Folly: 755929a4f851b2fb2c347d533a23f191b008554c
@@ -724,7 +732,7 @@ SPEC CHECKSUMS:
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   libwebp: 98a37e597e40bfdb4c911fc98f2c53d0b12d05fc
   OpenSSL-Universal: 1aa4f6a6ee7256b83db99ec1ccdaa80d10f9af9b
-  Permission-Camera: ac603073e4128e51e6ca3c39129778f05b4082fa
+  Permission-Camera: 273b78e214eae8d734d1c497b67aa0030838c006
   RCT-Folly: ec7a233ccc97cc556cf7237f0db1ff65b986f27c
   RCTRequired: ec2ebc96b7bfba3ca5c32740f5a0c6a014a274d2
   RCTTypeSafety: 22567f31e67c3e088c7ac23ea46ab6d4779c0ea5
@@ -736,19 +744,19 @@ SPEC CHECKSUMS:
   React-jsi: 5de8204706bd872b78ea646aee5d2561ca1214b6
   React-jsiexecutor: 124e8f99992490d0d13e0649d950d3e1aae06fe9
   React-jsinspector: 500a59626037be5b3b3d89c5151bc3baa9abf1a9
-  react-native-camera: b8cc03e2feec0c04403d0998e37cf519d8fd4c6f
-  react-native-config: 72d948053a442779b3178fddd571e37f118ef606
-  react-native-geolocation: c956aeb136625c23e0dce0467664af2c437888c9
+  react-native-camera: fefef39fcd20850d17c3780638b04f741e0ccaae
+  react-native-config: 6502b1879f97ed5ac570a029961fc35ea606cd14
+  react-native-geolocation: 205c5f619aea7bd54067b7b51e0781cae2f37151
   react-native-google-maps: 46dea4aa4acb7300beff508f64d9f8c84e9fb106
-  react-native-image-picker: a6e56460d34905c849ada551db30897dc7f3d535
+  react-native-image-picker: eb0a159c2a00bcfb49f0469fcc6b164329e9d4ca
   react-native-maps: 2d405b4e8cee0282e4c02bac434d81450dfea877
-  react-native-netinfo: 92e6e4476eb8bf6fc2d7c0a6ca0a1406f663d73a
-  react-native-randombytes: 421f1c7d48c0af8dbcd471b0324393ebf8fe7846
-  react-native-restart: 733a51ad137f15b0f8dc34c4082e55af7da00979
-  react-native-safe-area-context: 584dc04881deb49474363f3be89e4ca0e854c057
-  react-native-simple-toast: bf002828cf816775a6809f7a9ec3907509bce11f
-  react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
-  react-native-udp: ff9d13e523f2b58e6bc5d4d32321ac60671b5dc9
+  react-native-netinfo: 877946c7b4eb85a639cf1ea31333dadc2be999a1
+  react-native-randombytes: 5fc412efe7b5c55b9002c0004d75fe5fabcaa507
+  react-native-restart: d4ea7637e193da7558d229b3704d500ec0d75f9c
+  react-native-safe-area-context: 5b8a418400eb3d8364aa87300e865c0262cc17b9
+  react-native-simple-toast: b986e6c1befdc211af3df1bae293278a44e32990
+  react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
+  react-native-udp: ccbd878f0f3b968217fc7e3d5eb5839fcaab8b6c
   React-perflogger: aad6d4b4a267936b3667260d1f649b6f6069a675
   React-RCTActionSheet: fc376be462c9c8d6ad82c0905442fd77f82a9d2a
   React-RCTAnimation: ba0a1c3a2738be224a08092fa7f1b444ab77d309
@@ -761,31 +769,33 @@ SPEC CHECKSUMS:
   React-RCTVibration: 4b99a7f5c6c0abbc5256410cc5425fb8531986e1
   React-runtimeexecutor: ff951a0c241bfaefc4940a3f1f1a229e7cb32fa6
   ReactCommon: bedc99ed4dae329c4fcf128d0c31b9115e5365ca
-  ReactNativeLocalization: 90a1181b7672309701dd7e5364fbf587319d41c6
+  ReactNativeLocalization: be60e3a0e6e8db88d9f8190719ffb75e1cdab22a
   rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
-  RNCAsyncStorage: e8b8d6320a0dd90eb610fb0d0b1ef90596697c69
-  RNCCheckbox: 6bd119c26c6eb8264a29d59ff66cb70a14de3349
-  RNCClipboard: ddd4d291537f1667209c9c405aaa4307297e252e
-  RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
-  RNFastImage: adef7f9c9a7aeca0141807ee5a8be8a3eb240dd8
+  RNCAsyncStorage: 84c57d74ba74bd2c9351b0c850bdbc694dc0b5b7
+  RNCCheckbox: 934e11d33abb6b0db105cfa5a22a42bd89dfb4b9
+  RNCClipboard: 1e95982fa4866808ad5036314e34d47c876a1f44
+  RNCMaskedView: f127cd9652acfa31b91dcff613e07ba18b774db6
+  RNDateTimePicker: 47ab186e06826a4af7051b8a8199fac9477f339e
+  RNFastImage: 1f2cab428712a4baaf78d6169eaec7f622556dd7
+  RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
-  RNImageCropPicker: 97289cd94fb01ab79db4e5c92938be4d0d63415d
+  RNImageCropPicker: 73891a709e6fd8a47d32104d942757971f220aee
   RNOS: 6f2f9a70895bbbfbdad7196abd952e7b01d45027
-  RNPermissions: 7043bacbf928eae25808275cfe73799b8f618911
-  RNReanimated: 241c586663f44f19a53883c63375fdd041253960
-  RNScreens: 0591543e343c7444ea1756b6265d81a4295922c9
-  RNShare: 072f63d19c2b90da3742adac614396d805e7ae22
-  RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
+  RNPermissions: 7ad8d93b004e6bc85c89e27a102afcde90e07efa
+  RNReanimated: 7f3eef39b48facdb0b053873abdaafaa6a953b0d
+  RNScreens: 40a2cb40a02a609938137a1e0acfbf8fc9eebf19
+  RNShare: 2074af48908436c310847c6c47ebb6129db1dc89
+  RNSVG: 302bfc9905bd8122f08966dc2ce2d07b7b52b9f8
   RNVectorIcons: 31cebfcf94e8cf8686eb5303ae0357da64d7a5a4
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: f93010f3f6c031e2f8fb3081ca4ee6966c539815
-  TcpSockets: 14306fb79f9750ea7d2ddd02d8bed182abb01797
+  TcpSockets: 8d839b9b14f6f344d98e4642ded13ab3112b462d
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   TouchID: ba4c656d849cceabc2e4eef722dea5e55959ecf4
   Yoga: a7de31c64fe738607e7a3803e3f591a4b1df7393
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 03046bcf53cd2fb0f868c783100cda2dc2d85638
+PODFILE CHECKSUM: 62067131594850fb8445ab16d0284f508a5fe3f7
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3

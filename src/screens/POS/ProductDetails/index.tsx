@@ -34,7 +34,7 @@ const ProductDetails = (props: Props) => {
   const addToCart = () => {
     dispatch(addProductToCart(data));
     Toast.show({
-      text1: L('Successfull'),
+      text1: L('Successful'),
       text2: L('Product added to cart successfully'),
       type: 'success',
     });

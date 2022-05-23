@@ -46,7 +46,7 @@ const CustomerInfo = (props: GenericNavigation) => {
   const handleCustomerDataTemporarily = (values: any, {resetForm}: any) => {
     Keyboard.dismiss();
     if (!image) {
-      setImageError(L('Please upload your liscence image to continue'));
+      setImageError(L('Please upload your license image to continue'));
       return;
     } else {
       setImageError(null);
@@ -99,7 +99,7 @@ const CustomerInfo = (props: GenericNavigation) => {
           }: any) => (
             <>
               <Text style={styles.liscenceText}>
-                {L('Select licence photo')}
+                {L('Select license photo')}
               </Text>
               <View style={styles.imageContainer}>
                 {image && (
