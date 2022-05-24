@@ -77,7 +77,7 @@ const ShareModal = (props: Props) => {
 
         <View style={styles.itemView}>
           <Text style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
-            Name:
+            {L('Name')}:
           </Text>
           <Text style={styles.itemText}>
             {props.data?.firstName + ' ' + props.data?.lastName}
@@ -85,21 +85,21 @@ const ShareModal = (props: Props) => {
         </View>
         <View style={styles.itemView}>
           <Text style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
-            Phone:
+            {L('Phone')}:
           </Text>
 
           <Text style={styles.itemText}>{props.data?.phone}</Text>
         </View>
         <View style={styles.itemView}>
           <Text style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
-            Email:
+            {L('Email')}:
           </Text>
 
           <Text style={styles.itemText}>{props.data?.email}</Text>
         </View>
         <View style={styles.itemView}>
           <Text style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
-            Created at:
+            {L('Created at')}:
           </Text>
 
           <Text style={styles.itemText}>{props.data?.createdAt}</Text>
@@ -131,7 +131,7 @@ const ShareModal = (props: Props) => {
 
         <View style={styles.itemView}>
           <Text style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
-            Amount (Incl Tax):
+            {L('Amount (Incl Tax)')}:
           </Text>
 
           <Text style={styles.itemText}>{props.data?.usdAmount}$</Text>
@@ -146,7 +146,7 @@ const ShareModal = (props: Props) => {
             <View style={styles.itemView}>
               <Text
                 style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
-                Name:
+                {L('Name')}:
               </Text>
 
               <Text style={styles.itemText}>
@@ -157,7 +157,7 @@ const ShareModal = (props: Props) => {
             <View style={styles.itemView}>
               <Text
                 style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
-                Phone:
+                {L('Phone')}:
               </Text>
 
               <Text style={styles.itemText}>{merchant?.phoneNumber}</Text>
@@ -166,7 +166,7 @@ const ShareModal = (props: Props) => {
             <View style={styles.itemView}>
               <Text
                 style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
-                Email:
+                {L('Email')}:
               </Text>
 
               <Text style={styles.itemText}>{merchant?.email}</Text>
@@ -183,7 +183,7 @@ const ShareModal = (props: Props) => {
             <View style={styles.itemView}>
               <Text
                 style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
-                Name:
+                {L('Name')}:
               </Text>
 
               <Text style={styles.itemText}>{shop?.name}</Text>
@@ -192,7 +192,7 @@ const ShareModal = (props: Props) => {
             <View style={styles.itemView}>
               <Text
                 style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
-                Category:
+                {L('Category')}:
               </Text>
 
               <Text style={styles.itemText}>{shop?.category}</Text>
@@ -201,7 +201,7 @@ const ShareModal = (props: Props) => {
             <View style={styles.itemView}>
               <Text
                 style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
-                Address:
+                {L('Address')}:
               </Text>
 
               <Text style={styles.itemText}>{shop?.address}</Text>
@@ -210,7 +210,7 @@ const ShareModal = (props: Props) => {
             <View style={styles.itemView}>
               <Text
                 style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
-                Website:
+                {L('Website')}:
               </Text>
 
               <Text style={styles.itemText}>{shop?.website}</Text>
@@ -227,7 +227,7 @@ const ShareModal = (props: Props) => {
             <View style={styles.itemView}>
               <Text
                 style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
-                Asset Used:
+                {L('Asset Used')}:
               </Text>
 
               <Text style={styles.itemText}>{assetUsed}</Text>
@@ -236,7 +236,7 @@ const ShareModal = (props: Props) => {
             <View style={styles.itemView}>
               <Text
                 style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
-                Asset Price:
+                {L(' Asset Price')}:
               </Text>
 
               <Text style={styles.itemText}>{assetPrice}</Text>
@@ -250,7 +250,7 @@ const ShareModal = (props: Props) => {
 
         <View style={styles.itemView}>
           <Text style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
-            Sale Type:
+            {L('Sale Type')}:
           </Text>
 
           <Text style={styles.itemText}>
@@ -262,7 +262,7 @@ const ShareModal = (props: Props) => {
           <View style={styles.itemView}>
             <Text
               style={[styles.itemText, {fontFamily: THEME.FONTS.TYPE.BOLD}]}>
-              Live {profitLossPercent > 0 ? 'Gain ' : 'Loss'}:
+              {L('Live')} {profitLossPercent > 0 ? L('Gain') : L('Loss')}:
             </Text>
 
             <Text style={styles.itemText}>
@@ -274,13 +274,13 @@ const ShareModal = (props: Props) => {
 
         <View style={styles.row}>
           <PrimaryButton
-            title={'Share Via SMS'}
+            title={L('Share Via SMS')}
             buttonStyle={styles.buttonStyle}
             icon={'share-alternative'}
             onPress={props.onPressPhone}
           />
           <PrimaryButton
-            title={'Share Via Email'}
+            title={L('Share Via Email')}
             buttonStyle={styles.buttonStyle}
             icon={'mail'}
             onPress={props.onPressEmail}
@@ -289,7 +289,7 @@ const ShareModal = (props: Props) => {
 
         <View style={styles.row}>
           <PrimaryButton
-            title={'More details'}
+            title={L('More details')}
             buttonStyle={styles.buttonStyle}
             onPress={() => {
               Linking.openURL(
@@ -298,7 +298,7 @@ const ShareModal = (props: Props) => {
             }}
           />
           <SecondaryButton
-            title={'Close'}
+            title={L('Close')}
             buttonStyle={styles.buttonStyle}
             onPress={props.onPressBackdrop}
           />

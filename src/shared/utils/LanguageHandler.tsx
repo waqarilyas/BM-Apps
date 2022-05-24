@@ -527,6 +527,12 @@ export const language = [
   },
   {
     label: {
+      English: 'Website',
+      Spanish: 'Sitio web',
+    },
+  },
+  {
+    label: {
       English: 'Add Shop',
       Spanish: 'Agregar tienda',
     },
@@ -1369,7 +1375,7 @@ export const language = [
   },
   {
     label: {
-      English: 'Customer Details saved successfully',
+      English: 'Customer Details Added Successfully',
       Spanish: 'Detalles del cliente guardados con éxito',
     },
   },
@@ -1643,6 +1649,133 @@ export const language = [
     label: {
       English: 'Store',
       Spanish: 'Tienda',
+    },
+  },
+  {
+    label: {
+      English: 'Created at',
+      Spanish: 'Creado en',
+    },
+  },
+  {
+    label: {
+      English: 'Amount (Incl Tax)',
+      Spanish: 'Importe (impuestos incluidos)',
+    },
+  },
+  {
+    label: {
+      English: 'Asset Used',
+      Spanish: 'Activo utilizado',
+    },
+  },
+  {
+    label: {
+      English: 'Asset Price',
+      Spanish: 'Precios de los activos',
+    },
+  },
+  {
+    label: {
+      English: 'Sale Type',
+      Spanish: 'Tipo de venta',
+    },
+  },
+  {
+    label: {
+      English: 'Live',
+      Spanish: 'Vivir',
+    },
+  },
+  {
+    label: {
+      English: 'Gain',
+      Spanish: 'Ganar',
+    },
+  },
+  {
+    label: {
+      English: 'Loss',
+      Spanish: 'Pérdida',
+    },
+  },
+  {
+    label: {
+      English: 'Share Via Email',
+      Spanish: 'Compartir via correo electrónico',
+    },
+  },
+  {
+    label: {
+      English: 'More details',
+      Spanish: 'Más detalles',
+    },
+  },
+  {
+    label: {
+      English: 'Close',
+      Spanish: 'Cerrar',
+    },
+  },
+  {
+    label: {
+      English: 'Select Category',
+      Spanish: 'selecciona una categoría',
+    },
+  },
+  {
+    label: {
+      English: 'Select Store Open Time',
+      Spanish: 'Seleccione el tiempo de apertura de la tienda',
+    },
+  },
+  {
+    label: {
+      English: 'Select Store Close Time',
+      Spanish: 'Seleccione la hora de cierre de la tienda',
+    },
+  },
+  {
+    label: {
+      English: 'Category is required.',
+      Spanish: 'La categoria es requerida.',
+    },
+  },
+  {
+    label: {
+      English: 'Store Open Time required.',
+      Spanish: 'Tiempo de apertura de la tienda requerido.',
+    },
+  },
+  {
+    label: {
+      English: 'Store Close Time required.',
+      Spanish: 'Hora de cierre de la tienda requerida.',
+    },
+  },
+  {
+    label: {
+      English: 'Store Open Time and Close time can not be the same.',
+      Spanish:
+        'La hora de apertura de la tienda y la hora de cierre no pueden ser iguales.',
+    },
+  },
+  {
+    label: {
+      English: 'Product deleted successfully',
+      Spanish: 'Producto eliminado con éxito',
+    },
+  },
+  {
+    label: {
+      English: 'Congratulations',
+      Spanish: 'Felicidades',
+    },
+  },
+  {
+    label: {
+      English: 'Payment Failed',
+      Spanish: 'Pago fallido',
     },
   },
 ];

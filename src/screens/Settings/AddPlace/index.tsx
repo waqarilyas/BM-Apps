@@ -1,6 +1,13 @@
 import {Formik} from 'formik';
 import React, {useState, useRef, useEffect} from 'react';
-import {Appearance, FlatList, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Appearance,
+  FlatList,
+  Keyboard,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import MapView, {Marker} from 'react-native-maps';
 import Toast from 'react-native-toast-message';
@@ -55,7 +62,10 @@ const AddPlace = (props: Props) => {
   const [fromTime, setFromTime] = useState('');
   const [toTime, setToTime] = useState('');
 
-  const openDropdown = () => setVisible(true);
+  const openDropdown = () => {
+    Keyboard.dismiss();
+    setVisible(true);
+  };
 
   const closeDropdown = () => setVisible(false);
 
@@ -85,22 +95,22 @@ const AddPlace = (props: Props) => {
 
   const handleData = (values: any, action: any) => {
     if (category.length < 1) {
-      AppShowToast('Category is required.');
+      AppShowToast(L('Category is required.'));
       return;
     }
 
     if (fromTime.length < 1) {
-      AppShowToast('Store Open Time required.');
+      AppShowToast(L('Store Open Time required.'));
       return;
     }
 
     if (toTime.length < 1) {
-      AppShowToast('Store Close Time required.');
+      AppShowToast(L('Store Close Time required.'));
       return;
     }
 
     if (fromTime === toTime) {
-      AppShowToast('Store Open Time and Close time can not be the same.');
+      AppShowToast(L('Store Open Time and Close time can not be the same.'));
       return;
     }
 
@@ -184,7 +194,7 @@ const AddPlace = (props: Props) => {
                     fontSize: RF(14),
                     paddingLeft: RF(14),
                   }}>
-                  {category || 'Select Category'}
+                  {category || L('Select Category')}
                 </Text>
               </TouchableOpacity>
 
@@ -260,7 +270,7 @@ const AddPlace = (props: Props) => {
                     fontSize: RF(14),
                     paddingLeft: RF(14),
                   }}>
-                  {fromTime || 'Select Store Open Time'}
+                  {fromTime || L('Select Store Open Time')}
                 </Text>
               </TouchableOpacity>
 
@@ -282,7 +292,7 @@ const AddPlace = (props: Props) => {
                     fontSize: RF(14),
                     paddingLeft: RF(14),
                   }}>
-                  {toTime || 'Select Store Close Time'}
+                  {toTime || L('Select Store Close Time')}
                 </Text>
               </TouchableOpacity>
 
@@ -364,7 +374,7 @@ const AddPlace = (props: Props) => {
                   fontSize: THEME.FONTS.SIZE.SMALL,
                   color: THEME.COLORS.white,
                 }}>
-                Select Category:
+                {L('Select Category')}:
               </Text>
               <FlatList
                 showsVerticalScrollIndicator={false}
