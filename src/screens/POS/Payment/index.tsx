@@ -229,7 +229,7 @@ const Payment = (props: Props) => {
 
           Toast.show({
             text1: L('Successful'),
-            text2: L('Payment Confirmed successfully'),
+            text2: L('Payment Confirmed Successfully'),
             type: L('success'),
           });
           // console.log('----action----', action);
@@ -265,7 +265,7 @@ const Payment = (props: Props) => {
               dispatch(resetCart());
               Toast.show({
                 text1: L('Successful'),
-                text2: L('Payment Confirmed successfully'),
+                text2: L('Payment Confirmed Successfully'),
                 type: L('success'),
               });
               props?.navigation?.navigate('POSMain');

@@ -61,35 +61,30 @@ const Cart = (props: Props) => {
           <View style={styles.productBottomRow}>
             <Text numberOfLines={1} style={styles.productPrice}>
               ${data.price}
+              {'\n'}
             </Text>
             <Text numberOfLines={1} style={styles.productPrice}>
-              Tax: {data.tax}%
+              {L('Tax')}: {data.tax}%
             </Text>
-            <View style={styles.productCount}>
-              <TouchableOpacity
-                style={styles.countView}
-                onPress={() => decrementProduct(data)}>
-                <Text style={styles.countText}>-</Text>
-              </TouchableOpacity>
-              <View
-                style={[
-                  styles.countView,
-                  {backgroundColor: THEME.COLORS.blue},
-                ]}>
-                <Text
-                  style={[
-                    styles.countText,
-                    {fontSize: THEME.FONTS.SIZE.XSMALL},
-                  ]}>
-                  {data.count}
-                </Text>
-              </View>
-              <TouchableOpacity
-                style={styles.countView}
-                onPress={() => incrementProduct(data)}>
-                <Text style={styles.countText}>+</Text>
-              </TouchableOpacity>
+          </View>
+          <View style={styles.productCount}>
+            <TouchableOpacity
+              style={styles.countView}
+              onPress={() => decrementProduct(data)}>
+              <Text style={styles.countText}>-</Text>
+            </TouchableOpacity>
+            <View
+              style={[styles.countView, {backgroundColor: THEME.COLORS.blue}]}>
+              <Text
+                style={[styles.countText, {fontSize: THEME.FONTS.SIZE.XSMALL}]}>
+                {data.count}
+              </Text>
             </View>
+            <TouchableOpacity
+              style={styles.countView}
+              onPress={() => incrementProduct(data)}>
+              <Text style={styles.countText}>+</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>

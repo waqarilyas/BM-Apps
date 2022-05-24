@@ -62,8 +62,8 @@ const ProductDetails = (props: Props) => {
               setLoading(false);
 
               Toast.show({
-                text1: 'Success',
-                text2: 'Product deleted successfully',
+                text1: L('Success'),
+                text2: L('Product deleted successfully'),
                 type: 'success',
               });
               props.navigation?.goBack();

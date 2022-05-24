@@ -8,6 +8,7 @@ import {RF} from '../../theme/responsive';
 import GLOBAL_STYLE from '../../theme/global';
 import {AppShowToast} from '../../services/helper.service';
 import Clipboard from '@react-native-clipboard/clipboard';
+import L from '../../utils/LanguageHandler';
 
 interface Props {
   isVisible: boolean;
@@ -44,7 +45,7 @@ const PaymentStatusModal = (props: Props) => {
           />
         </TouchableOpacity>
         <Text style={styles.mainText}>
-          {props.isPaymentSuccess ? 'Congratulations' : 'Payment Failed'}
+          {props.isPaymentSuccess ? L('Congratulations') : L('Payment Failed')}
         </Text>
         <FastImage
           source={props.isPaymentSuccess ? ICONS.SUCCESS : ICONS.FAILED}

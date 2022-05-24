@@ -6,6 +6,7 @@ import AppHeader from '../../../shared/components/AppHeader';
 import DashedLine from '../../../shared/components/DashedLine';
 import {THEME} from '../../../shared/theme';
 import {RF} from '../../../shared/theme/responsive';
+import L from '../../../shared/utils/LanguageHandler';
 import styles from './styles';
 
 interface Props {}
@@ -93,7 +94,7 @@ const PurchaseDetail = (props: Props) => {
                 styles.totalText,
                 {fontFamily: THEME.FONTS.TYPE.SEMIBOLD},
               ]}>
-              Total
+              {L('Total')}
             </Text>
             <Text
               style={[

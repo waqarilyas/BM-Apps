@@ -57,7 +57,11 @@ const styles = StyleSheet.create({
     color: THEME.COLORS.white,
     alignItems: 'center',
   },
-  productCount: {flexDirection: 'row'},
+  productCount: {
+    flexDirection: 'row',
+    alignSelf: 'flex-end',
+    marginTop: THEME.MARGIN.LOW,
+  },
   countView: {
     borderWidth: 1,
     height: RF(30),
