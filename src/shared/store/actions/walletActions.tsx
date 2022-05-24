@@ -65,12 +65,11 @@ export const renderWallet =
         dispatch(
           setCoinBalanceAndRates({
             index: asset.index,
-            balance,
-            vs_currency_balance,
             chart_data,
           }),
         );
       }
+      await dispatch<any>(refreshCoinsBalances(true));
       dispatch(setWalletLoading(false));
       AppShowToast(
         isNewWallet ? L('Wallet Created Successfully!') : L('Wallet Imported'),
