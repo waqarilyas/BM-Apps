@@ -9,7 +9,7 @@ buildscript {
         ndkVersion = "20.1.5948944"
         playServicesVersion = "17.0.0" // or find latest version
         androidMapsUtilsVersion = "2.2.0"
-        
+        androidXCore = "1.6.0"
     }
     repositories {
         google()
