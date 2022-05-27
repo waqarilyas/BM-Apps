@@ -1778,6 +1778,14 @@ export const language = [
       Spanish: 'Pago fallido',
     },
   },
+  {
+    label: {
+      English:
+        'One of the following is required:\nAdd a license image or fill out the form.',
+      Spanish:
+        'Se requiere uno de los siguientes:\nAgregue una imagen de licencia o complete el formulario.',
+    },
+  },
 ];
 
 const L = (value: any) => {

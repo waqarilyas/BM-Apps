@@ -171,13 +171,6 @@ const DirectInvoice = (props: Props) => {
       console.log('==================');
       setLoading(true);
       const params = [
-        customerInfo?.photo && {
-          name: 'photo',
-          filename: 'vid.mp4',
-          data: RNFetchBlob.wrap(
-            decodeURIComponent(customerInfo?.photo?.replace('file://', '')),
-          ),
-        },
         {
           name: 'merchantId',
           data: merchantData?._id,
@@ -216,6 +209,16 @@ const DirectInvoice = (props: Props) => {
           data: String(selectedCoin?.chart_data?.rate),
         },
       ];
+
+      if (customerInfo?.photo) {
+        params[params.length] = {
+          name: 'photo',
+          filename: 'vid.mp4',
+          data: RNFetchBlob.wrap(
+            decodeURIComponent(customerInfo?.photo?.replace('file://', '')),
+          ),
+        };
+      }
 
       saveCustomer(params)
         .uploadProgress((written, total) => {

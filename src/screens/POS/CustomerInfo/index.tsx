@@ -1,6 +1,6 @@
 import {Formik} from 'formik';
-import React, {useState} from 'react';
-import {Keyboard, Text, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Alert, Keyboard, Text, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import LinearGradient from 'react-native-linear-gradient';
@@ -18,8 +18,8 @@ import {THEME} from '../../../shared/theme';
 import GLOBAL_STYLE from '../../../shared/theme/global';
 import {RF} from '../../../shared/theme/responsive';
 import L from '../../../shared/utils/LanguageHandler';
-import {CustomerInfoVS} from '../../../shared/utils/validations';
 import styles from './styles';
+import {AppShowToast} from '../../../shared/services/helper.service';
 
 const CustomerInfo = (props: GenericNavigation) => {
   const [loading, setLoading] = useState(false);
@@ -43,13 +43,59 @@ const CustomerInfo = (props: GenericNavigation) => {
     phone: customerInfo ? customerInfo.phone : '',
   };
 
-  const handleCustomerDataTemporarily = (values: any, {resetForm}: any) => {
+  useEffect(() => {
+    showAlert();
+  }, []);
+
+  const showAlert = () => {
+    Alert.alert(
+      '',
+      L(
+        `One of the following is required:\nAdd a license image or fill out the entire form.`,
+      ),
+      [{text: L('OK'), onPress: () => {}}],
+    );
+  };
+
+  const handleCustomerDataTemporarily = async (
+    values: any,
+    {resetForm}: any,
+  ) => {
     Keyboard.dismiss();
-    if (!image) {
-      setImageError(L('Please upload your license image to continue'));
+
+    if (
+      !image &&
+      (!Boolean(values.firstName) ||
+        !Boolean(values.lastName) ||
+        !Boolean(values.email) ||
+        !Boolean(values.phone))
+    ) {
+      showAlert();
       return;
-    } else {
-      setImageError(null);
+    }
+
+    if (
+      Boolean(values.firstName) &&
+      Boolean(values.lastName) &&
+      Boolean(values.email) &&
+      Boolean(values.phone)
+    ) {
+      if (values.firstName.trim().length < 2) {
+        AppShowToast(L('First Name must be at Least 2 Characters'));
+        return;
+      }
+      if (values.lastName.trim().length < 2) {
+        AppShowToast(L('Last Name must be at Least 2 Characters'));
+        return;
+      }
+      if (values.phone.trim().length < 5) {
+        AppShowToast(L('Phone must be at least 5 numbers'));
+        return;
+      }
+      if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(values.email)) {
+        AppShowToast(L('Please provide valid email'));
+        return;
+      }
     }
 
     setLoading(true);
@@ -87,8 +133,7 @@ const CustomerInfo = (props: GenericNavigation) => {
           // onSubmit={(values, action) => handleCustomerData(values, action)}
           onSubmit={(values, action) =>
             handleCustomerDataTemporarily(values, action)
-          }
-          validationSchema={CustomerInfoVS}>
+          }>
           {({
             values,
             errors,
@@ -119,6 +164,24 @@ const CustomerInfo = (props: GenericNavigation) => {
                     style={styles.cameraIcon}
                   />
                 </LinearGradient>
+                {image && (
+                  <LinearGradient
+                    colors={[
+                      THEME.COLORS.gradientTopColor,
+                      THEME.COLORS.gradientBottomColor,
+                    ]}
+                    style={[
+                      styles.cameraContainer,
+                      {bottom: RF(50), right: RF(5)},
+                    ]}>
+                    <Icon
+                      onPress={() => setImage(null)}
+                      name="close"
+                      size={RF(25)}
+                      style={styles.cameraIcon}
+                    />
+                  </LinearGradient>
+                )}
               </View>
               {imageError && <Text style={styles.errors}>{imageError}</Text>}
 
