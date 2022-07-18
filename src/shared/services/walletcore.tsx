@@ -178,7 +178,7 @@ export const createHdWallet = (symbol: string, mnemonic: string) => {
 };
 
 export const createBech32Wallet = (mnemonic: string) => {
-  var root = new BIP84.fromSeed(mnemonic);
+  var root = new BIP84.fromMnemonic(mnemonic);
   var child0 = root.deriveAccount(0);
 
   var account0 = new BIP84.fromZPrv(child0);
