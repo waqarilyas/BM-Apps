@@ -42,7 +42,7 @@ const BottomTabs = () => {
           },
           style: {height: RF(55), borderTopWidth: 0},
 
-          keyboardHidesTabBar: true,
+          // keyboardHidesTabBar: true,
         }}
         screenOptions={({route}) => ({
           tabBarIcon: ({focused, color, size}) => {
